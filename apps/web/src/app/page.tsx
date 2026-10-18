@@ -1,31 +1,14 @@
+import { CinematicHero, PulseBand } from "@/components/home/HeroMotion";
+
 /**
- * Day-1 application shell. The cinematic landing from prototype v0.2 is
- * ported into this route in a later lesson; today the shell proves that
- * tokens, fonts and the build pipeline all work end to end.
+ * Marketing shell. The cinematic hero and pulse band live in HeroMotion
+ * (client component) so this page stays a server component for SEO.
  */
 export default function HomePage() {
   return (
     <>
-      <section className="bg-navy px-5 py-24 text-white">
-        <div className="mx-auto max-w-6xl">
-          <span className="rounded-pill border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-bold text-blue-100">
-            🇮 Now live in Vadodara · 240+ verified workers
-          </span>
-          <h1 className="mt-6 max-w-3xl text-4xl font-black leading-tight md:text-6xl">
-            Every home job, <span className="text-haldi">done with trust.</span>
-          </h1>
-          <p className="mt-5 max-w-xl text-lg text-blue-100">
-            Verified painters, electricians and plumbers from your neighbourhood —
-            compare itemized quotes, keep your money safe, approve the work.
-          </p>
-          <a
-            href="#get-started"
-            className="mt-8 inline-block rounded-control bg-saffron px-6 py-3.5 font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift"
-          >
-            Post a job
-          </a>
-        </div>
-      </section>
+      <CinematicHero />
+      <PulseBand />
 
       <section id="get-started" className="px-5 py-20">
         <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-3">
