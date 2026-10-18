@@ -1,0 +1,8 @@
+{
+  "name": "@gharsahayak/brand",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Design tokens and brand constants — single source for web, app and print.",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}
