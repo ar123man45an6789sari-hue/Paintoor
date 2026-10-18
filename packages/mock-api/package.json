@@ -1,0 +1,8 @@
+{
+  "name": "@gharsahayak/mock-api",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OpenAPI contract and Vadodara seed data; MSW handlers arrive in Session 6.",
+  "main": "src/index.ts",
+  "types": "src/index.ts"
+}

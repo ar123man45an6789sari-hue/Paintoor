@@ -6,9 +6,9 @@ import { Logo } from "./Logo";
 import { AuthModal } from "./auth/AuthModal";
 
 const NAV = [
+  { href: "/providers", label: "Find workers" },
   { href: "#services", label: "Services" },
   { href: "#rate-radar", label: "Rate Radar" },
-  { href: "#workers", label: "Our Workers" },
 ];
 
 /** Single entry point: the modal itself offers Log in / Create account (owner spec). */
@@ -27,11 +27,17 @@ export function Header() {
           </Link>
 
           <nav className="ml-auto hidden items-center gap-6 md:flex" aria-label="Primary">
-            {NAV.map((item) => (
+             {NAV.map((item) =>
+            item.href.startsWith("/") ? (
+              <Link key={item.href} href={item.href} className="text-sm font-semibold text-muted transition-colors hover:text-navy">
+                {item.label}
+              </Link>
+            ) : (
               <a key={item.href} href={item.href} className="text-sm font-semibold text-muted transition-colors hover:text-navy">
                 {item.label}
               </a>
-            ))}
+            ),
+          )}
           </nav>
 
           <span className="ml-auto rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-navy md:ml-4">
