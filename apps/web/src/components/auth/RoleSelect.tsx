@@ -1,5 +1,7 @@
-import type { Role } from "./types";
+/* RoleSelect v2 — React 19 removed the global JSX namespace; icons typed as ReactNode. */
 import type { ReactNode } from "react";
+import type { Role } from "./types";
+
 const OPTIONS: { role: Role; title: string; blurb: string; icon: ReactNode }[] = [
   {
     role: "customer",
