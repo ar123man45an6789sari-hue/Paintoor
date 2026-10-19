@@ -234,6 +234,33 @@ const D3: Record<Lang, Record<string, string>> = {
     "foot.made": "વડોદરામાં બનેલું 🧡",
   },
 };
+/* D4 — tabs, login extras, dashboard shell. */
+const D4: Record<Lang, Record<string, string>> = {
+  en: {
+    "tab.signup": "Create account", "tab.login": "Log in",
+    "login.online": "Start online after login", "login.counter": "Open counter after login", "login.remember": "Remember this device",
+    "dash.hi": "Welcome", "dash.c": "Customer dashboard", "dash.p": "Provider dashboard", "dash.s": "Store dashboard",
+    "dash.next": "Your full workspace arrives in the next sessions — the auth, roles and data loop behind it are already wired.",
+    "dash.logout": "Log out", "dash.open": "Dashboard",
+    "chip.c": "Customer", "chip.p": "Worker", "chip.s": "Store",
+  },
+  hi: {
+    "tab.signup": "अकाउंट बनाएं", "tab.login": "लॉग इन",
+    "login.online": "लॉगिन के बाद ऑनलाइन शुरू करें", "login.counter": "लॉगिन के बाद काउंटर खोलें", "login.remember": "इस डिवाइस को याद रखें",
+    "dash.hi": "स्वागत है", "dash.c": "ग्राहक डैशबोर्ड", "dash.p": "वर्कर डैशबोर्ड", "dash.s": "दुकान डैशबोर्ड",
+    "dash.next": "आपकी पूरी वर्कस्पेस अगले sessions में आएगी — पीछे का auth, roles और data loop पहले से wired है।",
+    "dash.logout": "लॉग आउट", "dash.open": "डैशबोर्ड",
+    "chip.c": "ग्राहक", "chip.p": "वर्कर", "chip.s": "दुकान",
+  },
+  gu: {
+    "tab.signup": "એકાઉન્ટ બનાવો", "tab.login": "લોગ ઇન",
+    "login.online": "લોગિન પછી ઓનલાઇન શરૂ કરો", "login.counter": "લોગિન પછી કાઉન્ટર ખોલો", "login.remember": "આ ઉપકરણ યાદ રાખો",
+    "dash.hi": "સ્વાગત છે", "dash.c": "ગ્રાહક ડેશબોર્ડ", "dash.p": "કામદાર ડેશબોર્ડ", "dash.s": "દુકાન ડેશબોર્ડ",
+    "dash.next": "તમારું પૂરું વર્કસ્પેસ આગળના sessions માં આવશે — પાછળનો auth, roles અને data loop પહેલેથી wired છે.",
+    "dash.logout": "લોગ આઉટ", "dash.open": "ડેશબોર્ડ",
+    "chip.c": "ગ્રાહક", "chip.p": "કામદાર", "chip.s": "દુકાન",
+  },
+};
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
 const I18nContext = createContext<Ctx | null>(null);
@@ -270,7 +297,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }
 
-     const t = (k: string) => ({ ...D[lang], ...D2[lang], ...D3[lang] })[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? k;
+  const t = (k: string) => ({ ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang] })[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? k;
 
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
 }

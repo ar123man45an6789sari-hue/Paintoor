@@ -1,5 +1,4 @@
-/* Header v5 — theme toggle (smooth dark mode), globe i18n, dual auth CTAs,
-   mobile Entrance button, guest nav = marketing links only. */
+/* Header v6 — session aware: logged-in users see role chip + dashboard + logout. */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -10,6 +9,8 @@ import type { AuthMode } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
+import { clearSession, getSession, onSessionChange } from "@/lib/session";
+import type { Session } from "@/lib/session";
 
 const NAV = [
   { href: "#services", key: "nav.services" },
@@ -26,16 +27,26 @@ const LANGS: { code: Lang; label: string; tag: string }[] = [
 
 const LANGS_SOON = ["తెలుగు", "தமிழ்", "മലയാളം", "मराठी"];
 
+const ROLE_CHIP: Record<Session["role"], { key: string; emoji: string }> = {
+  customer: { key: "chip.c", emoji: "🏠" },
+  provider: { key: "chip.p", emoji: "🔧" },
+  shopkeeper: { key: "chip.s", emoji: "🏪" },
+};
+
 export function Header() {
   const { lang, setLang, t } = useI18n();
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [langOpen, setLangOpen] = useState(false);
   const [dark, setDark] = useState(false);
+  const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
+  useEffect(() => {
+    setSessionState(getSession());
+    return onSessionChange(() => setSessionState(getSession()));
+  }, []);
 
-  /* Theme init: saved choice jeetta hai, warna system preference. */
   useEffect(() => {
     let saved: string | null = null;
     try {
@@ -127,27 +138,48 @@ export function Header() {
             )}
           </div>
 
-          <button
-            type="button"
-            onClick={() => openAuth("login")}
-            className="hidden rounded-control border-2 border-navy px-4 py-2 text-sm font-extrabold text-navy transition-colors hover:bg-navy hover:text-white sm:block"
-          >
-            {t("nav.login")}
-          </button>
-          <button
-            type="button"
-            onClick={() => openAuth("signup")}
-            className="hidden rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:block"
-          >
-            {t("nav.signup")}
-          </button>
-          <button
-            type="button"
-            onClick={() => openAuth("signup")}
-            className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:hidden"
-          >
-            {t("nav.entrance")}
-          </button>
+          {session ? (
+            <>
+              <Link
+                href="/dashboard"
+                className="hidden items-center gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-extrabold text-navy hover:border-saffron sm:flex"
+              >
+                <span aria-hidden="true">{ROLE_CHIP[session.role].emoji}</span>
+                {t(ROLE_CHIP[session.role].key)} · {t("dash.open")}
+              </Link>
+              <button
+                type="button"
+                onClick={() => clearSession()}
+                className="rounded-control border-2 border-line px-3 py-2 text-xs font-extrabold text-muted hover:border-danger hover:text-danger"
+              >
+                {t("dash.logout")}
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => openAuth("login")}
+                className="hidden rounded-control border-2 border-navy px-4 py-2 text-sm font-extrabold text-navy transition-colors hover:bg-navy hover:text-white sm:block"
+              >
+                {t("nav.login")}
+              </button>
+              <button
+                type="button"
+                onClick={() => openAuth("signup")}
+                className="hidden rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:block"
+              >
+                {t("nav.signup")}
+              </button>
+              <button
+                type="button"
+                onClick={() => openAuth("signup")}
+                className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:hidden"
+              >
+                {t("nav.entrance")}
+              </button>
+            </>
+          )}
         </div>
       </header>
 
