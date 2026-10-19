@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { useI18n } from "@/i18n";
 import { addRequest } from "@/lib/requests";
+import { pushNotification } from "@/lib/notifications";
 import { getSession } from "@/lib/session";
 
 const CITIES = ["Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
@@ -29,7 +30,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
 
   function submit() {
     const session = getSession();
-    addRequest({
+     const created = addRequest({
       customer: session?.name ?? "Guest",
       city,
       zone: zone || city,
@@ -40,6 +41,14 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
       material,
       date,
       slot,
+    });
+    pushNotification({
+      kind: "new_lead",
+      audience: "provider",
+      titleKey: "notif.newLead.title",
+      bodyKey: "notif.newLead.body",
+      params: { category: t(`sk.${created.category}`), zone: created.zone },
+      requestId: created.id,
     });
     onDone();
   }

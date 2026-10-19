@@ -12,6 +12,7 @@ import { onAuthRequest } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
+import { NotificationBell } from "./NotificationBell";
 import type { Session } from "@/lib/session";
 
 const NAV = [
@@ -148,7 +149,9 @@ export function Header() {
                 ))}
               </div>
             )}
-          </div>
+           </div>
+
+          {session && <NotificationBell />}
 
           {session ? (
             <>

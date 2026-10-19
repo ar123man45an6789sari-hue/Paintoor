@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { cancelRequest, getRequests, onRequestsChange } from "@/lib/requests";
+import { pushNotification } from "@/lib/notifications";
 import type { ServiceRequest } from "@/lib/requests";
 
 const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
@@ -61,8 +62,18 @@ function RequestCard({ r, confirmId, setConfirmId }: {
             <span className="text-sm font-extrabold text-danger">{t("req.confirmQ")}</span>
             <button
               type="button"
-              onClick={() => {
+                onClick={() => {
                 cancelRequest(r.id);
+                if (r.status === "interested" || r.status === "accepted") {
+                  pushNotification({
+                    kind: "request_cancelled",
+                    audience: "provider",
+                    titleKey: "notif.requestCancelled.title",
+                    bodyKey: "notif.requestCancelled.body",
+                    params: { category: t(`sk.${r.category}`) },
+                    requestId: r.id,
+                  });
+                }
                 setConfirmId(null);
               }}
               className="rounded-control bg-danger px-3 py-1.5 text-xs font-extrabold text-white"
