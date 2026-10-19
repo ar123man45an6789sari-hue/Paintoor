@@ -117,14 +117,25 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
           <form className="space-y-4" onSubmit={(event) => { event.preventDefault(); setStep("otp"); }}>
             <h3 className="text-lg font-extrabold text-navy">Log in to your account</h3>
             <p className="text-sm text-muted">We will verify your mobile with a 6-digit code.</p>
+                         <button
+              type="button"
+              onClick={() => setStep("done")}
+              className="flex w-full items-center justify-center gap-2 rounded-control border-2 border-line bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition-colors hover:border-navy"
+            >
+              <span aria-hidden="true" className="text-base font-black text-[#4285F4]">G</span>
+              Continue with Google
+            </button>
+            <div className="flex items-center gap-3 text-[11px] font-bold text-muted">
+              <span className="h-px flex-1 bg-line" /> OR <span className="h-px flex-1 bg-line" />
+            </div>
             <label className="block">
-              <span className="mb-1 block text-sm font-bold text-ink">Mobile number</span>
+              <span className="mb-1 block text-sm font-bold text-ink">Mobile number or email</span>
               <input
-                type="tel"
+                type="text"
                 required
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
-                placeholder="+91 98765 43210"
+                placeholder="+91 98765 43210 · you@mail.com"
                 className="w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron"
               />
             </label>

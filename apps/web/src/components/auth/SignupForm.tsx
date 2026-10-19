@@ -4,7 +4,7 @@ import type { Role } from "./types";
 type Field = {
   name: string;
   label: string;
-  type: "text" | "tel" | "number" | "select";
+  type: "text" | "tel" | "number" | "select" | "email";
   options?: string[];
   placeholder?: string;
   required?: boolean;
@@ -21,7 +21,9 @@ const FORMS: Record<Role, { title: string; blurb: string; fields: Field[] }> = {
     fields: [
       { name: "full_name", label: "Full name", type: "text", required: true, placeholder: "Ramesh Patel" },
       { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
+      { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
       { name: "language", label: "Preferred language", type: "select", options: ["English", "Hindi", "Gujarati"], required: true },
+    
     ],
   },
   provider: {
@@ -30,6 +32,7 @@ const FORMS: Record<Role, { title: string; blurb: string; fields: Field[] }> = {
     fields: [
       { name: "full_name", label: "Full name (as per Aadhaar)", type: "text", required: true },
       { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
+     { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
       { name: "primary_skill", label: "Primary skill", type: "select", options: ["Painting", "Electrical", "Plumbing", "Carpentry", "Cleaning"], required: true },
       { name: "experience_years", label: "Years of experience", type: "number", required: true, placeholder: "12" },
       { name: "zone", label: "Your area in Vadodara", type: "text", required: true, placeholder: "Alkapuri" },
@@ -41,6 +44,7 @@ const FORMS: Record<Role, { title: string; blurb: string; fields: Field[] }> = {
     fields: [
       { name: "shop_name", label: "Store name", type: "text", required: true, placeholder: "Gupta Paints & Hardware" },
       { name: "owner_name", label: "Owner name", type: "text", required: true },
+     { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
       { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
       { name: "shop_category", label: "Store category", type: "select", options: ["Paints", "Hardware", "Sanitary", "Electrical goods", "Tools"], required: true },
       { name: "zone", label: "Store area in Vadodara", type: "text", required: true, placeholder: "Sama" },

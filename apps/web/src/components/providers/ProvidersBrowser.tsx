@@ -1,4 +1,4 @@
-/* ProvidersBrowser v1 — location + skill filters over seeded Vadodara data. */
+/* ProvidersBrowser v2 — All-India default; location shortlists (city → zone), skill filters. */
 "use client";
 
 import { useMemo, useState } from "react";
@@ -33,31 +33,60 @@ const GRADIENTS = [
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
 
 export function ProvidersBrowser() {
+  const [city, setCity] = useState("all");
   const [zone, setZone] = useState("all");
   const [skill, setSkill] = useState("all");
 
+  const cities = useMemo(() => Array.from(new Set(seed.providers.map((p) => p.city))).sort(), []);
   const zones = useMemo(
-    () => Array.from(new Set(seed.providers.map((p) => p.zone))).sort(),
-    [],
+    () =>
+      Array.from(
+        new Set(
+          seed.providers
+            .filter((p) => city === "all" || p.city === city)
+            .map((p) => p.zone),
+        ),
+      ).sort(),
+    [city],
   );
 
   const filtered = useMemo(
     () =>
       seed.providers.filter(
         (p) =>
+          (city === "all" || p.city === city) &&
           (zone === "all" || p.zone === zone) &&
           (skill === "all" || p.skills.includes(skill)),
       ),
-    [zone, skill],
+    [city, zone, skill],
   );
+
+  const selectClass =
+    "rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron";
 
   return (
     <div>
-      <div className="flex flex-wrap items-end gap-4 rounded-card border border-line bg-white p-4 shadow-card">
+      <div className="flex flex-wrap items-end gap-3 rounded-card border border-line bg-white p-4 shadow-card">
         <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">Location</span>
-          <select value={zone} onChange={(e) => setZone(e.target.value)} className="rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron">
-            <option value="all">All locations</option>
+          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">City</span>
+          <select
+            value={city}
+            onChange={(e) => {
+              setCity(e.target.value);
+              setZone("all");
+            }}
+            className={selectClass}
+          >
+            <option value="all">All India</option>
+            {cities.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">Area</span>
+          <select value={zone} onChange={(e) => setZone(e.target.value)} className={selectClass}>
+            <option value="all">All areas</option>
             {zones.map((z) => (
               <option key={z} value={z}>{z}</option>
             ))}
@@ -65,7 +94,7 @@ export function ProvidersBrowser() {
         </label>
         <label className="block">
           <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">Skill</span>
-          <select value={skill} onChange={(e) => setSkill(e.target.value)} className="rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron">
+          <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
             <option value="all">All skills</option>
             {SKILLS.map((s) => (
               <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
@@ -79,7 +108,7 @@ export function ProvidersBrowser() {
 
       {filtered.length === 0 ? (
         <div className="mt-10 rounded-card border border-dashed border-line bg-white p-10 text-center text-muted">
-          No workers match this combination yet — try “All locations”.
+          No workers match this combination yet — widen the city or skill filter.
         </div>
       ) : (
         <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -96,7 +125,7 @@ export function ProvidersBrowser() {
                     <span className="text-sm font-black text-haldi">★ {p.rating_avg}</span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted">
-                    {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs · {p.rating_count} reviews
+                    {p.city} · {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {p.badges.map((b) => (

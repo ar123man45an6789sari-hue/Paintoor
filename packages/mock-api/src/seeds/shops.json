@@ -1,0 +1,5 @@
+[
+  { "id": "shop_vad_001", "name": "Gupta Paints & Hardware", "city": "Vadodara", "zone": "Sama", "categories": ["paints", "hardware"], "rating_avg": 4.6 },
+  { "id": "shop_vad_002", "name": "Sharda Hardware & Sanitary", "city": "Vadodara", "zone": "Akota", "categories": ["hardware", "sanitary"], "rating_avg": 4.4 },
+  { "id": "shop_ind_001", "name": "Rathore Paint House", "city": "Indore", "zone": "Vijay Nagar", "categories": ["paints"], "rating_avg": 4.3 }
+]

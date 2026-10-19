@@ -103,3 +103,18 @@
   from { transform: translate3d(-4%, -3%, 0) scale(1); }
   to { transform: translate3d(6%, 5%, 0) scale(1.12); }
 }
+#how, #why, #services, #workers {
+  scroll-margin-top: 76px;
+}
+
+@media (max-width: 900px) {
+  .ls-phone {
+    display: block;
+    opacity: 0.22;
+    right: -70px;
+    transform: translateY(-50%) scale(0.92);
+    z-index: 0;
+  }
+  .act-copy { z-index: 1; }
+  .ls-head { z-index: 1; }
+}
