@@ -4,6 +4,7 @@
 
 import { D6 } from "./i18n-d6";
 import { D5 } from "./i18n-d5";
+import { D7 } from "./i18n-d7";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 
@@ -264,7 +265,7 @@ const D4: Record<Lang, Record<string, string>> = {
   },
 };
 
-type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
+type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string, params?: Record<string, string | number>) => string };
 const I18nContext = createContext<Ctx | null>(null);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
@@ -299,13 +300,16 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }
 
- const t = (k: string) => {
-  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang] };
-    const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? k;
+  const t = (k: string, params?: Record<string, string | number>) => {
+    const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang] };
+    const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }
-    return v;
+    if (!params) return v;
+    return v.replace(/\{(\w+)\}/g, (match, token: string) =>
+      token in params ? String(params[token]) : match,
+    );
   };
 
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
