@@ -1,8 +1,9 @@
-/* ProvidersBrowser v2 — All-India default; location shortlists (city → zone), skill filters. */
+/* ProvidersBrowser v3 — hooks INSIDE component; localised labels; All-India default. */
 "use client";
-import { useI18n } from "@/i18n";
+
 import { useMemo, useState } from "react";
 import { seed } from "@gharsahayak/mock-api";
+import { useI18n } from "@/i18n";
 
 const RATE_UNIT: Record<string, string> = {
   per_sqft: "/sqft",
@@ -31,8 +32,9 @@ const GRADIENTS = [
 ];
 
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
-const { t } = useI18n();
+
 export function ProvidersBrowser() {
+  const { t } = useI18n();
   const [city, setCity] = useState("all");
   const [zone, setZone] = useState("all");
   const [skill, setSkill] = useState("all");
@@ -64,8 +66,13 @@ export function ProvidersBrowser() {
   const selectClass =
     "rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron";
 
-  return (
+    return (
     <div>
+      <div className="mb-8">
+        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("prov.tag")}</span>
+        <h1 className="mt-2 text-4xl font-black text-navy">{t("prov.h")}</h1>
+        <p className="mt-3 max-w-2xl text-muted">{t("prov.p")}</p>
+      </div>
       <div className="flex flex-wrap items-end gap-3 rounded-card border border-line bg-white p-4 shadow-card">
         <label className="block">
           <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.city")}</span>
@@ -97,19 +104,18 @@ export function ProvidersBrowser() {
           <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
             <option value="all">{t("prov.allSkills")}</option>
             {SKILLS.map((s) => (
-              <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
+           <option key={s} value={s}>{t(`sk.${s}`)}</option>
             ))}
           </select>
         </label>
         <p className="ml-auto text-sm font-bold text-navy">
           {filtered.length} {t("prov.workers")}
-          {t("prov.empty")}
         </p>
       </div>
 
       {filtered.length === 0 ? (
         <div className="mt-10 rounded-card border border-dashed border-line bg-white p-10 text-center text-muted">
-          No workers match this combination yet — widen the city or skill filter.
+          {t("prov.empty")}
         </div>
       ) : (
         <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

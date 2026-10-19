@@ -1,20 +1,33 @@
 import type { Config } from "tailwindcss";
 import tokens from "../../packages/brand/src/tokens.json";
 
-/** Tailwind theme generated from shared brand tokens — one source, zero drift. */
-const colors = Object.fromEntries(
-  Object.entries(tokens.color).map(([name, meta]) => [name, meta.value]),
-);
+/** Colours are CSS-variable driven: dark mode flips tokens, not components. */
+const rgb = (name: string) => `rgb(var(--c-${name}) / <alpha-value>)`;
 
 const radius = Object.fromEntries(
   Object.entries(tokens.radius).map(([name, meta]) => [name, meta.value]),
 );
 
 const config: Config = {
+  darkMode: "class",
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
-      colors,
+      colors: {
+        white: rgb("surface"),
+        navy: rgb("navy"),
+        navyDeep: rgb("navydeep"),
+        ink: rgb("ink"),
+        saffron: rgb("saffron"),
+        haldi: rgb("haldi"),
+        neem: rgb("neem"),
+        violet: rgb("violet"),
+        danger: rgb("danger"),
+        chuna: rgb("chuna"),
+        line: rgb("line"),
+        muted: rgb("muted"),
+        raatri: rgb("raatri"),
+      },
       borderRadius: radius,
       boxShadow: {
         card: "0 10px 30px rgba(11, 18, 32, 0.10)",

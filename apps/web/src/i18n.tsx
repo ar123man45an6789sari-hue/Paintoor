@@ -204,6 +204,36 @@ const D2: Record<Lang, Record<string, string>> = {
     "ba.before": "પહેલાં", "ba.after": "પછી",
   },
 };
+/* D3 — page-level strings that earlier leaked in English (server components). */
+const D3: Record<Lang, Record<string, string>> = {
+  en: {
+    "prov.tag": "Marketplace", "prov.h": "Find verified workers near you",
+    "prov.p": "Pick a location to see who is available there — or keep All India to see everyone. Ratings, rates and badges come from verified jobs only.",
+    "sk.painting": "Painting", "sk.electrical": "Electrical", "sk.plumbing": "Plumbing", "sk.carpentry": "Carpentry", "sk.cleaning": "Cleaning",
+    "fl.about": "About us", "fl.careers": "Careers", "fl.blog": "Blog", "fl.press": "Press kit",
+    "fl.refund": "Refund policy", "fl.terms": "Terms", "fl.privacy": "Privacy", "fl.safety": "Safety centre",
+    "fl.worker": "Become a worker", "fl.store": "Add your store", "fl.rwa": "RWA / societies",
+    "foot.made": "Made in Vadodara 🧡",
+  },
+  hi: {
+    "prov.tag": "मार्केटप्लेस", "prov.h": "आपके निकट वेरिफाइड वर्कर खोजें",
+    "prov.p": "उपलब्ध वर्कर देखने हेतु लोकेशन चुनें — या पूरा भारत रखिए। रेटिंग, रेट और बैज केवल सत्यापित जॉब से आते हैं।",
+    "sk.painting": "पेंटिंग", "sk.electrical": "इलेक्ट्रिकल", "sk.plumbing": "प्लंबिंग", "sk.carpentry": "कारपेंट्री", "sk.cleaning": "क्लीनिंग",
+    "fl.about": "हमारे बारे में", "fl.careers": "करियर", "fl.blog": "ब्लॉग", "fl.press": "प्रेस किट",
+    "fl.refund": "रिफंड नीति", "fl.terms": "शर्तें", "fl.privacy": "गोपनीयता", "fl.safety": "सुरक्षा केंद्र",
+    "fl.worker": "वर्कर बनें", "fl.store": "दुकान जोड़ें", "fl.rwa": "RWA / सोसायटी",
+    "foot.made": "वडोदरा में निर्मित 🧡",
+  },
+  gu: {
+    "prov.tag": "માર્કેટપ્લેસ", "prov.h": "તમારી નજીક વેરિફાઇડ કામદારો શોધો",
+    "prov.p": "ઉપલબ્ધ કામદારો જોવા સ્થળ પસંદ કરો — અથવા આખું ભારત રાખો. રેટિંગ, રેટ અને બેજ માત્ર ખાતરી થયેલ જોબથી આવે છે.",
+    "sk.painting": "પેઇન્ટિંગ", "sk.electrical": "ઇલેક્ટ્રિકલ", "sk.plumbing": "પ્લમ્બિંગ", "sk.carpentry": "કાર્પેન્ટ્રી", "sk.cleaning": "સફાઈ",
+    "fl.about": "અમારા વિશે", "fl.careers": "કારકિર્દી", "fl.blog": "બ્લોગ", "fl.press": "પ્રેસ કિટ",
+    "fl.refund": "રિફંડ નીતિ", "fl.terms": "શરતો", "fl.privacy": "ગોપનીયતા", "fl.safety": "સુરક્ષા કેન્દ્ર",
+    "fl.worker": "કામદાર બનો", "fl.store": "દુકાન ઉમેરો", "fl.rwa": "RWA / સોસાયટી",
+    "foot.made": "વડોદરામાં બનેલું 🧡",
+  },
+};
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (k: string) => string };
 const I18nContext = createContext<Ctx | null>(null);
@@ -240,7 +270,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }
 
-   const t = (k: string) => ({ ...D[lang], ...D2[lang] })[k] ?? D.en[k] ?? D2.en[k] ?? k;
+     const t = (k: string) => ({ ...D[lang], ...D2[lang], ...D3[lang] })[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? k;
 
   return <I18nContext.Provider value={{ lang, setLang, t }}>{children}</I18nContext.Provider>;
 }

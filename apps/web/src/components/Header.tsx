@@ -1,5 +1,5 @@
-/* Header v4 — premium navbar: dual auth CTAs (desktop), single Entrance (mobile),
-   globe language switcher, guest nav = marketing links only. */
+/* Header v5 — theme toggle (smooth dark mode), globe i18n, dual auth CTAs,
+   mobile Entrance button, guest nav = marketing links only. */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,8 +31,37 @@ export function Header() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [langOpen, setLangOpen] = useState(false);
+  const [dark, setDark] = useState(false);
 
   useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
+
+  /* Theme init: saved choice jeetta hai, warna system preference. */
+  useEffect(() => {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem("gs_theme");
+    } catch {
+      saved = null;
+    }
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    applyTheme(saved ? saved === "dark" : prefersDark, false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function applyTheme(isDark: boolean, animate: boolean) {
+    const root = document.documentElement;
+    if (animate) {
+      root.classList.add("theme-anim");
+      window.setTimeout(() => root.classList.remove("theme-anim"), 550);
+    }
+    root.classList.toggle("dark", isDark);
+    setDark(isDark);
+    try {
+      localStorage.setItem("gs_theme", isDark ? "dark" : "light");
+    } catch {
+      /* private mode */
+    }
+  }
 
   function openAuth(mode: AuthMode) {
     setAuthMode(mode);
@@ -45,7 +74,7 @@ export function Header() {
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2 text-navy">
             <Logo className="h-8 w-8" />
-              <span className="text-lg font-black tracking-tight md:text-xl">
+            <span className="text-lg font-black tracking-tight md:text-xl">
               {t("brand.pre")}
               <span className="text-saffron">{t("brand.post")}</span>
             </span>
@@ -59,7 +88,16 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="relative ml-auto lg:ml-0">
+          <button
+            type="button"
+            onClick={() => applyTheme(!dark, true)}
+            aria-label="Toggle dark mode"
+            className="ml-auto flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-base transition-colors hover:border-saffron lg:ml-0"
+          >
+            {dark ? "☀️" : "🌙"}
+          </button>
+
+          <div className="relative">
             <button
               type="button"
               onClick={() => setLangOpen((v) => !v)}
