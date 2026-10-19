@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { I18nProvider } from "@/i18n";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Noto_Sans } from "next/font/google";
@@ -20,10 +21,12 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={noto.variable}>
-      <body className="font-sans">
-        <Header />
-        <main>{children}</main>
-        <Footer />
+       <body className="font-sans">
+        <I18nProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </I18nProvider>
       </body>
     </html>
   );

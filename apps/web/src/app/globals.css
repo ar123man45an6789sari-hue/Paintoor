@@ -83,3 +83,23 @@
   .reveal, .act-copy { opacity: 1 !important; transform: none !important; }
   .chart2 path.line { stroke-dashoffset: 0; }
 }
+/* v2 fixes — smooth draw, word spacing, ambient orbs (Lesson 7 fix round). */
+.draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw-in 2.2s cubic-bezier(0.45, 0.05, 0.35, 1) forwards 0.2s;
+}
+.hero-word { margin-right: 0.26em; }
+.orb {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.3;
+  pointer-events: none;
+  animation: drift 16s ease-in-out infinite alternate;
+}
+.orb-b { animation-delay: -8s; }
+@keyframes drift {
+  from { transform: translate3d(-4%, -3%, 0) scale(1); }
+  to { transform: translate3d(6%, 5%, 0) scale(1.12); }
+}
