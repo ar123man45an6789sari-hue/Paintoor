@@ -2,6 +2,7 @@
    Production adds geo-IP default + more packs (Blueprint Ch. 40). */
 "use client";
 
+import { D6 } from "./i18n-d6";
 import { D5 } from "./i18n-d5";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
@@ -298,9 +299,9 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  const t = (k: string) => {
-    const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang] };
-    const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? k;
+ const t = (k: string) => {
+  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang] };
+    const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }
