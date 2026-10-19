@@ -257,7 +257,7 @@ function EscrowFlow() {
   ];
 
   return (
-    <section ref={ref} className="px-5 py-24" style={{ background: "linear-gradient(180deg,#FDFDFB,#EFF4F9)" }}>
+     <section ref={ref} className="esc-bg px-5 py-24">
       <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2">
         <div className="reveal">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">Escrow</span>
