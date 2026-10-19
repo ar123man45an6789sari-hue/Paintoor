@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useI18n } from "@/i18n";
 import { addRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
+import { seed } from "@gharsahayak/mock-api";
 import { getSession } from "@/lib/session";
 
 const CITIES = ["Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
@@ -42,14 +43,19 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
       date,
       slot,
     });
-    pushNotification({
-      kind: "new_lead",
-      audience: "provider",
-      titleKey: "notif.newLead.title",
-      bodyKey: "notif.newLead.body",
-      params: { category: t(`sk.${created.category}`), zone: created.zone },
-      requestId: created.id,
-    });
+        seed.providers
+      .filter((p) => p.city === created.city && p.skills.includes(created.category))
+      .forEach((p) => {
+        pushNotification({
+          kind: "new_lead",
+          audience: "provider",
+          providerId: p.id,
+          titleKey: "notif.newLead.title",
+          bodyKey: "notif.newLead.body",
+          params: { category: t(`sk.${created.category}`), zone: created.zone },
+          requestId: created.id,
+        });
+      });
     onDone();
   }
 

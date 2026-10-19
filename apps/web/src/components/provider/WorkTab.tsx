@@ -4,10 +4,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
-import { getRequests, onRequestsChange } from "@/lib/requests";
+import { completeRequest, getRequests, onRequestsChange } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
 import type { ProviderProfile } from "@/lib/providers";
 import { getProviderState, onProviderStateChange, setJobProgress } from "@/lib/providerstate";
+import { pushNotification } from "@/lib/notifications";
+import { ChatPanel } from "@/components/chat/ChatPanel";
 
 /** Stable 4-digit job OTP per request — the customer reads it out on site. */
 function otpFor(id: string): string {
@@ -20,6 +22,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
   const { lang, t } = useI18n();
   const [jobs, setJobs] = useState<ServiceRequest[]>([]);
   const [progress, setProgress] = useState<Record<string, "started" | "completed">>({});
+    const [chatFor, setChatFor] = useState<string | null>(null);
 
   const reload = useCallback(() => {
     setJobs(
@@ -41,6 +44,18 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
   }, [reload]);
 
   const locale = lang === "hi" ? "hi-IN" : lang === "gu" ? "gu-IN" : "en-IN";
+  function finishJob(job: ServiceRequest) {
+    setJobProgress(job.id, "completed");
+    completeRequest(job.id);
+    pushNotification({
+      kind: "system",
+      audience: "customer",
+      titleKey: "notif.completed.title",
+      bodyKey: "notif.completed.body",
+      params: { name: profile.name },
+      requestId: job.id,
+    });
+  }
 
   if (jobs.length === 0) {
     return (
@@ -89,7 +104,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
 
             <div className="mt-4 flex items-center gap-4 rounded-control border-2 border-dashed border-line bg-chuna px-4 py-3">
               <span className="text-xs font-extrabold uppercase tracking-wider text-muted">{t("pd.otp")}</span>
-              <span className="font-mono text-2xl font-black tracking-[0.3em] text-navy">{otpFor(job.id)}</span>
+              <span className="font-mono text-2xl font-black tracking-[0.3em] text-navy">{job.jobOtp ?? otpFor(job.id)}</span>
             </div>
 
             <div className="mt-4 flex gap-3">
@@ -105,7 +120,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
               {state === "started" && (
                 <button
                   type="button"
-                  onClick={() => setJobProgress(job.id, "completed")}
+                  onClick={() => finishJob(job)}
                   className="min-h-12 flex-1 rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
                 >
                   ✓ {t("pd.complete")}
@@ -117,9 +132,26 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 </p>
               )}
             </div>
+            
+            <div className="mt-3">
+              <button
+                type="button"
+                onClick={() => setChatFor(chatFor === job.id ? null : job.id)}
+                className="min-h-12 rounded-control border-2 border-navy px-4 py-3 text-sm font-extrabold text-navy hover:bg-navy hover:text-white"
+              >
+                💬 {t("chat.open")}
+              </button>
+            </div>
+
+            {chatFor === job.id && (
+              <div className="mt-4">
+                <ChatPanel requestId={job.id} role="provider" myName={profile.name} />
+              </div>
+            )}
           </article>
         );
       })}
     </div>
+  
   );
 }

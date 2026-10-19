@@ -14,6 +14,8 @@ export type AppNotification = {
   kind: NotificationKind;
   /** Which role this notification is addressed to. */
   audience: Role;
+   /** Optional 1-1 targeting: lead alerts sirf is provider ko dikhti hain. */
+  providerId?: string | null;
   titleKey: string;
   bodyKey: string;
   params?: Record<string, string | number>;
@@ -30,19 +32,23 @@ function emit() {
   window.dispatchEvent(new CustomEvent(CHANGE));
 }
 
-export function getNotifications(audience?: Role): AppNotification[] {
+export function getNotifications(audience?: Role, providerId?: string | null): AppNotification[] {
   try {
     const raw = localStorage.getItem(KEY);
     const all: AppNotification[] = raw ? (JSON.parse(raw) as AppNotification[]) : [];
-    const list = audience ? all.filter((n) => n.audience === audience) : all;
+    const list = all.filter(
+      (n) =>
+        (!audience || n.audience === audience) &&
+        (!n.providerId || !providerId || n.providerId === providerId),
+    );
     return list.slice().sort((a, b) => b.at - a.at);
   } catch {
     return [];
   }
 }
 
-export function unreadCount(audience: Role): number {
-  return getNotifications(audience).filter((n) => !n.read).length;
+export function unreadCount(audience: Role, providerId?: string | null): number {
+  return getNotifications(audience, providerId).filter((n) => !n.read).length;
 }
 
 function persist(next: AppNotification[]) {
@@ -60,15 +66,27 @@ export function pushNotification(input: Omit<AppNotification, "id" | "at" | "rea
   return item;
 }
 
-export function markAllRead(audience: Role) {
-  persist(getNotifications().map((n) => (n.audience === audience ? { ...n, read: true } : n)));
+export function markAllRead(audience: Role, providerId?: string | null) {
+  persist(
+    getNotifications().map((n) =>
+      n.audience === audience && (!n.providerId || !providerId || n.providerId === providerId)
+        ? { ...n, read: true }
+        : n,
+    ),
+  );
 }
 
-export function clearNotifications(audience: Role) {
-  persist(getNotifications().filter((n) => n.audience !== audience));
+export function clearNotifications(audience: Role, providerId?: string | null) {
+  persist(getNotifications().filter((n) => !(n.audience === audience && (!n.providerId || !providerId || n.providerId === providerId))));
 }
 
 export function onNotificationsChange(cb: () => void) {
-  window.addEventListener(CHANGE, cb);
-  return () => window.removeEventListener(CHANGE, cb);
+  const handler = () => cb();
+  window.addEventListener(CHANGE, handler);
+  /* Live cross-tab: browser fires `storage` in every OTHER tab on LS change. */
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(CHANGE, handler);
+    window.removeEventListener("storage", handler);
+  };
 }

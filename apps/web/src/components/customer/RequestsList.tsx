@@ -1,24 +1,52 @@
-/* RequestsList v3 — two honest groups: Open (still waiting for a worker) and
-   Matched (a worker accepted the lead — S10 closes the A→B→C loop here).
-   Cancel flow, locale dates and photo chips stay as built in S9. */
+/* RequestsList v4 — Open / Matched / Completed groups with job chat, booked
+   OTP chip and post-job review. Cancel flow + locale dates stay from S9. */
 "use client";
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
-import { cancelRequest, getRequests, onRequestsChange } from "@/lib/requests";
-import { pushNotification } from "@/lib/notifications";
+import { cancelRequest, getRequests, onRequestsChange, reviewRequest } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
+import { pushNotification } from "@/lib/notifications";
+import { getSession } from "@/lib/session";
+import { ChatPanel } from "@/components/chat/ChatPanel";
 
 const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
-function RequestCard({ r, confirmId, setConfirmId }: {
+function Stars({ value, onPick }: { value: number; onPick: (n: number) => void }) {
+  return (
+    <div className="flex gap-1">
+      {[1, 2, 3, 4, 5].map((n) => (
+        <button
+          key={n}
+          type="button"
+          aria-label={`${n}`}
+          onClick={() => onPick(n)}
+          className={`text-xl transition-transform hover:scale-110 ${n <= value ? "" : "opacity-25"}`}
+        >
+          ⭐
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function RequestCard({
+  r,
+  myName,
+  confirmId,
+  setConfirmId,
+}: {
   r: ServiceRequest;
+  myName: string;
   confirmId: string | null;
   setConfirmId: (id: string | null) => void;
 }) {
   const { lang, t } = useI18n();
+  const [chatOpen, setChatOpen] = useState(false);
+  const [stars, setStars] = useState(0);
   const locale = lang === "hi" ? "hi-IN" : lang === "gu" ? "gu-IN" : "en-IN";
   const matched = r.status === "interested" || r.status === "accepted";
+  const done = r.status === "completed";
 
   return (
     <article className="rounded-card border border-line bg-white p-5 shadow-card">
@@ -29,10 +57,10 @@ function RequestCard({ r, confirmId, setConfirmId }: {
         </h3>
         <span
           className={`rounded-pill px-3 py-1 text-[11px] font-black ${
-            matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
+            done ? "bg-neem/15 text-neem" : matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
           }`}
         >
-          {matched ? t("req.group.matched") : t("req.open")}
+          {done ? t("req.group.done") : matched ? t("req.group.matched") : t("req.open")}
         </span>
       </div>
       <p className="mt-1 text-xs text-muted">
@@ -56,48 +84,92 @@ function RequestCard({ r, confirmId, setConfirmId }: {
           🔔 {t("req.talkNext", { name: r.acceptedName })}
         </p>
       )}
-      <div className="mt-4">
-        {confirmId === r.id ? (
-          <div className="flex flex-wrap items-center gap-2 rounded-control bg-danger/10 px-3 py-2">
-            <span className="text-sm font-extrabold text-danger">{t("req.confirmQ")}</span>
-            <button
-              type="button"
+      {r.jobOtp && (
+        <p className="mt-2 rounded-control bg-haldi/20 px-3 py-2 text-xs font-extrabold text-navy">
+          🔑 {t("chat.booked", { otp: r.jobOtp })}
+          {r.dateBooked ? ` · 📅 ${r.dateBooked} · ${t(`slot.${r.slotBooked ?? r.slot}`)}` : ""}
+        </p>
+      )}
+
+      {done && (
+        <div className="mt-3 rounded-control bg-chuna px-3 py-2">
+          {r.rating ? (
+            <p className="text-xs font-extrabold text-neem">✅ {t("req.reviewed", { n: r.rating })}</p>
+          ) : (
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="text-xs font-extrabold text-navy">{t("rev.h")}</span>
+              <Stars value={stars} onPick={setStars} />
+              <button
+                type="button"
+                disabled={stars === 0}
                 onClick={() => {
-                cancelRequest(r.id);
-                if (r.status === "interested" || r.status === "accepted") {
+                  reviewRequest(r.id, stars);
                   pushNotification({
-                    kind: "request_cancelled",
+                    kind: "system",
                     audience: "provider",
-                    titleKey: "notif.requestCancelled.title",
-                    bodyKey: "notif.requestCancelled.body",
-                    params: { category: t(`sk.${r.category}`) },
+                    titleKey: "notif.review.title",
+                    bodyKey: "notif.review.body",
+                    params: { n: stars, category: t(`sk.${r.category}`) },
                     requestId: r.id,
                   });
-                }
-                setConfirmId(null);
-              }}
-              className="rounded-control bg-danger px-3 py-1.5 text-xs font-extrabold text-white"
-            >
-              {t("req.yes")}
-            </button>
-            <button
-              type="button"
-              onClick={() => setConfirmId(null)}
-              className="rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:text-navy"
-            >
-              {t("req.no")}
-            </button>
-          </div>
-        ) : (
+                }}
+                className="min-h-10 rounded-control bg-neem px-3 py-1.5 text-xs font-extrabold text-white disabled:opacity-40"
+              >
+                {t("rev.submit")}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {(matched || done) && (
           <button
             type="button"
-            onClick={() => setConfirmId(r.id)}
-            className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-danger hover:text-danger"
+            onClick={() => setChatOpen((v) => !v)}
+            className="rounded-control border-2 border-navy px-3 py-1.5 text-xs font-extrabold text-navy hover:bg-navy hover:text-white"
           >
-            {t("req.cancel")}
+            💬 {t("chat.open")}
           </button>
         )}
+        {!done &&
+          (confirmId === r.id ? (
+            <div className="flex flex-wrap items-center gap-2 rounded-control bg-danger/10 px-3 py-2">
+              <span className="text-sm font-extrabold text-danger">{t("req.confirmQ")}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  cancelRequest(r.id);
+                  setConfirmId(null);
+                }}
+                className="rounded-control bg-danger px-3 py-1.5 text-xs font-extrabold text-white"
+              >
+                {t("req.yes")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setConfirmId(null)}
+                className="rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:text-navy"
+              >
+                {t("req.no")}
+              </button>
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => setConfirmId(r.id)}
+              className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-danger hover:text-danger"
+            >
+              {t("req.cancel")}
+            </button>
+          ))}
       </div>
+
+      {chatOpen && (
+        <div className="mt-4">
+          <ChatPanel requestId={r.id} role="customer" myName={myName} />
+        </div>
+      )}
     </article>
   );
 }
@@ -106,6 +178,7 @@ export function RequestsList() {
   const { t } = useI18n();
   const [items, setItems] = useState<ServiceRequest[]>([]);
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const myName = typeof window !== "undefined" ? (getSession()?.name ?? "Guest") : "Guest";
 
   useEffect(() => {
     setItems(getRequests());
@@ -115,8 +188,9 @@ export function RequestsList() {
   const newestFirst = items.slice().reverse();
   const open = newestFirst.filter((r) => r.status === "open");
   const matched = newestFirst.filter((r) => r.status === "interested" || r.status === "accepted");
+  const done = newestFirst.filter((r) => r.status === "completed");
 
-  if (open.length === 0 && matched.length === 0) {
+  if (open.length === 0 && matched.length === 0 && done.length === 0) {
     return (
       <div className="rounded-card border border-dashed border-line bg-white p-10 text-center text-muted">
         {t("req.empty")}
@@ -136,7 +210,7 @@ export function RequestsList() {
             {t("req.group.open")} ({open.length})
           </h3>
           {open.map((r) => (
-            <RequestCard key={r.id} r={r} confirmId={confirmId} setConfirmId={setConfirmId} />
+            <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
           ))}
         </section>
       )}
@@ -147,7 +221,18 @@ export function RequestsList() {
             {t("req.group.matched")} ({matched.length})
           </h3>
           {matched.map((r) => (
-            <RequestCard key={r.id} r={r} confirmId={confirmId} setConfirmId={setConfirmId} />
+            <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
+          ))}
+        </section>
+      )}
+
+      {done.length > 0 && (
+        <section className="space-y-4">
+          <h3 className="text-xs font-black uppercase tracking-[0.14em] text-neem">
+            {t("req.group.done")} ({done.length})
+          </h3>
+          {done.map((r) => (
+            <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
           ))}
         </section>
       )}

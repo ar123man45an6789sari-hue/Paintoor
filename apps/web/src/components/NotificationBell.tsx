@@ -4,6 +4,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
+import { getProviderProfile } from "@/lib/providers";
 import { getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import {
@@ -22,12 +23,13 @@ export function NotificationBell() {
   const [items, setItems] = useState<AppNotification[]>([]);
   const [unread, setUnread] = useState(0);
 
-  const reload = useCallback(() => {
+    const reload = useCallback(() => {
     const current = getSession();
     setSession(current);
     if (!current) return;
-    setItems(getNotifications(current.role));
-    setUnread(unreadCount(current.role));
+    const pid = current.role === "provider" ? getProviderProfile(current.name).id : null;
+    setItems(getNotifications(current.role, pid));
+    setUnread(unreadCount(current.role, pid));
   }, []);
 
   useEffect(() => {
@@ -41,6 +43,7 @@ export function NotificationBell() {
   }, [reload]);
 
   if (!session) return null;
+   const pid = session.role === "provider" ? getProviderProfile(session.name).id : null;
   const locale = lang === "hi" ? "hi-IN" : lang === "gu" ? "gu-IN" : "en-IN";
 
   return (
@@ -92,7 +95,7 @@ export function NotificationBell() {
             <div className="mt-1 flex gap-2 border-t border-line pt-2">
               <button
                 type="button"
-                onClick={() => markAllRead(session.role)}
+                onClick={() => markAllRead(session.role, pid)}
                 className="min-h-11 flex-1 rounded-control border border-line px-2 py-1.5 text-xs font-extrabold text-muted hover:border-navy hover:text-navy"
               >
                 {t("notif.markRead")}

@@ -1,5 +1,6 @@
-/* Demo-phase session store. Production replaces this with JWT + httpOnly
-   refresh cookie; the shape stays identical so nothing else changes. */
+/* Demo-phase session store — PER TAB (sessionStorage), so one browser can run
+   customer in one tab and worker in another (demo/evaluator workflow).
+   Production replaces this with JWT + httpOnly refresh cookie. */
 import type { Role } from "@/components/auth/types";
 
 export type Session = {
@@ -14,7 +15,7 @@ const CHANGE = "gs:session-changed";
 
 export function getSession(): Session | null {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = sessionStorage.getItem(KEY);
     return raw ? (JSON.parse(raw) as Session) : null;
   } catch {
     return null;
@@ -23,7 +24,7 @@ export function getSession(): Session | null {
 
 export function setSession(session: Session) {
   try {
-    localStorage.setItem(KEY, JSON.stringify(session));
+    sessionStorage.setItem(KEY, JSON.stringify(session));
     window.dispatchEvent(new CustomEvent(CHANGE));
   } catch {
     /* private mode */
@@ -32,7 +33,7 @@ export function setSession(session: Session) {
 
 export function clearSession() {
   try {
-    localStorage.removeItem(KEY);
+    sessionStorage.removeItem(KEY);
     window.dispatchEvent(new CustomEvent(CHANGE));
   } catch {
     /* private mode */
@@ -40,6 +41,12 @@ export function clearSession() {
 }
 
 export function onSessionChange(cb: () => void) {
-  window.addEventListener(CHANGE, cb);
-  return () => window.removeEventListener(CHANGE, cb);
+  const handler = () => cb();
+  window.addEventListener(CHANGE, handler);
+  /* Live cross-tab: browser fires `storage` in every OTHER tab on LS change. */
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(CHANGE, handler);
+    window.removeEventListener("storage", handler);
+  };
 }

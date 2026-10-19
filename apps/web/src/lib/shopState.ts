@@ -117,8 +117,14 @@ export function setShopState(patch: Partial<ShopState>) {
 }
 
 export function onShopStateChange(cb: () => void) {
-  window.addEventListener(CHANGE, cb);
-  return () => window.removeEventListener(CHANGE, cb);
+  const handler = () => cb();
+  window.addEventListener(CHANGE, handler);
+  /* Live cross-tab: browser fires `storage` in every OTHER tab on LS change. */
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(CHANGE, handler);
+    window.removeEventListener("storage", handler);
+  };
 }
 
 /** Signed-up store name → seeded shop profile (same trick as providers). */

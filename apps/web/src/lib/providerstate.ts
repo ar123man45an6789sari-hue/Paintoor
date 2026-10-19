@@ -77,8 +77,14 @@ export function recordDecline(reason: string) {
 }
 
 export function onProviderStateChange(cb: () => void) {
-  window.addEventListener(CHANGE, cb);
-  return () => window.removeEventListener(CHANGE, cb);
+  const handler = () => cb();
+  window.addEventListener(CHANGE, handler);
+  /* Live cross-tab: browser fires `storage` in every OTHER tab on LS change. */
+  window.addEventListener("storage", handler);
+  return () => {
+    window.removeEventListener(CHANGE, handler);
+    window.removeEventListener("storage", handler);
+  };
 }
 
 /** Demo helper — drops a matching customer request into the marketplace so the
