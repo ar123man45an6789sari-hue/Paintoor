@@ -1,6 +1,5 @@
-/* Dashboard v2 — role-branded shells; customer gets a real workspace
-   (overview / find workers / post job / my requests). Session logout
-   from ANY surface returns to the landing page. */
+/* Dashboard v3 — role-branded shells: customer workspace, provider shell and
+   shopkeeper counter. Session logout from ANY surface returns to landing. */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,7 +11,7 @@ import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
 import { PostJobWizard } from "@/components/customer/PostJobWizard";
 import { RequestsList } from "@/components/customer/RequestsList";
 import { ProviderShell } from "@/components/provider/ProviderShell";
-
+import { ShopShell } from "@/components/shopkeeper/ShopShell";
 
 const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; emoji: string }> = {
   customer: { grad: "linear-gradient(150deg,#1D6FB8,#123A6B)", titleKey: "dash.c", emoji: "🏠" },
@@ -103,6 +102,8 @@ export default function DashboardPage() {
           </>
         ) : session.role === "provider" ? (
           <ProviderShell name={session.name} />
+        ) : session.role === "shopkeeper" ? (
+          <ShopShell name={session.name} />
         ) : (
           <div className="rounded-card border border-line bg-white p-6 shadow-card">
             <h2 className="font-extrabold text-navy">{t(style.titleKey)}</h2>
