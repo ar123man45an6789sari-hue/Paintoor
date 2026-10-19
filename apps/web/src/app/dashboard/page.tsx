@@ -60,7 +60,7 @@ export default function DashboardPage() {
           <div className="text-4xl">{style.emoji}</div>
           <h1 className="mt-3 text-3xl font-black">{t(style.titleKey)}</h1>
           <p className="mt-1 text-white/85">
-            {t("dash.hi")}, <b>{session.name || "—"}</b>
+          {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
           </p>
         </div>
 
