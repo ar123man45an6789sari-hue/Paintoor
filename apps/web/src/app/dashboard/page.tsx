@@ -11,8 +11,8 @@ import type { Session } from "@/lib/session";
 import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
 import { PostJobWizard } from "@/components/customer/PostJobWizard";
 import { RequestsList } from "@/components/customer/RequestsList";
-import { LeadsDeck } from "@/components/provider/LeadsDeck";
-import { getProviderProfile } from "@/lib/providers";
+import { ProviderShell } from "@/components/provider/ProviderShell";
+
 
 const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; emoji: string }> = {
   customer: { grad: "linear-gradient(150deg,#1D6FB8,#123A6B)", titleKey: "dash.c", emoji: "🏠" },
@@ -101,8 +101,8 @@ export default function DashboardPage() {
             {tab === "post" && <PostJobWizard onDone={() => setTab("req")} />}
             {tab === "req" && <RequestsList />}
           </>
-               ) : session.role === "provider" ? (
-          <LeadsDeck profile={getProviderProfile(session.name)} />
+        ) : session.role === "provider" ? (
+          <ProviderShell name={session.name} />
         ) : (
           <div className="rounded-card border border-line bg-white p-6 shadow-card">
             <h2 className="font-extrabold text-navy">{t(style.titleKey)}</h2>

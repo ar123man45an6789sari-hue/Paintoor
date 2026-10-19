@@ -11,6 +11,8 @@ export type ProviderState = {
   pendingPayout: number;
   /** Earnings for the last 14 days — the chart on the Earnings tab reads this. */
   history: { date: string; amount: number }[];
+    /** Per-request job progress set from the Work tab (S10). */
+jobProgress: Record<string, "started" | "completed">;
 };
 
 const KEY = "gs_provider_state";
@@ -37,6 +39,7 @@ function defaultState(): ProviderState {
     inEscrow: 18600,
     pendingPayout: 8400,
     history: seedHistory(),
+    jobProgress: {},
   };
 }
 
@@ -98,4 +101,8 @@ export function addDemoRequest(profile: ProviderProfile) {
     date: "",
     slot: "f",
   };
+}
+export function setJobProgress(requestId: string, status: "started" | "completed") {
+  const map = getProviderState().jobProgress ?? {};
+  setProviderState({ jobProgress: { ...map, [requestId]: status } });
 }

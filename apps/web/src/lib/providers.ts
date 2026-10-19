@@ -116,3 +116,26 @@ export function distanceKm(fromZone: string, toZone: string): number {
 }
 
 export const paiseToRupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
+/** Skill Passport level ladder (Blueprint Ch. 11.5). */
+export function levelKeyFor(jobsDone: number): string {
+  if (jobsDone >= 500) return "lv.master";
+  if (jobsDone >= 300) return "lv.expert";
+  if (jobsDone >= 150) return "lv.pro";
+  if (jobsDone >= 50) return "lv.verified";
+  return "lv.new";
+}
+
+export const BADGE_LABELS: Record<string, string> = {
+  kyc_verified: "KYC ✓",
+  top_rated: "Top rated",
+  skill_tested: "Skill tested",
+  material_capable: "Material capable",
+  fast_responder: "Fast responder",
+  certified: "Certified",
+};
+
+export const RATE_UNIT_LABEL: Record<string, string> = {
+  per_sqft: "/sqft",
+  per_visit: "/visit",
+  per_day: "/day",
+};
