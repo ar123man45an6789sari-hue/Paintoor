@@ -45,8 +45,9 @@ export function Header() {
         <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 md:px-6">
           <Link href="/" className="flex items-center gap-2 text-navy">
             <Logo className="h-8 w-8" />
-            <span className="text-lg font-black tracking-tight md:text-xl">
-              Ghar<span className="text-saffron">Sahayak</span>
+              <span className="text-lg font-black tracking-tight md:text-xl">
+              {t("brand.pre")}
+              <span className="text-saffron">{t("brand.post")}</span>
             </span>
           </Link>
 

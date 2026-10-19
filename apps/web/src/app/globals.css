@@ -118,3 +118,10 @@
   .act-copy { z-index: 1; }
   .ls-head { z-index: 1; }
 }
+@media (max-width: 900px) {
+  .ls-phone {
+    opacity: 0.14;
+    right: -140px;
+    transform: translateY(-50%) scale(0.85);
+  }
+}

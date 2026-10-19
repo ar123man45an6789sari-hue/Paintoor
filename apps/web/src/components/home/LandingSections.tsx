@@ -2,6 +2,7 @@
    mobile-adaptive motion (nothing hidden, presentation adapts), i18n aware. */
 "use client";
 
+import { BeforeAfter } from "./BeforeAfter";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@gharsahayak/mock-api";
 import { useI18n } from "@/i18n";
@@ -331,6 +332,7 @@ export function LandingSections() {
     <>
       <StoryPin />
       <Categories />
+      <BeforeAfter />
       <WorkersBand />
       <EscrowFlow />
       <RoleLens />

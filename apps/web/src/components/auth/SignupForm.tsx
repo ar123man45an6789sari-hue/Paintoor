@@ -1,54 +1,53 @@
+/* SignupForm v3 — schema-driven, fully localised, email on every role. */
+"use client";
+
 import type { FormEvent } from "react";
 import type { Role } from "./types";
+import { useI18n } from "@/i18n";
 
 type Field = {
   name: string;
-  label: string;
-  type: "text" | "tel" | "number" | "select" | "email";
+  labelKey: string;
+  type: "text" | "tel" | "number" | "email" | "select";
   options?: string[];
-  placeholder?: string;
+  placeholderKey?: string;
   required?: boolean;
 };
 
-/**
- * Schema-driven forms: each role declares its fields, one renderer draws them.
- * Adding a field later = one line here, no JSX changes.
- */
-const FORMS: Record<Role, { title: string; blurb: string; fields: Field[] }> = {
+const FORMS: Record<Role, { titleKey: string; blurbKey: string; fields: Field[] }> = {
   customer: {
-    title: "Create your customer account",
-    blurb: "Three fields. Nothing more, nothing hidden.",
+    titleKey: "sf.c.t",
+    blurbKey: "sf.c.b",
     fields: [
-      { name: "full_name", label: "Full name", type: "text", required: true, placeholder: "Ramesh Patel" },
-      { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
-      { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
-      { name: "language", label: "Preferred language", type: "select", options: ["English", "Hindi", "Gujarati"], required: true },
-    
+      { name: "full_name", labelKey: "f.name", type: "text", required: true },
+      { name: "phone", labelKey: "f.phone", type: "tel", required: true, placeholderKey: "f.phonePh" },
+      { name: "email", labelKey: "f.email", type: "email", required: true, placeholderKey: "f.emailPh" },
+      { name: "language", labelKey: "f.lang", type: "select", options: ["English", "हिंदी", "ગુજરાતી"], required: true },
     ],
   },
   provider: {
-    title: "Create your worker profile",
-    blurb: "Your skill is your identity here.",
+    titleKey: "sf.p.t",
+    blurbKey: "sf.p.b",
     fields: [
-      { name: "full_name", label: "Full name (as per Aadhaar)", type: "text", required: true },
-      { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
-     { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
-      { name: "primary_skill", label: "Primary skill", type: "select", options: ["Painting", "Electrical", "Plumbing", "Carpentry", "Cleaning"], required: true },
-      { name: "experience_years", label: "Years of experience", type: "number", required: true, placeholder: "12" },
-      { name: "zone", label: "Your area in Vadodara", type: "text", required: true, placeholder: "Alkapuri" },
+      { name: "full_name", labelKey: "f.nameAadhaar", type: "text", required: true },
+      { name: "phone", labelKey: "f.phone", type: "tel", required: true, placeholderKey: "f.phonePh" },
+      { name: "email", labelKey: "f.email", type: "email", required: true, placeholderKey: "f.emailPh" },
+      { name: "primary_skill", labelKey: "f.skill", type: "select", options: ["Painting", "Electrical", "Plumbing", "Carpentry", "Cleaning"], required: true },
+      { name: "experience_years", labelKey: "f.exp", type: "number", required: true },
+      { name: "zone", labelKey: "f.zone", type: "text", required: true },
     ],
   },
   shopkeeper: {
-    title: "Put your store on the map",
-    blurb: "Your digital counter opens after a quick verification.",
+    titleKey: "sf.s.t",
+    blurbKey: "sf.s.b",
     fields: [
-      { name: "shop_name", label: "Store name", type: "text", required: true, placeholder: "Gupta Paints & Hardware" },
-      { name: "owner_name", label: "Owner name", type: "text", required: true },
-     { name: "email", label: "Email (for easy login later)", type: "email", required: true, placeholder: "you@mail.com" },
-      { name: "phone", label: "Mobile number", type: "tel", required: true, placeholder: "+91 98765 43210" },
-      { name: "shop_category", label: "Store category", type: "select", options: ["Paints", "Hardware", "Sanitary", "Electrical goods", "Tools"], required: true },
-      { name: "zone", label: "Store area in Vadodara", type: "text", required: true, placeholder: "Sama" },
-      { name: "gstin", label: "GSTIN (optional for small shops)", type: "text", placeholder: "24XXXXX1Z1X1X" },
+      { name: "shop_name", labelKey: "f.shop", type: "text", required: true },
+      { name: "owner_name", labelKey: "f.owner", type: "text", required: true },
+      { name: "phone", labelKey: "f.phone", type: "tel", required: true, placeholderKey: "f.phonePh" },
+      { name: "email", labelKey: "f.email", type: "email", required: true, placeholderKey: "f.emailPh" },
+      { name: "shop_category", labelKey: "f.cat", type: "select", options: ["Paints", "Hardware", "Sanitary", "Electrical goods", "Tools"], required: true },
+      { name: "zone", labelKey: "f.zone", type: "text", required: true },
+      { name: "gstin", labelKey: "f.gstin", type: "text" },
     ],
   },
 };
@@ -60,6 +59,7 @@ type Props = {
 };
 
 export function SignupForm({ role, onBack, onSubmit }: Props) {
+  const { t } = useI18n();
   const form = FORMS[role];
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -68,18 +68,20 @@ export function SignupForm({ role, onBack, onSubmit }: Props) {
     onSubmit(data);
   }
 
+  const inputClass = "w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron";
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
-        <h3 className="text-lg font-extrabold text-navy">{form.title}</h3>
-        <p className="text-sm text-muted">{form.blurb}</p>
+        <h3 className="text-lg font-extrabold text-navy">{t(form.titleKey)}</h3>
+        <p className="text-sm text-muted">{t(form.blurbKey)}</p>
       </div>
 
       {form.fields.map((field) => (
         <label key={field.name} className="block">
-          <span className="mb-1 block text-sm font-bold text-ink">{field.label}</span>
+          <span className="mb-1 block text-sm font-bold text-ink">{t(field.labelKey)}</span>
           {field.type === "select" ? (
-            <select name={field.name} required={field.required} className="w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron">
+            <select name={field.name} required={field.required} className={inputClass}>
               {field.options?.map((opt) => (
                 <option key={opt}>{opt}</option>
               ))}
@@ -89,8 +91,8 @@ export function SignupForm({ role, onBack, onSubmit }: Props) {
               name={field.name}
               type={field.type}
               required={field.required}
-              placeholder={field.placeholder}
-              className="w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron"
+              placeholder={field.placeholderKey ? t(field.placeholderKey) : undefined}
+              className={inputClass}
             />
           )}
         </label>
@@ -98,16 +100,15 @@ export function SignupForm({ role, onBack, onSubmit }: Props) {
 
       <label className="flex items-start gap-2 text-xs text-muted">
         <input type="checkbox" name="consent" required className="mt-0.5 accent-saffron" />
-        I agree to the Terms of Use and Privacy Policy, and to GharSahayak storing my
-        details for this booking journey.
+        {t("f.consent")}
       </label>
 
       <div className="flex gap-3 pt-1">
         <button type="button" onClick={onBack} className="rounded-control border-2 border-line px-4 py-2.5 text-sm font-extrabold text-muted hover:border-navy hover:text-navy">
-          Back
+          {t("auth.back")}
         </button>
         <button type="submit" className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
-          Continue → OTP
+          {t("f.continue")}
         </button>
       </div>
     </form>

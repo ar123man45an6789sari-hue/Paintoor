@@ -1,6 +1,6 @@
 /* ProvidersBrowser v2 — All-India default; location shortlists (city → zone), skill filters. */
 "use client";
-
+import { useI18n } from "@/i18n";
 import { useMemo, useState } from "react";
 import { seed } from "@gharsahayak/mock-api";
 
@@ -31,7 +31,7 @@ const GRADIENTS = [
 ];
 
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
-
+const { t } = useI18n();
 export function ProvidersBrowser() {
   const [city, setCity] = useState("all");
   const [zone, setZone] = useState("all");
@@ -68,7 +68,7 @@ export function ProvidersBrowser() {
     <div>
       <div className="flex flex-wrap items-end gap-3 rounded-card border border-line bg-white p-4 shadow-card">
         <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">City</span>
+          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.city")}</span>
           <select
             value={city}
             onChange={(e) => {
@@ -77,32 +77,33 @@ export function ProvidersBrowser() {
             }}
             className={selectClass}
           >
-            <option value="all">All India</option>
+            <option value="all">{t("prov.allIndia")}</option>
             {cities.map((c) => (
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">Area</span>
+          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.area")}</span>
           <select value={zone} onChange={(e) => setZone(e.target.value)} className={selectClass}>
-            <option value="all">All areas</option>
+            <option value="all">{t("prov.allAreas")}</option>
             {zones.map((z) => (
               <option key={z} value={z}>{z}</option>
             ))}
           </select>
         </label>
         <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">Skill</span>
+          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.skill")}</span>
           <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
-            <option value="all">All skills</option>
+            <option value="all">{t("prov.allSkills")}</option>
             {SKILLS.map((s) => (
               <option key={s} value={s}>{s[0].toUpperCase() + s.slice(1)}</option>
             ))}
           </select>
         </label>
         <p className="ml-auto text-sm font-bold text-navy">
-          {filtered.length} verified worker{filtered.length === 1 ? "" : "s"} available
+          {filtered.length} {t("prov.workers")}
+          {t("prov.empty")}
         </p>
       </div>
 
