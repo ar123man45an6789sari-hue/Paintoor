@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  transpilePackages: ["@gharsahayak/brand", "@gharsahayak/mock-api"],
+  transpilePackages: ["@paintoor/brand", "@paintoor/mock-api"],
 };
 
 export default nextConfig;

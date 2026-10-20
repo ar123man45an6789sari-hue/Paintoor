@@ -1,5 +1,5 @@
 {
-  "name": "@gharsahayak/web",
+  "name": "@paintoor/web",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@gharsahayak/brand": "*",
-    "@gharsahayak/mock-api": "*",
+    "@paintoor/brand": "*",
+    "@paintoor/mock-api": "*",
     "next": "^15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
