@@ -1,4 +1,4 @@
-/* AuthModal v5 — role FIRST, then switchable [Create account | Log in] tabs,
+/* AuthModal v5 — role FIRST, then switchable [Register | Log in] tabs,
    role-branded login extras, session write, dashboard redirect. */
 "use client";
 
@@ -88,11 +88,11 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
 
   const tabClass = (active: boolean) =>
     `flex-1 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${
-      active ? "bg-navy text-white" : "text-muted hover:bg-chuna hover:text-navy"
+      active ? "bg-navy text-onnavy" : "text-muted hover:bg-chuna hover:text-navy"
     }`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-ink/60 p-4 backdrop-blur-sm" onClick={onClose}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-raatri/70 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
         role="dialog"
         aria-modal="true"
@@ -172,7 +172,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
                   <button type="button" onClick={() => setStep("role")} className="rounded-control border-2 border-line px-4 py-2.5 text-sm font-extrabold text-muted hover:border-navy hover:text-navy">
                     {t("auth.back")}
                   </button>
-                  <button type="submit" className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
+                  <button type="submit" className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift">
                     {t("auth.send")}
                   </button>
                 </div>
@@ -195,7 +195,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
               aria-label={t("auth.otpTitle")}
               className="w-full rounded-control border border-line bg-white px-3 py-3 text-center text-2xl font-black tracking-[0.5em] outline-none focus:border-saffron"
             />
-            <button type="submit" disabled={otp.length !== 6} className="w-full rounded-control bg-saffron px-4 py-3 font-extrabold text-white disabled:cursor-not-allowed disabled:opacity-40">
+            <button type="submit" disabled={otp.length !== 6} className="w-full rounded-control bg-saffron px-4 py-3 font-extrabold text-snow disabled:cursor-not-allowed disabled:opacity-40">
               {t("auth.verify")}
             </button>
           </form>
@@ -206,7 +206,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-pill bg-neem/15 text-3xl">✅</div>
             <h3 className="text-xl font-black text-navy">{mode === "login" ? t("auth.doneLogin") : t("auth.doneTitle")}</h3>
             <p className="text-sm text-muted">{t("auth.doneDash")}</p>
-            <button type="button" onClick={goDashboard} className="w-full rounded-control bg-navy px-4 py-3 font-extrabold text-white">
+            <button type="button" onClick={goDashboard} className="w-full rounded-control bg-navy px-4 py-3 font-extrabold text-snow">
               {t("dash.open")}
             </button>
           </div>

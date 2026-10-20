@@ -32,7 +32,7 @@ const FORMS: Record<Role, { titleKey: string; blurbKey: string; fields: Field[] 
       { name: "full_name", labelKey: "f.nameAadhaar", type: "text", required: true },
       { name: "phone", labelKey: "f.phone", type: "tel", required: true, placeholderKey: "f.phonePh" },
       { name: "email", labelKey: "f.email", type: "email", required: true, placeholderKey: "f.emailPh" },
-      { name: "primary_skill", labelKey: "f.skill", type: "select", options: ["Painting", "Electrical", "Plumbing", "Carpentry", "Cleaning"], required: true },
+      { name: "primary_skill", labelKey: "f.skill", type: "select", options: ["Painting"], required: true },
       { name: "experience_years", labelKey: "f.exp", type: "number", required: true },
       { name: "zone", labelKey: "f.zone", type: "text", required: true },
     ],
@@ -107,7 +107,7 @@ export function SignupForm({ role, onBack, onSubmit }: Props) {
         <button type="button" onClick={onBack} className="rounded-control border-2 border-line px-4 py-2.5 text-sm font-extrabold text-muted hover:border-navy hover:text-navy">
           {t("auth.back")}
         </button>
-        <button type="submit" className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
+        <button type="submit" className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift">
           {t("f.continue")}
         </button>
       </div>

@@ -183,7 +183,7 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
               }
               finish("accept");
             }}
-            className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift"
+            className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift"
           >
             ✓ {t("pd.yes")}
           </button>

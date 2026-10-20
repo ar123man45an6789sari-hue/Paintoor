@@ -112,7 +112,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 <button
                   type="button"
                   onClick={() => setJobProgress(job.id, "started")}
-                  className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+                  className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
                   ▶ {t("pd.start")}
                 </button>
@@ -121,7 +121,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 <button
                   type="button"
                   onClick={() => finishJob(job)}
-                  className="min-h-12 flex-1 rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+                  className="min-h-12 flex-1 rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
                   ✓ {t("pd.complete")}
                 </button>

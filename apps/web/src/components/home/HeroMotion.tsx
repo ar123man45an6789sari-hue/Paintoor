@@ -1,5 +1,6 @@
-/* HeroMotion v2 — fixes: word spacing (inline-block swallowed spaces),
-   smooth self-draw via pathLength=1, ambient drifting orbs, CTAs lead to auth. */
+/* HeroMotion v4 — Paintoor: one theme per mode (white light / black dark),
+   no scroll-driven sky swap (client 3-color mandate). Sun ke rays ghumte hain.
+   Word stagger, self-draw mark and counters stay. */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -50,83 +51,77 @@ function Counter({ end, suffix, label }: { end: number; suffix: string; label: s
         {value}
         {suffix}
       </span>
-      <span className="mt-1 block text-xs text-slate-400">{label}</span>
+      <span className="mt-1 block text-xs text-muted">{label}</span>
     </div>
   );
 }
 
+/** 8 rays around the sun circle (310,42) — rotate via .sun-rays CSS. */
+const RAYS = [0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
+  const rad = (deg * Math.PI) / 180;
+  return {
+    deg,
+    x1: 310 + Math.cos(rad) * 22,
+    y1: 42 + Math.sin(rad) * 22,
+    x2: 310 + Math.cos(rad) * 32,
+    y2: 42 + Math.sin(rad) * 32,
+  };
+});
+
 export function CinematicHero() {
   const { t } = useI18n();
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    if (REDUCED) return;
-    const section = sectionRef.current;
-    if (!section) return;
-    let ticking = false;
-    const paint = () => {
-      ticking = false;
-      const p = Math.min(window.scrollY / window.innerHeight, 1);
-      section.style.setProperty("--sky-top", `rgb(${14 + p * 20}, ${46 + p * 60}, ${85 + p * 90})`);
-      section.style.setProperty("--sky-mid", `rgb(${29 + p * 60}, ${111 + p * 60}, ${184 + p * 40})`);
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(paint);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
   const words = [t("hero.w1"), t("hero.w2"), t("hero.w3"), t("hero.w4"), t("hero.w5")];
 
   return (
-    <section ref={sectionRef} className="hero-sky relative overflow-hidden px-5 py-24 text-white md:py-28">
-      <div className="orb" style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048" }} aria-hidden="true" />
-      <div className="orb orb-b" style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#e00048" }} aria-hidden="true" />
+    <section className="relative overflow-hidden bg-surface px-5 py-24 text-ink md:py-28 dark:bg-raatri dark:text-snow">
+      <div className="orb" style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048", opacity: 0.14 }} aria-hidden="true" />
+      <div className="orb orb-b" style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#e00048", opacity: 0.1 }} aria-hidden="true" />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <span className="rounded-pill border border-white/25 bg-white/10 px-3 py-1.5 text-xs font-bold text-blue-100">
+          <span className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
             🇮🇳 {t("hero.badge")}
           </span>
           <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
             {words.map((word, i) => (
               <span
                 key={`${word}-${i}`}
-                className={`hero-word ${ACCENT[i] ? "text-haldi" : ""}`}
+                className={`hero-word ${ACCENT[i] ? "text-saffron" : ""}`}
                 style={{ animationDelay: `${i * 90}ms` }}
               >
                 {word}
               </span>
             ))}
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-blue-100">{t("hero.sub")}</p>
+          <p className="mt-5 max-w-xl text-lg text-muted">{t("hero.sub")}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={() => requestAuth("signup")}
-              className="rounded-control bg-saffron px-6 py-3.5 font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift"
+              className="rounded-control bg-saffron px-6 py-3.5 font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift"
             >
               {t("hero.cta1")}
             </button>
             <a
               href="#how"
-              className="rounded-control border-2 border-white/40 px-6 py-3.5 font-extrabold text-white transition-colors hover:bg-white/10"
+              className="rounded-control border-2 border-line px-6 py-3.5 font-extrabold text-ink transition-colors hover:bg-chuna dark:text-snow dark:hover:bg-chuna"
             >
               {t("hero.cta2")}
             </a>
           </div>
         </div>
 
-          <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-15 md:static md:opacity-100" aria-hidden="true">
-          <svg viewBox="0 0 420 360" fill="none" className="h-[75%] w-auto md:h-auto md:w-full">
+        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-15 md:static md:opacity-100" aria-hidden="true">
+          <svg viewBox="0 0 420 360" fill="none" className="h-[75%] w-auto text-ink md:h-auto md:w-full dark:text-snow">
             <path className="draw" pathLength={1} d="M70 170 L210 60 L350 170" stroke="#e00048" strokeWidth="10" strokeLinecap="round" />
-            <path className="draw draw-2" pathLength={1} d="M105 175 V300 H315 V175" stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round" />
-            <path className="draw draw-2" pathLength={1} d="M175 300 V225 H245 V300" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" />
+            <path className="draw draw-2" pathLength={1} d="M105 175 V300 H315 V175" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
+            <path className="draw draw-2" pathLength={1} d="M175 300 V225 H245 V300" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
             <path className="draw draw-3" pathLength={1} d="M60 262 C120 216 180 232 214 262 C258 300 322 288 362 246" stroke="#e00048" strokeWidth="14" strokeLinecap="round" />
+            <g className="sun-rays">
+              {RAYS.map((r) => (
+                <line key={r.deg} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="#e00048" strokeWidth="4" strokeLinecap="round" />
+              ))}
+            </g>
             <circle cx="310" cy="42" r="14" fill="#e00048" />
           </svg>
         </div>

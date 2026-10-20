@@ -74,9 +74,11 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           <label className="block">
             <span className={labelClass}>{t("wiz.cat")}</span>
             <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputClass}>
-              {["painting", "electrical", "plumbing", "carpentry", "cleaning"].map((s) => (
-                <option key={s} value={s}>{t(`sk.${s}`)}</option>
-              ))}
+                   {["painting", "electrical", "plumbing", "carpentry", "cleaning"].map((s) => (
+                  <option key={s} value={s} disabled={s !== "painting"}>
+                    {t(`sk.${s}`)}{s !== "painting" ? ` — ${t("soon.tag")}` : ""}
+                  </option>
+                ))}
             </select>
           </label>
           <label className="block">
@@ -95,7 +97,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
               multiple
               accept="image/*"
               onChange={(e) => setPhotos(Array.from(e.target.files ?? []).map((f) => f.name))}
-              className="block w-full text-sm text-muted file:mr-3 file:rounded-control file:border-0 file:bg-saffron file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-white"
+              className="block w-full text-sm text-muted file:mr-3 file:rounded-control file:border-0 file:bg-saffron file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-snow"
             />
           </label>
           {photos.length > 0 && (
@@ -167,11 +169,11 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           </button>
         )}
         {step < 4 ? (
-          <button type="button" onClick={() => setStep(step + 1)} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
+          <button type="button" onClick={() => setStep(step + 1)} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift">
             {t("wiz.next")}
           </button>
         ) : (
-          <button type="button" onClick={submit} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
+          <button type="button" onClick={submit} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift">
             {t("wiz.submit")}
           </button>
         )}

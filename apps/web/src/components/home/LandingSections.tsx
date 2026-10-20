@@ -81,12 +81,12 @@ function StoryPin() {
               <div className="h-2.5 w-3/5 rounded-pill bg-[#e8eaed]" />
               <div className="mt-2 h-24 rounded-xl bg-gradient-to-br from-[#f9ccdb] to-[#f6b3c8]" />
               <div className="mt-3  rounded-card border border-[#e2e4e7]p-2.5"><div className="h-2.5 w-2/5 rounded bg-[#f9ccdb]" /></div>
-              <div className="mt-3 rounded-lg bg-saffron py-2 text-center text-xs font-extrabold text-white">Send to Workers</div>
+              <div className="mt-3 rounded-lg bg-saffron py-2 text-center text-xs font-extrabold text-snow">Send to Workers</div>
             </div>
             <div className={`ls-scr ${act === 1 ? "on" : ""}`}>
               {["Sunil V. · 4.8★", "Rafiq M. · 4.6★", "Dinesh P. · 4.7★"].map((n) => (
                 <div key={n} className="mt-2 flex items-center gap-2 rounded-card border border-[#e2e4e7] p-2.5">
-                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-gradient-to-br from-saffron to-haldi text-xs font-black text-white">{n.charAt(0)}</span>
+                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-gradient-to-br from-saffron to-haldi text-xs font-black text-snow">{n.charAt(0)}</span>
                   <span className="text-xs font-bold text-navy">{n}</span>
                 </div>
               ))}
@@ -122,7 +122,7 @@ function StoryPin() {
 function Categories() {
   const { t } = useI18n();
   const CATS = ["c1", "c2", "c3", "c4", "c5", "c6"];
-  const ICONS = ["🎨", "⚡", "", "", "🧽", "❄️"];
+  const ICONS = ["🎨", "", "", "🪚", "🧽", "️"];
   return (
     <section id="services" className="bg-chuna px-5 py-24">
       <div className="mx-auto max-w-6xl">
@@ -133,14 +133,29 @@ function Categories() {
           </div>
           <p className="max-w-md text-sm text-muted">{t("cats.p")}</p>
         </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {CATS.map((c, i) => (
-            <div key={c} className="reveal rounded-card border border-line bg-white p-6 transition-all hover:-translate-y-1.5 hover:shadow-card">
-              <div className="flex h-12 w-12 items-center justify-center rounded-control bg-[#fce6ed] text-2xl">{ICONS[i]}</div>
-              <h3 className="mt-3 font-extrabold text-navy">{t(`${c}.t`)}</h3>
-              <p className="mt-1 text-xs text-muted">{t(`${c}.r`)}</p>
-            </div>
-          ))}
+                <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CATS.map((c, i) => {
+            const live = c === "c1";
+            return (
+              <div
+                key={c}
+                className={`reveal rounded-card border border-line bg-white p-6 ${
+                  live ? "transition-all hover:-translate-y-1.5 hover:shadow-card" : "opacity-70"
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-control bg-[#fce6ed] text-2xl">{ICONS[i]}</div>
+                  {!live && (
+                    <span className="rounded-pill border border-line bg-chuna px-2.5 py-1 text-xs font-black text-muted">
+                      {t("soon.tag")}
+                    </span>
+                  )}
+                </div>
+                <h3 className="mt-3 font-extrabold text-navy">{t(`${c}.t`)}</h3>
+                <p className="mt-1 text-xs text-muted">{t(`${c}.r`)}</p>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
@@ -197,7 +212,7 @@ function WorkersBand() {
             const [from, to] = GRADIENTS[i % GRADIENTS.length];
             return (
               <article key={p.id} className="w-[250px] flex-none overflow-hidden rounded-card border border-line bg-white shadow-card md:w-[300px]">
-                <div className="flex h-24 items-center justify-center text-4xl font-black text-white md:h-28 md:text-5xl" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
+                <div className="flex h-24 items-center justify-center text-4xl font-black text-snow md:h-28 md:text-5xl" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
                   {p.name.charAt(0)}
                 </div>
                 <div className="p-4">
@@ -298,7 +313,7 @@ function RoleLens() {
     { emoji: "🏪", key: "l3" },
   ];
   return (
-    <section id="why" className="bg-raatri px-5 py-24 text-white">
+    <section id="why" className="bg-raatri px-5 py-24 text-snow">
       <div className="mx-auto max-w-6xl">
         <div className="reveal text-center">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-haldi">Why us</span>
@@ -307,7 +322,7 @@ function RoleLens() {
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {LENSES.map((l) => (
-            <div key={l.key} className="reveal rounded-sheet border border-white/12 bg-white/5 p-6">
+            <div key={l.key} className="reveal rounded-sheet border border-snow/12 bg-snow/5 p-6">
               <div className="text-3xl">{l.emoji}</div>
               <h3 className="mt-3 text-lg font-extrabold">{t(`${l.key}.t`)}</h3>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">

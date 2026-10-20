@@ -116,7 +116,7 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
           <button
             type="button"
             onClick={() => setOnline(toggleOnline())}
-            className="mt-4 min-h-12 rounded-control bg-neem px-5 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+            className="mt-4 min-h-12 rounded-control bg-neem px-5 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
           >
             ● {t("pd.goOnline")}
           </button>
@@ -130,7 +130,7 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
           <button
             type="button"
             onClick={loadDemo}
-            className="mt-4 min-h-12 rounded-control border-2 border-saffron px-5 py-3 text-sm font-extrabold text-saffron hover:bg-saffron hover:text-white"
+            className="mt-4 min-h-12 rounded-control border-2 border-saffron px-5 py-3 text-sm font-extrabold text-saffron hover:bg-saffron hover:text-snow"
           >
             ✨ {t("pd.loadDemo")}
           </button>
@@ -167,7 +167,7 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
                   type="button"
                   onClick={() => setReason(r.id)}
                   className={`min-h-12 rounded-pill border-2 px-4 py-2 text-sm font-extrabold transition-colors ${
-                    reason === r.id ? "border-saffron bg-saffron text-white" : "border-line text-muted hover:border-saffron hover:text-saffron"
+                    reason === r.id ? "border-saffron bg-saffron text-snow" : "border-line text-muted hover:border-saffron hover:text-saffron"
                   }`}
                 >
                   {t(r.key)}
@@ -178,7 +178,7 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
               <button
                 type="button"
                 onClick={() => decline(declineFor, reason)}
-                className="min-h-12 flex-1 rounded-control bg-danger px-4 py-3 text-sm font-extrabold text-white"
+                className="min-h-12 flex-1 rounded-control bg-danger px-4 py-3 text-sm font-extrabold text-snow"
               >
                 {t("pd.declineGo")}
               </button>
@@ -195,7 +195,7 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
       )}
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-white shadow-lift">
+        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-snow shadow-lift">
           {toast}
         </div>
       )}

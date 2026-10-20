@@ -113,7 +113,7 @@ function RequestCard({
                     requestId: r.id,
                   });
                 }}
-                className="min-h-10 rounded-control bg-neem px-3 py-1.5 text-xs font-extrabold text-white disabled:opacity-40"
+                className="min-h-10 rounded-control bg-neem px-3 py-1.5 text-xs font-extrabold text-snow disabled:opacity-40"
               >
                 {t("rev.submit")}
               </button>
@@ -127,7 +127,7 @@ function RequestCard({
           <button
             type="button"
             onClick={() => setChatOpen((v) => !v)}
-            className="rounded-control border-2 border-navy px-3 py-1.5 text-xs font-extrabold text-navy hover:bg-navy hover:text-white"
+            className="rounded-control border-2 border-navy px-3 py-1.5 text-xs font-extrabold text-navy hover:bg-navy hover:text-onnavy"
           >
             💬 {t("chat.open")}
           </button>
@@ -142,7 +142,7 @@ function RequestCard({
                   cancelRequest(r.id);
                   setConfirmId(null);
                 }}
-                className="rounded-control bg-danger px-3 py-1.5 text-xs font-extrabold text-white"
+                className="rounded-control bg-danger px-3 py-1.5 text-xs font-extrabold text-snow"
               >
                 {t("req.yes")}
               </button>
@@ -198,7 +198,7 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
           <button
             type="button"
             onClick={onPost}
-            className="mt-4 min-h-12 rounded-control bg-saffron px-5 py-2.5 text-sm font-extrabold text-white hover:shadow-lift"
+            className="mt-4 min-h-12 rounded-control bg-saffron px-5 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift"
           >
             📝 {t("dash.tab.post")}
           </button>

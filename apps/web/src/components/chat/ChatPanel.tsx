@@ -131,7 +131,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
                   <button
                     type="button"
                     onClick={() => setHireOpen(true)}
-                    className="mt-2 min-h-11 w-full rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-white hover:shadow-lift"
+                    className="mt-2 min-h-11 w-full rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-snow hover:shadow-lift"
                   >
                     ✓ {t("chat.acceptQuote")}
                   </button>
@@ -142,7 +142,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
             <div key={m.id} className={`flex ${m.from === role ? "justify-end" : "justify-start"}`}>
               <p
                 className={`max-w-[75%] rounded-sheet px-3 py-2 text-sm font-semibold ${
-                  m.from === role ? (role === "provider" ? "bg-neem text-white" : "bg-navy text-white") : "bg-chuna text-ink"
+                  m.from === role ? (role === "provider" ? "bg-neem text-snow" : "bg-navy text-onnavy") : "bg-chuna text-ink"
                 }`}
               >
                 {m.text}
@@ -197,7 +197,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
             type="button"
             onClick={pay}
             disabled={paying}
-            className="mt-3 min-h-12 w-full rounded-control bg-neem px-3 py-3 text-sm font-extrabold text-white disabled:opacity-60"
+            className="mt-3 min-h-12 w-full rounded-control bg-neem px-3 py-3 text-sm font-extrabold text-snow disabled:opacity-60"
           >
             {paying
               ? `🔒 ${t("hire.paying")}`
@@ -232,7 +232,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
               <button
                 type="button"
                 onClick={submitQuote}
-                className="min-h-11 flex-1 rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-white"
+                className="min-h-11 flex-1 rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-snow"
               >
                 {t("chat.quoteBtn")}
               </button>
@@ -249,7 +249,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
           <button
             type="button"
             onClick={() => setQuoteOpen(true)}
-            className="mt-3 min-h-11 w-full rounded-control border-2 border-saffron px-3 py-2 text-xs font-extrabold text-saffron hover:bg-saffron hover:text-white"
+            className="mt-3 min-h-11 w-full rounded-control border-2 border-saffron px-3 py-2 text-xs font-extrabold text-saffron hover:bg-saffron hover:text-snow"
           >
             🧾 {t("chat.quoteBtn")}
           </button>
@@ -280,7 +280,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
         <button
           type="button"
           onClick={() => send(draft)}
-          className="min-h-12 rounded-control bg-navy px-4 py-2 text-sm font-extrabold text-white hover:shadow-lift"
+          className="min-h-12 rounded-control bg-navy px-4 py-2 text-sm font-extrabold text-snow hover:shadow-lift"
         >
           {t("chat.send")}
         </button>

@@ -130,12 +130,12 @@
   --c-navy: 24 32 40; --c-navydeep: 16 21 26; --c-ink: 24 32 40; --c-saffron: 224 0 72;
   --c-haldi: 224 0 72; --c-neem: 24 32 40; --c-violet: 224 0 72; --c-danger: 24 32 40;
   --c-chuna: 250 250 251; --c-line: 226 228 231; --c-muted: 104 112 120; --c-raatri: 11 14 17;
-  --c-surface: 255 255 255;
+   --c-surface: 255 255 255; --c-onnavy: 255 255 255;
   --pin-a: #fbfbfc; --pin-b: #f3f4f6;
 }
 html.dark {
   --c-navy: 240 242 244; --c-ink: 240 242 244; --c-muted: 150 158 166; --c-line: 40 46 52;
-  --c-chuna: 13 16 19; --c-surface: 18 22 26;
+ --c-chuna: 13 16 19; --c-surface: 18 22 26; --c-onnavy: 24 32 40;
   --pin-a: #10141a; --pin-b: #0b0e11;
 }
 .ls-pin { background: linear-gradient(180deg, var(--pin-a), var(--pin-b)); }
@@ -147,3 +147,14 @@ html.theme-anim *::after {
 /* Dark-mode sweep v6 — jo backgrounds hardcoded the, ab token-flip hote hain. */
 .ls-workers { background: var(--pin-a); }
 .esc-bg { background: linear-gradient(180deg, var(--pin-a), var(--pin-b)); }
+/* Paintoor sun — rays rotate around the hero sun. */
+.sun-rays {
+  transform-origin: 310px 42px;
+  animation: sunspin 16s linear infinite;
+}
+@keyframes sunspin {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sun-rays { animation: none; }
+}

@@ -71,7 +71,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
         <button
           type="button"
           onClick={demo}
-          className="mt-4 min-h-12 rounded-control border-2 border-neem px-5 py-3 text-sm font-extrabold text-neem hover:bg-neem hover:text-white"
+          className="mt-4 min-h-12 rounded-control border-2 border-neem px-5 py-3 text-sm font-extrabold text-neem hover:bg-neem hover:text-snow"
         >
           ✨ {t("sh.demoOrder")}
         </button>
@@ -125,7 +125,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
                 <button
                   type="button"
                   onClick={() => accept(o)}
-                  className="min-h-12 w-full rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+                  className="min-h-12 w-full rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
                   ✓ {t("sh.accept")}
                 </button>
@@ -133,7 +133,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
                 <button
                   type="button"
                   onClick={() => deliver(o)}
-                  className="min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+                  className="min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
                   🚚 {t("sh.deliver")}
                 </button>
@@ -144,7 +144,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
       })}
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-white shadow-lift">
+        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-snow shadow-lift">
           {toast}
         </div>
       )}

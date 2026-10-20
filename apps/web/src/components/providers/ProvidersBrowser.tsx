@@ -2,7 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { seed } from "@paintoor/mock-api";
+import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 
 const RATE_UNIT: Record<string, string> = {
@@ -56,6 +56,7 @@ export function ProvidersBrowser() {
     () =>
       seed.providers.filter(
         (p) =>
+          p.skills.some(isLiveSkill) &&
           (city === "all" || p.city === city) &&
           (zone === "all" || p.zone === zone) &&
           (skill === "all" || p.skills.includes(skill)),
@@ -104,7 +105,9 @@ export function ProvidersBrowser() {
           <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
             <option value="all">{t("prov.allSkills")}</option>
             {SKILLS.map((s) => (
-           <option key={s} value={s}>{t(`sk.${s}`)}</option>
+              <option key={s} value={s} disabled={!isLiveSkill(s)}>
+                {t(`sk.${s}`)}{!isLiveSkill(s) ? ` — ${t("soon.tag")}` : ""}
+              </option>
             ))}
           </select>
         </label>
@@ -125,7 +128,7 @@ export function ProvidersBrowser() {
               <article key={p.id} className="overflow-hidden rounded-card border border-line bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
                 <div className="relative flex h-28 items-center justify-center" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
                   <span
-                    className="flex h-16 w-16 items-center justify-center rounded-pill border-4 border-white/70 text-2xl font-black text-white"
+                    className="flex h-16 w-16 items-center justify-center rounded-pill border-4 border-snow/70 text-2xl font-black text-snow"
                     style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
                   >
                     {p.name.split(" ").map((w) => w.charAt(0)).join("").slice(0, 2)}
@@ -134,7 +137,7 @@ export function ProvidersBrowser() {
                     {p.skills[0] === "painting" ? "🎨" : p.skills[0] === "electrical" ? "⚡" : p.skills[0] === "plumbing" ? "🚿" : p.skills[0] === "carpentry" ? "🪚" : "🧽"}
                   </span>
                   {p.badges.includes("kyc_verified") && (
-                    <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-neem">
+                    <span className="absolute bottom-2 right-3 rounded-pill bg-snow/90 px-2 py-0.5 text-xs font-black text-neem">
                       ✓ KYC
                     </span>
                   )}

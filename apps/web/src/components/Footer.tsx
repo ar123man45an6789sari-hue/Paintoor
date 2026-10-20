@@ -1,4 +1,6 @@
-/* Footer v3 — fully localised; language list removed by owner decision. */
+/* Footer v4 — always-dark band that stays readable in BOTH modes:
+   body text uses the flipping muted token, headings stay white,
+   top border separates it from the page in dark mode. */
 "use client";
 
 import { useI18n } from "@/i18n";
@@ -12,10 +14,10 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-raatri px-4 py-10 text-sm text-slate-400 md:px-6">
+    <footer className="border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <h2 className="mb-2 font-black text-white">
+          <h2 className="mb-2 font-black text-snow">
             {t("brand.pre")}
             <span className="text-saffron">{t("brand.post")}</span>
           </h2>
@@ -24,7 +26,7 @@ export function Footer() {
         </div>
         {cols.map((col) => (
           <div key={col.head}>
-            <h2 className="mb-2 text-white">{col.head}</h2>
+            <h2 className="mb-2 text-snow">{col.head}</h2>
             {col.links.map((k) => (
               <a key={k} href="#" className="mb-1.5 block hover:text-haldi">
                 {t(k)}
@@ -33,7 +35,7 @@ export function Footer() {
           </div>
         ))}
       </div>
-      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
         <span>© {new Date().getFullYear()} Paintoor</span>
         <span>{t("foot.made")}</span>
       </div>

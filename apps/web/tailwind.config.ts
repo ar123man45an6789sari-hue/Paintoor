@@ -27,6 +27,8 @@ const config: Config = {
         line: rgb("line"),
         muted: rgb("muted"),
         raatri: rgb("raatri"),
+        onnavy: rgb("onnavy"),
+        snow: "#ffffff",
       },
       borderRadius: radius,
         boxShadow: {

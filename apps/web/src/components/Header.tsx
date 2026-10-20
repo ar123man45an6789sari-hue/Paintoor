@@ -1,5 +1,5 @@
-/* Header v7 — session aware, theme toggle, globe i18n, dual auth CTAs,
-   mobile Entrance, logout always returns to landing. Full-file replacement. */
+/* Header v8 — full-file rebuild: flush-left logo, theme toggle, globe menu +
+   bell with click-outside backdrops, session-aware CTAs. Logout → landing. */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,8 +12,8 @@ import { onAuthRequest } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
-import { NotificationBell } from "./NotificationBell";
 import type { Session } from "@/lib/session";
+import { NotificationBell } from "./NotificationBell";
 
 const NAV = [
   { href: "#services", key: "nav.services" },
@@ -92,8 +92,8 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
-              <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 md:px-6">
-           <Link href={session ? "/dashboard" : "/"} className="flex items-center gap-2 text-navy">
+        <div className="flex h-16 w-full items-center gap-4 px-3 md:px-4">
+          <Link href={session ? "/dashboard" : "/"} className="flex items-center gap-2 text-navy">
             <Logo className="h-8 w-8" />
             <span className="text-lg font-black tracking-tight md:text-xl">
               {t("brand.pre")}
@@ -128,28 +128,36 @@ export function Header() {
               🌐
             </button>
             {langOpen && (
-              <div className="absolute right-0 top-11 z-50 min-w-[180px] rounded-card border border-line bg-white p-1.5 shadow-card">
-                {LANGS.map((l) => (
-                  <button
-                    key={l.code}
-                    type="button"
-                    onClick={() => {
-                      setLang(l.code);
-                      setLangOpen(false);
-                    }}
-                    className={`flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm hover:bg-chuna ${lang === l.code ? "font-extrabold text-navy" : "text-ink"}`}
-                  >
-                    {l.label} <span className="text-xs font-black text-muted">{l.tag}</span>
-                  </button>
-                ))}
-                {LANGS_SOON.map((l) => (
-                  <button key={l} type="button" disabled className="flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm text-muted/60">
-                    {l} <span className="rounded-pill border border-line px-1.5 text-xs font-black">SOON</span>
-                  </button>
-                ))}
-              </div>
+              <>
+                <button
+                  type="button"
+                  aria-label={t("notif.close")}
+                  onClick={() => setLangOpen(false)}
+                  className="fixed inset-0 z-40 cursor-default"
+                />
+                <div className="absolute right-0 top-11 z-50 min-w-[180px] rounded-card border border-line bg-white p-1.5 shadow-card">
+                  {LANGS.map((l) => (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => {
+                        setLang(l.code);
+                        setLangOpen(false);
+                      }}
+                      className={`flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm hover:bg-chuna ${lang === l.code ? "font-extrabold text-navy" : "text-ink"}`}
+                    >
+                      {l.label} <span className="text-xs font-black text-muted">{l.tag}</span>
+                    </button>
+                  ))}
+                  {LANGS_SOON.map((l) => (
+                    <button key={l} type="button" disabled className="flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm text-muted/60">
+                      {l} <span className="rounded-pill border border-line px-1.5 text-xs font-black">SOON</span>
+                    </button>
+                  ))}
+                </div>
+              </>
             )}
-           </div>
+          </div>
 
           {session && <NotificationBell />}
 
@@ -175,21 +183,21 @@ export function Header() {
               <button
                 type="button"
                 onClick={() => openAuth("login")}
-                className="hidden rounded-control border-2 border-navy px-4 py-2 text-sm font-extrabold text-navy transition-colors hover:bg-navy hover:text-white sm:block"
+                className="hidden rounded-control border-2 border-navy px-4 py-2 text-sm font-extrabold text-navy transition-colors hover:bg-navy hover:text-onnavy sm:block"
               >
                 {t("nav.login")}
               </button>
               <button
                 type="button"
                 onClick={() => openAuth("signup")}
-                className="hidden rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:block"
+                className="hidden rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:block"
               >
                 {t("nav.signup")}
               </button>
               <button
                 type="button"
                 onClick={() => openAuth("signup")}
-                className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-white transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:hidden"
+                className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift sm:hidden"
               >
                 {t("nav.entrance")}
               </button>

@@ -41,27 +41,27 @@ export function ShopShell({ name }: { name: string }) {
   return (
     <div className="space-y-5">
       <div
-        className="rounded-sheet p-6 text-white shadow-card"
-        style={{ background: "linear-gradient(150deg,#182028,#10151a)" }}
+        className="rounded-sheet p-6 text-snow shadow-card"
+        style={{ background: "linear-gradient(150deg,#e00048,#a80036)" }}
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-2xl font-black">{profile.name}</h1>
-            <p className="mt-0.5 text-xs font-semibold text-white/85">
+            <p className="mt-0.5 text-xs font-semibold text-snow/85">
               {profile.zone}, {profile.city} · ⭐ {profile.rating} · {t("sh.gstin")}: {profile.gstin}
             </p>
           </div>
-          <span className="rounded-pill bg-white/20 px-4 py-2 text-sm font-extrabold">
+          <span className="rounded-pill bg-snow/20 px-4 py-2 text-sm font-extrabold">
             🛎 {t("sh.ordersNew", { count: newOrders })}
           </span>
         </div>
         <div className="mt-5 grid grid-cols-2 gap-3">
-          <div className="rounded-card bg-white/15 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/80">{t("sh.salesToday")}</p>
+          <div className="rounded-card bg-snow/15 p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-snow/80">{t("sh.salesToday")}</p>
             <p className="mt-1 text-3xl font-black tabular-nums">₹{today.toLocaleString("en-IN")}</p>
           </div>
-          <div className="rounded-card bg-white/15 p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-white/80">{t("sh.salesWeek")}</p>
+          <div className="rounded-card bg-snow/15 p-4">
+            <p className="text-xs font-bold uppercase tracking-wider text-snow/80">{t("sh.salesWeek")}</p>
             <p className="mt-1 text-3xl font-black tabular-nums">₹{week.toLocaleString("en-IN")}</p>
           </div>
         </div>
@@ -76,7 +76,7 @@ export function ShopShell({ name }: { name: string }) {
             aria-selected={tab === x.id}
             onClick={() => setTab(x.id)}
             className={`min-h-12 flex-1 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${
-              tab === x.id ? "border-neem bg-neem text-white" : "border-line bg-white text-muted hover:text-navy"
+              tab === x.id ? "border-neem bg-neem text-snow" : "border-line bg-white text-muted hover:text-navy"
             }`}
           >
             <span aria-hidden="true">{x.emoji}</span> {t(x.key)}

@@ -33,7 +33,7 @@ export function BeforeAfter() {
               <path d="M150 180 l18 -14 l6 16 l16 -12" fill="#8f9498" stroke="#4e5357" strokeWidth="1.5" />
               <path d="M60 90 l14 -10 l4 12" fill="#7a7f83" stroke="#4e5357" strokeWidth="1.5" />
             </svg>
-            <span className="absolute left-3 top-3 rounded-pill bg-ink/80 px-3 py-1 text-xs font-extrabold text-white">
+            <span className="absolute left-3 top-3 rounded-pill bg-ink/80 px-3 py-1 text-xs font-extrabold text-snow">
               {t("ba.before")}
             </span>
           </div>
@@ -47,13 +47,13 @@ export function BeforeAfter() {
             }}
           >
             <div className="absolute inset-x-0 top-0 h-2 bg-haldi/70" />
-            <div className="absolute inset-y-0 right-8 w-10 bg-white/50" />
+            <div className="absolute inset-y-0 right-8 w-10 bg-snow/50" />
             <div className="absolute inset-x-0 bottom-0 h-1/5 bg-navy/15" />
             <svg viewBox="0 0 400 200" className="h-full w-full" preserveAspectRatio="none" aria-hidden="true">
               <path d="M0 30 L400 12" stroke="#ffffff" strokeWidth="10" opacity=".35" />
               <path d="M0 70 L400 52" stroke="#ffffff" strokeWidth="6" opacity=".22" />
             </svg>
-            <span className="absolute right-3 top-3 rounded-pill bg-saffron px-3 py-1 text-xs font-extrabold text-white">
+            <span className="absolute right-3 top-3 rounded-pill bg-saffron px-3 py-1 text-xs font-extrabold text-snow">
               {t("ba.after")}
             </span>
           </div>
@@ -61,7 +61,7 @@ export function BeforeAfter() {
           {/* handle */}
           <div className="pointer-events-none absolute inset-y-0" style={{ left: `${pos}%` }}>
             <div className="h-full w-1 -translate-x-1/2 bg-white shadow-card" />
-            <div className="absolute top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-pill bg-saffron text-sm font-black text-white shadow-lift">
+            <div className="absolute top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-pill bg-saffron text-sm font-black text-snow shadow-lift">
               ⇄
             </div>
           </div>

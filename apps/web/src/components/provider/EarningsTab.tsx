@@ -76,14 +76,14 @@ export function EarningsTab() {
         <button
           type="button"
           onClick={() => setToast(t("pd.payoutReq"))}
-          className="mt-4 min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-white hover:shadow-lift"
+          className="mt-4 min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
         >
           💸 {t("pd.requestPayout")}
         </button>
       </div>
 
       {toast && (
-        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-white shadow-lift">
+        <div className="fixed bottom-6 left-1/2 z-toast w-[min(92vw,420px)] -translate-x-1/2 rounded-control bg-navy px-4 py-3 text-center text-sm font-bold text-snow shadow-lift">
           {toast}
         </div>
       )}

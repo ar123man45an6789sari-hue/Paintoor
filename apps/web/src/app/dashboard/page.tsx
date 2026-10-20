@@ -15,9 +15,9 @@ import { ProviderShell } from "@/components/provider/ProviderShell";
 import { ShopShell } from "@/components/shopkeeper/ShopShell";
 
 const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; emoji: string }> = {
-  customer: { grad: "linear-gradient(150deg,#182028,#182028)", titleKey: "dash.c", emoji: "🏠" },
+  customer: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.c", emoji: "🏠" },
   provider: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.p", emoji: "🔧" },
-  shopkeeper: { grad: "linear-gradient(150deg,#182028,#10151a)", titleKey: "dash.s", emoji: "🏪" },
+  shopkeeper: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.s", emoji: "🏪" },
 };
 
 type Tab = "over" | "find" | "post" | "req";
@@ -54,10 +54,10 @@ export default function DashboardPage() {
     <div className="px-4 py-14 md:px-6">
       <div className="mx-auto max-w-6xl space-y-6">
         {session.role === "customer" && (
-          <div className="rounded-sheet p-8 text-white shadow-card" style={{ background: style.grad }}>
+          <div className="rounded-sheet p-8 text-snow shadow-card" style={{ background: style.grad }}>
             <div className="text-4xl">{style.emoji}</div>
             <h1 className="mt-3 text-3xl font-black">{t(style.titleKey)}</h1>
-            <p className="mt-1 text-white/85">
+            <p className="mt-1 text-snow/85">
               {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
             </p>
           </div>
@@ -72,7 +72,7 @@ export default function DashboardPage() {
                   type="button"
                   onClick={() => setTab(x.id)}
                   className={`flex-1 rounded-control border px-3 py-2 text-sm font-extrabold transition-colors ${
-                    tab === x.id ? "border-navy bg-navy text-white" : "border-line bg-white text-muted hover:text-navy"
+                    tab === x.id ? "border-navy bg-navy text-onnavy" : "border-line bg-white text-muted hover:text-navy"
                   }`}
                 >
                   {t(x.key)}
