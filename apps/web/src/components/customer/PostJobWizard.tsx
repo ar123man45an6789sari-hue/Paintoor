@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useI18n } from "@/i18n";
 import { addRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
-import { seed } from "@gharsahayak/mock-api";
+import { seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
 
 const CITIES = ["Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];

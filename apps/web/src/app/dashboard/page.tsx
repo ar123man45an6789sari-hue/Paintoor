@@ -15,9 +15,9 @@ import { ProviderShell } from "@/components/provider/ProviderShell";
 import { ShopShell } from "@/components/shopkeeper/ShopShell";
 
 const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; emoji: string }> = {
-  customer: { grad: "linear-gradient(150deg,#1D6FB8,#123A6B)", titleKey: "dash.c", emoji: "🏠" },
-  provider: { grad: "linear-gradient(150deg,#F2762E,#C25A18)", titleKey: "dash.p", emoji: "🔧" },
-  shopkeeper: { grad: "linear-gradient(150deg,#0E9F8A,#075E51)", titleKey: "dash.s", emoji: "🏪" },
+  customer: { grad: "linear-gradient(150deg,#182028,#182028)", titleKey: "dash.c", emoji: "🏠" },
+  provider: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.p", emoji: "🔧" },
+  shopkeeper: { grad: "linear-gradient(150deg,#182028,#10151a)", titleKey: "dash.s", emoji: "🏪" },
 };
 
 type Tab = "over" | "find" | "post" | "req";

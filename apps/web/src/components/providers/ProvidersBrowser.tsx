@@ -2,7 +2,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { seed } from "@gharsahayak/mock-api";
+import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 
 const RATE_UNIT: Record<string, string> = {
@@ -23,12 +23,12 @@ const BADGES: Record<string, string> = {
 const SKILLS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
 
 const GRADIENTS = [
-  ["#F2762E", "#8A3D0C"],
-  ["#1D6FB8", "#0E2E55"],
-  ["#0E9F8A", "#075E51"],
-  ["#6C4BD8", "#3D2A80"],
-  ["#C25A18", "#7A3A10"],
-  ["#0E9F8A", "#123A6B"],
+  ["#e00048", "#a80036"],
+  ["#182028", "#10151a"],
+  ["#182028", "#10151a"],
+  ["#e00048", "#a80036"],
+  ["#a80036", "#7c0028"],
+  ["#182028", "#182028"],
 ];
 
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");

@@ -84,8 +84,8 @@ export function CinematicHero() {
 
   return (
     <section ref={sectionRef} className="hero-sky relative overflow-hidden px-5 py-24 text-white md:py-28">
-      <div className="orb" style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#F2762E" }} aria-hidden="true" />
-      <div className="orb orb-b" style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#FFB03A" }} aria-hidden="true" />
+      <div className="orb" style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048" }} aria-hidden="true" />
+      <div className="orb orb-b" style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#e00048" }} aria-hidden="true" />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
         <div>
@@ -123,11 +123,11 @@ export function CinematicHero() {
 
           <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-15 md:static md:opacity-100" aria-hidden="true">
           <svg viewBox="0 0 420 360" fill="none" className="h-[75%] w-auto md:h-auto md:w-full">
-            <path className="draw" pathLength={1} d="M70 170 L210 60 L350 170" stroke="#FFB03A" strokeWidth="10" strokeLinecap="round" />
+            <path className="draw" pathLength={1} d="M70 170 L210 60 L350 170" stroke="#e00048" strokeWidth="10" strokeLinecap="round" />
             <path className="draw draw-2" pathLength={1} d="M105 175 V300 H315 V175" stroke="#FFFFFF" strokeWidth="10" strokeLinecap="round" />
             <path className="draw draw-2" pathLength={1} d="M175 300 V225 H245 V300" stroke="#FFFFFF" strokeWidth="8" strokeLinecap="round" />
-            <path className="draw draw-3" pathLength={1} d="M60 262 C120 216 180 232 214 262 C258 300 322 288 362 246" stroke="#F2762E" strokeWidth="14" strokeLinecap="round" />
-            <circle cx="310" cy="42" r="14" fill="#FFB03A" />
+            <path className="draw draw-3" pathLength={1} d="M60 262 C120 216 180 232 214 262 C258 300 322 288 362 246" stroke="#e00048" strokeWidth="14" strokeLinecap="round" />
+            <circle cx="310" cy="42" r="14" fill="#e00048" />
           </svg>
         </div>
       </div>

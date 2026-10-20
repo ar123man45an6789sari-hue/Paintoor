@@ -1,5 +1,5 @@
 {
-  "name": "@gharsahayak/mock-api",
+  "name": "@paintoor/mock-api",
   "version": "0.1.0",
   "private": true,
   "description": "OpenAPI contract and Vadodara seed data; MSW handlers arrive in Session 6.",

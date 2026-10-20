@@ -21,17 +21,17 @@ export function BeforeAfter() {
           {/* BEFORE: damp, cracked, peeling wall */}
           <div
             className="absolute inset-0"
-            style={{ background: "linear-gradient(180deg,#a89d8d 0%,#8f8474 55%,#776c5e 100%)" }}
+            style={{ background: "linear-gradient(180deg,#b8bcc0 0%,#8f9498 55%,#7a7f83 100%)" }}
           >
             <svg viewBox="0 0 400 200" className="h-full w-full" preserveAspectRatio="none" aria-hidden="true">
-              <ellipse cx="120" cy="52" rx="52" ry="26" fill="#6d6252" opacity=".55" />
-              <ellipse cx="300" cy="150" rx="60" ry="22" fill="#645a4b" opacity=".5" />
-              <ellipse cx="210" cy="110" rx="26" ry="14" fill="#5d5344" opacity=".45" />
-              <path d="M40 20 L70 60 L55 110 L90 160" stroke="#4e4536" strokeWidth="2.5" fill="none" />
-              <path d="M250 10 L230 70 L260 120 L240 190" stroke="#4e4536" strokeWidth="2.5" fill="none" />
-              <path d="M330 40 C310 80 350 110 320 160" stroke="#544a3b" strokeWidth="3.5" fill="none" />
-              <path d="M150 180 l18 -14 l6 16 l16 -12" fill="#8f8474" stroke="#4e4536" strokeWidth="1.5" />
-              <path d="M60 90 l14 -10 l4 12" fill="#776c5e" stroke="#4e4536" strokeWidth="1.5" />
+              <ellipse cx="120" cy="52" rx="52" ry="26" fill="#6d7276" opacity=".55" />
+              <ellipse cx="300" cy="150" rx="60" ry="22" fill="#64696d" opacity=".5" />
+              <ellipse cx="210" cy="110" rx="26" ry="14" fill="#5d6266" opacity=".45" />
+              <path d="M40 20 L70 60 L55 110 L90 160" stroke="#4e5357" strokeWidth="2.5" fill="none" />
+              <path d="M250 10 L230 70 L260 120 L240 190" stroke="#4e5357" strokeWidth="2.5" fill="none" />
+              <path d="M330 40 C310 80 350 110 320 160" stroke="#54595d" strokeWidth="3.5" fill="none" />
+              <path d="M150 180 l18 -14 l6 16 l16 -12" fill="#8f9498" stroke="#4e5357" strokeWidth="1.5" />
+              <path d="M60 90 l14 -10 l4 12" fill="#7a7f83" stroke="#4e5357" strokeWidth="1.5" />
             </svg>
             <span className="absolute left-3 top-3 rounded-pill bg-ink/80 px-3 py-1 text-xs font-extrabold text-white">
               {t("ba.before")}
@@ -43,7 +43,7 @@ export function BeforeAfter() {
             className="absolute inset-0"
             style={{
               clipPath: `inset(0 0 0 ${pos}%)`,
-              background: "linear-gradient(180deg,#fffbf3 0%,#fdf3e2 55%,#f8e8cd 100%)",
+              background: "linear-gradient(180deg,#fce6ed 0%,#f9ccdb 55%,#f6b3c8 100%)",
             }}
           >
             <div className="absolute inset-x-0 top-0 h-2 bg-haldi/70" />

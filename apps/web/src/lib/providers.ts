@@ -1,7 +1,7 @@
 /* Provider-side helpers for the demo: who is logged in, which open requests
    match them, and how far away the job is. Production replaces this with
    GET /v1/providers/me + GET /v1/leads (Blueprint Ch. 15 ranking). */
-import { seed } from "@gharsahayak/mock-api";
+import { seed } from "@paintoor/mock-api";
 import type { ServiceRequest } from "./requests";
 
 export type SeedProvider = (typeof seed.providers)[number];

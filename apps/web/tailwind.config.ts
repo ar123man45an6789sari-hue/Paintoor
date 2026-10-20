@@ -29,9 +29,9 @@ const config: Config = {
         raatri: rgb("raatri"),
       },
       borderRadius: radius,
-      boxShadow: {
-        card: "0 10px 30px rgba(11, 18, 32, 0.10)",
-        lift: "0 12px 26px rgba(242, 118, 46, 0.35)",
+        boxShadow: {
+        card: "0 10px 30px rgba(24, 32, 40, 0.10)",
+        lift: "0 12px 26px rgba(224, 0, 72, 0.30)",
       },
     },
   },

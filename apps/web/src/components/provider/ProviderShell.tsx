@@ -46,7 +46,7 @@ export function ProviderShell({ name }: { name: string }) {
     <div className="space-y-5">
       <div
         className="rounded-sheet p-6 text-white shadow-card"
-        style={{ background: "linear-gradient(150deg,#F2762E,#C25A18)" }}
+        style={{ background: "linear-gradient(150deg,#e00048,#a80036)" }}
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">

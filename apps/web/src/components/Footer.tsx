@@ -34,7 +34,7 @@ export function Footer() {
         ))}
       </div>
       <div className="mx-auto mt-10 flex max-w-6xl flex-col gap-2 border-t border-white/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
-        <span>© {new Date().getFullYear()} GharSahayak</span>
+        <span>© {new Date().getFullYear()} Paintoor</span>
         <span>{t("foot.made")}</span>
       </div>
     </footer>

@@ -13,7 +13,7 @@ const noto = Noto_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "GharSahayak — Home services, delivered with trust",
+  title: "Paintoor — Home services, delivered with trust",
   description:
     "Verified painters, electricians and plumbers in Vadodara. Compare itemized quotes, pay safely into escrow, approve the work.",
 };

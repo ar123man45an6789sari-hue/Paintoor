@@ -42,7 +42,7 @@ export function ShopShell({ name }: { name: string }) {
     <div className="space-y-5">
       <div
         className="rounded-sheet p-6 text-white shadow-card"
-        style={{ background: "linear-gradient(150deg,#0E9F8A,#075E51)" }}
+        style={{ background: "linear-gradient(150deg,#182028,#10151a)" }}
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
