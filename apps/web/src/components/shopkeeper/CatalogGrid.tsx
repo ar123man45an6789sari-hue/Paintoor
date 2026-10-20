@@ -30,12 +30,12 @@ export function CatalogGrid() {
                 <h3 className="text-sm font-extrabold text-navy">{p.name}</h3>
                 <span className="text-sm font-black tabular-nums text-navy">₹{p.price.toLocaleString("en-IN")}</span>
               </div>
-              <p className="mt-0.5 text-[11px] font-semibold text-muted">
+              <p className="mt-0.5 text-xs font-semibold text-muted">
                 {p.brand} · {t(`shcat.${p.category}`)}
               </p>
               <div className="mt-3 flex items-center justify-between">
                 <span
-                  className={`rounded-pill px-2.5 py-1 text-[11px] font-black ${
+                  className={`rounded-pill px-2.5 py-1 text-xs font-black ${
                     out ? "bg-danger/15 text-danger" : low ? "bg-haldi/20 text-navy" : "bg-neem/15 text-neem"
                   }`}
                 >

@@ -40,7 +40,7 @@ export function EarningsTab() {
         <div className="rounded-card border border-line bg-white p-5 shadow-card">
           <p className="text-xs font-bold uppercase tracking-wider text-muted">{t("pd.pendingPayout")}</p>
           <p className="mt-1 text-3xl font-black tabular-nums text-navy">₹{state.pendingPayout.toLocaleString("en-IN")}</p>
-          <p className="mt-1 text-[11px] font-semibold text-muted">
+          <p className="mt-1 text-xs font-semibold text-muted">
             💰 {t("pd.payoutLine", { amount: state.pendingPayout.toLocaleString("en-IN"), when: t("pd.payoutWhen") })}
           </p>
         </div>
@@ -53,7 +53,7 @@ export function EarningsTab() {
             <div
               key={h.date}
               title={`${h.date}: ₹${h.amount}`}
-              className="flex-1 rounded-t-sm"
+              className="flex-1 rounded-t-pill"
               style={{
                 height: `${Math.max(4, (h.amount / max) * 100)}%`,
                 background: h.amount > 0 ? "rgb(var(--c-saffron))" : "rgb(var(--c-line))",

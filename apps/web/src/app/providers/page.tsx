@@ -4,7 +4,7 @@ import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
  *  follows the selected language (single-language mandate). */
 export default function ProvidersPage() {
   return (
-    <div className="px-5 py-14">
+      <div className="px-4 py-14 md:px-6">
       <div className="mx-auto max-w-6xl">
         <ProvidersBrowser />
       </div>

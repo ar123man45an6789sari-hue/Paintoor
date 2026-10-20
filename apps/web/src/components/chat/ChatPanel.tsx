@@ -113,7 +113,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
           m.kind === "quote" && m.quote ? (
             <div key={m.id} className={`flex ${m.from === role ? "justify-end" : "justify-start"}`}>
               <div className="w-full max-w-[260px] rounded-sheet border border-line bg-chuna p-3">
-                <p className="text-[11px] font-black uppercase tracking-wider text-saffron">🧾 {t("chat.quoteCard")}</p>
+                <p className="text-xs font-black uppercase tracking-wider text-saffron">🧾 {t("chat.quoteCard")}</p>
                 <p className="mt-1 flex justify-between text-xs font-semibold text-ink">
                   <span>{t("chat.labour")}</span>
                   <span className="tabular-nums">₹{m.quote.labour.toLocaleString("en-IN")}</span>
@@ -122,7 +122,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
                   <span>{t("chat.material")}</span>
                   <span className="tabular-nums">₹{m.quote.material.toLocaleString("en-IN")}</span>
                 </p>
-                {m.quote.note && <p className="mt-1 text-[11px] text-muted">{m.quote.note}</p>}
+                {m.quote.note && <p className="mt-1 text-xs text-muted">{m.quote.note}</p>}
                 <p className="mt-1 flex justify-between border-t border-line pt-1 text-sm font-black text-navy">
                   <span>{t("chat.total")}</span>
                   <span className="tabular-nums">₹{m.quote.total.toLocaleString("en-IN")}</span>
@@ -261,7 +261,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
             key={k}
             type="button"
             onClick={() => send(t(k))}
-            className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-[11px] font-bold text-navy hover:border-saffron"
+            className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-navy hover:border-saffron"
           >
             {t(k)}
           </button>

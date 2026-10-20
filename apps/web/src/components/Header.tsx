@@ -92,7 +92,7 @@ export function Header() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 md:px-6">
+              <div className="mx-auto flex h-16 max-w-6xl items-center gap-4 px-4 md:px-6">
            <Link href={session ? "/dashboard" : "/"} className="flex items-center gap-2 text-navy">
             <Logo className="h-8 w-8" />
             <span className="text-lg font-black tracking-tight md:text-xl">
@@ -139,12 +139,12 @@ export function Header() {
                     }}
                     className={`flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm hover:bg-chuna ${lang === l.code ? "font-extrabold text-navy" : "text-ink"}`}
                   >
-                    {l.label} <span className="text-[10px] font-black text-muted">{l.tag}</span>
+                    {l.label} <span className="text-xs font-black text-muted">{l.tag}</span>
                   </button>
                 ))}
                 {LANGS_SOON.map((l) => (
                   <button key={l} type="button" disabled className="flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm text-muted/60">
-                    {l} <span className="rounded-pill border border-line px-1.5 text-[9px] font-black">SOON</span>
+                    {l} <span className="rounded-pill border border-line px-1.5 text-xs font-black">SOON</span>
                   </button>
                 ))}
               </div>

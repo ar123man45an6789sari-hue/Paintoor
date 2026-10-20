@@ -31,7 +31,7 @@ type Props = {
   onDecline: () => void;
 };
 
-const chip = "rounded-pill border border-line bg-chuna px-2.5 py-1 text-[11px] font-bold text-navy";
+const chip = "rounded-pill border border-line bg-chuna px-2.5 py-1 text-xs font-bold text-navy";
 
 export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, onDecline }: Props) {
   const { lang, t } = useI18n();
@@ -138,7 +138,7 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
           </div>
           {minsLeft !== null && (
             <span
-              className={`rounded-pill px-2.5 py-1 text-[11px] font-black ${
+              className={`rounded-pill px-2.5 py-1 text-xs font-black ${
                 urgent ? "bg-danger/15 text-danger" : "bg-haldi/20 text-navy"
               }`}
             >
@@ -165,12 +165,12 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
           {request.photos.length > 0 && <span className={chip}>📷 {t("pd.photosN", { count: request.photos.length })}</span>}
         </div>
 
-        <p className="mt-3 text-[11px] font-semibold text-muted">
+        <p className="mt-3 text-xs font-semibold text-muted">
           🔒 {request.customer.split(" ")[0]} · {t("pd.addressHidden")}
         </p>
 
         {top && dragEnabled && (
-          <p className="mt-3 text-center text-[11px] font-semibold text-muted">↔ {t("pd.swipeHint")}</p>
+          <p className="mt-3 text-center text-xs font-semibold text-muted">↔ {t("pd.swipeHint")}</p>
         )}
 
         <div className="mt-4 flex gap-3">

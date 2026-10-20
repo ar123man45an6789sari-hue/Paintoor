@@ -114,7 +114,7 @@ export function ProvidersBrowser() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="mt-10 rounded-card border border-dashed border-line bg-white p-10 text-center text-muted">
+        <div className="mt-10 rounded-card border border-dashed border-line bg-white p-6 text-center text-muted">
           {t("prov.empty")}
         </div>
       ) : (
@@ -123,8 +123,21 @@ export function ProvidersBrowser() {
             const [from, to] = GRADIENTS[i % GRADIENTS.length];
             return (
               <article key={p.id} className="overflow-hidden rounded-card border border-line bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
-                <div className="flex h-28 items-center justify-center text-5xl font-black text-white" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
-                  {p.name.charAt(0)}
+                <div className="relative flex h-28 items-center justify-center" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
+                  <span
+                    className="flex h-16 w-16 items-center justify-center rounded-pill border-4 border-white/70 text-2xl font-black text-white"
+                    style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
+                  >
+                    {p.name.split(" ").map((w) => w.charAt(0)).join("").slice(0, 2)}
+                  </span>
+                  <span aria-hidden="true" className="absolute left-3 top-3 text-lg">
+                    {p.skills[0] === "painting" ? "🎨" : p.skills[0] === "electrical" ? "⚡" : p.skills[0] === "plumbing" ? "🚿" : p.skills[0] === "carpentry" ? "🪚" : "🧽"}
+                  </span>
+                  {p.badges.includes("kyc_verified") && (
+                    <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-neem">
+                      ✓ KYC
+                    </span>
+                  )}
                 </div>
                 <div className="p-4">
                   <div className="flex items-baseline justify-between gap-2">
@@ -136,7 +149,7 @@ export function ProvidersBrowser() {
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1">
                     {p.badges.map((b) => (
-                      <span key={b} className="rounded-pill border border-line bg-chuna px-2 py-0.5 text-[11px] font-bold text-navy">
+                      <span key={b} className="rounded-pill border border-line bg-chuna px-2 py-0.5 text-xs font-bold text-navy">
                         {BADGES[b] ?? b}
                       </span>
                     ))}
@@ -147,9 +160,6 @@ export function ProvidersBrowser() {
                       {rupees(p.rate_range_paise.min)}–{rupees(p.rate_range_paise.max)}
                       <span className="text-xs font-semibold text-muted">{RATE_UNIT[p.rate_range_paise.unit]}</span>
                     </span>
-                    <button type="button" className="rounded-control border-2 border-navy px-3 py-1.5 text-xs font-extrabold text-navy transition-colors hover:bg-navy hover:text-white">
-                      View profile
-                    </button>
                   </div>
                 </div>
               </article>

@@ -12,19 +12,19 @@ export function Footer() {
   ];
 
   return (
-    <footer className="bg-raatri px-5 py-10 text-sm text-slate-400">
+    <footer className="bg-raatri px-4 py-10 text-sm text-slate-400 md:px-6">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <h4 className="mb-2 font-black text-white">
+          <h2 className="mb-2 font-black text-white">
             {t("brand.pre")}
             <span className="text-saffron">{t("brand.post")}</span>
-          </h4>
-          <p className="max-w-[280px] text-[13.5px]">{t("foot.about")}</p>
-          <p className="mt-3 text-[13px]">{t("foot.help")}</p>
+          </h2>
+          <p className="max-w-[280px] text-sm">{t("foot.about")}</p>
+          <p className="mt-3 text-sm">{t("foot.help")}</p>
         </div>
         {cols.map((col) => (
           <div key={col.head}>
-            <h4 className="mb-2 text-white">{col.head}</h4>
+            <h2 className="mb-2 text-white">{col.head}</h2>
             {col.links.map((k) => (
               <a key={k} href="#" className="mb-1.5 block hover:text-haldi">
                 {t(k)}

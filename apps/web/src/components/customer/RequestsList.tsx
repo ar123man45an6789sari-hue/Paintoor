@@ -56,7 +56,7 @@ function RequestCard({
           {matched && r.acceptedName ? ` · ${t("req.with", { name: r.acceptedName })}` : ""}
         </h3>
         <span
-          className={`rounded-pill px-3 py-1 text-[11px] font-black ${
+          className={`rounded-pill px-3 py-1 text-xs font-black ${
             done ? "bg-neem/15 text-neem" : matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
           }`}
         >
@@ -174,7 +174,7 @@ function RequestCard({
   );
 }
 
-export function RequestsList() {
+export function RequestsList({ onPost }: { onPost?: () => void }) {
   const { t } = useI18n();
   const [items, setItems] = useState<ServiceRequest[]>([]);
   const [confirmId, setConfirmId] = useState<string | null>(null);
@@ -192,15 +192,24 @@ export function RequestsList() {
 
   if (open.length === 0 && matched.length === 0 && done.length === 0) {
     return (
-      <div className="rounded-card border border-dashed border-line bg-white p-10 text-center text-muted">
+      <div className="rounded-card border border-dashed border-line bg-white p-6 text-center text-muted">
         {t("req.empty")}
+        {onPost && (
+          <button
+            type="button"
+            onClick={onPost}
+            className="mt-4 min-h-12 rounded-control bg-saffron px-5 py-2.5 text-sm font-extrabold text-white hover:shadow-lift"
+          >
+            📝 {t("dash.tab.post")}
+          </button>
+        )}
       </div>
     );
   }
 
   return (
     <div className="space-y-6">
-      <p className="rounded-control border border-line bg-white px-4 py-2.5 text-xs font-semibold text-muted">
+      <p className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-navy hover:text-navy">
         💡 {t("req.next")}
       </p>
 

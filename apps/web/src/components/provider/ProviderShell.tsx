@@ -72,11 +72,11 @@ export function ProviderShell({ name }: { name: string }) {
 
         <div className="mt-5 grid grid-cols-2 gap-3">
           <div className="rounded-card bg-white/15 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-white/80">{t("pd.todayEarn")}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-white/80">{t("pd.todayEarn")}</p>
             <p className="mt-1 text-3xl font-black tabular-nums">₹{today.toLocaleString("en-IN")}</p>
           </div>
           <div className="rounded-card bg-white/15 p-4">
-            <p className="text-[11px] font-bold uppercase tracking-wider text-white/80">{t("pd.weekEarn")}</p>
+            <p className="text-xs font-bold uppercase tracking-wider text-white/80">{t("pd.weekEarn")}</p>
             <p className="mt-1 text-3xl font-black tabular-nums">₹{week.toLocaleString("en-IN")}</p>
           </div>
         </div>
@@ -94,7 +94,7 @@ export function ProviderShell({ name }: { name: string }) {
             aria-selected={tab === x.id}
             onClick={() => setTab(x.id)}
             className={`min-h-12 flex-1 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${
-              tab === x.id ? "bg-saffron text-white" : "text-muted hover:bg-white hover:text-navy"
+            tab === x.id ? "border-saffron bg-saffron text-white" : "border-line bg-white text-muted hover:text-navy"
             }`}
           >
             <span aria-hidden="true">{x.emoji}</span> {t(x.key)}

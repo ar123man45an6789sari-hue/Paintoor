@@ -245,7 +245,7 @@ const D4: Record<Lang, Record<string, string>> = {
   en: {
     "tab.signup": "Create account", "tab.login": "Log in",
     "login.online": "Start online after login", "login.counter": "Open counter after login", "login.remember": "Remember this device",
-    "dash.hi": "Welcome", "dash.c": "Customer dashboard", "dash.p": "Provider dashboard", "dash.s": "Store dashboard",
+       "dash.hi": "Welcome", "dash.c": "Customer dashboard", "dash.p": "Worker dashboard", "dash.s": "Store dashboard",
     "dash.next": "Your full workspace arrives in the next sessions — the auth, roles and data loop behind it are already wired.",
     "dash.logout": "Log out", "dash.open": "Dashboard",
     "chip.c": "Customer", "chip.p": "Worker", "chip.s": "Store",

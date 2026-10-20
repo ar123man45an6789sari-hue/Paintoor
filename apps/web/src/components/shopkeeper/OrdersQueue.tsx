@@ -65,7 +65,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
 
   if (orders.length === 0) {
     return (
-      <div className="rounded-card border-2 border-dashed border-line bg-white p-10 text-center">
+      <div className="rounded-card border-2 border-dashed border-line bg-white p-6 text-center">
         <p className="text-3xl">🛍️</p>
         <p className="mt-2 font-extrabold text-navy">{t("sh.emptyOrders")}</p>
         <button
@@ -88,7 +88,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
             <div className="flex flex-wrap items-baseline justify-between gap-2">
               <h3 className="font-extrabold text-navy">🛒 {t("sh.orderFrom", { name: o.providerName })}</h3>
               <span
-                className={`rounded-pill px-3 py-1 text-[11px] font-black ${
+                className={`rounded-pill px-3 py-1 text-xs font-black ${
                   o.status === "new"
                     ? minsLeft < 0
                       ? "bg-danger/15 text-danger"

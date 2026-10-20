@@ -56,7 +56,7 @@ export function NotificationBell() {
       >
         🔔
         {unread > 0 && (
-          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-danger px-1 text-[10px] font-black text-white">
+          <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-danger px-1 text-xs font-black text-white">
             {unread}
           </span>
         )}
@@ -80,7 +80,7 @@ export function NotificationBell() {
                   <li key={n.id} className={`rounded-control px-2 py-2 ${n.read ? "" : "bg-haldi/15"}`}>
                     <p className="text-sm font-extrabold text-navy">{t(n.titleKey, n.params)}</p>
                     <p className="mt-0.5 text-xs text-muted">{t(n.bodyKey, n.params)}</p>
-                    <p className="mt-0.5 text-[10px] font-bold text-muted">
+                    <p className="mt-0.5 text-xs font-bold text-muted">
                       {new Date(n.at).toLocaleString(locale, {
                         day: "numeric",
                         month: "short",

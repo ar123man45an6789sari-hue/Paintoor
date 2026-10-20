@@ -31,7 +31,7 @@ export function SalesPanel() {
             <div
               key={h.date}
               title={`${h.date}: ₹${h.amount}`}
-              className="flex-1 rounded-t-sm"
+              className="flex-1 rounded-t-pill"
               style={{
                 height: `${Math.max(4, (h.amount / max) * 100)}%`,
                 background: h.amount > 0 ? "rgb(var(--c-neem))" : "rgb(var(--c-line))",

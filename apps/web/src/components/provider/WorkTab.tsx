@@ -59,7 +59,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
 
   if (jobs.length === 0) {
     return (
-      <div className="rounded-card border-2 border-dashed border-line bg-white p-10 text-center">
+      <div className="rounded-card border-2 border-dashed border-line bg-white p-6 text-center">
         <p className="text-3xl">🧰</p>
         <p className="mt-2 font-extrabold text-navy">{t("pd.noJob")}</p>
       </div>
@@ -79,7 +79,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 {job.customer} · {job.zone}
               </h3>
               <span
-                className={`rounded-pill px-3 py-1 text-[11px] font-black ${
+                className={`rounded-pill px-3 py-1 text-xs font-black ${
                   state === "completed"
                     ? "bg-neem/15 text-neem"
                     : state === "started"
@@ -137,7 +137,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
               <button
                 type="button"
                 onClick={() => setChatFor(chatFor === job.id ? null : job.id)}
-                className="min-h-12 rounded-control border-2 border-navy px-4 py-3 text-sm font-extrabold text-navy hover:bg-navy hover:text-white"
+                className="min-h-12 rounded-control border-2 border-line px-4 py-3 text-sm font-extrabold text-muted hover:border-navy hover:text-navy"
               >
                 💬 {t("chat.open")}
               </button>

@@ -9,7 +9,7 @@ import { RoleSelect } from "./RoleSelect";
 import { SignupForm } from "./SignupForm";
 import type { AuthMode, AuthStep, Role } from "./types";
 import { useI18n } from "@/i18n";
-import { setSession } from "@/lib/session";
+import { setRemembered, setSession } from "@/lib/session";
 
 const STEP_KEY: Record<AuthStep, string> = {
   entry: "st.entry",
@@ -30,6 +30,8 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
   const [name, setName] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState("");
+  const [remember, setRemember] = useState(true);
+  const [startOnline, setStartOnline] = useState(true);
 
   useEffect(() => {
     if (open) {
@@ -66,6 +68,16 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
       mode,
       at: Date.now(),
     });
+        if (role === "provider") {
+      try {
+        const raw = localStorage.getItem("gs_provider_state");
+        const st = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+        localStorage.setItem("gs_provider_state", JSON.stringify({ ...st, online: startOnline }));
+      } catch {
+        /* private mode */
+      }
+    }
+   setRemembered(remember ? { role, name, mode, at: Date.now() } : null);
     setStep("done");
   }
 
@@ -132,7 +144,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
                   <span aria-hidden="true" className="text-base font-black text-[#4285F4]">G</span>
                   {t("auth.google")}
                 </button>
-                <div className="flex items-center gap-3 text-[11px] font-bold text-muted">
+                <div className="flex items-center gap-3 text-xs font-bold text-muted">
                   <span className="h-px flex-1 bg-line" /> {t("auth.or")} <span className="h-px flex-1 bg-line" />
                 </div>
                 <label className="block">
@@ -148,12 +160,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
                 </label>
                 {role === "provider" && (
                   <label className="flex items-center gap-2 text-sm text-muted">
-                    <input type="checkbox" defaultChecked className="accent-saffron" /> {t("login.online")}
-                  </label>
-                )}
-                {role === "shopkeeper" && (
-                  <label className="flex items-center gap-2 text-sm text-muted">
-                    <input type="checkbox" defaultChecked className="accent-saffron" /> {t("login.counter")}
+                  <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="accent-saffron" /> {t("login.remember")}
                   </label>
                 )}
                 {role === "customer" && (

@@ -38,11 +38,11 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
         <p className="mt-2 text-sm italic text-ink">“{profile.quote}”</p>
         <div className="mt-3 flex flex-wrap gap-2">
           {profile.badges.map((b) => (
-            <span key={b} className="rounded-pill border border-line bg-chuna px-3 py-1 text-[11px] font-bold text-navy">
+            <span key={b} className="rounded-pill border border-line bg-chuna px-3 py-1 text-xs font-bold text-navy">
               {BADGE_LABELS[b] ?? b}
             </span>
           ))}
-          <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-[11px] font-bold text-neem">
+          <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-neem">
             ✅ {t("pd.kycOk")}
           </span>
         </div>
@@ -88,7 +88,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
               return (
                 <span
                   key={d}
-                  className={`rounded-pill px-3 py-1.5 text-[11px] font-black ${
+                  className={`rounded-pill px-3 py-1.5 text-xs font-black ${
                     free ? "bg-neem/15 text-neem" : "bg-chuna text-muted"
                   }`}
                 >

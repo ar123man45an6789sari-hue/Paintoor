@@ -1,11 +1,12 @@
-/* Dashboard v3 — role-branded shells: customer workspace, provider shell and
-   shopkeeper counter. Session logout from ANY surface returns to landing. */
+/* Dashboard v4 — role-branded shells. Customer keeps the welcome banner (it is
+   the page H1); provider and shopkeeper shells carry their own headers, so the
+   generic banner is gone (single H1, less dead space). Logout lives in header. */
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
-import { clearSession, getSession, onSessionChange } from "@/lib/session";
+import { getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
 import { PostJobWizard } from "@/components/customer/PostJobWizard";
@@ -42,11 +43,6 @@ export default function DashboardPage() {
   if (!session) return null;
   const style = ROLE_STYLE[session.role];
 
-  function logout() {
-    clearSession();
-    router.push("/");
-  }
-
   const tabs: { id: Tab; key: string }[] = [
     { id: "over", key: "dash.tab.over" },
     { id: "find", key: "dash.tab.find" },
@@ -55,15 +51,17 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="px-5 py-14">
+    <div className="px-4 py-14 md:px-6">
       <div className="mx-auto max-w-6xl space-y-6">
-        <div className="rounded-sheet p-8 text-white shadow-card" style={{ background: style.grad }}>
-          <div className="text-4xl">{style.emoji}</div>
-          <h1 className="mt-3 text-3xl font-black">{t(style.titleKey)}</h1>
-          <p className="mt-1 text-white/85">
-          {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
-          </p>
-        </div>
+        {session.role === "customer" && (
+          <div className="rounded-sheet p-8 text-white shadow-card" style={{ background: style.grad }}>
+            <div className="text-4xl">{style.emoji}</div>
+            <h1 className="mt-3 text-3xl font-black">{t(style.titleKey)}</h1>
+            <p className="mt-1 text-white/85">
+              {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
+            </p>
+          </div>
+        )}
 
         {session.role === "customer" ? (
           <>
@@ -73,7 +71,9 @@ export default function DashboardPage() {
                   key={x.id}
                   type="button"
                   onClick={() => setTab(x.id)}
-                  className={`flex-1 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${tab === x.id ? "bg-navy text-white" : "text-muted hover:bg-white hover:text-navy"}`}
+                  className={`flex-1 rounded-control border px-3 py-2 text-sm font-extrabold transition-colors ${
+                    tab === x.id ? "border-navy bg-navy text-white" : "border-line bg-white text-muted hover:text-navy"
+                  }`}
                 >
                   {t(x.key)}
                 </button>
@@ -98,26 +98,13 @@ export default function DashboardPage() {
             )}
             {tab === "find" && <ProvidersBrowser />}
             {tab === "post" && <PostJobWizard onDone={() => setTab("req")} />}
-            {tab === "req" && <RequestsList />}
+            {tab === "req" && <RequestsList onPost={() => setTab("post")} />}
           </>
         ) : session.role === "provider" ? (
           <ProviderShell name={session.name} />
         ) : session.role === "shopkeeper" ? (
           <ShopShell name={session.name} />
-        ) : (
-          <div className="rounded-card border border-line bg-white p-6 shadow-card">
-            <h2 className="font-extrabold text-navy">{t(style.titleKey)}</h2>
-            <p className="mt-2 text-sm text-muted">{t("dash.next")}</p>
-          </div>
-        )}
-
-        <button
-          type="button"
-          onClick={logout}
-          className="rounded-control border-2 border-line px-4 py-2 text-sm font-extrabold text-muted hover:border-danger hover:text-danger"
-        >
-          {t("dash.logout")}
-        </button>
+        ) : null}
       </div>
     </div>
   );

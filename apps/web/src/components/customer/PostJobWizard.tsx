@@ -171,7 +171,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
             {t("wiz.next")}
           </button>
         ) : (
-          <button type="button" onClick={submit} className="flex-1 rounded-control bg-neem px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
+          <button type="button" onClick={submit} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-white hover:shadow-lift">
             {t("wiz.submit")}
           </button>
         )}
