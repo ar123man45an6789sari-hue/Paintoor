@@ -113,6 +113,17 @@ export function CinematicHero() {
 
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-15 md:static md:opacity-100" aria-hidden="true">
           <svg viewBox="0 0 420 360" fill="none" className="h-[75%] w-auto text-ink md:h-auto md:w-full dark:text-snow">
+                        <g className="painter">
+              <circle cx="52" cy="252" r="9" fill="currentColor" />
+              <path d="M52 261 V292" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
+              <path className="painter-leg-a" d="M52 292 L44 318" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+              <path className="painter-leg-b" d="M52 292 L60 318" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+              <g className="painter-arm">
+                <path d="M52 268 L74 262" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                <path d="M74 262 L88 256" stroke="#8f9498" strokeWidth="4" strokeLinecap="round" />
+                <path d="M88 256 L98 250" stroke="#e00048" strokeWidth="6" strokeLinecap="round" />
+              </g>
+            </g>
             <path className="draw" pathLength={1} d="M70 170 L210 60 L350 170" stroke="#e00048" strokeWidth="10" strokeLinecap="round" />
             <path className="draw draw-2" pathLength={1} d="M105 175 V300 H315 V175" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
             <path className="draw draw-2" pathLength={1} d="M175 300 V225 H245 V300" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />

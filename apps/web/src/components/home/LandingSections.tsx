@@ -2,6 +2,7 @@
    mobile-adaptive motion (nothing hidden, presentation adapts), i18n aware. */
 "use client";
 
+import { useRouter } from "next/navigation";
 import { BeforeAfter } from "./BeforeAfter";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
@@ -121,35 +122,52 @@ function StoryPin() {
 
 function Categories() {
   const { t } = useI18n();
+  const router = useRouter();
   const CATS = ["c1", "c2", "c3", "c4", "c5", "c6"];
-  const ICONS = ["🎨", "", "", "🪚", "🧽", "️"];
+  const ICONS = ["🎨", "⚡", "🚿", "", "🧽", "❄️"];
   return (
     <section id="services" className="bg-chuna px-5 py-24">
       <div className="mx-auto max-w-6xl">
         <div className="reveal flex flex-wrap items-end justify-between gap-4">
           <div>
-            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">Services</span>
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("nav.services")}</span>
             <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl">{t("cats.h")}</h2>
           </div>
           <p className="max-w-md text-sm text-muted">{t("cats.p")}</p>
         </div>
-                <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CATS.map((c, i) => {
             const live = c === "c1";
+            if (live) {
+              return (
+                <div
+                  key={c}
+                  className="reveal relative overflow-hidden rounded-sheet border-2 border-saffron bg-white p-7 shadow-card sm:col-span-2"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-card bg-[#fce6ed] text-3xl">🎨</div>
+                    <span className="rounded-pill bg-saffron px-3 py-1.5 text-xs font-black text-snow">★ {t("c1.hero")}</span>
+                  </div>
+                  <h3 className="mt-4 text-2xl font-black text-navy">{t(`${c}.t`)}</h3>
+                  <p className="mt-1 text-sm text-muted">{t(`${c}.r`)}</p>
+                  <p className="mt-3 text-sm font-semibold text-ink">{t("c1.points")}</p>
+                  <div className="mt-5">
+                    <button
+                      type="button"
+                      onClick={() => router.push("/providers?q=painting")}
+                      className="min-h-12 rounded-control bg-saffron px-5 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
+                    >
+                      🖌️ {t("svc.bookCta")}
+                    </button>
+                  </div>
+                </div>
+              );
+            }
             return (
-              <div
-                key={c}
-                className={`reveal rounded-card border border-line bg-white p-6 ${
-                  live ? "transition-all hover:-translate-y-1.5 hover:shadow-card" : "opacity-70"
-                }`}
-              >
+              <div key={c} className="reveal rounded-card border border-line bg-white p-6 opacity-70">
                 <div className="flex items-start justify-between">
                   <div className="flex h-12 w-12 items-center justify-center rounded-control bg-[#fce6ed] text-2xl">{ICONS[i]}</div>
-                  {!live && (
-                    <span className="rounded-pill border border-line bg-chuna px-2.5 py-1 text-xs font-black text-muted">
-                      {t("soon.tag")}
-                    </span>
-                  )}
+                  <span className="rounded-pill border border-line bg-chuna px-2.5 py-1 text-xs font-black text-muted">{t("soon.tag")}</span>
                 </div>
                 <h3 className="mt-3 font-extrabold text-navy">{t(`${c}.t`)}</h3>
                 <p className="mt-1 text-xs text-muted">{t(`${c}.r`)}</p>
@@ -162,70 +180,31 @@ function Categories() {
   );
 }
 
-const GRADIENTS = [
-  ["#e00048", "#a80036"],
-  ["#182028", "#10151a"],
-  ["#182028", "#10151a"],
-  ["#e00048", "#a80036"],
-  ["#a80036", "#7c0028"],
-  ["#182028", "#182028"],
-];
-
-function WorkersBand() {
+function TestimonialsMarquee() {
   const { t } = useI18n();
-  const ref = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (REDUCED) return;
-    const section = ref.current;
-    const track = trackRef.current;
-    if (!section || !track) return;
-    let ticking = false;
-    const paint = () => {
-      ticking = false;
-      const r = section.getBoundingClientRect();
-      const p = clamp(-r.top / (section.offsetHeight - window.innerHeight), 0, 1);
-      const max = track.scrollWidth - window.innerWidth + 32;
-      track.style.transform = `translateX(${-p * max}px)`;
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(paint);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    paint();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  const cards = seed.providers.filter((p) => p.rating_avg >= 4.5);
+  const loop = [...cards, ...cards];
   return (
-    <section id="workers" ref={ref} className="ls-workers">
-      <div className="ls-workpin">
-        <div className="ls-head">
-          <h2 className="text-3xl font-black text-navy md:text-4xl">{t("workers.h")}</h2>
-          <p className="mt-1 text-muted">{t("workers.p")}</p>
-        </div>
-        <div ref={trackRef} className="flex gap-4 pl-4 will-change-transform md:gap-5 md:pl-[max(24px,calc((100vw-1120px)/2+24px))]">
-          {seed.providers.map((p, i) => {
-            const [from, to] = GRADIENTS[i % GRADIENTS.length];
-            return (
-              <article key={p.id} className="w-[250px] flex-none overflow-hidden rounded-card border border-line bg-white shadow-card md:w-[300px]">
-                <div className="flex h-24 items-center justify-center text-4xl font-black text-snow md:h-28 md:text-5xl" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
-                  {p.name.charAt(0)}
-                </div>
-                <div className="p-4">
-                  <div className="flex items-baseline justify-between">
-                    <h3 className="font-extrabold text-navy">{p.name}</h3>
-                    <span className="text-sm font-black text-haldi">★ {p.rating_avg}</span>
-                  </div>
-                  <p className="mt-0.5 text-xs text-muted">{p.city} · {p.zone} · {p.experience_years} yrs</p>
-                  <p className="mt-3 border-l-2 border-saffron pl-2 text-sm italic text-muted">“{p.quote}”</p>
-                </div>
-              </article>
-            );
-          })}
+    <section id="workers" className="overflow-hidden bg-chuna py-24">
+      <div className="mx-auto max-w-6xl px-5">
+        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">Paintoor</span>
+        <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl">{t("marquee.h")}</h2>
+        <p className="mt-2 text-sm text-muted">{t("marquee.p")}</p>
+      </div>
+      <div className="marquee mt-8">
+        <div className="marquee-track flex gap-4 pr-4">
+          {loop.map((p, i) => (
+            <article key={`${p.id}-${i}`} className="w-[260px] flex-none rounded-card border border-line bg-white p-5 shadow-card md:w-[320px]">
+              <div className="flex items-baseline justify-between">
+                <h3 className="font-extrabold text-navy">{p.name}</h3>
+                <span className="text-sm font-black text-haldi">★ {p.rating_avg}</span>
+              </div>
+              <p className="mt-0.5 text-xs text-muted">
+                {p.city} · {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs
+              </p>
+              <p className="mt-3 border-l-2 border-saffron pl-2 text-sm italic text-muted">“{p.quote}”</p>
+            </article>
+          ))}
         </div>
       </div>
     </section>
@@ -348,9 +327,9 @@ export function LandingSections() {
       <StoryPin />
       <Categories />
       <BeforeAfter />
-      <WorkersBand />
-      <EscrowFlow />
       <RoleLens />
+      <EscrowFlow />
+      <TestimonialsMarquee />
     </>
   );
 }

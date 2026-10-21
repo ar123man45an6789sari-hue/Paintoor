@@ -45,9 +45,8 @@
   stroke-dashoffset: 1000;
   animation: draw-in 2.4s ease forwards 0.3s;
 }
-.draw-2 { animation-delay: 0.9s; }
-.draw-3 { animation-delay: 1.5s; }
-
+.draw-2 { animation-delay: 2.5s; }
+.draw-3 { animation-delay: 3.1s; }
 @keyframes draw-in {
   to {
     stroke-dashoffset: 0;
@@ -87,7 +86,7 @@
 .draw {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-  animation: draw-in 2.2s cubic-bezier(0.45, 0.05, 0.35, 1) forwards 0.2s;
+   animation: draw-in 2.2s cubic-bezier(0.45, 0.05, 0.35, 1) forwards 1.9s;
 }
 .hero-word { margin-right: 0.26em; }
 .orb {
@@ -157,4 +156,30 @@ html.theme-anim *::after {
 }
 @media (prefers-reduced-motion: reduce) {
   .sun-rays { animation: none; }
+}
+/* Painter walks in, then paints the house strokes. */
+.painter {
+  opacity: 0;
+  transform: translateX(-140px);
+  animation: walkin 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.2s;
+}
+@keyframes walkin {
+  0% { opacity: 0; transform: translateX(-140px); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: translateX(0); }
+}
+.painter-leg-a, .painter-leg-b { transform-origin: 52px 292px; }
+.painter-leg-a { animation: step 0.5s ease-in-out 3 alternate; }
+.painter-leg-b { animation: step 0.5s ease-in-out 3 alternate-reverse; }
+@keyframes step { from { transform: rotate(14deg); } to { transform: rotate(-14deg); } }
+.painter-arm { transform-origin: 52px 268px; animation: armpaint 0.8s ease-in-out 1.7s 4 alternate; }
+@keyframes armpaint { from { transform: rotate(-6deg); } to { transform: rotate(16deg); } }
+
+/* Partner reviews — endless horizontal loop, pause on hover. */
+.marquee { overflow: hidden; }
+.marquee-track { width: max-content; animation: marquee 34s linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
 }
