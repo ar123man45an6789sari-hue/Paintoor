@@ -4,6 +4,8 @@
 import { useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
+import { useSearchParams } from "next/navigation";
+import { getCity } from "@/lib/city";
 
 const RATE_UNIT: Record<string, string> = {
   per_sqft: "/sqft",
@@ -21,6 +23,16 @@ const BADGES: Record<string, string> = {
 };
 
 const SKILLS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
+function skillFromQuery(q: string): string | null {
+  const s = q.toLowerCase();
+  if (!s) return null;
+  if (s.includes("paint")) return "painting";
+  if (s.includes("elec") || s.includes("bijli")) return "electrical";
+  if (s.includes("plumb") || s.includes("nal")) return "plumbing";
+  if (s.includes("carp") || s.includes("wood")) return "carpentry";
+  if (s.includes("clean") || s.includes("safai")) return "cleaning";
+  return null;
+}
 
 const GRADIENTS = [
   ["#e00048", "#a80036"],
@@ -35,9 +47,14 @@ const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
 
 export function ProvidersBrowser() {
   const { t } = useI18n();
-  const [city, setCity] = useState("all");
-  const [zone, setZone] = useState("all");
-  const [skill, setSkill] = useState("all");
+   const params = useSearchParams();
+  const [city, setCity] = useState(params.get("city") ?? getCity());
+  const [zone, setZone] = useState(params.get("zone") ?? "all");
+  const [skill, setSkill] = useState(() => skillFromQuery(params.get("q") ?? "") ?? "all");
+  const [query, setQuery] = useState(() => {
+    const q = params.get("q") ?? "";
+    return skillFromQuery(q) ? "" : q;
+  });
 
   const cities = useMemo(() => Array.from(new Set(seed.providers.map((p) => p.city))).sort(), []);
   const zones = useMemo(
@@ -52,16 +69,19 @@ export function ProvidersBrowser() {
     [city],
   );
 
-  const filtered = useMemo(
+    const filtered = useMemo(
     () =>
       seed.providers.filter(
         (p) =>
           p.skills.some(isLiveSkill) &&
           (city === "all" || p.city === city) &&
           (zone === "all" || p.zone === zone) &&
-          (skill === "all" || p.skills.includes(skill)),
+          (skill === "all" || p.skills.includes(skill)) &&
+          (!query ||
+            p.name.toLowerCase().includes(query.toLowerCase()) ||
+            p.zone.toLowerCase().includes(query.toLowerCase())),
       ),
-    [city, zone, skill],
+    [city, zone, skill, query],
   );
 
   const selectClass =

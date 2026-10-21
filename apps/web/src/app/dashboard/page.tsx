@@ -3,7 +3,7 @@
    generic banner is gone (single H1, less dead space). Logout lives in header. */
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
 import { getSession, onSessionChange } from "@/lib/session";
@@ -96,7 +96,11 @@ export default function DashboardPage() {
                 </button>
               </div>
             )}
-            {tab === "find" && <ProvidersBrowser />}
+             {tab === "find" && (
+              <Suspense fallback={null}>
+                <ProvidersBrowser />
+              </Suspense>
+            )}
             {tab === "post" && <PostJobWizard onDone={() => setTab("req")} />}
             {tab === "req" && <RequestsList onPost={() => setTab("post")} />}
           </>

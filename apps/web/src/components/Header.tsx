@@ -17,6 +17,7 @@ import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
+import { NavSearch } from "./NavSearch";
 import { LIVE_CITIES, SOON_CITIES, getCity, onCityChange, setCity } from "@/lib/city";
 
 const NAV = [
@@ -157,7 +158,7 @@ export function Header() {
                   ))}
                 </div>
               </>
-            )}
+            )}<NavSearch />
           </div>
 
           <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">
