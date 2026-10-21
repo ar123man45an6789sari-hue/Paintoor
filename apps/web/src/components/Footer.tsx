@@ -17,9 +17,9 @@ export function Footer() {
     <footer className="border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
       <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <h2 className="mb-2 font-black text-snow">
+           <h2 className="mb-2 font-black text-snow">
             {t("brand.pre")}
-            <span className="text-saffron">{t("brand.post")}</span>
+            {t("brand.post")}
           </h2>
           <p className="max-w-[280px] text-sm">{t("foot.about")}</p>
           <p className="mt-3 text-sm">{t("foot.help")}</p>
