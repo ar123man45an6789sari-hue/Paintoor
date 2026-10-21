@@ -106,6 +106,15 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
             ✕
           </button>
         </div>
+        
+        <div className="mb-4 rounded-control bg-chuna px-4 py-3">
+          <p className="text-sm font-black text-navy">
+            {mode === "login" ? t("auth.welcomeBack") : t("auth.newHere")}
+          </p>
+          <p className="mt-0.5 text-xs text-muted">
+            {mode === "login" ? t("auth.welcomeBackSub") : t("auth.newHereSub")}
+          </p>
+        </div>
 
         {step === "role" && (
           <>
