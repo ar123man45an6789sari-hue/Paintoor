@@ -21,6 +21,17 @@ export function NavSearch() {
   const [locMsg, setLocMsg] = useState<string | null>(null);
 
   useEffect(() => setCityState(getCity()), []);
+    /* Pehli visit pe location apne aap sense karo; mana kar de to manual. */
+  useEffect(() => {
+    let stored: string | null = null;
+    try {
+      stored = localStorage.getItem("gs_city");
+    } catch {
+      stored = null;
+    }
+    if (!stored) sense();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   function sense() {
     setLocMsg("…");

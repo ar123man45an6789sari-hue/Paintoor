@@ -2,6 +2,7 @@
 "use client";
 
 import { useI18n } from "@/i18n";
+import { company } from "@paintoor/brand";
 
 export function AboutView() {
   const { t } = useI18n();
@@ -12,6 +13,15 @@ export function AboutView() {
         <h1 className="text-4xl font-black text-navy">{t("about.h")}</h1>
         <p className="text-lg text-ink">{t("about.p1")}</p>
         <p className="text-muted">{t("about.p2")}</p>
+         <div className="rounded-card border border-line bg-white p-6 shadow-card">
+          <h2 className="font-extrabold text-navy">{company.legalName}</h2>
+          <p className="mt-2 text-sm text-muted">{company.registeredAddress}</p>
+          <p className="mt-2 text-sm text-muted">
+            <a className="text-saffron" href={`tel:${company.phoneTel}`}>{company.phoneDisplay}</a>
+            {" · "}
+            <a className="text-saffron" href={`mailto:${company.emails.info}`}>{company.emails.info}</a>
+          </p>
+        </div>
       </div>
     </div>
   );

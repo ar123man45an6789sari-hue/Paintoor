@@ -1,7 +1,6 @@
-/* Header v9 — flush logo (exact brand lockup in light, mark+word in dark),
-   cities dropdown, nav: Services/Marketplace/Partners/Blog/About,
-   single account icon with login+register menu, bell, theme, globe.
-   Every dropdown closes on outside click. */
+/* Header v10 — flush brand lockup, single search pill with location sense,
+   nav: Services/Marketplace/Partners/Blog/About, account icon menu, bell,
+   theme + globe. Every dropdown closes on outside click. */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -18,7 +17,6 @@ import { clearSession, getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
 import { NavSearch } from "./NavSearch";
-import { LIVE_CITIES, SOON_CITIES, getCity, onCityChange, setCity } from "@/lib/city";
 
 const NAV = [
   { href: "#services", key: "nav.services" },
@@ -48,23 +46,15 @@ export function Header() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [langOpen, setLangOpen] = useState(false);
-  const [cityOpen, setCityOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
   const [dark, setDark] = useState(false);
-  const [city, setCityState] = useState("Vadodara");
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
 
   useEffect(() => {
     setSessionState(getSession());
-    setCityState(getCity());
-    const offSession = onSessionChange(() => setSessionState(getSession()));
-    const offCity = onCityChange(() => setCityState(getCity()));
-    return () => {
-      offSession();
-      offCity();
-    };
+    return onSessionChange(() => setSessionState(getSession()));
   }, []);
 
   useEffect(() => {
@@ -125,41 +115,7 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setCityOpen((v) => !v)}
-              className="flex min-h-9 items-center gap-1 rounded-control border border-line bg-chuna px-2.5 py-1.5 text-xs font-extrabold text-navy transition-colors hover:border-saffron"
-            >
-              📍 {city}
-              <span aria-hidden="true" className="text-[10px]">▾</span>
-            </button>
-            {cityOpen && (
-              <>
-                <button type="button" aria-label={t("notif.close")} onClick={() => setCityOpen(false)} className="fixed inset-0 z-40 cursor-default" />
-                <div className="absolute left-0 top-11 z-50 max-h-72 min-w-[180px] overflow-y-auto rounded-card border border-line bg-white p-1.5 shadow-card">
-                  {LIVE_CITIES.map((c) => (
-                    <button
-                      key={c}
-                      type="button"
-                      onClick={() => {
-                        setCity(c);
-                        setCityOpen(false);
-                      }}
-                      className={`flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm hover:bg-chuna ${city === c ? "font-extrabold text-navy" : "text-ink"}`}
-                    >
-                      {c} {city === c && <span className="text-xs font-black text-saffron">✓</span>}
-                    </button>
-                  ))}
-                  {SOON_CITIES.map((c) => (
-                    <button key={c} type="button" disabled className="flex w-full items-center justify-between rounded-control px-3 py-2 text-left text-sm text-muted/60">
-                      {c} <span className="rounded-pill border border-line px-1.5 text-xs font-black">{t("cities.more")}</span>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}<NavSearch />
-          </div>
+          <NavSearch />
 
           <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">
             {NAV.map((item) =>
