@@ -17,6 +17,7 @@ import { clearSession, getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
 import { NavSearch } from "./NavSearch";
+import { AccountIcon, PlusIcon } from "./Icons";
 
 const NAV = [
   { href: "#services", key: "nav.services" },
@@ -189,7 +190,7 @@ export function Header() {
                 onClick={() => setAcctOpen((v) => !v)}
                 className={`${iconBtn} ${acctOpen ? "border-saffron" : ""}`}
               >
-                👤
+              <AccountIcon className="h-5 w-5 text-ink dark:text-snow" />
               </button>
               {acctOpen && (
                 <>
@@ -207,7 +208,7 @@ export function Header() {
                       onClick={() => openAuth("signup")}
                       className="flex w-full rounded-control bg-saffron px-3 py-2.5 text-left text-sm font-extrabold text-snow hover:shadow-lift"
                     >
-                      ✨ {t("nav.signup")}
+                    <PlusIcon className="h-4 w-4 text-ink dark:text-snow" /> {t("nav.signup")}
                     </button>
                   </div>
                 </>

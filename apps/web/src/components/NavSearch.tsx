@@ -4,6 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { PinIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getCity, nearestCity, setCity } from "@/lib/city";
 
@@ -75,7 +76,7 @@ export function NavSearch() {
           onClick={() => setLocOpen((v) => !v)}
           className="flex min-h-11 items-center gap-1 rounded-l-pill px-3 text-xs font-extrabold text-navy hover:bg-chuna"
         >
-          📍 {city} <span aria-hidden="true" className="text-[10px]">▾</span>
+               <PinIcon className="h-4 w-4" />
         </button>
         {locOpen && (
           <>
