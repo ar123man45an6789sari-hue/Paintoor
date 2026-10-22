@@ -1,11 +1,11 @@
-/* HeroMotion v4 — Paintoor: one theme per mode (white light / black dark),
-   no scroll-driven sky swap (client 3-color mandate). Sun ke rays ghumte hain.
-   Word stagger, self-draw mark and counters stay. */
+/* HeroMotion v5 — Paintoor hero: word stagger, orbs, full-size Lottie painter
+   with corner sun (rotating rays + fade-in). No house sketch, no scroll-sky. */
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import { requestAuth } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
+import { PainterLottie } from "./PainterLottie";
 
 const REDUCED =
   typeof window !== "undefined" &&
@@ -56,31 +56,27 @@ function Counter({ end, suffix, label }: { end: number; suffix: string; label: s
   );
 }
 
-/** 8 rays around the sun circle (310,42) — rotate via .sun-rays CSS. */
-const RAYS = [0, 45, 90, 135, 180, 225, 270, 315].map((deg) => {
-  const rad = (deg * Math.PI) / 180;
-  return {
-    deg,
-    x1: 310 + Math.cos(rad) * 22,
-    y1: 42 + Math.sin(rad) * 22,
-    x2: 310 + Math.cos(rad) * 32,
-    y2: 42 + Math.sin(rad) * 32,
-  };
-});
-
 export function CinematicHero() {
   const { t } = useI18n();
   const words = [t("hero.w1"), t("hero.w2"), t("hero.w3"), t("hero.w4"), t("hero.w5")];
 
   return (
     <section className="relative overflow-hidden bg-surface px-5 py-24 text-ink md:py-28 dark:bg-raatri dark:text-snow">
-      <div className="orb" style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048", opacity: 0.14 }} aria-hidden="true" />
-      <div className="orb orb-b" style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#e00048", opacity: 0.1 }} aria-hidden="true" />
+      <div
+        className="orb"
+        style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048", opacity: 0.14 }}
+        aria-hidden="true"
+      />
+      <div
+        className="orb orb-b"
+        style={{ width: 300, height: 300, right: "-6%", top: "48%", background: "#e00048", opacity: 0.1 }}
+        aria-hidden="true"
+      />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
         <div>
           <span className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
-            🇮🇳 {t("hero.badge")}
+            🇮 {t("hero.badge")}
           </span>
           <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
             {words.map((word, i) => (
@@ -111,30 +107,35 @@ export function CinematicHero() {
           </div>
         </div>
 
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-15 md:static md:opacity-100" aria-hidden="true">
-          <svg viewBox="0 0 420 360" fill="none" className="h-[75%] w-auto text-ink md:h-auto md:w-full dark:text-snow">
-                        <g className="painter">
-              <circle cx="52" cy="252" r="9" fill="currentColor" />
-              <path d="M52 261 V292" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-              <path className="painter-leg-a" d="M52 292 L44 318" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-              <path className="painter-leg-b" d="M52 292 L60 318" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-              <g className="painter-arm">
-                <path d="M52 268 L74 262" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
-                <path d="M74 262 L88 256" stroke="#8f9498" strokeWidth="4" strokeLinecap="round" />
-                <path d="M88 256 L98 250" stroke="#e00048" strokeWidth="6" strokeLinecap="round" />
+          <div className="flex items-center justify-center" aria-hidden="true">
+          <div className="relative w-full max-w-[620px]">
+            <svg
+              viewBox="0 0 100 100"
+              fill="none"
+              className="absolute -top-4 right-0 z-10 h-16 w-16 md:-top-8 md:h-24 md:w-24"
+              aria-hidden="true"
+            >
+              <g className="sun-rays" style={{ transformOrigin: "50px 50px" }}>
+                {[0, 45, 90, 135, 180, 225, 270, 315].map((d) => {
+                  const r = (d * Math.PI) / 180;
+                  return (
+                    <line
+                      key={d}
+                      x1={50 + Math.cos(r) * 28}
+                      y1={50 + Math.sin(r) * 28}
+                      x2={50 + Math.cos(r) * 40}
+                      y2={50 + Math.sin(r) * 40}
+                      stroke="#e00048"
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                    />
+                  );
+                })}
               </g>
-            </g>
-            <path className="draw" pathLength={1} d="M70 170 L210 60 L350 170" stroke="#e00048" strokeWidth="10" strokeLinecap="round" />
-            <path className="draw draw-2" pathLength={1} d="M105 175 V300 H315 V175" stroke="currentColor" strokeWidth="10" strokeLinecap="round" />
-            <path className="draw draw-2" pathLength={1} d="M175 300 V225 H245 V300" stroke="currentColor" strokeWidth="8" strokeLinecap="round" />
-            <path className="draw draw-3" pathLength={1} d="M60 262 C120 216 180 232 214 262 C258 300 322 288 362 246" stroke="#e00048" strokeWidth="14" strokeLinecap="round" />
-            <g className="sun-rays">
-              {RAYS.map((r) => (
-                <line key={r.deg} x1={r.x1} y1={r.y1} x2={r.x2} y2={r.y2} stroke="#e00048" strokeWidth="4" strokeLinecap="round" />
-              ))}
-            </g>
-            <circle cx="310" cy="42" r="14" fill="#e00048" />
-          </svg>
+              <circle className="sun-core" cx="50" cy="50" r="19" fill="#e00048" />
+            </svg>
+            <PainterLottie />
+          </div>
         </div>
       </div>
     </section>

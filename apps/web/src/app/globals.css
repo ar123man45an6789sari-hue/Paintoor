@@ -45,8 +45,9 @@
   stroke-dashoffset: 1000;
   animation: draw-in 2.4s ease forwards 0.3s;
 }
-.draw-2 { animation-delay: 2.5s; }
-.draw-3 { animation-delay: 3.1s; }
+
+.draw-2 { animation-delay: 0.8s; }
+.draw-3 { animation-delay: 1.3s; }
 @keyframes draw-in {
   to {
     stroke-dashoffset: 0;
@@ -86,7 +87,7 @@
 .draw {
   stroke-dasharray: 1;
   stroke-dashoffset: 1;
-   animation: draw-in 2.2s cubic-bezier(0.45, 0.05, 0.35, 1) forwards 1.9s;
+   animation: draw-in 1.6s cubic-bezier(0.45, 0.05, 0.35, 1) forwards 0.2s;
 }
 .hero-word { margin-right: 0.26em; }
 .orb {
@@ -183,3 +184,7 @@ html.theme-anim *::after {
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
 }
+/* Sun pehle dot bankar nahi taangta — fade in hota hai rays ke saath. */
+.sun-core { opacity: 0; animation: sunin .8s ease forwards 1.1s; }
+.sun-rays { opacity: 0; animation: sunspin 16s linear infinite, sunin .8s ease forwards 1.1s; }
+@keyframes sunin { to { opacity: 1; } }
