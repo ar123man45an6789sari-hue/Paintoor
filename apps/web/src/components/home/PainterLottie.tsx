@@ -24,6 +24,5 @@ export function PainterLottie() {
     });
     return () => anim.destroy();
   }, []);
-
-return <div ref={ref} className="mx-auto aspect-square w-full max-w-[540px] scale-[1.12] md:scale-[1.28]" />;
+  return <div ref={ref} className="mx-auto aspect-square w-full max-w-[540px] origin-left scale-[1.05] md:scale-[1.85]" />;
 }

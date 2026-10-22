@@ -62,6 +62,31 @@ export function CinematicHero() {
 
   return (
     <section className="relative overflow-hidden bg-surface px-5 py-24 text-ink md:py-28 dark:bg-raatri dark:text-snow">
+            <svg
+        viewBox="0 0 100 100"
+        fill="none"
+        className="pointer-events-none absolute right-5 top-6 z-10 h-14 w-14 md:right-12 md:top-10 md:h-20 md:w-20"
+        aria-hidden="true"
+      >
+        <g className="sun-rays" style={{ transformOrigin: "50px 50px" }}>
+          {[0, 45, 90, 135, 180, 225, 270, 315].map((d) => {
+            const r = (d * Math.PI) / 180;
+            return (
+              <line
+                key={d}
+                x1={50 + Math.cos(r) * 28}
+                y1={50 + Math.sin(r) * 28}
+                x2={50 + Math.cos(r) * 40}
+                y2={50 + Math.sin(r) * 40}
+                stroke="#e00048"
+                strokeWidth="6"
+                strokeLinecap="round"
+              />
+            );
+          })}
+        </g>
+        <circle className="sun-core" cx="50" cy="50" r="19" fill="#e00048" />
+      </svg>
       <div
         className="orb"
         style={{ width: 360, height: 360, left: "-8%", top: "16%", background: "#e00048", opacity: 0.14 }}
@@ -109,31 +134,6 @@ export function CinematicHero() {
 
           <div className="flex items-center justify-center" aria-hidden="true">
           <div className="relative w-full max-w-[620px]">
-            <svg
-              viewBox="0 0 100 100"
-              fill="none"
-              className="absolute -top-4 right-0 z-10 h-16 w-16 md:-top-8 md:h-24 md:w-24"
-              aria-hidden="true"
-            >
-              <g className="sun-rays" style={{ transformOrigin: "50px 50px" }}>
-                {[0, 45, 90, 135, 180, 225, 270, 315].map((d) => {
-                  const r = (d * Math.PI) / 180;
-                  return (
-                    <line
-                      key={d}
-                      x1={50 + Math.cos(r) * 28}
-                      y1={50 + Math.sin(r) * 28}
-                      x2={50 + Math.cos(r) * 40}
-                      y2={50 + Math.sin(r) * 40}
-                      stroke="#e00048"
-                      strokeWidth="6"
-                      strokeLinecap="round"
-                    />
-                  );
-                })}
-              </g>
-              <circle className="sun-core" cx="50" cy="50" r="19" fill="#e00048" />
-            </svg>
             <PainterLottie />
           </div>
         </div>
