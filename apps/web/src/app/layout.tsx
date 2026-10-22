@@ -2,12 +2,15 @@ import type { Metadata } from "next";
 import { I18nProvider } from "@/i18n";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Noto_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-/* Devanagari subset rides along so Hindi renders without a second webfont. */
-const noto = Noto_Sans({
-  subsets: ["latin", "devanagari"],
+/* Fonts repo mein bundled hain — build kabhi Google network pe depend nahi karega. */
+const noto = localFont({
+  src: [
+    { path: "./fonts/noto-sans-latin.woff2", style: "normal", weight: "400 900" },
+    { path: "./fonts/noto-sans-devanagari.woff2", style: "normal", weight: "400 900" },
+  ],
   variable: "--font-sans",
   display: "swap",
 });
