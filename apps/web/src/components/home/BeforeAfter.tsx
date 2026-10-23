@@ -1,5 +1,5 @@
-/* BeforeAfter v3 — "paint the house": a grey, tired house turns colourful as
-   the visitor drags. Pure SVG art, keyboard accessible via range input. */
+/* BeforeAfter v3 — "paint the house": grey tired house turns colourful as the
+   visitor drags. Pure SVG art, keyboard accessible via range input. */
 "use client";
 
 import { useState } from "react";
@@ -26,7 +26,7 @@ function HouseArt({ colored }: { colored: boolean }) {
       <rect x="128" y="132" width="38" height="30" rx="3" fill={win} stroke={trim} strokeWidth="3" />
       <rect x="238" y="132" width="38" height="30" rx="3" fill={win} stroke={trim} strokeWidth="3" />
       <path d="M147 132 V162 M128 147 H166" stroke={trim} strokeWidth="2.5" />
-      <path d="M257 132 V162 M238 147 H276" stroke={trim} strokeWidth="2.5" />
+      <path d="M257 132 V262 M238 147 H276" stroke={trim} strokeWidth="2.5" />
       <rect x="0" y="200" width="400" height="40" fill={colored ? "#f9ccdb" : "#dcdfe2"} />
       <circle cx="95" cy="198" r="14" fill={bush} opacity={colored ? 0.85 : 0.5} />
       <circle cx="308" cy="198" r="14" fill={bush} opacity={colored ? 0.85 : 0.5} />

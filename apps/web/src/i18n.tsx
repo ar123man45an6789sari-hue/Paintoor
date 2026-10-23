@@ -13,6 +13,7 @@ import { D12 } from "./i18n-d12";
 import { D13 } from "./i18n-d13";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
+import { D15 } from "./i18-d15";
 
 export type Lang = "en" | "hi" | "gu";
 
@@ -307,8 +308,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }
 
   const t = (k: string, params?: Record<string, string | number>) => {
-  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang], ...D8[lang], ...D9[lang], ...D10[lang], ...D11[lang], ...D12[lang], ...D13[lang] };
-  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? D8.en[k] ?? D9.en[k] ?? D10.en[k] ?? D11.en[k] ?? D12.en[k] ?? D13.en[k] ?? k;
+  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang], ...D8[lang], ...D9[lang], ...D10[lang], ...D11[lang], ...D12[lang], ...D13[lang], ...D15[lang] };
+  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? D8.en[k] ?? D9.en[k] ?? D10.en[k] ?? D11.en[k] ?? D12.en[k] ?? D13.en[k] ?? D15.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }

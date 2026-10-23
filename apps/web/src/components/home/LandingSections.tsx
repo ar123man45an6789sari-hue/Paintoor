@@ -3,10 +3,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { BeforeAfter } from "./BeforeAfter";
+import { ShadeStudio } from "./ShadeStudio";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
+import { BeforeAfter } from "./BeforeAfter";
 
 const REDUCED =
   typeof window !== "undefined" &&
