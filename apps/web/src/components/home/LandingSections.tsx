@@ -3,7 +3,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ShadeStudio } from "./ShadeStudio";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
