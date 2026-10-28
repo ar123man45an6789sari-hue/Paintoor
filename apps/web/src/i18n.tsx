@@ -13,7 +13,7 @@ import { D12 } from "./i18n-d12";
 import { D13 } from "./i18n-d13";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { D15 } from "./i18-d15";
+import { D15 } from "./i18n-d15";
 
 export type Lang = "en" | "hi" | "gu";
 
