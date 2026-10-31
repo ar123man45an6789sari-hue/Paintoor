@@ -8,7 +8,7 @@ import { pushNotification } from "@/lib/notifications";
 import { seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
 
-const CITIES = ["Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
+const CITIES = ["Mumbai", "Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
 const SLOTS = ["m", "a", "e", "f"];
 const BUDGETS = ["e", "s", "p"];
 
@@ -18,7 +18,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
   const [category, setCategory] = useState("painting");
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState<string[]>([]);
-  const [city, setCity] = useState("Vadodara");
+  const [city, setCity] = useState("Mumbai");
   const [zone, setZone] = useState("");
   const [landmark, setLandmark] = useState("");
   const [date, setDate] = useState("");

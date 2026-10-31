@@ -14,6 +14,25 @@ export function PinIcon({ className = "h-4 w-4" }: { className?: string }) {
   );
 }
 
+/** Clean stroked magnifier — the standard search glyph real product sites
+ *  use; replaces the old emoji artwork. */
+export function SearchIcon({ className = "h-4 w-4" }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="10.8" cy="10.8" r="6.3" />
+      <line x1="15.6" y1="15.6" x2="20.5" y2="20.5" />
+    </svg>
+  );
+}
+
 export function AccountIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">

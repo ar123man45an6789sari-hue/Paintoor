@@ -19,7 +19,7 @@ export const D11: Record<Lang, Record<string, string>> = {
     "blog.h": "Blog", "blog.p": "Stories, guides and rate insights from the field.",
     "blog.soon": "Full article coming soon",
     "b1.t": "Why painting quotes vary — and how to read them", "b1.p": "Sqft rates, primer coats and surface prep, explained simply.",
-    "b2.t": "Pre-Diwali painting: book 3 weeks early", "b2.p": "Vadodara's festive rush, zone by zone.",
+        "b2.t": "Pre-Diwali painting: book 3 weeks early", "b2.p": "Mumbai's festive rush, zone by zone.",
     "b3.t": "What 'money safe until approval' really means", "b3.p": "Escrow in plain language, with a real booking example.",
   },
   hi: {
@@ -39,7 +39,7 @@ export const D11: Record<Lang, Record<string, string>> = {
     "blog.h": "ब्लॉग", "blog.p": "फ़ील्ड से कहानियाँ, गाइड और रेट इनसाइट।",
     "blog.soon": "पूरा लेख जल्द आ रहा है",
     "b1.t": "पेंटिंग क्वोट अलग-अलग क्यों — और कैसे पढ़ें", "b1.p": "Sqft रेट, प्राइमर कोट और सतह की तैयारी, आसान भाषा में।",
-    "b2.t": "दिवाली पेंटिंग: 3 हफ्ते पहले बुक करें", "b2.p": "वडोदरा की त्योहारी भीड़,.zone-दर-zone।",
+    "b2.t": "दिवाली पेंटिंग: 3 हफ्ते पहले बुक करें", "b2.p": "मुंबई की त्योहारी भीड़,.zone-दर-zone।",
     "b3.t": "'काम मंज़ूर होने तक पैसा सुरक्षित' का मतलब", "b3.p": "Escrow आसान भाषा में, असली बुकिंग उदाहरण के साथ।",
   },
   gu: {
@@ -59,7 +59,7 @@ export const D11: Record<Lang, Record<string, string>> = {
     "blog.h": "બ્લોગ", "blog.p": "ફીલ્ડમાંથી વાર્તાઓ, માર્ગદર્શિકા અને રેટ આંતરદૃષ્ટિ.",
     "blog.soon": "પૂરો લેખ જલ્દી આવશે",
     "b1.t": "પેઇન્ટિંગ ક્વોટ કેમ બદલાય — અને કેમ વાંચવા", "b1.p": "Sqft રેટ, પ્રાઇમર કોટ અને સપાટીની તૈયારી, સરળ ભાષામાં.",
-    "b2.t": "દિવાળી પેઇન્ટિંગ: 3 અઠવાડિયા વહેલા બુક કરો", "b2.p": "વડોદરાની તહેવારની ભીડ, ઝોન પ્રમાણે.",
+    "b2.t": "દિવાળી પેઇન્ટિંગ: 3 અઠવાડિયા વહેલા બુક કરો", "b2.p": "બઈની તહેવારની ભીડ, ઝોન પ્રમાણે.",
     "b3.t": "'કામ મંજૂર થાય ત્યાં સુધી પૈસા સુરક્ષિત' નો અર્થ", "b3.p": "Escrow સરળ ભાષામાં, સાચા બુકિંગ ઉદાહરણ સાથે.",
   },
 };

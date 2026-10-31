@@ -18,7 +18,7 @@ const noto = localFont({
 export const metadata: Metadata = {
   title: "Paintoor — Home services, delivered with trust",
   description:
-    "Verified painters, electricians and plumbers in Vadodara. Compare itemized quotes, pay safely into escrow, approve the work.",
+    "Verified painters in Mumbai. Compare itemized quotes, pay safely into escrow, approve the work.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

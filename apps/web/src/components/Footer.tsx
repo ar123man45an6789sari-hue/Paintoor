@@ -4,7 +4,7 @@
 
 import Link from "next/link";
 import { useI18n } from "@/i18n";
-import { company } from "@paintoor/brand";
+import { company, helpCentre, poweredBy } from "@paintoor/brand";
 
 export function Footer() {
   const { t } = useI18n();
@@ -75,10 +75,11 @@ export function Footer() {
           </div>
         ))}
       </div>
-
-      <div className="mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
+           <div className="mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
         <p className="text-xs font-extrabold text-snow">{company.legalName}</p>
-        <p className="mt-1 text-xs">{t("foot.regd")}</p>
+        <p className="mt-1 text-xs">{t("foot.about")}</p>
+        <p className="mt-2 text-xs font-extrabold text-haldi">{helpCentre.label}</p>
+        <p className="mt-1 text-xs">{helpCentre.address}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {Object.entries(company.emails).map(([role, mail]) => (
             <a
@@ -94,7 +95,7 @@ export function Footer() {
 
       <div className="mx-auto mt-6 flex max-w-6xl flex-col gap-2 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
         <span>© {new Date().getFullYear()} {company.legalName}</span>
-        <span>{t("foot.powered")}</span>
+        <span className="font-extrabold text-snow">Powered by {poweredBy}</span>
       </div>
     </footer>
   );

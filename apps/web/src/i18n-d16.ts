@@ -53,6 +53,7 @@ export const D16: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · Choose the shade",
     "st.wall": "colour under cursor",
     "st.photoAlt": "Your photo with the painted preview",
+    "brands.genuine": "Genuine stock · company warranty",
 
     "fam.whites": "Whites", "fam.creams": "Creams", "fam.yellows": "Yellows", "fam.oranges": "Oranges",
     "fam.reds": "Reds", "fam.pinks": "Pinks", "fam.purples": "Purples", "fam.blues": "Blues",
@@ -108,6 +109,7 @@ export const D16: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · शेड चुनिए",
     "st.wall": "कर्सर के नीचे रंग",
     "st.photoAlt": "पेंट किए प्रीव्यू के साथ आपकी फोटो",
+    "brands.genuine": "असली स्टॉक · कंपनी वारंटी",
 
     "fam.whites": "सफ़ेद", "fam.creams": "क्रीम", "fam.yellows": "पीले", "fam.oranges": "नारंगी",
     "fam.reds": "लाल", "fam.pinks": "गुलाबी", "fam.purples": "बैंगनी", "fam.blues": "नीले",
@@ -163,6 +165,7 @@ export const D16: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · શેડ પસંદ કરો",
     "st.wall": "કર્સર હેઠળ રંગ",
     "st.photoAlt": "પેઇન્ટેડ પ્રિવ્યૂ સાથે તમારો ફોટો",
+    "brands.genuine": "સાચો સ્ટૉક · કંપની વૉરંટી",
 
     "fam.whites": "સફેદ", "fam.creams": "ક્રીમ", "fam.yellows": "પીળા", "fam.oranges": "નારંગી",
     "fam.reds": "લાલ", "fam.pinks": "ગુલાબી", "fam.purples": "જાંબલી", "fam.blues": "વાદળી",

@@ -16,7 +16,7 @@ export type Locale = (typeof SUPPORTED_LOCALES)[number];
 export const company = {
   legalName: "Paintoor™ India (OPC) Pvt. Ltd.",
   registeredAddress:
-    "Regd. Off. B/C-1, R-6, D.M Singh Industrial Compound, Opp. Shraddha Bldg. N-3, Thakur Complex, Kandivali East, Mumbai - 400101",
+    "Shop No - 07, Krishna Gokul Garden Co-operative Housing Society Limited, Opposite - BMC Parking, Next to MMRDA Market, Thakur Complex, Kandivali East, Mumbai - 400101",
   phoneDisplay: "+91 97023 88055",
   phoneTel: "+919702388055",
   emails: {
@@ -25,4 +25,11 @@ export const company = {
     partner: "Partner@Paintoor.in",
     career: "Career@Paintoor.in",
   },
+} as const;
+/** Powered-by line and walk-in help centre (client-provided, 29 Oct 2026). */
+export const poweredBy = "KHAKI | KrypTech™ (India) Pvt. Ltd.";
+export const helpCentre = {
+  label: "Authorized On-boarding & Help Centre",
+  address:
+    "Shop No - 07, Krishna Gokul Garden Co-operative Housing Society Limited, Opposite - BMC Parking, Next to MMRDA Market, Thakur Complex, Kandivali East, Mumbai - 400101",
 } as const;

@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PinIcon } from "./Icons";
+import { PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getCity, nearestCity, setCity } from "@/lib/city";
 
@@ -16,7 +16,7 @@ export function NavSearch() {
   const [open, setOpen] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
   const [sugOpen, setSugOpen] = useState(false);
-  const [city, setCityState] = useState("Vadodara");
+  const [city, setCityState] = useState("Mumbai");
   const [area, setArea] = useState("");
   const [q, setQ] = useState("");
   const [locMsg, setLocMsg] = useState<string | null>(null);
@@ -135,8 +135,8 @@ export function NavSearch() {
           </>
         )}
       </div>
-      <button type="button" onClick={go} aria-label={t("search.ph")} className="flex min-h-11 items-center rounded-r-pill bg-saffron px-4 text-snow hover:shadow-lift">
-        🔍
+     <button type="button" onClick={go} aria-label={t("search.ph")} className="flex min-h-11 items-center rounded-r-pill bg-saffron px-4 text-snow hover:shadow-lift">
+        <SearchIcon className="h-4 w-4" />
       </button>
     </div>
   );
@@ -148,9 +148,9 @@ export function NavSearch() {
         type="button"
         aria-label={t("search.ph")}
         onClick={() => setOpen((v) => !v)}
-        className="flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-base hover:border-saffron md:hidden"
+        className="flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-muted hover:border-saffron hover:text-saffron md:hidden"
       >
-        🔍
+        <SearchIcon className="h-4 w-4" />
       </button>
       {open && <div className="absolute right-0 top-12 z-50 w-[92vw] md:hidden">{pill}</div>}
     </div>
