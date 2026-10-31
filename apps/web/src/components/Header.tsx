@@ -20,6 +20,7 @@ import { NavSearch } from "./NavSearch";
 import { AccountIcon, PlusIcon } from "./Icons";
 
 const NAV = [
+  { href: "/studio", key: "nav.studio" },
   { href: "#services", key: "nav.services" },
   { href: "#how", key: "nav.marketplace" },
   { href: "#workers", key: "nav.partners" },

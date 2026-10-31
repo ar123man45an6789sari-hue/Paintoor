@@ -132,7 +132,7 @@ export function ProvidersBrowser() {
           </select>
         </label>
         <p className="ml-auto text-sm font-bold text-navy">
-          {filtered.length} {t("prov.workers")}
+        {t("prov.count", { n: filtered.length })}
         </p>
       </div>
 

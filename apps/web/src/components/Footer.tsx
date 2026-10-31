@@ -12,6 +12,7 @@ export function Footer() {
     {
       head: t("foot.h1"),
       links: [
+        { key: "fl.studio", href: "/studio" },
         { key: "fl.about", href: "/about" },
         { key: "fl.careers", href: `mailto:${company.emails.career}` },
         { key: "fl.blog", href: "/blog" },
@@ -30,7 +31,7 @@ export function Footer() {
     {
       head: t("foot.h3"),
       links: [
-        { key: "fl.worker", href: `mailto:${company.emails.partner}` },
+        { key: "fl.partner", href: `mailto:${company.emails.partner}` },
         { key: "fl.store", href: `mailto:${company.emails.partner}` },
         { key: "fl.rwa", href: `mailto:${company.emails.info}` },
       ],

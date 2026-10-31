@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
-import { BeforeAfter } from "./BeforeAfter";
+import { StudioTeaser } from "@/components/studio/StudioTeaser";
 
 const REDUCED =
   typeof window !== "undefined" &&
@@ -326,7 +326,7 @@ export function LandingSections() {
     <>
       <StoryPin />
       <Categories />
-      <BeforeAfter />
+      <StudioTeaser />
       <RoleLens />
       <EscrowFlow />
       <TestimonialsMarquee />

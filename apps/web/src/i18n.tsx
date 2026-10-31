@@ -14,6 +14,7 @@ import { D13 } from "./i18n-d13";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { D15 } from "./i18n-d15";
+import { D16 } from "./i18n-d16";
 
 export type Lang = "en" | "hi" | "gu";
 
@@ -140,8 +141,6 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.city": "City", "prov.area": "Area", "prov.skill": "Skill",
     "prov.allIndia": "All India", "prov.allAreas": "All areas", "prov.allSkills": "All skills",
     "prov.partners": "verified partners available", "prov.empty": "No partners match this combination yet — widen the city or skill filter.",
-    "ba.h": "See the difference", "ba.p": "Drag the handle — this is what a Paintoor finish looks like.",
-    "ba.before": "Before", "ba.after": "After",
   },
   hi: {
     "brand.pre": "पेंट", "brand.post": "ऊर",
@@ -175,8 +174,6 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.city": "शहर", "prov.area": "क्षेत्र", "prov.skill": "कौशल",
     "prov.allIndia": "पूरा भारत", "prov.allAreas": "सभी क्षेत्र", "prov.allSkills": "सभी कौशल",
     "prov.partners": "वेरिफाइड पार्टनर उपलब्ध", "prov.empty": "इस जोड़ से कोई पार्टनर नहीं मिला — शहर या कौशल बदलें।",
-    "ba.h": "फ़र्क देखिए", "ba.p": "हैंडल खींचिए — Paintoor फ़िनिश ऐसी होती है।",
-    "ba.before": "पहले", "ba.after": "बाद में",
   },
   gu: {
     "brand.pre": "પેંટ", "brand.post": "ોર",
@@ -210,8 +207,6 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.city": "શહેર", "prov.area": "વિસ્તાર", "prov.skill": "કૌશલ્ય",
     "prov.allIndia": "આખું ભારત", "prov.allAreas": "બધા વિસ્તારો", "prov.allSkills": "બધા કૌશલ્ય",
     "prov.partners": "વેરિફાઇડ પાર્ટનરો ઉપલબ્ધ", "prov.empty": "આ જોડાણથી કોઈ પાર્ટનર મળ્યો નહીં — શહેર કે કૌશલ્ય બદલો.",
-    "ba.h": "ફરક જુઓ", "ba.p": "હેન્ડલ ખેંચો — Paintoor ફિનિશ આવી હોય છે.",
-    "ba.before": "પહેલાં", "ba.after": "પછી",
   },
 };
 /* D3 — page-level strings that earlier leaked in English (server components). */
@@ -308,8 +303,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }
 
   const t = (k: string, params?: Record<string, string | number>) => {
-  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang], ...D8[lang], ...D9[lang], ...D10[lang], ...D11[lang], ...D12[lang], ...D13[lang], ...D15[lang] };
-  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? D8.en[k] ?? D9.en[k] ?? D10.en[k] ?? D11.en[k] ?? D12.en[k] ?? D13.en[k] ?? D15.en[k] ?? k;
+  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang], ...D8[lang], ...D9[lang], ...D10[lang], ...D11[lang], ...D12[lang], ...D13[lang], ...D15[lang], ...D16[lang]  };
+  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? D8.en[k] ?? D9.en[k] ?? D10.en[k] ?? D11.en[k] ?? D12.en[k] ?? D13.en[k] ?? D15.en[k] ?? D16.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }
