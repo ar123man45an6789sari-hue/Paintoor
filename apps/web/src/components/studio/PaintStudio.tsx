@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
 import { ColourPalette } from "./ColourPalette";
 import { PaintStage } from "./PaintStage";
-import { usePaintStudio } from "./usePaintStudio";
+import { BRUSH_MAX, BRUSH_MIN, usePaintStudio } from "./usePaintStudio";
 
 export function PaintStudio() {
   const { t } = useI18n();
@@ -183,7 +183,7 @@ export function PaintStudio() {
                     {bag.layers > 0 ? t("st.layers", { n: bag.layers }) : t("st.saveSub")}
                   </p>
                 </div>
-                {slider(t("st.size"), bag.brush, 6, 120, bag.setBrush, " px")}
+                {slider(t("st.size"), bag.brush, BRUSH_MIN, BRUSH_MAX, bag.setBrush, " px")}
                 {slider(t("st.tol"), bag.tol, 5, 100, bag.setTol)}
                 {slider(t("st.intensity"), bag.intensity, 30, 100, bag.setIntensity, "%")}
                 <label className="mt-3 flex items-start gap-2 text-xs font-bold text-ink">

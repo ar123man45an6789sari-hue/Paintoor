@@ -34,17 +34,19 @@ import {
   pixelToHex,
   rebuildBase,
   selectedFraction,
-  stampDisc,
-  stampLine,
+   stampLine,
+  stampSquare,
 } from "@/lib/paintEngine";
 import type { PaintJob, PaintLayer, Pixel, Rect } from "@/lib/paintEngine";
 
 export type StudioTool = "pick" | "brush" | "erase";
 
 export type StudioPhoto = { id: string; name: string; url: string };
-
 const MAX_PHOTOS = 6;
 const MAX_HISTORY = 12;
+/** Brush/eraser half-size limits in photo pixels, shared with the sliders. */
+export const BRUSH_MIN = 2;
+export const BRUSH_MAX = 160;
 
 type Slot = {
   job: PaintJob;
@@ -488,6 +490,22 @@ export function usePaintStudio(maxDim: number) {
     if (j) j.connected = connected;
   }, [job, connected]);
 
+    /* Ctrl + / Ctrl - resize the brush or eraser, like desktop paint apps.
+     Ignored while no photo is loaded, so browser zoom keeps working there. */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.ctrlKey && !e.metaKey) return;
+      const up = e.key === "=" || e.key === "+";
+      const down = e.key === "-" || e.key === "_";
+      if (!up && !down) return;
+      if (!activeIdRef.current) return;
+      e.preventDefault();
+      setBrush((b) => Math.max(BRUSH_MIN, Math.min(BRUSH_MAX, b + (up ? 4 : -4))));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   /* --------------------------------------------------------- pointer ---- */
 
   const toLocal = useCallback(
@@ -603,7 +621,7 @@ export function usePaintStudio(maxDim: number) {
       st.down = true;
       st.last = point;
       st.target = point;
-      const rect = stampDisc(j, point.x, point.y, brush, tool === "brush");
+      const rect = stampSquare(j, point.x, point.y, brush, tool === "brush");
       st.dirty = rect;
       repaint(rect);
     },

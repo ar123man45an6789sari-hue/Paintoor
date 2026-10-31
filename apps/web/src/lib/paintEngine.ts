@@ -323,24 +323,22 @@ function matchesAny(desc: PickDesc[], thr: number, L: number, r: number, g: numb
  * selection: manual brush / eraser strokes
  * ------------------------------------------------------------------ */
 
-/** Paint or erase a soft-edged disc. Returns the dirty rectangle. */
-export function stampDisc(job: PaintJob, cx: number, cy: number, radius: number, add: boolean): Rect {
+/** Square stamp with a 2px anti-aliased rim, like a real brush/eraser tip. */
+export function stampSquare(job: PaintJob, cx: number, cy: number, radius: number, add: boolean): Rect {
   const { width, height, mask } = job;
   const r = Math.max(1, Math.round(radius));
   const x0 = Math.max(0, cx - r);
   const x1 = Math.min(width - 1, cx + r);
   const y0 = Math.max(0, cy - r);
   const y1 = Math.min(height - 1, cy + r);
-  const r2 = r * r;
   for (let y = y0; y <= y1; y += 1) {
-    const dy = y - cy;
+    const dy = Math.abs(y - cy);
     const row = y * width;
     for (let x = x0; x <= x1; x += 1) {
-      const dx = x - cx;
-      const d2 = dx * dx + dy * dy;
-      if (d2 > r2) continue;
+      const dx = Math.abs(x - cx);
+      const d = dx > dy ? dx : dy;
       /* 2px anti-aliased rim so hand strokes do not look cut out. */
-      const edge = Math.min(1, Math.max(0, (r - Math.sqrt(d2)) / 2 + 0.5));
+      const edge = Math.min(1, Math.max(0, (r - d) / 2 + 0.5));
       const p = row + x;
       if (add) mask[p] = Math.max(mask[p], Math.round(255 * edge));
       else mask[p] = Math.min(mask[p], Math.round(255 * (1 - edge)));
@@ -366,7 +364,7 @@ export function stampLine(
   let maxY = Math.max(from.y, to.y) + radius;
   for (let s = 1; s <= steps; s += 1) {
     const t = s / steps;
-    stampDisc(job, Math.round(from.x + (to.x - from.x) * t), Math.round(from.y + (to.y - from.y) * t), radius, add);
+    stampSquare(job, Math.round(from.x + (to.x - from.x) * t), Math.round(from.y + (to.y - from.y) * t), radius, add);
   }
   minX = Math.max(0, Math.round(minX));
   minY = Math.max(0, Math.round(minY));

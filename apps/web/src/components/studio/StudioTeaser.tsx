@@ -8,7 +8,7 @@ import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
 import { PaintStage } from "./PaintStage";
-import { usePaintStudio } from "./usePaintStudio";
+import { BRUSH_MAX, BRUSH_MIN, usePaintStudio } from "./usePaintStudio";
 
 const TEASER_SHADES = [
   "#E00048",
@@ -57,6 +57,26 @@ export function StudioTeaser() {
         ? "border-saffron bg-saffron text-snow"
         : "border-line bg-white text-muted hover:border-saffron hover:text-saffron"
     }`;
+      const slider = (
+    label: string,
+    value: number,
+    min: number,
+    max: number,
+    onChange: (v: number) => void,
+    suffix = "",
+  ) => (
+    <label className="mt-2 block text-xs font-bold text-ink">
+      {label}: <span className="font-black text-saffron">{value}{suffix}</span>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        value={value}
+        onChange={(e) => onChange(+e.target.value)}
+        className="mt-1 w-full accent-saffron"
+      />
+    </label>
+  );
 
   return (
     <section ref={sectionRef} id="studio" className="bg-chuna px-5 py-24">
@@ -70,7 +90,7 @@ export function StudioTeaser() {
           </p>
         </div>
 
-        <div className="mt-8">
+         <div className="mx-auto mt-8 max-w-3xl">
           <PaintStage bag={bag} />
         </div>
 
@@ -125,6 +145,25 @@ export function StudioTeaser() {
           <button type="button" onClick={bag.reset} className={toolBtn(false)}>
             ♻ {t("st.reset")}
           </button>
+        </div>
+
+                {/* fine-tuning bar, same controls as the full studio */}
+        <div className="mx-auto mt-4 grid max-w-3xl gap-x-6 rounded-card border border-line bg-white px-4 pb-3 pt-1 shadow-card sm:grid-cols-3">
+          {slider(t("st.size"), bag.brush, BRUSH_MIN, BRUSH_MAX, bag.setBrush, " px")}
+          {slider(t("st.tol"), bag.tol, 5, 100, bag.setTol)}
+          {slider(t("st.intensity"), bag.intensity, 30, 100, bag.setIntensity, "%")}
+          <label className="mt-2 flex items-start gap-2 text-xs font-bold text-ink sm:col-span-3">
+            <input
+              type="checkbox"
+              checked={bag.connected}
+              onChange={(e) => bag.setConnected(e.target.checked)}
+              className="mt-0.5 h-4 w-4 accent-saffron"
+            />
+            <span>
+              {t("st.connected")}
+              <span className="block text-[11px] font-semibold text-muted">{t("st.connectedSub")}</span>
+            </span>
+          </label>
         </div>
 
         <div className="mt-6 flex flex-col items-center gap-2">
