@@ -136,7 +136,6 @@ const BRANDS = [
 ];
 
 function BrandCard({ b, leaving }: { b: (typeof BRANDS)[number]; leaving?: boolean }) {
-  const { t } = useI18n();
   return (
     <article
       className={`absolute inset-0 overflow-hidden rounded-sheet border-2 border-saffron bg-white shadow-card ${
@@ -144,7 +143,8 @@ function BrandCard({ b, leaving }: { b: (typeof BRANDS)[number]; leaving?: boole
       }`}
     >
       {/* One full-bleed artwork: no padding, no blur, no empty space — the
-          image covers the whole stage edge to edge. */}
+          image covers the whole stage edge to edge. Nothing sits on top of
+          it so the artwork stays clean. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/brands/${b.slug}.png`}
@@ -153,14 +153,6 @@ function BrandCard({ b, leaving }: { b: (typeof BRANDS)[number]; leaving?: boole
         decoding="async"
         className="absolute inset-0 h-full w-full select-none object-cover"
       />
-      {/* Name + warranty ride on the artwork as a soft gradient strip. */}
-      <div className="absolute inset-x-0 bottom-0 flex flex-wrap items-center justify-between gap-2 bg-gradient-to-t from-black/70 via-black/35 to-transparent px-5 pb-3 pt-10">
-        <div>
-          <h4 className="text-lg font-black text-snow drop-shadow md:text-xl">{b.name}</h4>
-          <p className="text-[11px] font-semibold text-snow/85">{b.lines}</p>
-        </div>
-        <span className="rounded-pill bg-snow/90 px-2.5 py-1 text-[11px] font-bold text-neem">✓ {t("brands.genuine")}</span>
-      </div>
     </article>
   );
 }
@@ -192,6 +184,30 @@ function BrandStage() {
   const step = (dir: 1 | -1) =>
     setStage((s) => ({ idx: (s.idx + dir + BRANDS.length) % BRANDS.length, prev: s.idx }));
 
+  /* Pink pill + black chevron, sitting OUTSIDE the photo so the artwork
+     never gets covered. Desktop: beside the stage. Mobile: beside dots. */
+  const arrow = (dir: 1 | -1, size: string) => (
+    <button
+      type="button"
+      aria-label={dir === -1 ? "Previous brand" : "Next brand"}
+      onClick={() => step(dir)}
+      className={`flex flex-none items-center justify-center rounded-full bg-saffron text-black shadow-card transition hover:brightness-95 active:scale-95 ${size}`}
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={3}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+        className="h-5 w-5"
+      >
+        <path d={dir === -1 ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"} />
+      </svg>
+    </button>
+  );
+
   return (
     <div
       onMouseEnter={() => {
@@ -213,21 +229,30 @@ function BrandStage() {
         if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
       }}
     >
-      {/* overflow-hidden clips the incoming card until it reaches the stage */}
-      <div className="relative h-[400px] overflow-hidden md:h-[540px]">
-        {stage.prev !== null && <BrandCard b={BRANDS[stage.prev]} leaving />}
-        <BrandCard b={BRANDS[stage.idx]} />
+      <div className="flex items-center gap-3 md:gap-4">
+        {arrow(-1, "hidden h-11 w-11 md:flex")}
+                {/* Big ad-board stage: height follows the viewport so it stays huge
+            on every screen, mobile included. */}
+        <div className="relative h-[58vh] max-h-[680px] min-h-[420px] flex-1 overflow-hidden md:h-[72vh] md:max-h-[880px] md:min-h-[520px]">
+          {stage.prev !== null && <BrandCard b={BRANDS[stage.prev]} leaving />}
+          <BrandCard b={BRANDS[stage.idx]} />
+        </div>
+        {arrow(1, "hidden h-11 w-11 md:flex")}
       </div>
-      <div className="mt-3 flex justify-center gap-1.5">
-        {BRANDS.map((b, i) => (
-          <button
-            key={b.slug}
-            type="button"
-            aria-label={b.name}
-            onClick={() => jump(i)}
-            className={`h-2 rounded-pill transition-all ${i === stage.idx ? "w-6 bg-saffron" : "w-2 bg-line hover:bg-muted"}`}
-          />
-        ))}
+      <div className="mt-3 flex items-center justify-center gap-3">
+        {arrow(-1, "h-9 w-9 md:hidden")}
+        <div className="flex gap-1.5">
+          {BRANDS.map((b, i) => (
+            <button
+              key={b.slug}
+              type="button"
+              aria-label={b.name}
+              onClick={() => jump(i)}
+              className={`h-2 rounded-pill transition-all ${i === stage.idx ? "w-6 bg-saffron" : "w-2 bg-line hover:bg-muted"}`}
+            />
+          ))}
+        </div>
+        {arrow(1, "h-9 w-9 md:hidden")}
       </div>
     </div>
   );
@@ -237,8 +262,8 @@ function Categories() {
   const { t } = useI18n();
   const router = useRouter();
   return (
-    <section id="services" className="bg-chuna px-5 py-24">
-      <div className="mx-auto grid max-w-6xl items-center gap-8 lg:grid-cols-[1.6fr_1fr]">
+        <section id="services" className="bg-chuna px-4 py-16 md:px-8 md:py-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-[1.9fr_1fr] lg:gap-10">
         <BrandStage />
         <aside className="reveal">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("nav.services")}</span>
