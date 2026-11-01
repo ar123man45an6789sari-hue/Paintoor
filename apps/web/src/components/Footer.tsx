@@ -6,6 +6,8 @@ import Link from "next/link";
 import { useI18n } from "@/i18n";
 import { company, helpCentre, poweredBy, socials } from "@paintoor/brand";
 import { Logo } from "./Logo";
+import { Wordmark } from "./Wordmark";
+
 /* Minimal stroke glyphs for the official handles — no emoji, no icon font. */
 function SocialGlyph({ id }: { id: string }) {
   const common = {
@@ -88,20 +90,21 @@ export function Footer() {
   ];
 
   return (
-        <footer className="relative overflow-hidden border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
+    <footer className="relative overflow-hidden border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
       {/* Diagonal brand watermark: sits under every piece of real content at
-          6% so the footer text stays fully readable. Purely decorative. */}
+          7% so the footer text stays fully readable. Purely decorative. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex select-none items-center justify-center">
+        {/* Mobile: logo on top, name below (space is tight). Laptop: side by
+            side and much bigger. 7% keeps every real line of text readable. */}
         <div className="flex -rotate-12 flex-col items-center gap-3 opacity-[0.07] md:flex-row md:gap-10">
           <Logo className="h-28 w-28 md:h-56 md:w-56" />
-          <span className="whitespace-nowrap text-[17vw] font-black leading-none tracking-tight text-snow md:text-[17vw]">Paintoor</span>
+          <Wordmark className="text-[17vw] font-black leading-none tracking-tight text-snow md:text-[11vw]" />
         </div>
       </div>
       <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
-          <h2 className="mb-2 font-black text-snow">
-            {t("brand.pre")}
-            {t("brand.post")}
+          <h2 className="mb-2">
+            <Wordmark className="text-2xl font-black text-snow" />
           </h2>
           <p className="max-w-[280px] text-sm">{t("foot.about")}</p>
           <p className="mt-3 text-sm">
@@ -132,10 +135,10 @@ export function Footer() {
           </div>
         ))}
       </div>
-           <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
+
+      <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
         <p className="text-xs font-extrabold text-snow">{company.legalName}</p>
-        <p className="mt-1 text-xs">{t("foot.about")}</p>
-        <p className="mt-2 text-xs font-extrabold text-haldi">{helpCentre.label}</p>
+        <p className="mt-2 text-xs font-extrabold text-haldi">*{helpCentre.label}*</p>
         <p className="mt-1 text-xs">{helpCentre.address}</p>
         <div className="mt-2 flex flex-wrap gap-2">
           {Object.entries(company.emails).map(([role, mail]) => (
@@ -150,9 +153,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-2 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
+      <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-3 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
         <span>© {new Date().getFullYear()} {company.legalName}</span>
-                <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           {socials.map((s) =>
             s.url ? (
               <a

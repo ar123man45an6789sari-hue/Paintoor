@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
+import { Wordmark } from "./Wordmark";
 import { AuthModal } from "./auth/AuthModal";
 import type { AuthMode } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
@@ -117,10 +118,7 @@ export function Header() {
             </span>
             <span className="hidden items-center gap-2 dark:flex">
               <Logo className="h-8 w-8" />
-              <span className="whitespace-nowrap text-lg font-black tracking-tight text-snow md:text-xl">
-                {t("brand.pre")}
-                {t("brand.post")}
-              </span>
+               <Wordmark className="text-lg font-black tracking-tight text-snow md:text-xl" />
             </span>
           </Link>
 

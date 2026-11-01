@@ -24,7 +24,7 @@ export const FAQ_UI: Record<
     inputPh: string;
     close: string;
     send: string;
-    helpName: string;
+    helpWord: string;
   }
 > = {
   en: {
@@ -48,7 +48,7 @@ export const FAQ_UI: Record<
     inputPh: "Type your question…",
     close: "Close",
     send: "Send",
-    helpName: "Paintoor Help",
+    helpWord: "Help",
   },
   hi: {
     h: "सवाल, सीधे जवाब",
@@ -71,7 +71,7 @@ export const FAQ_UI: Record<
     inputPh: "अपना सवाल लिखिए…",
     close: "बंद करें",
     send: "भेजें",
-    helpName: "Paintoor सहायता",
+    helpWord: "सहायता",
   },
   gu: {
     h: "સવાલ, સીધા જવાબ",
@@ -94,7 +94,7 @@ export const FAQ_UI: Record<
     inputPh: "તમારો સવાલ લખો…",
     close: "બંધ",
     send: "મોકલો",
-    helpName: "Paintoor સહાય",
+    helpWord: "સહાય",
   },
 };
 

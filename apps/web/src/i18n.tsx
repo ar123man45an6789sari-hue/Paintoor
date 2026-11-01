@@ -109,7 +109,7 @@ const D: Record<Lang, Record<string, string>> = {
 /* D2 — extension pack: auth, forms, browse, brand (added with total-localisation mandate). */
 const D2: Record<Lang, Record<string, string>> = {
   en: {
-    "brand.pre": "Paint", "brand.post": "oor",
+    
     "auth.hello": "Welcome to Paintoor", "auth.newq": "New here? Create an account. Already with us? Log in.",
     "auth.create": "Register", "auth.createSub": "New to Paintoor — choose your role",
     "auth.login": "Log in", "auth.loginSub": "Existing account — verify with OTP",
@@ -142,7 +142,7 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.partners": "verified partners available", "prov.empty": "No partners match this combination yet — widen the city or skill filter.",
   },
   hi: {
-    "brand.pre": "पेंट", "brand.post": "ऊर",
+    
     "auth.hello": "Paintoor में स्वागत है", "auth.newq": "नए हैं? अकाउंट बनाइए। पहले से हैं? लॉग इन कीजिए।",
     "auth.create": "रजिस्टर करें", "auth.createSub": "Paintoor पर नए — अपनी भूमिका चुनें",
     "auth.login": "लॉग इन", "auth.loginSub": "मौजूदा अकाउंट — OTP से पुष्टि",
@@ -175,12 +175,11 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.partners": "वेरिफाइड पार्टनर उपलब्ध", "prov.empty": "इस जोड़ से कोई पार्टनर नहीं मिला — शहर या कौशल बदलें।",
   },
   gu: {
-    "brand.pre": "પેંટ", "brand.post": "ોર",
+    
     "auth.hello": "Paintoorમાં સ્વાગત છે", "auth.newq": "નવા છો? રજિસ્ટર કરો. પહેલેથી છો? લોગ ઇન કરો.",
     "auth.create": "રજિસ્ટર કરો", "auth.createSub": "Paintoor પર નવા — તમારી ભૂમિકા પસંદ કરો",
-    "auth.login": "લોગ ઇન", "auth.loginSub": "હાલનુং એકાઉન્ਟ — OTP થી ખாதரி",
-    "auth.roleQ": "તમે કોઈ છો?", "auth.roleSub": "તમারी બજળવળતર પડતર  — ഫോർമ തിരിച്ചുവരുന്നത്.",
-    "auth.back": "← പിന്നിലെ", "auth.loginTitle": "താങ്കളുടെ അക്കൗണ്ടിൽ ലോഗിൻ ചെയ്യുക", "auth.loginSub2": " chúng tôi sẽ xác nhận bằng mã 6 chữ số.",
+    "auth.login": "લોગ ઇન", "auth.loginSub": "હાલનુং એકાઉન્ટ — OTP થી ખાતરી",
+    "auth.roleQ": "તમે કોઈ છો?", "auth.roleSub": "તમારી બજળવળતર પડતર  — ഫോർമ തിരിച്ചുവരുന്നത്.",
     "auth.identifier": "મોબાઇલ નંબર અથવા ઈમેલ", "auth.idPh": "+91 98765 43210 · you@mail.com",
     "auth.google": "Google થી ચાલુ રાખો", "auth.or": "અથવા", "auth.send": "કોડ મોકલો",
     "auth.otpTitle": "6 અંકનો કોડ દાખલ કરો", "auth.otpSub": "તમારા મોબાઇલ કે ઈમેલ પર મોકલ્યો.",

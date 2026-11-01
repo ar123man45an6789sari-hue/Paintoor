@@ -4,6 +4,7 @@
 
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
+import { Wordmark } from "@/components/Wordmark";
 import { useI18n } from "@/i18n";
 import { FAQS, FAQ_CATS, FAQ_UI, type FaqCat } from "@/lib/faq";
 
@@ -74,13 +75,16 @@ export default function FaqPage() {
 
       {/* message-box preview modal */}
       {chatOpen && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-raatri/60 p-4 sm:items-center" role="dialog" aria-modal="true" aria-label={ui.helpName}>
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-raatri/60 p-4 sm:items-center" role="dialog" aria-modal="true" aria-label={"Paintoor " + ui.helpWord}>
           <button type="button" aria-label={ui.close} onClick={() => setChatOpen(false)} className="absolute inset-0 cursor-default" />
           <div className="relative flex h-[70vh] w-full max-w-md flex-col overflow-hidden rounded-sheet border border-line bg-white shadow-card">
             <div className="flex items-center justify-between border-b border-line px-4 py-3">
               <div className="flex items-center gap-2">
                 <Logo className="h-6 w-6" />
-                <span className="text-sm font-extrabold text-navy">{ui.helpName}</span>
+                <span className="flex items-center gap-1 text-sm font-extrabold text-navy">
+                  <Wordmark className="text-sm font-extrabold text-navy" />
+                  {ui.helpWord}
+                </span>
               </div>
               <button
                 type="button"
