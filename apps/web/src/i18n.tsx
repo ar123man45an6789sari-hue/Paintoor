@@ -21,7 +21,7 @@ export type Lang = "en" | "hi" | "gu";
 const D: Record<Lang, Record<string, string>> = {
   en: {
     "nav.services": "Services", "nav.how": "How it works", "nav.partners": "Our partners", "nav.why": "Why us",
-    "nav.login": "Log in", "nav.signup": "Register", "nav.entrance": "Entrance",
+    "nav.login": "Log in", "nav.signup": "Register", "nav.entrance": "Entrance", "nav.menu": "Menu", "menu.theme": "Theme",
     "hero.badge": "Now serving 4 cities · 240+ verified partners",
     "hero.w1": "Every", "hero.w2": "home", "hero.w3": "job,", "hero.w4": "with", "hero.w5": "trust.",
     "hero.sub": "See verified painters near you — their work, their rates, their reviews. Compare quotes, keep your money safe, approve the work.",
@@ -50,7 +50,7 @@ const D: Record<Lang, Record<string, string>> = {
   },
   hi: {
     "nav.services": "सेवाएं", "nav.how": "कैसे काम करता है", "nav.partners": "हमारे पार्टनर", "nav.why": "हम क्यों",
-    "nav.login": "लॉग इन", "nav.signup": "रजिस्टर करें", "nav.entrance": "प्रवेश",
+    "nav.login": "लॉग इन", "nav.signup": "रजिस्टर करें", "nav.entrance": "प्रवेश", "nav.menu": "मेन्यू", "menu.theme": "थीम",
     "hero.badge": "अब 4 शहरों में · 240+ वेरिफाइड पार्टनर",
     "hero.w1": "हर", "hero.w2": "घर", "hero.w3": "का काम,", "hero.w4": "भरोसे", "hero.w5": "के साथ।",
     "hero.sub": "अपने पास के वेरिफाइड पेंटर देखें — उनका काम, रेट और रिव्यू। क्वोट तुलना करें, पैसा सुरक्षित रखें, काम मंज़ूर करें।",
@@ -78,7 +78,7 @@ const D: Record<Lang, Record<string, string>> = {
   },
   gu: {
     "nav.services": "સેવાઓ", "nav.how": "કેવી રીતે કામ કરે છે", "nav.partners": "અમારા પાર્ટનરો", "nav.why": "શા માટે અમે",
-    "nav.login": "લોગ ઇન", "nav.signup": "રજિસ્ટર કરો", "nav.entrance": "પ્રવેશ",
+    "nav.login": "લોગ ઇન", "nav.signup": "રજિસ્ટર કરો", "nav.entrance": "પ્રવેશ", "nav.menu": "મેનૂ", "menu.theme": "થીમ",
     "hero.badge": "હવે 4 શહેરોમાં · 240+ વેરિફાઇડ પાર્ટનરો",
     "hero.w1": "દરેક", "hero.w2": "ઘરનું", "hero.w3": "કામ,", "hero.w4": "ભરોસા", "hero.w5": "સાથે.",
     "hero.sub": "તમારી નજીકના વેરિફાઇડ પેઇન્ટર જુઓ — તેમનું કામ, રેટ અને રિવ્યુ. ક્વોટ સરખાવો, પૈસા સુરક્ષિત રાખો, કામ મંજૂર કરો.",

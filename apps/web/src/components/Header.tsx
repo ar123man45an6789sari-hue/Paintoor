@@ -21,9 +21,9 @@ import { AccountIcon, PlusIcon } from "./Icons";
 
 const NAV = [
   { href: "/studio", key: "nav.studio" },
-  { href: "#services", key: "nav.services" },
-  { href: "#how", key: "nav.marketplace" },
-  { href: "#workers", key: "nav.partners" },
+  { href: "/#services", key: "nav.services" },
+  { href: "/#how", key: "nav.marketplace" },
+  { href: "/#workers", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },
   { href: "/about", key: "nav.about" },
 ];
@@ -49,6 +49,7 @@ export function Header() {
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [langOpen, setLangOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [session, setSessionState] = useState<Session | null>(null);
 
@@ -98,26 +99,28 @@ export function Header() {
   }
 
   const iconBtn =
-    "flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-base transition-colors hover:border-saffron";
+    "flex h-9 w-9 flex-none items-center justify-center rounded-pill border border-line bg-chuna text-base transition-colors hover:border-saffron";
 
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
-        <div className="flex h-16 w-full items-center gap-3 px-3 md:gap-4 md:px-4">
-          <Link href={session ? "/dashboard" : "/"} className="flex items-center gap-2 text-navy">
+        <div className="flex min-h-16 w-full flex-wrap items-center gap-3 px-3 py-2 md:gap-4 md:px-4 lg:h-16 lg:flex-nowrap lg:py-0">
+          <Link href={session ? "/dashboard" : "/"} className="flex shrink-0 items-center gap-2 text-navy">
             <span className="dark:hidden">
               <Image src="/paintoor-horizontal.png" alt="Paintoor" width={1000} height={263} className="h-8 w-auto" priority />
             </span>
             <span className="hidden items-center gap-2 dark:flex">
               <Logo className="h-8 w-8" />
-              <span className="text-lg font-black tracking-tight text-snow md:text-xl">
+              <span className="whitespace-nowrap text-lg font-black tracking-tight text-snow md:text-xl">
                 {t("brand.pre")}
                 {t("brand.post")}
               </span>
             </span>
           </Link>
 
-          <NavSearch />
+          <div className="order-last w-full min-w-0 lg:order-none lg:w-auto">
+            <NavSearch />
+          </div>
 
           <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">
             {NAV.map((item) =>
@@ -133,12 +136,13 @@ export function Header() {
             )}
           </nav>
 
-          <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} ml-auto lg:ml-0`}>
+          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} hidden lg:flex`}>
             {dark ? "☀️" : "🌙"}
           </button>
 
           <div className="relative">
-            <button type="button" onClick={() => setLangOpen((v) => !v)} aria-label="Change language" className={`${iconBtn} text-navy`}>
+            <button type="button" onClick={() => setLangOpen((v) => !v)} aria-label="Change language" className={`${iconBtn} hidden text-navy lg:flex`}>
               🌐
             </button>
             {langOpen && (
@@ -179,7 +183,7 @@ export function Header() {
                 <span aria-hidden="true">{ROLE_CHIP[session.role].emoji}</span>
                 {t(ROLE_CHIP[session.role].key)} · {t("dash.open")}
               </Link>
-              <button type="button" onClick={logout} className="rounded-control border-2 border-line px-3 py-2 text-xs font-extrabold text-muted hover:border-danger hover:text-danger">
+              <button type="button" onClick={logout} className="hidden rounded-control border-2 border-line px-3 py-2 text-xs font-extrabold text-muted hover:border-danger hover:text-danger lg:inline-flex">
                 {t("dash.logout")}
               </button>
             </>
@@ -216,7 +220,71 @@ export function Header() {
               )}
             </div>
           )}
+            <button
+              type="button"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={t("nav.menu")}
+              aria-expanded={menuOpen}
+              className={`${iconBtn} text-navy lg:hidden`}
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" className="h-5 w-5" aria-hidden="true">
+                {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+              </svg>
+            </button>
+          </div>
         </div>
+
+        {menuOpen && (
+          <>
+            <button type="button" aria-label={t("notif.close")} onClick={() => setMenuOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+            <nav aria-label={t("nav.menu")} className="relative z-50 border-t border-line bg-white px-3 pb-4 pt-2 shadow-card lg:hidden">
+              {NAV.map((item) => (
+                <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block rounded-control px-3 py-2.5 text-sm font-extrabold text-ink hover:bg-chuna">
+                  {t(item.key)}
+                </Link>
+              ))}
+              <div className="mt-2 flex items-center gap-2 border-t border-line pt-3">
+                <button
+                  type="button"
+                  onClick={() => {
+                    applyTheme(!dark, true);
+                    setMenuOpen(false);
+                  }}
+                  className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-control border border-line px-3 text-xs font-extrabold text-navy hover:border-saffron"
+                >
+                  {dark ? "☀️" : "🌙"} {t("menu.theme")}
+                </button>
+                <div className="flex flex-1 gap-1">
+                  {LANGS.map((l) => (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => {
+                        setLang(l.code);
+                        setMenuOpen(false);
+                      }}
+                      className={`min-h-11 flex-1 rounded-control border text-xs font-extrabold ${lang === l.code ? "border-saffron bg-saffron text-snow" : "border-line text-navy hover:border-saffron"}`}
+                    >
+                      {l.tag}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              {session && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="mt-2 min-h-11 w-full rounded-control border-2 border-line px-3 text-xs font-extrabold text-muted hover:border-danger hover:text-danger"
+                >
+                  {t("dash.logout")}
+                </button>
+              )}
+            </nav>
+          </>
+        )}
       </header>
 
       <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
