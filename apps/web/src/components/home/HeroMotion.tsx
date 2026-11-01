@@ -6,12 +6,18 @@ import { useEffect, useRef, useState } from "react";
 import { requestAuth } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import { PainterLottie } from "./PainterLottie";
+import { seed } from "@paintoor/mock-api";
 
 const REDUCED =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const ACCENT = [false, true, false, false, true];
+
+/* Honest hero badge: counts come straight from the seed data, so the
+   number can never drift from what the marketplace actually shows. */
+const PARTNER_COUNT = seed.providers.length;
+const CITY_COUNT = new Set(seed.providers.map((p) => p.city)).size;
 
 const PULSE_KEYS = ["pulse.l1", "pulse.l2", "pulse.l3", "pulse.l4"];
 const PULSE_VALUES = [
@@ -101,7 +107,7 @@ export function CinematicHero() {
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
         <div>
           <span className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
-            🇮 {t("hero.badge")}
+                   🇮 {t("hero.badge", { cities: CITY_COUNT, partners: PARTNER_COUNT })}
           </span>
           <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
             {words.map((word, i) => (

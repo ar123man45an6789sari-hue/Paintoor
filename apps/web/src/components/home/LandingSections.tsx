@@ -81,7 +81,7 @@ function StoryPin() {
              <div className={`ls-scr ${act === 0 ? "on" : ""}`}>
               <div className="h-2.5 w-3/5 rounded-pill bg-[#e8eaed]" />
               <div className="mt-2 h-24 rounded-xl bg-gradient-to-br from-[#f9ccdb] to-[#f6b3c8]" />
-              <div className="mt-3  rounded-card border border-[#e2e4e7]p-2.5"><div className="h-2.5 w-2/5 rounded bg-[#f9ccdb]" /></div>
+              <div className="mt-3 rounded-card border border-[#e2e4e7] p-2.5"><div className="h-2.5 w-2/5 rounded bg-[#f9ccdb]" /></div>
               <div className="mt-3 rounded-lg bg-saffron py-2 text-center text-xs font-extrabold text-snow">Send to Workers</div>
             </div>
             <div className={`ls-scr ${act === 1 ? "on" : ""}`}>
