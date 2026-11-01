@@ -48,7 +48,21 @@ const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
 export function ProvidersBrowser() {
   const { t } = useI18n();
    const params = useSearchParams();
-  const [city, setCity] = useState(params.get("city") ?? getCity());
+   // Only cities that actually have a bookable (live-skill) partner are listed,
+  // so the dropdown can never select a city with zero results.
+  const cities = useMemo(
+    () =>
+      Array.from(
+        new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => p.city)),
+      ).sort(),
+    [],
+  );
+  // A saved or linked city may not exist in the current demo seed; fall back
+  // to All-India instead of silently filtering down to zero results.
+  const [city, setCity] = useState(() => {
+    const wanted = params.get("city") ?? getCity();
+    return wanted === "all" || cities.includes(wanted) ? wanted : "all";
+  });
   const [zone, setZone] = useState(params.get("zone") ?? "all");
   const [skill, setSkill] = useState(() => skillFromQuery(params.get("q") ?? "") ?? "all");
   const [query, setQuery] = useState(() => {
@@ -56,7 +70,6 @@ export function ProvidersBrowser() {
     return skillFromQuery(q) ? "" : q;
   });
 
-  const cities = useMemo(() => Array.from(new Set(seed.providers.map((p) => p.city))).sort(), []);
   const zones = useMemo(
     () =>
       Array.from(

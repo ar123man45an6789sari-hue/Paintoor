@@ -122,7 +122,7 @@ export function Header() {
             </span>
           </Link>
 
-          <div className="order-last w-full min-w-0 lg:order-none lg:w-auto">
+            <div className="order-last w-full min-w-0 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">
             <NavSearch />
           </div>
 
@@ -140,7 +140,7 @@ export function Header() {
             )}
           </nav>
 
-          <div className="ml-auto flex items-center gap-2 lg:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
           <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} hidden lg:flex`}>
             {dark ? "☀️" : "🌙"}
           </button>
@@ -185,7 +185,7 @@ export function Header() {
             <>
               <Link
                 href="/dashboard"
-                className="hidden items-center gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-extrabold text-navy hover:border-saffron sm:flex"
+                className="hidden items-center gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-extrabold text-navy hover:border-saffron xl:flex"
               >
                 <span aria-hidden="true">{ROLE_CHIP[session.role].emoji}</span>
                 {t(ROLE_CHIP[session.role].key)} · {t("dash.open")}

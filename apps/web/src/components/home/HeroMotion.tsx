@@ -6,18 +6,18 @@ import { useEffect, useRef, useState } from "react";
 import { requestAuth } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import { PainterLottie } from "./PainterLottie";
-import { seed } from "@paintoor/mock-api";
-
+import { isLiveSkill, seed } from "@paintoor/mock-api";
 const REDUCED =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const ACCENT = [false, true, false, false, true];
-
-/* Honest hero badge: counts come straight from the seed data, so the
-   number can never drift from what the marketplace actually shows. */
-const PARTNER_COUNT = seed.providers.length;
-const CITY_COUNT = new Set(seed.providers.map((p) => p.city)).size;
+/* Honest hero badge: counts come straight from the seed data and only
+   include partners that are actually bookable today (live skill), so the
+   number can never drift from what the marketplace shows. */
+const LIVE_PROVIDERS = seed.providers.filter((p) => p.skills.some(isLiveSkill));
+const PARTNER_COUNT = LIVE_PROVIDERS.length;
+const CITY_COUNT = new Set(LIVE_PROVIDERS.map((p) => p.city)).size;
 
 const PULSE_KEYS = ["pulse.l1", "pulse.l2", "pulse.l3", "pulse.l4"];
 const PULSE_VALUES = [

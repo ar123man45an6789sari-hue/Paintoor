@@ -47,7 +47,10 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
   const canDrag = dragEnabled && top && !leaving;
 
   function onPointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (!canDrag || e.button !== 0) return;
+   if (!canDrag || e.button !== 0) return;
+    // A press that starts on a button must stay a button click: capturing the
+    // pointer here would retarget the click to the card and kill the buttons.
+    if ((e.target as HTMLElement).closest("button")) return;
     startX.current = e.clientX;
     pointerId.current = e.pointerId;
     moved.current = false;
