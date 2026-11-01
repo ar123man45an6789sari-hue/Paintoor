@@ -4,6 +4,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
+import { openPopover, onPopoverClose } from "@/lib/popover";
 import { getProviderProfile } from "@/lib/providers";
 import { getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
@@ -20,6 +21,7 @@ export function NotificationBell() {
   const { lang, t } = useI18n();
   const [session, setSession] = useState<Session | null>(null);
   const [open, setOpen] = useState(false);
+  useEffect(() => onPopoverClose("bell", () => setOpen(false)), []);
   const [items, setItems] = useState<AppNotification[]>([]);
   const [unread, setUnread] = useState(0);
 
@@ -51,7 +53,10 @@ export function NotificationBell() {
       <button
         type="button"
         aria-label={t("notif.title")}
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => {
+          if (!open) openPopover("bell");
+          setOpen(!open);
+        }}
         className="relative flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-base transition-colors hover:border-saffron"
       >
         🔔

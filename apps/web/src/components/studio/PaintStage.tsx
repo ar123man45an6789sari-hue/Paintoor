@@ -38,15 +38,17 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
             <span className="hidden text-[10px] font-bold text-snow/60 sm:inline">{t("st.wall")}</span>
           </div>
           <div className="flex gap-1.5 sm:gap-2">
-            <button
-              type="button"
-              onPointerDown={() => bag.setCompare(true)}
-              onPointerUp={() => bag.setCompare(false)}
-              onPointerLeave={() => bag.setCompare(false)}
-              className="pointer-events-auto min-h-9 rounded-pill bg-raatri/85 px-2.5 py-1.5 text-[11px] font-extrabold text-snow backdrop-blur-sm transition-colors hover:bg-raatri sm:min-h-10 sm:px-3 sm:text-xs"
-            >
-              👁 {t("st.compare")}
-            </button>
+          <button
+          type="button"
+          onClick={() => bag.setCompare(!bag.compare)}
+          aria-pressed={bag.compare}
+          title={t("st.compareHint")}
+          className={`min-h-9 rounded-pill px-2.5 py-1.5 text-[11px] font-extrabold backdrop-blur-sm transition-colors sm:min-h-10 sm:px-3 sm:text-xs ${
+            bag.compare ? "bg-saffron text-snow" : "bg-raatri/85 text-snow hover:bg-raatri"
+          }`}
+        >
+          👁 {t("st.compare")}
+        </button>
             <button
               type="button"
               onClick={() => void bag.download()}

@@ -17,6 +17,7 @@ import { clearSession, getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
 import { NavSearch } from "./NavSearch";
+import { openPopover, onPopoverClose } from "@/lib/popover";
 import { AccountIcon, PlusIcon } from "./Icons";
 
 const NAV = [
@@ -54,6 +55,11 @@ export function Header() {
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
+  
+  /* One popover at a time: opening one closes the others. */
+  useEffect(() => onPopoverClose("lang", () => setLangOpen(false)), []);
+  useEffect(() => onPopoverClose("acct", () => setAcctOpen(false)), []);
+  useEffect(() => onPopoverClose("menu", () => setMenuOpen(false)), []);
 
   useEffect(() => {
     setSessionState(getSession());
@@ -142,7 +148,10 @@ export function Header() {
           </button>
 
           <div className="relative">
-            <button type="button" onClick={() => setLangOpen((v) => !v)} aria-label="Change language" className={`${iconBtn} hidden text-navy lg:flex`}>
+            <button type="button" onClick={() => {
+              if (!langOpen) openPopover("lang");
+              setLangOpen(!langOpen);
+            }} aria-label="Change language" className={`${iconBtn} hidden text-navy lg:flex`}>
               🌐
             </button>
             {langOpen && (
@@ -192,7 +201,10 @@ export function Header() {
               <button
                 type="button"
                 aria-label={t("nav.entrance")}
-                onClick={() => setAcctOpen((v) => !v)}
+                onClick={() => {
+                if (!acctOpen) openPopover("acct");
+                setAcctOpen(!acctOpen);
+              }}
                 className={`${iconBtn} ${acctOpen ? "border-saffron" : ""}`}
               >
               <AccountIcon className="h-5 w-5 text-ink dark:text-snow" />
@@ -222,7 +234,10 @@ export function Header() {
           )}
             <button
               type="button"
-              onClick={() => setMenuOpen((v) => !v)}
+              onClick={() => {
+              if (!menuOpen) openPopover("menu");
+              setMenuOpen(!menuOpen);
+            }}
               aria-label={t("nav.menu")}
               aria-expanded={menuOpen}
               className={`${iconBtn} text-navy lg:hidden`}

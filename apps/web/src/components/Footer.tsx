@@ -22,9 +22,9 @@ export function Footer() {
     {
       head: t("foot.h2"),
       links: [
-        { key: "fl.refund", href: "#" },
-        { key: "fl.terms", href: "#" },
-        { key: "fl.privacy", href: "#" },
+        { key: "fl.refund", href: "/refund" },
+        { key: "fl.terms", href: "/terms" },
+        { key: "fl.privacy", href: "/privacy" },
         { key: "fl.safety", href: `mailto:${company.emails.support}` },
       ],
     },
