@@ -92,9 +92,9 @@ export function Footer() {
       {/* Diagonal brand watermark: sits under every piece of real content at
           6% so the footer text stays fully readable. Purely decorative. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex select-none items-center justify-center">
-        <div className="flex -rotate-12 items-center gap-4 opacity-[0.06] md:gap-8">
-          <Logo className="h-24 w-24 md:h-40 md:w-40" />
-          <span className="whitespace-nowrap text-[16vw] font-black leading-none tracking-tight text-snow md:text-[9vw]">Paintoor</span>
+        <div className="flex -rotate-12 flex-col items-center gap-3 opacity-[0.07] md:flex-row md:gap-10">
+          <Logo className="h-28 w-28 md:h-56 md:w-56" />
+          <span className="whitespace-nowrap text-[17vw] font-black leading-none tracking-tight text-snow md:text-[17vw]">Paintoor</span>
         </div>
       </div>
       <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
