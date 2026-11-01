@@ -144,16 +144,15 @@ function BrandCard({ b, leaving }: { b: (typeof BRANDS)[number]; leaving?: boole
         leaving ? "brand-out" : "brand-in"
       }`}
     >
-      {/* One full-bleed artwork: no padding, no blur, no empty space — the
-          image covers the whole stage edge to edge. Nothing sits on top of
-          it so the artwork stays clean. */}
+      {/* Partner logo, whole and uncropped: contain + breathing room so no
+          edge ever clips or overlaps, on a clean white stage. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={`/brands/${b.slug}.png`}
         alt={b.name}
         draggable={false}
         decoding="async"
-        className="absolute inset-0 h-full w-full select-none object-cover"
+        className="absolute inset-0 h-full w-full select-none object-contain p-6 md:p-10"
       />
     </article>
   );
