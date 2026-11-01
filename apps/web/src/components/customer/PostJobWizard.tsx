@@ -90,16 +90,25 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
 
       {step === 2 && (
         <div className="space-y-4">
-          <label className="block">
+                    <div>
             <span className={labelClass}>{t("wiz.photos")}</span>
             <input
+              id="wiz-photos"
               type="file"
               multiple
               accept="image/*"
               onChange={(e) => setPhotos(Array.from(e.target.files ?? []).map((f) => f.name))}
-              className="block w-full text-sm text-muted file:mr-3 file:rounded-control file:border-0 file:bg-saffron file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-snow"
+              className="hidden"
             />
-          </label>
+            <label
+              htmlFor="wiz-photos"
+              className="mt-1 flex cursor-pointer flex-col items-center gap-1 rounded-card border-2 border-dashed border-line bg-chuna px-4 py-6 text-center transition-colors hover:border-saffron"
+            >
+              <span className="text-2xl" aria-hidden="true">📷</span>
+              <span className="text-sm font-extrabold text-navy">{t("wiz.drop")}</span>
+              <span className="text-[11px] font-semibold text-muted">{t("wiz.dropSub")}</span>
+            </label>
+          </div>
           {photos.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {photos.map((p) => (

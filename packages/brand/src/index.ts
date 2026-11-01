@@ -28,6 +28,16 @@ export const company = {
 } as const;
 /** Powered-by line and walk-in help centre (client-provided, 29 Oct 2026). */
 export const poweredBy = "KHAKI | KrypTech™ (India) Pvt. Ltd.";
+/** Official social handles. Empty url = icon renders but stays inactive
+ *  until the client hands over the live handle. */
+export const socials = [
+  { id: "instagram", label: "Instagram", url: "" },
+  { id: "facebook", label: "Facebook", url: "" },
+  { id: "x", label: "X (Twitter)", url: "" },
+  { id: "telegram", label: "Telegram", url: "" },
+  { id: "youtube", label: "YouTube", url: "" },
+] as const;
+
 export const helpCentre = {
   label: "Authorized On-boarding & Help Centre",
   address:

@@ -4,7 +4,56 @@
 
 import Link from "next/link";
 import { useI18n } from "@/i18n";
-import { company, helpCentre, poweredBy } from "@paintoor/brand";
+import { company, helpCentre, poweredBy, socials } from "@paintoor/brand";
+import { Logo } from "./Logo";
+/* Minimal stroke glyphs for the official handles — no emoji, no icon font. */
+function SocialGlyph({ id }: { id: string }) {
+  const common = {
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    className: "h-[18px] w-[18px]",
+    "aria-hidden": true as const,
+  };
+  switch (id) {
+    case "instagram":
+      return (
+        <svg {...common}>
+          <rect x="3" y="3" width="18" height="18" rx="5" />
+          <circle cx="12" cy="12" r="4" />
+          <circle cx="17.3" cy="6.7" r="0.7" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "facebook":
+      return (
+        <svg {...common}>
+          <path d="M15.5 4h-2a4 4 0 0 0-4 4v3H7v4h2.5v6h4v-6h2.5l.5-4h-3V8a1 1 0 0 1 1-1h1.5z" />
+        </svg>
+      );
+    case "x":
+      return (
+        <svg {...common}>
+          <path d="M5 4l14 16M19 4L5 20" />
+        </svg>
+      );
+    case "telegram":
+      return (
+        <svg {...common}>
+          <path d="M21 3L10 14M21 3l-7 18-4-7-7-4z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common}>
+          <rect x="2.5" y="6" width="19" height="12" rx="3.5" />
+          <path d="M10.5 9.5v5l4.5-2.5z" fill="currentColor" stroke="none" />
+        </svg>
+      );
+  }
+}
 
 export function Footer() {
   const { t } = useI18n();
@@ -39,8 +88,16 @@ export function Footer() {
   ];
 
   return (
-    <footer className="border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
-      <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+        <footer className="relative overflow-hidden border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
+      {/* Diagonal brand watermark: sits under every piece of real content at
+          6% so the footer text stays fully readable. Purely decorative. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex select-none items-center justify-center">
+        <div className="flex -rotate-12 items-center gap-4 opacity-[0.06] md:gap-8">
+          <Logo className="h-24 w-24 md:h-40 md:w-40" />
+          <span className="whitespace-nowrap text-[16vw] font-black leading-none tracking-tight text-snow md:text-[9vw]">Paintoor</span>
+        </div>
+      </div>
+      <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <div>
           <h2 className="mb-2 font-black text-snow">
             {t("brand.pre")}
@@ -75,7 +132,7 @@ export function Footer() {
           </div>
         ))}
       </div>
-           <div className="mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
+           <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
         <p className="text-xs font-extrabold text-snow">{company.legalName}</p>
         <p className="mt-1 text-xs">{t("foot.about")}</p>
         <p className="mt-2 text-xs font-extrabold text-haldi">{helpCentre.label}</p>
@@ -93,8 +150,33 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="mx-auto mt-6 flex max-w-6xl flex-col gap-2 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
+      <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-2 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
         <span>© {new Date().getFullYear()} {company.legalName}</span>
+                <div className="flex items-center gap-2">
+          {socials.map((s) =>
+            s.url ? (
+              <a
+                key={s.id}
+                href={s.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={s.label}
+                className="flex h-9 w-9 items-center justify-center rounded-pill border border-snow/15 bg-snow/5 text-snow/80 transition-colors hover:border-saffron hover:text-snow"
+              >
+                <SocialGlyph id={s.id} />
+              </a>
+            ) : (
+              <span
+                key={s.id}
+                title={`${s.label} — coming soon`}
+                aria-label={`${s.label} (coming soon)`}
+                className="flex h-9 w-9 cursor-default items-center justify-center rounded-pill border border-snow/15 bg-snow/5 text-snow/50"
+              >
+                <SocialGlyph id={s.id} />
+              </span>
+            ),
+          )}
+        </div>
         <span className="font-extrabold text-snow">Powered by {poweredBy}</span>
       </div>
     </footer>

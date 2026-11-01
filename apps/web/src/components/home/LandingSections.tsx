@@ -7,6 +7,8 @@ import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { StudioTeaser } from "@/components/studio/StudioTeaser";
+import { FAQS, FAQ_PICKS, FAQ_UI } from "@/lib/faq";
+
 
 const REDUCED =
   typeof window !== "undefined" &&
@@ -425,6 +427,42 @@ function RoleLens() {
     </section>
   );
 }
+function FaqPreview() {
+  const { lang } = useI18n();
+  const router = useRouter();
+  const ui = FAQ_UI[lang];
+  const picks = FAQ_PICKS.map((id) => FAQS[lang].find((f) => f.id === id)).filter((f) => f !== undefined);
+  return (
+    <section id="faq" className="bg-white px-5 py-24">
+      <div className="mx-auto max-w-6xl">
+        <div className="reveal flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">FAQ</span>
+            <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl">{ui.h}</h2>
+          </div>
+          <p className="max-w-md text-sm text-muted">{ui.sub}</p>
+        </div>
+        <div className="reveal mt-8 grid gap-4 md:grid-cols-2">
+          {picks.map((f) => (
+            <article key={f.id} className="rounded-sheet border border-line bg-chuna p-6 shadow-card">
+              <h3 className="text-base font-extrabold text-navy md:text-lg">{f.q}</h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink">{f.a}</p>
+            </article>
+          ))}
+        </div>
+        <div className="reveal mt-8 text-center">
+          <button
+            type="button"
+            onClick={() => router.push("/faq")}
+            className="min-h-12 rounded-control border-2 border-saffron px-6 py-3 text-sm font-extrabold text-saffron transition-colors hover:bg-saffron hover:text-snow"
+          >
+            {ui.seeAll} →
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 export function LandingSections() {
   useReveal();
@@ -436,6 +474,7 @@ export function LandingSections() {
       <RoleLens />
       <EscrowFlow />
       <TestimonialsMarquee />
+      <FaqPreview />
     </>
   );
 }
