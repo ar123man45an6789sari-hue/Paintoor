@@ -1,8 +1,7 @@
 /* Demo-phase selected-city store (per browser). Production replaces this
-   with a geo-IP default and per-city packs. */
-export const LIVE_CITIES = ["Mumbai", "Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
-export const SOON_CITIES = ["Bangalore", "Delhi", "Hyderabad", "Pune", "Gurugram", "Noida","Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
-
+   with a geo-IP default and per-city packs. The bookable city list is not
+   stored here: the marketplace and the wizard derive it from the seed
+   providers, so a city can never be offered without a partner in it. */
 const KEY = "gs_city";
 const CHANGE = "gs:city-changed";
 
