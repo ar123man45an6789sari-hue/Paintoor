@@ -32,6 +32,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState("");
   const [remember, setRemember] = useState(true);
+  const [startOnline, setStartOnline] = useState(true);
   const [signup, setSignup] = useState<Record<string, string>>({});
 
   useEffect(() => {
