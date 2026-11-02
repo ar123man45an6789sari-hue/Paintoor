@@ -1,6 +1,6 @@
 /* Provider-side helpers for the demo: who is logged in, which open requests
    match them, and how far away the job is. Production replaces this with
-   GET /v1/providers/me + GET /v1/leads (Blueprint Ch. 15 ranking). */
+   GET /v1/providers/me + GET /v1/leads (ranking rules live here). */
 import { seed } from "@paintoor/mock-api";
 import type { ServiceRequest } from "./requests";
 
@@ -61,7 +61,7 @@ export function getProviderProfile(name: string): ProviderProfile {
   };
 }
 
-/** Lead filter v1 — city OR zone matches, and the skill matches the category. */
+/** Lead filter — city OR zone matches, and the skill matches the category. */
 export function isLeadMatch(profile: ProviderProfile, request: ServiceRequest): boolean {
   const place = request.city === profile.city || request.zone.toLowerCase() === profile.zone.toLowerCase();
   const skill = profile.skills.includes(request.category);
@@ -116,7 +116,7 @@ export function distanceKm(fromZone: string, toZone: string): number {
 }
 
 export const paiseToRupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
-/** Skill Passport level ladder (Blueprint Ch. 11.5). */
+/** Skill Passport level ladder. */
 export function levelKeyFor(jobsDone: number): string {
   if (jobsDone >= 500) return "lv.master";
   if (jobsDone >= 300) return "lv.expert";

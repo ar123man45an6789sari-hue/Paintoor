@@ -1,4 +1,4 @@
-/* LeadsDeck v1 — the provider's lead queue. Accept closes the A→B→C loop:
+/* LeadsDeck — the provider's lead queue. Accept closes the A→B→C loop:
    the request leaves the customer's open list and the customer is notified. */
 "use client";
 

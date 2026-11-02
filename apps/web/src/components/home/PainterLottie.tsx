@@ -1,4 +1,4 @@
-/* PainterLottie v2 — designer-made painter (Lottie, 60fps, 3.5s loop) via
+/* PainterLottie — designer-made painter (Lottie, 60fps, 3.5s loop) via
    lottie-web directly; JSON streams from /public (CDN-cached, bundle light).
    Recolored to Paintoor palette; reduced-motion = static frame. */
 "use client";

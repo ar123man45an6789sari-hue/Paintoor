@@ -1,4 +1,4 @@
-/* Footer v5 — official company identity: legal name, registered address,
+/* Footer — official company identity: legal name, registered address,
    tap-to-call helpline and role-based email contacts (client-provided). */
 "use client";
 

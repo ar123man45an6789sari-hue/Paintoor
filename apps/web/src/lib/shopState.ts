@@ -1,6 +1,6 @@
 /* Demo-phase shopkeeper store (localStorage): catalog, orders, sales.
    Production: GET /v1/shops/me + POST /v1/orders/:id/accept + delivery webhooks.
-   Order SLA: shops get 2 hours to accept (Blueprint Ch. 09.7). */
+   Order SLA: shops get 2 hours to accept. */
 import { seed } from "@paintoor/mock-api";
 
 export type ShopProduct = {

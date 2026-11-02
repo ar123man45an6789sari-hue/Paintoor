@@ -1,4 +1,4 @@
-/* HeroMotion v5 — Paintoor hero: word stagger, orbs, full-size Lottie painter
+/* HeroMotion — Paintoor hero: word stagger, orbs, full-size Lottie painter
    with corner sun (rotating rays + fade-in). No house sketch, no scroll-sky. */
 "use client";
 

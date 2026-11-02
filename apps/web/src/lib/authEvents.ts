@@ -1,5 +1,5 @@
-/* Tiny event bus: koi bhi component auth modal khol sakta hai
-   (hero CTA, header buttons, mobile Entrance) bina prop drilling. */
+/* Tiny event bus: any component can open the auth modal
+   (hero CTA, header buttons, mobile sign-in) without prop drilling. */
 import type { AuthMode } from "@/components/auth/types";
 
 const EVENT = "gs:auth";

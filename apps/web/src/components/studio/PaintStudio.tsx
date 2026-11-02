@@ -1,4 +1,4 @@
-/* PaintStudio v1 — the full wall-paint simulator page body: upload up to six
+/* PaintStudio — the full wall-paint simulator page body: upload up to six
    photos, tap a wall colour to select every matching pixel, refine with brush
    and eraser, recolour with the full shade wall and save a PNG. Everything is
    computed on the visitor's device. */

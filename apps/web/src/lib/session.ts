@@ -32,7 +32,7 @@ export function setSession(session: Session) {
   }
 }
 
-/** "Remember this device" — naya tab khulte hi saved identity mil jaayegi. */
+/** "Remember this device" — a new tab picks up the saved identity at once. */
 export function setRemembered(session: Session | null) {
   try {
     if (session) localStorage.setItem(REMEMBER, JSON.stringify(session));

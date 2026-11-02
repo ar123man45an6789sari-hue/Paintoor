@@ -1,21 +1,20 @@
-/* i18n core v1 — EN default, HI/GU live, globe switcher + browser-locale detect.
-   Production adds geo-IP default + more packs (Blueprint Ch. 40). */
+/* i18n core — EN default, HI/GU live, globe switcher + browser-locale detect.
+   Production adds a geo-IP default and per-city language packs. */
 "use client";
 
-import { D6 } from "./i18n-d6";
-import { D5 } from "./i18n-d5";
-import { D7 } from "./i18n-d7";
-import { D8 } from "./i18n-d8";
-import { D9 } from "./i18n-d9";
-import { D10 } from "./i18n-d10";
-import { D11 } from "./i18n-d11";
-import { D12 } from "./i18n-d12";
-import { D13 } from "./i18n-d13";
+import { REQS } from "./i18n-requests";
+import { CUST } from "./i18n-customer";
+import { PROV } from "./i18n-provider";
+import { MATCH } from "./i18n-matched";
+import { SHOPK } from "./i18n-shop";
+import { CHATQ } from "./i18n-chat";
+import { SITE } from "./i18n-site";
+import { TEASER } from "./i18n-teaser";
+import { COMPANY } from "./i18n-company";
 import { createContext, useContext, useEffect, useState } from "react";
 import type { ReactNode } from "react";
-import { D15 } from "./i18n-d15";
-import { D16 } from "./i18n-d16";
-
+import { SHADES } from "./i18n-shades";
+import { STUDIO } from "./i18n-studio";
 export type Lang = "en" | "hi" | "gu";
 
 const D: Record<Lang, Record<string, string>> = {
@@ -107,7 +106,7 @@ const D: Record<Lang, Record<string, string>> = {
 /* D2 — extension pack: auth, forms, browse, brand (added with total-localisation mandate). */
 const D2: Record<Lang, Record<string, string>> = {
   en: {
-    
+
     "auth.hello": "Welcome to Paintoor", "auth.newq": "New here? Create an account. Already with us? Log in.",
     "auth.create": "Register", "auth.createSub": "New to Paintoor — choose your role",
     "auth.login": "Log in", "auth.loginSub": "Existing account — verify with OTP",
@@ -140,7 +139,7 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.partners": "verified partners available", "prov.empty": "No partners match this combination yet — widen the city or skill filter.",
   },
   hi: {
-    
+
     "auth.hello": "Paintoor में स्वागत है", "auth.newq": "नए हैं? अकाउंट बनाइए। पहले से हैं? लॉग इन कीजिए।",
     "auth.create": "रजिस्टर करें", "auth.createSub": "Paintoor पर नए — अपनी भूमिका चुनें",
     "auth.login": "लॉग इन", "auth.loginSub": "मौजूदा अकाउंट — OTP से पुष्टि",
@@ -173,7 +172,7 @@ const D2: Record<Lang, Record<string, string>> = {
     "prov.partners": "वेरिफाइड पार्टनर उपलब्ध", "prov.empty": "इस जोड़ से कोई पार्टनर नहीं मिला — शहर या कौशल बदलें।",
   },
   gu: {
-    
+
     "auth.hello": "Paintoorમાં સ્વાગત છે", "auth.newq": "નવા છો? રજિસ્ટર કરો. પહેલેથી છો? લોગ ઇન કરો.",
     "auth.create": "રજિસ્ટર કરો", "auth.createSub": "Paintoor પર નવા — તમારી ભૂમિકા પસંદ કરો",
     "auth.login": "લોગ ઇન", "auth.loginSub": "હાલનું એકાઉન્ટ — OTP થી ખાતરી",
@@ -299,13 +298,13 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }
 
   const t = (k: string, params?: Record<string, string | number>) => {
-  const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...D5[lang], ...D6[lang], ...D7[lang], ...D8[lang], ...D9[lang], ...D10[lang], ...D11[lang], ...D12[lang], ...D13[lang], ...D15[lang], ...D16[lang]  };
-  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? D5.en[k] ?? D6.en[k] ?? D7.en[k] ?? D8.en[k] ?? D9.en[k] ?? D10.en[k] ?? D11.en[k] ?? D12.en[k] ?? D13.en[k] ?? D15.en[k] ?? D16.en[k] ?? k;
+   const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...CUST[lang], ...REQS[lang], ...PROV[lang], ...MATCH[lang], ...SHOPK[lang], ...CHATQ[lang], ...SITE[lang], ...TEASER[lang], ...COMPANY[lang], ...SHADES[lang], ...STUDIO[lang] };
+  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? CUST.en[k] ?? REQS.en[k] ?? PROV.en[k] ?? MATCH.en[k] ?? SHOPK.en[k] ?? CHATQ.en[k] ?? SITE.en[k] ?? TEASER.en[k] ?? COMPANY.en[k] ?? SHADES.en[k] ?? STUDIO.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }
     if (!params) return v;
-    return v.replace(/\{(\w+)\}/g, (match, token: string) =>
+    return v.replace(/\{(\w+)\}/g, (match: string, token: string) =>
       token in params ? String(params[token]) : match,
     );
   };

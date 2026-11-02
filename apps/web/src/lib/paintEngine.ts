@@ -1,4 +1,4 @@
-/* Paintoor paint engine v1 — pure, framework-agnostic image maths for the
+/* Paintoor paint engine — pure, framework-agnostic image maths for the
    wall-paint simulator. Everything runs on the visitor's device: photos are
    decoded, analysed and recoloured locally and never uploaded anywhere.
 

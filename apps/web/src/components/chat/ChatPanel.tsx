@@ -1,5 +1,5 @@
-/* ChatPanel v1 — WhatsApp-style job chat with quote cards, hire sheet and the
-   escrow advance (mock). Blueprint Ch. 14 + 09.6-09.8. */
+/* ChatPanel — WhatsApp-style job chat with quote cards, hire sheet and the
+   escrow advance (mock for the demo phase). */
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";

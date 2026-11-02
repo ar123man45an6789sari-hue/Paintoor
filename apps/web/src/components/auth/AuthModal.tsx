@@ -1,4 +1,4 @@
-/* AuthModal v5 — role FIRST, then switchable [Register | Log in] tabs,
+/* AuthModal — role FIRST, then switchable [Register | Log in] tabs,
    role-branded login extras, session write, dashboard redirect. */
 "use client";
 

@@ -1,7 +1,7 @@
-/* D6 pack — request management strings. */
+/* Request management strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D6: Record<Lang, Record<string, string>> = {
+export const REQS: Record<Lang, Record<string, string>> = {
   en: {
     "req.cancel": "Cancel request", "req.confirmQ": "Cancel this request?",
     "req.yes": "Yes, cancel", "req.no": "Keep it",

@@ -1,4 +1,4 @@
-/* Header v10 — flush brand lockup, single search pill with location sense,
+/* Header — flush brand lockup, single search pill with location sense,
    nav: Services/Marketplace/Partners/Blog/About, account icon menu, bell,
    theme + globe. Every dropdown closes on outside click. */
 "use client";

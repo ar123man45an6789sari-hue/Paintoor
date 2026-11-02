@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
 
-/** Thin server shell; Suspense chahiye kyunki browser useSearchParams padhta hai. */
+/** Thin server shell; Suspense is required because this page reads useSearchParams. */
 export default function ProvidersPage() {
   return (
     <div className="px-4 py-14 md:px-6">

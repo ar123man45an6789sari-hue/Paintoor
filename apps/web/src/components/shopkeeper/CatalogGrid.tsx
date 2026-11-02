@@ -1,4 +1,4 @@
-/* CatalogGrid v1 — product grid with stock steppers and low-stock flags. */
+/* CatalogGrid — product grid with stock steppers and low-stock flags. */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";

@@ -1,7 +1,7 @@
-/* D9 pack — S11 shopkeeper counter strings (EN/HI/GU). */
+/* Shopkeeper counter strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D9: Record<Lang, Record<string, string>> = {
+export const SHOPK: Record<Lang, Record<string, string>> = {
   en: {
     "sh.tab.counter": "Counter", "sh.tab.catalog": "Catalog", "sh.tab.sales": "Sales", "sh.tab.profile": "Shop",
     "sh.salesToday": "Today's sales", "sh.salesWeek": "This week",

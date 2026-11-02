@@ -1,4 +1,4 @@
-/* PaintStage v2 — the shared photo stage: base <img> + dried-paint canvas +
+/* PaintStage — the shared photo stage: base <img> + dried-paint canvas +
    transparent live overlay + colour chip + brush ring. The <img> paints the
    photo on the first frame; the second canvas shows original + saved layers
    so frozen paint stays visible; the top canvas carries the live selection. */

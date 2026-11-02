@@ -1,5 +1,5 @@
-/* ProviderShell v1 — the worker's home: earnings always on top, one-handed
-   tabs, online switch. Blueprint Ch. 11.1 + 23.2 (PROVIDER shell). */
+/* ProviderShell — the worker's home: earnings always on top, one-handed
+   tabs and the online switch. */
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";

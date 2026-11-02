@@ -1,4 +1,4 @@
-/* NotificationBell v1 — header bell with unread badge and a dropdown panel.
+/* NotificationBell — header bell with unread badge and a dropdown panel.
    Reads the demo notification store; production swaps in a socket feed. */
 "use client";
 

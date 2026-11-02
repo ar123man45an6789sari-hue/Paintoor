@@ -1,7 +1,7 @@
-/* D10 pack — S12 chat, quote, hire/escrow and review strings (EN/HI/GU). */
+/* Chat, quote, hire/escrow and review strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D10: Record<Lang, Record<string, string>> = {
+export const CHATQ: Record<Lang, Record<string, string>> = {
   en: {
     "chat.h": "Job chat", "chat.ph": "Type a message…", "chat.send": "Send",
     "chat.empty": "Say hello — describe the work or ask a question.",

@@ -1,4 +1,4 @@
-/* mock-api v2 — multi-city seeds; MSW handlers + OpenAPI wiring land in S8-S13. */
+/* mock-api: multi-city demo seeds; MSW handlers and OpenAPI wiring are future work. */
 import providers from "./seeds/providers.json";
 import shops from "./seeds/shops.json";
 

@@ -14,7 +14,7 @@ export type AppNotification = {
   kind: NotificationKind;
   /** Which role this notification is addressed to. */
   audience: Role;
-   /** Optional 1-1 targeting: lead alerts sirf is provider ko dikhti hain. */
+      /** Optional 1-1 targeting: lead alerts visible only to this provider. */
   providerId?: string | null;
   titleKey: string;
   bodyKey: string;

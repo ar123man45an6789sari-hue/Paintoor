@@ -1,6 +1,6 @@
-/* LeadCard v1 — one lead, two decisions. Drag to accept (right) or pass (left),
+/* LeadCard — one lead, two decisions. Drag to accept (right) or pass (left),
    with visible buttons as well: a swipe-only interaction is banned by the
-   accessibility mandate (Blueprint Ch. 23.3). */
+   accessibility rule: never a swipe-only interaction. */
 "use client";
 
 import { useRef, useState } from "react";

@@ -1,4 +1,4 @@
-/* StudioTeaser v1 — landing showpiece: a real room the visitor repaints in
+/* StudioTeaser — landing showpiece: a real room the visitor repaints in
    one tap. The bundled sample photo is decoded only once the section scrolls
    into view, so the landing stays fast; the full tool (upload, sliders,
    multi-photo) lives on /studio. */

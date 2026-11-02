@@ -1,4 +1,4 @@
-/* ProvidersBrowser v3 — hooks INSIDE component; localised labels; All-India default. */
+/* ProvidersBrowser — hooks INSIDE component; localised labels; All-India default. */
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";

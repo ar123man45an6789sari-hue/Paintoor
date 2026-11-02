@@ -5,7 +5,7 @@ import { Footer } from "@/components/Footer";
 import localFont from "next/font/local";
 import "./globals.css";
 
-/* Fonts repo mein bundled hain — build kabhi Google network pe depend nahi karega. */
+/* Fonts are bundled in the repo so builds never depend on the Google network. */
 const noto = localFont({
   src: [
     { path: "./fonts/noto-sans-latin.woff2", style: "normal", weight: "400 900" },

@@ -1,4 +1,4 @@
-/* Dashboard v4 — role-branded shells. Customer keeps the welcome banner (it is
+/* Dashboard — role-branded shells. Customer keeps the welcome banner (it is
    the page H1); provider and shopkeeper shells carry their own headers, so the
    generic banner is gone (single H1, less dead space). Logout lives in header. */
 "use client";

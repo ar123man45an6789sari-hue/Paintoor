@@ -1,4 +1,4 @@
-/* SalesPanel v1 — sales counters, 14-day chart, recent settlements. */
+/* SalesPanel — sales counters, 14-day chart, recent settlements. */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";

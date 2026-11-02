@@ -1,5 +1,5 @@
-/* RoleSelect v4 — simple, warm, tag chips: Customer / Partner / Shop owner.
-   Koi confusion nahi: har card pe saaf likha hai "main kaun hoon". */
+/* RoleSelect — simple, warm, tag chips: Customer / Partner / Shop owner.
+   No confusion here: every card states plainly who it is for. */
 import type { ReactNode } from "react";
 import type { Role } from "./types";
 import { useI18n } from "@/i18n";

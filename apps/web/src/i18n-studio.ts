@@ -1,8 +1,8 @@
-/* D16 pack — Paintoor Studio (wall-paint simulator): landing teaser, full
+/* Paintoor Studio (wall-paint simulator): landing teaser, full
    /studio page, and two small copy fixes for the providers page and footer. */
 import type { Lang } from "./i18n";
 
-export const D16: Record<Lang, Record<string, string>> = {
+export const STUDIO: Record<Lang, Record<string, string>> = {
   en: {
     "nav.studio": "Studio",
     "fl.studio": "Paintoor Studio",

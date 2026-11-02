@@ -1,4 +1,4 @@
-/* SignupForm v3 — schema-driven, fully localised, email on every role. */
+/* SignupForm — schema-driven, fully localised, email on every role. */
 "use client";
 
 import type { FormEvent } from "react";

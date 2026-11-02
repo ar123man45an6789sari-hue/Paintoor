@@ -1,4 +1,4 @@
-/* SessionGate v1 — signed-in users land on their role dashboard, not on the
+/* SessionGate — signed-in users land on their role dashboard, not on the
    marketing page. The landing still prerenders for SEO; the redirect happens
    immediately after mount, so logged-out visitors and crawlers see the story. */
 "use client";

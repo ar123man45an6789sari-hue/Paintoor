@@ -1,5 +1,5 @@
-/* OrdersQueue v1 — the counter's order bell: accept within the 2h SLA, then
-   mark delivered (stock decrements, sales rise). Blueprint Ch. 09.7 + 12. */
+/* OrdersQueue — the counter's order bell: accept within the 2h SLA, then
+   mark delivered (stock decrements, sales rise). */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";

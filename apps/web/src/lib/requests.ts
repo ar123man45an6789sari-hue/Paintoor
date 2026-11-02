@@ -123,7 +123,7 @@ export function acceptLead(id: string, providerId: string, providerName: string)
 }
 
 /** A worker passed on the lead: the request stays open for everyone else,
-    and the reason feeds future matching (Blueprint Ch. 11.3). */
+    and the reason feeds future matching. */
 export function declineLead(id: string, providerId: string, reason: string): ServiceRequest | undefined {
   const at = Date.now();
   let updated: ServiceRequest | undefined;
@@ -168,7 +168,7 @@ export function onRequestsChange(cb: () => void) {
     window.removeEventListener("storage", handler);
   };
 }
-/** 4-digit job OTP the customer reads out at site start (Blueprint Ch. 09.7). */
+/** 4-digit job OTP the customer reads out at site start. */
 export function makeOtp(): string {
   return String(Math.floor(1000 + Math.random() * 9000));
 }

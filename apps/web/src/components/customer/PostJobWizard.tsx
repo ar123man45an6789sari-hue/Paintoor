@@ -1,4 +1,4 @@
-/* PostJobWizard v1 — 4 steps, writes to the demo request store. */
+/* PostJobWizard — 4 steps, writes to the demo request store. */
 "use client";
 
 import { useState } from "react";

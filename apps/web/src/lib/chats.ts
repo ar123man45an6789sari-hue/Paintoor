@@ -1,5 +1,5 @@
 /* Demo-phase chat store (localStorage). Production: Socket.IO rooms per request
-   with the exact same message shape (Blueprint Ch. 14). */
+   with the exact same message shape. */
 
 export type ChatQuote = { labour: number; material: number; note: string; total: number };
 

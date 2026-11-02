@@ -1,7 +1,7 @@
-/* usePaintStudio v1 — all state and pointer logic behind the wall-paint
+/* usePaintStudio — all state and pointer logic behind the wall-paint
    simulator, shared by the landing teaser and the full /studio page.
 
-   Performance contract (this is what kills the old "photo late hai" bug):
+   Performance contract (this is what ended the old late-photo bug):
    - The photo itself is rendered by an <img> tag from an object URL, so it is
      visible on the first frame after selection. Pixel analysis starts after.
    - Pointer-follow UI (colour chip + brush ring) is written straight to the

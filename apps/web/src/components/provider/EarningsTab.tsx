@@ -1,4 +1,4 @@
-/* EarningsTab v1 — escrow split, 14-day chart, payout history, payout request. */
+/* EarningsTab — escrow split, 14-day chart, payout history, payout request. */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";

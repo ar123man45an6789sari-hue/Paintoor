@@ -1,7 +1,7 @@
-/* D8 pack — S10 customer-side matched view (EN/HI/GU). */
+/* Customer-side matched-view strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D8: Record<Lang, Record<string, string>> = {
+export const MATCH: Record<Lang, Record<string, string>> = {
   en: {
     "req.with": "with {name}",
     "notif.close": "Close",

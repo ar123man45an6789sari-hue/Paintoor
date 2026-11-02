@@ -1,5 +1,5 @@
-/* WorkTab v1 — today's job card: OTP start, complete, status chip.
-   GPS check-in and milestone photos arrive in S11 (Blueprint Ch. 11.2 #8). */
+/* WorkTab — today's job card: OTP start, complete, status chip.
+   GPS check-in and milestone photos are on the roadmap. */
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
@@ -132,7 +132,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 </p>
               )}
             </div>
-            
+
             <div className="mt-3">
               <button
                 type="button"
@@ -152,6 +152,6 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
         );
       })}
     </div>
-  
+
   );
 }

@@ -1,4 +1,4 @@
-/* RequestsList v4 — Open / Matched / Completed groups with job chat, booked
+/* RequestsList — Open / Matched / Completed groups with job chat, booked
    OTP chip and post-job review. Cancel flow + locale dates stay from S9. */
 "use client";
 

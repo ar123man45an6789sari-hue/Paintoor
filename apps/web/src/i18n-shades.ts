@@ -1,7 +1,7 @@
-/* D15 pack — Shade Studio (visualizer) strings. */
+/* Shade Studio (visualiser) strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D15: Record<Lang, Record<string, string>> = {
+export const SHADES: Record<Lang, Record<string, string>> = {
   en: {
     "ss.h": "Pick your wall's mood",
     "ss.p": "Same shade in three lights — see it like your own home.",

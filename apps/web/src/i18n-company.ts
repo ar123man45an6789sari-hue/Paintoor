@@ -1,7 +1,7 @@
-/* D13 pack — official company identity strings (client-provided). */
+/* Official company identity strings (client-provided). */
 import type { Lang } from "./i18n";
 
-export const D13: Record<Lang, Record<string, string>> = {
+export const COMPANY: Record<Lang, Record<string, string>> = {
   en: {
     "foot.helpline": "Helpline: +91 97023 88055",
     "foot.powered": "Powered by Paintoor™ India.",

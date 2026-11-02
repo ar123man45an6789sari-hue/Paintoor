@@ -1,8 +1,8 @@
-/* D5 pack — customer workspace strings (tabs, wizard, requests).
+/* Customer workspace strings (tabs, wizard, requests).
    Separate file by design: dictionary packs never require editing i18n.tsx. */
 import type { Lang } from "./i18n";
 
-export const D5: Record<Lang, Record<string, string>> = {
+export const CUST: Record<Lang, Record<string, string>> = {
   en: {
     "wiz.title": "Post a job", "wiz.step": "Step", "wiz.next": "Next", "wiz.back": "Back", "wiz.submit": "Post request",
     "wiz.cat": "What needs doing?", "wiz.desc": "Describe the work", "wiz.descPh": "e.g. Two bedrooms need painting, walls have small cracks…",

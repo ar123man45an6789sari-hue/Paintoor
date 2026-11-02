@@ -1,4 +1,4 @@
-/* NavSearch v1 — UrbanCompany-style pill: location sense + service search.
+/* NavSearch — UrbanCompany-style pill: location sense + service search.
    Desktop: brand/cities ke baad inline. Mobile: icon tap pe panel. */
 "use client";
 
@@ -22,7 +22,7 @@ export function NavSearch() {
   const [locMsg, setLocMsg] = useState<string | null>(null);
 
   useEffect(() => setCityState(getCity()), []);
-    /* Pehli visit pe location apne aap sense karo; mana kar de to manual. */
+    /* On first visit, sense the location automatically; manual if declined. */
   useEffect(() => {
     let stored: string | null = null;
     try {

@@ -1,7 +1,7 @@
-/* D7 pack — S10 provider dashboard, leads deck and notifications (EN/HI/GU). */
+/* Provider dashboard, leads deck and notification strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D7: Record<Lang, Record<string, string>> = {
+export const PROV: Record<Lang, Record<string, string>> = {
   en: {
     "pd.tab.work": "Work", "pd.tab.leads": "Leads", "pd.tab.earn": "Earnings", "pd.tab.profile": "Profile",
     "pd.online": "Online", "pd.offline": "Offline", "pd.goOnline": "Go online",

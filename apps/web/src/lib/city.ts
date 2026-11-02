@@ -1,5 +1,5 @@
-/* Demo-phase selected-city store (per browser). Production: geo-IP default +
-   city packs (Blueprint Ch. 40). */
+/* Demo-phase selected-city store (per browser). Production replaces this
+   with a geo-IP default and per-city packs. */
 export const LIVE_CITIES = ["Mumbai", "Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
 export const SOON_CITIES = ["Bangalore", "Delhi", "Hyderabad", "Pune", "Gurugram", "Noida","Vadodara", "Ahmedabad", "Surat", "Indore", "Amritsar", "Chennai"];
 
@@ -10,7 +10,7 @@ export function getCity(): string {
   try {
     return localStorage.getItem(KEY) ?? "Mumbai";
   } catch {
-    return "Mumbai"; 
+    return "Mumbai";
   }
 }
 

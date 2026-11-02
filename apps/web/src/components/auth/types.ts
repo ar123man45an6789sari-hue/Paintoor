@@ -1,4 +1,4 @@
-/* types v2 — AuthModal v3 ke saath match. Replace whole file. */
+/* Shared auth types: roles, session shape and the signup field schema. */
 export type Role = "customer" | "provider" | "shopkeeper";
 
 export type AuthMode = "signup" | "login";

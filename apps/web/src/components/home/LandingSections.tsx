@@ -1,4 +1,4 @@
-/* LandingSections v2 — showcase-only landing (no functionality), tri-role lens,
+/* LandingSections — showcase-only landing (no functionality), tri-role lens,
    mobile-adaptive motion (nothing hidden, presentation adapts), i18n aware. */
 "use client";
 

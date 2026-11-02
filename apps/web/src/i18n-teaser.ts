@@ -1,7 +1,7 @@
-/* D12 pack — S14 landing showpiece strings. */
+/* Landing showpiece strings (EN/HI/GU). */
 import type { Lang } from "./i18n";
 
-export const D12: Record<Lang, Record<string, string>> = {
+export const TEASER: Record<Lang, Record<string, string>> = {
   en: {
     "c1.hero": "Painting first — our craft, our promise.",
     "c1.points": "Primer + 2 coats · edges taped · site cleaned",

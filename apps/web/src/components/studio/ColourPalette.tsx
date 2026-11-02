@@ -1,4 +1,4 @@
-/* ColourPalette v1 — the paint shade wall: curated families + free colour
+/* ColourPalette — the paint shade wall: curated families + free colour
    input. Pure presentational component, shared by teaser and full studio. */
 "use client";
 

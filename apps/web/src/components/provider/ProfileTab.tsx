@@ -1,4 +1,4 @@
-/* ProfileTab v1 — Skill Passport, scorecard, rate card, availability, KYC. */
+/* ProfileTab — Skill Passport, scorecard, rate card, availability, KYC. */
 "use client";
 
 import { useI18n } from "@/i18n";

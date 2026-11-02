@@ -1,5 +1,5 @@
-/* ShopShell v1 — the digital counter: sales on top, order count chip, four tabs.
-   Blueprint Ch. 12 + 23.2 (SHOP shell: counter-like, clear accounts). */
+/* ShopShell — the digital counter: sales on top, order count chip, four tabs.
+   Counter-like layout with clear, separate accounts. */
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";

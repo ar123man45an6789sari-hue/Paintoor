@@ -1,7 +1,7 @@
-/* D11 pack — S14 client round: cities, search, nav, auth warmth, about/blog. */
+/* Site-wide strings: cities, search, nav, auth warmth, about and blog. */
 import type { Lang } from "./i18n";
 
-export const D11: Record<Lang, Record<string, string>> = {
+export const SITE: Record<Lang, Record<string, string>> = {
   en: {
     "nav.marketplace": "Marketplace", "nav.partners": "Partners", "nav.blog": "Blog", "nav.about": "About",
     "nav.cities": "Cities", "cities.more": "More cities coming soon",
