@@ -5,6 +5,7 @@
 import { useEffect, useRef, useState } from "react";
 import { requestAuth } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
+import { Icon } from "@/components/Icons";
 import { PainterLottie } from "./PainterLottie";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 const REDUCED =
@@ -106,8 +107,9 @@ export function CinematicHero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
         <div>
-          <span className="rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
-                   🇮 {t("hero.badge", { cities: CITY_COUNT, partners: PARTNER_COUNT })}
+         <span className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
+            <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" />
+            {t("hero.badge", { cities: CITY_COUNT, partners: PARTNER_COUNT })}
           </span>
           <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
             {words.map((word, i) => (

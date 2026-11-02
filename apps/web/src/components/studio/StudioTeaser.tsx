@@ -7,6 +7,7 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
+import { Icon } from "@/components/Icons";
 import { PaintStage } from "./PaintStage";
 import { BRUSH_MAX, BRUSH_MIN, usePaintStudio } from "./usePaintStudio";
 
@@ -86,7 +87,7 @@ export function StudioTeaser() {
           <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl">{t("st.teaserH")}</h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-muted">{t("st.teaserP")}</p>
           <p className="mt-3 inline-block rounded-pill border border-line bg-white px-3 py-1 text-xs font-extrabold text-ink">
-            🔒 {t("st.privacy")}
+             <Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.privacy")}
           </p>
         </div>
 
@@ -110,13 +111,13 @@ export function StudioTeaser() {
           ))}
           <span className="mx-1 hidden h-6 w-px bg-line sm:block" />
           <button type="button" onClick={() => bag.setTool("pick")} className={toolBtn(bag.tool === "pick")}>
-            🎯 {t("st.pick")}
+            <Icon name="target" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.pick")}
           </button>
           <button type="button" onClick={() => bag.setTool("brush")} className={toolBtn(bag.tool === "brush")}>
-            🖌️ {t("st.brush")}
+             <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.brush")}
           </button>
           <button type="button" onClick={() => bag.setTool("erase")} className={toolBtn(bag.tool === "erase")}>
-            ⌫ {t("st.erase")}
+            <Icon name="eraser" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.erase")}
           </button>
           <button
             type="button"
@@ -124,7 +125,7 @@ export function StudioTeaser() {
             disabled={!bag.canUndo}
             className={`${toolBtn(false)} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted`}
           >
-            ↩ {t("st.undo")}
+             <Icon name="undo" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.undo")}
           </button>
           <button
             type="button"
@@ -132,7 +133,7 @@ export function StudioTeaser() {
             disabled={!bag.canRedo}
             className={`${toolBtn(false)} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted`}
           >
-            ↪ {t("st.redo")}
+            <Icon name="redo" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.redo")}
           </button>
           <button
             type="button"
@@ -140,10 +141,10 @@ export function StudioTeaser() {
             disabled={bag.selected <= 0}
             className={`${toolBtn(false)} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted`}
           >
-            💾 {t("st.save")}
+              <Icon name="save" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.save")}
           </button>
           <button type="button" onClick={bag.reset} className={toolBtn(false)}>
-            ♻ {t("st.reset")}
+            <Icon name="refresh" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.reset")}
           </button>
         </div>
 

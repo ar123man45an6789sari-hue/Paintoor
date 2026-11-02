@@ -19,7 +19,7 @@ import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
 import { NavSearch } from "./NavSearch";
 import { openPopover, onPopoverClose } from "@/lib/popover";
-import { AccountIcon, PlusIcon } from "./Icons";
+import { AccountIcon, Icon, PlusIcon, type IconName } from "./Icons";
 
 const NAV = [
   { href: "/studio", key: "nav.studio" },
@@ -38,10 +38,10 @@ const LANGS: { code: Lang; label: string; tag: string }[] = [
 
 const LANGS_SOON = ["తెలుగు", "தமிழ்", "മലയാളം", "मराठी"];
 
-const ROLE_CHIP: Record<Session["role"], { key: string; emoji: string }> = {
-  customer: { key: "chip.c", emoji: "🏠" },
-  provider: { key: "chip.p", emoji: "🔧" },
-  shopkeeper: { key: "chip.s", emoji: "🏪" },
+const ROLE_CHIP: Record<Session["role"], { key: string; icon: IconName }> = {
+  customer: { key: "chip.c", icon: "home" },
+  provider: { key: "chip.p", icon: "wrench" },
+  shopkeeper: { key: "chip.s", icon: "store" },
 };
 
 export function Header() {
@@ -142,7 +142,7 @@ export function Header() {
 
           <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
           <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} hidden lg:flex`}>
-            {dark ? "☀️" : "🌙"}
+            {dark ? <Icon name="sun" className="h-[18px] w-[18px]" /> : <Icon name="moon" className="h-[18px] w-[18px]" />}
           </button>
 
           <div className="relative">
@@ -150,7 +150,7 @@ export function Header() {
               if (!langOpen) openPopover("lang");
               setLangOpen(!langOpen);
             }} aria-label="Change language" className={`${iconBtn} hidden text-navy lg:flex`}>
-              🌐
+              <Icon name="globe" className="h-[18px] w-[18px]" />
             </button>
             {langOpen && (
               <>
@@ -187,7 +187,7 @@ export function Header() {
                 href="/dashboard"
                 className="hidden items-center gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-extrabold text-navy hover:border-saffron xl:flex"
               >
-                <span aria-hidden="true">{ROLE_CHIP[session.role].emoji}</span>
+                <Icon name={ROLE_CHIP[session.role].icon} className="h-3.5 w-3.5" />
                 {t(ROLE_CHIP[session.role].key)} · {t("dash.open")}
               </Link>
               <button type="button" onClick={logout} className="hidden rounded-control border-2 border-line px-3 py-2 text-xs font-extrabold text-muted hover:border-danger hover:text-danger lg:inline-flex">
@@ -216,7 +216,7 @@ export function Header() {
                       onClick={() => openAuth("login")}
                       className="flex w-full rounded-control px-3 py-2.5 text-left text-sm font-extrabold text-ink hover:bg-chuna"
                     >
-                      🔑 {t("nav.login")}
+                      <Icon name="key" className="mr-2 h-4 w-4" />{t("nav.login")}
                     </button>
                     <button
                       type="button"
@@ -265,7 +265,7 @@ export function Header() {
                   }}
                   className="flex min-h-11 flex-1 items-center justify-center gap-2 rounded-control border border-line px-3 text-xs font-extrabold text-navy hover:border-saffron"
                 >
-                  {dark ? "☀️" : "🌙"} {t("menu.theme")}
+                  {dark ? <Icon name="sun" className="h-4 w-4" /> : <Icon name="moon" className="h-4 w-4" />} {t("menu.theme")}
                 </button>
                 <div className="flex flex-1 gap-1">
                   {LANGS.map((l) => (

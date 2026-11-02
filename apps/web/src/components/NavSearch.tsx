@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { PinIcon, SearchIcon } from "./Icons";
+import { Icon, PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getCity, nearestCity, setCity } from "@/lib/city";
 
@@ -87,7 +87,7 @@ export function NavSearch() {
                 onClick={sense}
                 className="flex min-h-11 w-full items-center gap-2 rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-snow"
               >
-                🎯 {t("search.useLoc")}
+                <Icon name="target" className="h-4 w-4" />{t("search.useLoc")}
               </button>
               {locMsg && <p className="mt-1 px-1 text-xs font-semibold text-muted">{locMsg}</p>}
               <input
@@ -128,7 +128,7 @@ export function NavSearch() {
                   }}
                   className="flex w-full rounded-control px-3 py-2 text-left text-sm text-ink hover:bg-chuna"
                 >
-                  🎨 {t(`sk.${s}`)}
+                <Icon name="palette" className="mr-2 h-4 w-4 shrink-0" />{t(`sk.${s}`)}
                 </button>
               ))}
             </div>

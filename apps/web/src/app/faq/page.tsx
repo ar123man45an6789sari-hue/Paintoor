@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { Logo } from "@/components/Logo";
 import { Wordmark } from "@/components/Wordmark";
+import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
 import { FAQS, FAQ_CATS, FAQ_UI, type FaqCat } from "@/lib/faq";
 
@@ -68,7 +69,7 @@ export default function FaqPage() {
             onClick={() => setChatOpen(true)}
             className="mt-5 min-h-12 rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-shadow hover:shadow-lift"
           >
-            💬 {ui.openChat}
+           <Icon name="chat" /> {ui.openChat}
           </button>
         </div>
       </div>

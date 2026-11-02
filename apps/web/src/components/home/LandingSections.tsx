@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
+import { Icon, type IconName } from "@/components/Icons";
 import { StudioTeaser } from "@/components/studio/StudioTeaser";
 import { FAQS, FAQ_PICKS, FAQ_UI } from "@/lib/faq";
 
@@ -100,12 +101,12 @@ function StoryPin() {
               <div className="mt-2 rounded-card border border-[#e2e4e7] p-2.5"><p className="text-xs font-bold text-navy">Total (GST incl.)</p><p className="text-xs font-black text-navy">₹16,541</p></div>
             </div>
             <div className={`ls-scr ${act === 3 ? "on" : ""}`}>
-              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-2xl">🔒</div>
+              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-saffron"><Icon name="lock" className="h-6 w-6" /></div>
               <p className="mt-2 text-center text-xs font-bold text-navy">₹4,962 safe in escrow</p>
               <p className="text-center text-xs text-muted">Released only after approval</p>
             </div>
             <div className={`ls-scr ${act === 4 ? "on" : ""}`}>
-              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-2xl">✅</div>
+              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-neem"><Icon name="checkCircle" className="h-6 w-6" /></div>
               <p className="mt-2 text-center text-xs font-bold text-navy">Job done · rated 4.8★</p>
               <p className="text-center text-xs text-muted">Invoice + warranty card ready</p>
             </div>
@@ -278,7 +279,8 @@ function Categories() {
               onClick={() => router.push("/providers?q=painting")}
               className="min-h-12 rounded-control bg-saffron px-5 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
             >
-              🖌️ {t("svc.bookCta")}
+              <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("svc.bookCta")}
+
             </button>
           </div>
         </aside>
@@ -377,14 +379,25 @@ function EscrowFlow() {
           <path ref={pathRef} d="M60 220 C60 120 160 90 230 90 C300 90 400 120 400 220" stroke="#e2e4e7" strokeWidth="4" fill="none" strokeDasharray="6 8" />
           <g ref={coinRef}><circle r="16" fill="#e00048" /><text y="6" textAnchor="middle" fontSize="16" fontWeight="900" fill="#7c0028">₹</text></g>
           <rect x="200" y="60" width="60" height="60" rx="14" fill="#182028" />
-          <text x="230" y="98" textAnchor="middle" fontSize="26">🔒</text>
+          <g transform="translate(230,90)" stroke="#fce6ed" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="-11" y="-1" width="22" height="16" rx="3" />
+                <path d="M-6 -1v-5a6 6 0 0 1 12 0v5" />
+              </g>
           <g fontSize="13" fontWeight="700" fill="#243244">
             <text x="60" y="252" textAnchor="middle">Customer</text>
             <text x="230" y="146" textAnchor="middle">Escrow</text>
             <text x="400" y="252" textAnchor="middle">Worker</text>
           </g>
-          <circle cx="60" cy="220" r="20" fill="#fce6ed" /><text x="60" y="227" textAnchor="middle" fontSize="18">🏠</text>
-          <circle cx="400" cy="220" r="20" fill="#FDEBDD" /><text x="400" y="227" textAnchor="middle" fontSize="18">🔧</text>
+          <circle cx="60" cy="220" r="20" fill="#fce6ed" />
+              <g transform="translate(60,220)" stroke="#a80036" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M-10 1 0 -8l10 9" />
+                <path d="M-7 -1v10h14v-10" />
+              </g>
+          <circle cx="400" cy="220" r="20" fill="#FDEBDD" />
+              <g transform="translate(400,220)" stroke="#b45309" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M-8 8 3 -3" />
+                <path d="m3 -3 5 -5a1.9 1.9 0 0 1 2.6 2.6l-5 5z" />
+              </g>
         </svg>
       </div>
     </section>
@@ -393,10 +406,10 @@ function EscrowFlow() {
 
 function RoleLens() {
   const { t } = useI18n();
-  const LENSES = [
-    { emoji: "🏠", key: "l1" },
-    { emoji: "🔧", key: "l2" },
-    { emoji: "🏪", key: "l3" },
+  const LENSES: { icon: IconName; key: string }[] = [
+    { icon: "home", key: "l1" },
+    { icon: "wrench", key: "l2" },
+    { icon: "store", key: "l3" },
   ];
   return (
     <section id="why" className="bg-raatri px-5 py-24 text-snow">
@@ -409,7 +422,7 @@ function RoleLens() {
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {LENSES.map((l) => (
             <div key={l.key} className="reveal rounded-sheet border border-snow/12 bg-snow/5 p-6">
-              <div className="text-3xl">{l.emoji}</div>
+             <Icon name={l.icon} className="h-7 w-7 text-haldi" />
               <h3 className="mt-3 text-lg font-extrabold">{t(`${l.key}.t`)}</h3>
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {[1, 2, 3].map((n) => (

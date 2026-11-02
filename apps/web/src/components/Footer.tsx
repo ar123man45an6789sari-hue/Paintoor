@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useI18n } from "@/i18n";
 import { company, helpCentre, poweredBy, socials } from "@paintoor/brand";
 import { Logo } from "./Logo";
+import { Icon } from "./Icons";
 import { Wordmark } from "./Wordmark";
 
 /* Minimal stroke glyphs for the official handles — no emoji, no icon font. */
@@ -109,12 +110,13 @@ export function Footer() {
           <p className="max-w-[280px] text-sm">{t("foot.about")}</p>
           <p className="mt-3 text-sm">
             <a href={`tel:${company.phoneTel}`} className="hover:text-haldi">
-              📞 {t("foot.helpline")}
+                <Icon name="phone" /> {t("foot.helpline")}
+
             </a>
           </p>
           <p className="mt-1 text-sm">
             <a href={`mailto:${company.emails.support}`} className="hover:text-haldi">
-              ✉️ {company.emails.support}
+               <Icon name="mail" /> {company.emails.support}
             </a>
           </p>
         </div>

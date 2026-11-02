@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { openPopover, onPopoverClose } from "@/lib/popover";
 import { getProviderProfile } from "@/lib/providers";
+import { Icon } from "./Icons";
 import { getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import {
@@ -59,7 +60,7 @@ export function NotificationBell() {
         }}
         className="relative flex h-9 w-9 items-center justify-center rounded-pill border border-line bg-chuna text-base transition-colors hover:border-saffron"
       >
-        🔔
+         <Icon name="bell" className="h-[18px] w-[18px]" />
         {unread > 0 && (
           <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-danger px-1 text-xs font-black text-snow">
             {unread}

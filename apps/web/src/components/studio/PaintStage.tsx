@@ -5,6 +5,7 @@
 "use client";
 
 import { useI18n } from "@/i18n";
+import { Icon } from "@/components/Icons";
 import type { PaintStudioBag } from "./usePaintStudio";
 
 export function PaintStage({ bag }: { bag: PaintStudioBag }) {
@@ -87,14 +88,14 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
             bag.compare ? "bg-saffron text-snow" : "bg-raatri/85 text-snow hover:bg-raatri"
           }`}
         >
-          👁 {t("st.compare")}
+           <Icon name="eye" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.compare")}
         </button>
         <button
           type="button"
           onClick={() => void bag.download()}
           className="min-h-9 rounded-pill bg-saffron px-2.5 py-1.5 text-[11px] font-extrabold text-snow transition-colors hover:brightness-110 sm:min-h-10 sm:px-3 sm:text-xs"
         >
-          ⬇ {t("st.download")}
+          <Icon name="download" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.download")}
         </button>
       </div>
 
@@ -106,7 +107,7 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
           </span>
           {bag.layers > 0 && (
             <span className="flex items-center gap-1 rounded-pill bg-raatri/85 py-1.5 pl-3 pr-1.5 text-[11px] font-extrabold text-snow shadow-card">
-              💾 {t("st.layers", { n: bag.layers })}
+             <Icon name="save" className="h-3.5 w-3.5 shrink-0" /> {t("st.layers", { n: bag.layers })}
               <button
                 type="button"
                 onClick={bag.clearSaved}
@@ -114,7 +115,7 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
                 title={t("st.unsave")}
                 className="pointer-events-auto flex h-5 w-5 items-center justify-center rounded-pill bg-snow/15 text-[10px] font-black transition-colors hover:bg-danger"
               >
-                ✕
+                <Icon name="close" className="h-3 w-3" />
               </button>
             </span>
           )}

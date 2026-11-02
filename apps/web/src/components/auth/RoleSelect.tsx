@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import type { Role } from "./types";
 import { useI18n } from "@/i18n";
+import { Icon } from "../Icons";
 
 export function RoleSelect({ onPick }: { onPick: (role: Role) => void }) {
   const { t } = useI18n();
@@ -66,7 +67,7 @@ export function RoleSelect({ onPick }: { onPick: (role: Role) => void }) {
             </span>
             <span className="mt-0.5 block text-sm text-muted">{opt.blurb}</span>
           </span>
-          <span className="ml-auto text-saffron" aria-hidden="true">→</span>
+          <Icon name="arrowRight" className="ml-auto h-4 w-4 text-saffron" />
         </button>
       ))}
     </div>
