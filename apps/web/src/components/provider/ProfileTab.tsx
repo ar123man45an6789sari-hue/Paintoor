@@ -42,7 +42,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
               {BADGE_LABELS[b] ?? b}
             </span>
           ))}
-          <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-neem">
+          <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-ink">
             ✅ {t("pd.kycOk")}
           </span>
         </div>

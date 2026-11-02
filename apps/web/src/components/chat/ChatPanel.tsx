@@ -158,7 +158,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
           🔑 {t("chat.booked", { otp: request.jobOtp })}
         </p>
       )}
-      {paid && <p className="mt-2 rounded-control bg-neem/10 px-3 py-2 text-xs font-semibold text-neem">🔒 {t("hire.done")}</p>}
+      {paid && <p className="mt-2 rounded-control bg-neem/10 px-3 py-2 text-xs font-semibold text-int">🔒 {t("hire.done")}</p>}
 
       {hireOpen && lastQuote?.quote && (
         <div className="mt-3 rounded-control border border-line bg-chuna p-3">

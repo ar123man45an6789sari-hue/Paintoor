@@ -101,7 +101,7 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
       {/* bottom bar: selection readout + contextual hint, wraps on phones */}
       <div className="pointer-events-none absolute inset-x-2 bottom-2 z-20 flex flex-wrap items-end justify-between gap-1.5 sm:inset-x-3 sm:bottom-3 sm:gap-2">
         <span className="flex flex-wrap items-end gap-1.5 sm:gap-2">
-          <span className="rounded-pill bg-snow/90 px-3 py-1.5 text-[11px] font-extrabold text-ink shadow-card">
+          <span className="rounded-pill bg-white/90 px-3 py-1.5 text-[11px] font-extrabold text-ink shadow-card">
             {bag.selected > 0 ? t("st.selected", { n: Math.round(bag.selected * 100) }) : t("st.none")}
           </span>
           {bag.layers > 0 && (
@@ -127,7 +127,7 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
       </div>
 
       {(bag.loading || !bag.ready) && photo && (
-        <div className="absolute inset-0 flex items-center justify-center bg-snow/40">
+        <div className="absolute inset-0 flex items-center justify-center bg-white/40">
           <span className="rounded-pill bg-raatri/85 px-4 py-2 text-xs font-extrabold text-snow">
             {t("st.preparing")}
           </span>

@@ -1,7 +1,6 @@
 /* ProvidersBrowser v3 — hooks INSIDE component; localised labels; All-India default. */
 "use client";
-
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { useSearchParams } from "next/navigation";
@@ -57,12 +56,20 @@ export function ProvidersBrowser() {
       ).sort(),
     [],
   );
-  // A saved or linked city may not exist in the current demo seed; fall back
-  // to All-India instead of silently filtering down to zero results.
+    // First paint starts neutral ("all") on server AND client. A linked city
+  // (?city=...) is safe to read here; the saved city lives in localStorage,
+  // which only exists in the browser, so it is applied after mount — reading
+  // it during render would desync server and client (hydration error).
   const [city, setCity] = useState(() => {
-    const wanted = params.get("city") ?? getCity();
-    return wanted === "all" || cities.includes(wanted) ? wanted : "all";
+    const linked = params.get("city");
+    if (linked === null || linked === "all") return "all";
+    return cities.includes(linked) ? linked : "all";
   });
+  useEffect(() => {
+    if (params.get("city")) return;
+    const saved = getCity();
+    if (saved !== "all" && cities.includes(saved)) setCity(saved);
+  }, [params, cities]);
   const [zone, setZone] = useState(params.get("zone") ?? "all");
   const [skill, setSkill] = useState(() => skillFromQuery(params.get("q") ?? "") ?? "all");
   const [query, setQuery] = useState(() => {
@@ -170,7 +177,7 @@ export function ProvidersBrowser() {
                     {p.skills[0] === "painting" ? "🎨" : p.skills[0] === "electrical" ? "⚡" : p.skills[0] === "plumbing" ? "🚿" : p.skills[0] === "carpentry" ? "🪚" : "🧽"}
                   </span>
                   {p.badges.includes("kyc_verified") && (
-                    <span className="absolute bottom-2 right-3 rounded-pill bg-snow/90 px-2 py-0.5 text-xs font-black text-neem">
+                    <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-ink">
                       ✓ KYC
                     </span>
                   )}

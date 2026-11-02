@@ -57,7 +57,7 @@ function RequestCard({
         </h3>
         <span
           className={`rounded-pill px-3 py-1 text-xs font-black ${
-            done ? "bg-neem/15 text-neem" : matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
+            done ? "bg-neem/15 text-ink" : matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
           }`}
         >
           {done ? t("req.group.done") : matched ? t("req.group.matched") : t("req.open")}

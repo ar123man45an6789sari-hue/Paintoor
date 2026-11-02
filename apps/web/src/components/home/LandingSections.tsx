@@ -271,7 +271,7 @@ function Categories() {
           <h2 className="mt-1 text-2xl font-black text-navy md:text-3xl">{t("cats.h")}</h2>
           <p className="mt-2 text-sm text-muted">{t("cats.p")}</p>
           <p className="mt-4 text-sm font-semibold text-ink">{t("c1.points")}</p>
-          <p className="mt-2 text-xs font-bold text-neem">✓ {t("brands.genuine")}</p>
+          <p className="mt-2 text-xs font-bold text-ink">✓ {t("brands.genuine")}</p>
           <div className="mt-5">
             <button
               type="button"

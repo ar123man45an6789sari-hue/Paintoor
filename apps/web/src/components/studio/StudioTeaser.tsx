@@ -85,7 +85,7 @@ export function StudioTeaser() {
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("st.tag")}</span>
           <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl">{t("st.teaserH")}</h2>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-muted">{t("st.teaserP")}</p>
-          <p className="mt-3 inline-block rounded-pill border border-line bg-white px-3 py-1 text-xs font-extrabold text-neem">
+          <p className="mt-3 inline-block rounded-pill border border-line bg-white px-3 py-1 text-xs font-extrabold text-ink">
             🔒 {t("st.privacy")}
           </p>
         </div>

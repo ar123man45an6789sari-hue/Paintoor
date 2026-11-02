@@ -81,7 +81,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
               <span
                 className={`rounded-pill px-3 py-1 text-xs font-black ${
                   state === "completed"
-                    ? "bg-neem/15 text-neem"
+                    ? "bg-neem/15 text-ink"
                     : state === "started"
                       ? "bg-saffron/15 text-saffron"
                       : "bg-haldi/20 text-navy"

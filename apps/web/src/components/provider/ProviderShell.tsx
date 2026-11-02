@@ -63,7 +63,7 @@ export function ProviderShell({ name }: { name: string }) {
             type="button"
             onClick={() => toggleOnline()}
             className={`min-h-12 rounded-pill px-5 py-2.5 text-sm font-extrabold transition-colors ${
-              online ? "bg-white text-neem" : "bg-snow/20 text-snow hover:bg-snow/30"
+              online ? "bg-white text-ink" : "bg-snow/20 text-snow hover:bg-snow/30"
             }`}
           >
             {online ? `● ${t("pd.online")}` : `○ ${t("pd.offline")}`}
