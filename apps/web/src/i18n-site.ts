@@ -13,9 +13,6 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "role.c.tag": "I need work done", "role.p.tag": "I am a skilled partner", "role.s.tag": "I run a store",
     "auth.welcomeBack": "Welcome back 👋", "auth.welcomeBackSub": "Good to see you again — log in and pick up where you left off.",
     "auth.newHere": "New here? Let's begin 🎉", "auth.newHereSub": "Two minutes to set up — then post your first job.",
-    "about.h": "About Paintoor",
-    "about.p1": "Paintoor starts with one craft: painting. Verified partners, fair rate ranges, itemized quotes and money that stays safe until you approve the work.",
-    "about.p2": "More skills are joining soon — the same trust engine, every wall first.",
   },
   hi: {
     "nav.marketplace": "मार्केटप्लेस", "nav.partners": "पार्टनर्स", "nav.blog": "ब्लॉग", "nav.about": "हमारे बारे में",
@@ -28,9 +25,6 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "role.c.tag": "मुझे काम कराना है", "role.p.tag": "मैं हुनरमंद पार्टनर हूँ", "role.s.tag": "मेरी दुकान है",
     "auth.welcomeBack": "वापसी पर स्वागत है 👋", "auth.welcomeBackSub": "आपको देख कर खुशी हुई — लॉग इन कीजिए और वहीं से शुरू कीजिए।",
     "auth.newHere": "पहली बार यहाँ? शुरुआत करें 🎉", "auth.newHereSub": "दो मिनट में सेटअप — फिर पहली जॉब पोस्ट करें।",
-    "about.h": "Paintoor के बारे में",
-   "about.p1": "Paintoor की शुरुआत एक हुनर से होती है: पेंटिंग। वेरिफाइड पार्टनर्स, उचित रेट रेंज, आइटमाइज़्ड क्वोट और पैसा जो काम मंज़ूर होने तक सुरक्षित रहता है।",
-    "about.p2": "जल्द और skills भी जुड़ेंगी — वही भरोसा, हर दीवार पहले।",
   },
   gu: {
     "nav.marketplace": "માર્કેટપ્લેસ", "nav.partners": "પાર્ટનર્સ", "nav.blog": "બ્લોગ", "nav.about": "અમારા વિશે",
@@ -43,8 +37,5 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "role.c.tag": "મને કામ કરાવવું છે", "role.p.tag": "હું હુનરમંદ પાર્ટનર છું", "role.s.tag": "મારી દુકાન છે",
     "auth.welcomeBack": "પાછા સ્વાગત છે 👋", "auth.welcomeBackSub": "તમને જોઈ સારું લાગ્યું — લોગ ઇન કરો અને જ્યાં છોડ્યું ત્યાંથી શરૂ કરો.",
     "auth.newHere": "પહેલી વાર અહીં? શરૂ કરીએ 🎉", "auth.newHereSub": "બે મિનિટમાં સેટઅપ — પછી પહેલી જોબ પોસ્ટ કરો.",
-    "about.h": "Paintoor વિશે",
-    "about.p1": "Paintoor ની શરૂઆત એક કૌશલ્યથી થાય છે: પેઇન્ટિંગ. વેરિફાઇડ પાર્ટનર્સ, યોગ્ય રેટ રેન્જ, આઇટમાઇઝ્ડ ક્વોટ અને કામ મંજૂર થાય ત્યાં સુધી સુરક્ષિત પૈસા.",
-    "about.p2": "જલ્દી વધુ કૌશલ્ય જોડાશે — એ જ ભરોસો, દરેક દીવાલ પહેલા.",
   },
 };

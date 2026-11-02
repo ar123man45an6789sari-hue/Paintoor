@@ -36,7 +36,7 @@ export type ServiceRequest = {
   acceptedBy?: string | null;
   /** Display name of that provider, so the customer card needs no lookup. */
   acceptedName?: string | null;
-  /** Response window opens when the request is posted (Blueprint Ch. 11.3). */
+   /** Response window opens when the request is posted (the A to B to C loop). */
   windowEndsAt?: number;
     /** Booking details captured at hire — S12 (quote → slot → escrow advance). */
   jobOtp?: string | null;
