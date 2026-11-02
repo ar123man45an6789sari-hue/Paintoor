@@ -37,7 +37,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
         </p>
         <p className="mt-2 text-sm italic text-ink">“{profile.quote}”</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {profile.badges.map((b) => (
+          {profile.badges.filter((b) => b !== "kyc_verified").map((b) => (
             <span key={b} className="rounded-pill border border-line bg-chuna px-3 py-1 text-xs font-bold text-navy">
               {BADGE_LABELS[b] ?? b}
             </span>

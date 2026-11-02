@@ -76,7 +76,7 @@ export function Footer() {
         { key: "fl.refund", href: "/refund" },
         { key: "fl.terms", href: "/terms" },
         { key: "fl.privacy", href: "/privacy" },
-        { key: "fl.safety", href: `mailto:${company.emails.support}` },
+        { key: "fl.safety", href: "/faq" },
       ],
     },
     {

@@ -52,7 +52,7 @@ export function ShopShell({ name }: { name: string }) {
             </p>
           </div>
           <span className="rounded-pill bg-snow/20 px-4 py-2 text-sm font-extrabold">
-            🛎 {t("sh.ordersNew", { count: newOrders })}
+            🛎 {t(newOrders === 1 ? "sh.ordersNewOne" : "sh.ordersNew", { count: newOrders })}
           </span>
         </div>
         <div className="mt-5 grid grid-cols-2 gap-3">

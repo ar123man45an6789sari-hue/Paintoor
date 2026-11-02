@@ -120,7 +120,7 @@ export function PaintStage({ bag }: { bag: PaintStudioBag }) {
           )}
         </span>
         {!bag.compare && (
-          <span className="max-w-full truncate rounded-pill bg-snow/90 px-3 py-1.5 text-[11px] font-extrabold text-ink shadow-card sm:max-w-[55%]">
+          <span className="line-clamp-2 max-w-full rounded-pill bg-white/90 px-3 py-1.5 text-[11px] font-extrabold text-ink shadow-card sm:line-clamp-none sm:max-w-[55%] sm:truncate">
             {hint}
           </span>
         )}

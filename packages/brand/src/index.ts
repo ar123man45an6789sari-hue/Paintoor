@@ -20,10 +20,10 @@ export const company = {
   phoneDisplay: "+91 97023 88055",
   phoneTel: "+919702388055",
   emails: {
-    info: "Info@Paintoor.in",
-    support: "Support@Paintoor.in",
-    partner: "Partner@Paintoor.in",
-    career: "Career@Paintoor.in",
+    info: "info@Paintoor.in",
+    support: "support@Paintoor.in",
+    partner: "partner@Paintoor.in",
+    career: "career@Paintoor.in",
   },
 } as const;
 /** Powered-by line and walk-in help centre (client-provided, 29 Oct 2026). */

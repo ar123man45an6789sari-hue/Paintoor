@@ -5,7 +5,7 @@ export const D9: Record<Lang, Record<string, string>> = {
   en: {
     "sh.tab.counter": "Counter", "sh.tab.catalog": "Catalog", "sh.tab.sales": "Sales", "sh.tab.profile": "Shop",
     "sh.salesToday": "Today's sales", "sh.salesWeek": "This week",
-    "sh.ordersNew": "{count} new orders", "sh.sla": "SLA {mins} min", "sh.slaMissed": "SLA missed",
+    "sh.ordersNew": "{count} new orders", "sh.ordersNewOne": "{count} new order", "sh.sla": "SLA {mins} min", "sh.slaMissed": "SLA missed",
     "sh.accept": "Accept order", "sh.deliver": "Mark delivered", "sh.delivered": "Delivered",
     "sh.acceptedNote": "Accepted — arrange delivery to the site.",
     "sh.orderFrom": "Order from {name}", "sh.jobRef": "Job {ref}", "sh.total": "Total",
@@ -26,7 +26,7 @@ export const D9: Record<Lang, Record<string, string>> = {
   hi: {
     "sh.tab.counter": "काउंटर", "sh.tab.catalog": "कैटलॉग", "sh.tab.sales": "बिक्री", "sh.tab.profile": "दुकान",
     "sh.salesToday": "आज की बिक्री", "sh.salesWeek": "इस हफ़्ते",
-    "sh.ordersNew": "{count} नए ऑर्डर", "sh.sla": "SLA {mins} मिनट", "sh.slaMissed": "SLA चूक",
+    "sh.ordersNew": "{count} नए ऑर्डर", "sh.ordersNewOne": "{count} नया ऑर्डर", "sh.sla": "SLA {mins} मिनट", "sh.slaMissed": "SLA चूक",
     "sh.accept": "ऑर्डर स्वीकारें", "sh.deliver": "डिलीवर हुआ", "sh.delivered": "डिलीवर",
     "sh.acceptedNote": "स्वीकृत — साइट पर डिलीवरी तय करें।",
     "sh.orderFrom": "{name} का ऑर्डर", "sh.jobRef": "जॉब {ref}", "sh.total": "कुल",
@@ -47,7 +47,7 @@ export const D9: Record<Lang, Record<string, string>> = {
   gu: {
     "sh.tab.counter": "કાઉન્ટર", "sh.tab.catalog": "કેટલોગ", "sh.tab.sales": "વેચાણ", "sh.tab.profile": "દુકાન",
     "sh.salesToday": "આજનું વેચાણ", "sh.salesWeek": "આ અઠવાડિયે",
-    "sh.ordersNew": "{count} નવા ઓર્ડર", "sh.sla": "SLA {mins} મિનિટ", "sh.slaMissed": "SLA ચૂક",
+    "sh.ordersNew": "{count} નવા ઓર્ડર", "sh.ordersNewOne": "{count} નવો ઓર્ડર", "sh.sla": "SLA {mins} મિનિટ", "sh.slaMissed": "SLA ચૂક",
     "sh.accept": "ઓર્ડર સ્વીકારો", "sh.deliver": "ડિલિવર થયું", "sh.delivered": "ડિલિવર",
     "sh.acceptedNote": "સ્વીકૃત — સાઇટ પર ડિલિવરી નક્કી કરો.",
     "sh.orderFrom": "{name} નો ઓર્ડર", "sh.jobRef": "જોબ {ref}", "sh.total": "કુલ",
