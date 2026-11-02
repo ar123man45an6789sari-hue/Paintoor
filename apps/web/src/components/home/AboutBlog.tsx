@@ -1,31 +1,7 @@
-/* About + Blog views — client so all copy flows through i18n packs. */
+/* Blog view — client so all copy flows through i18n packs. */
 "use client";
 
 import { useI18n } from "@/i18n";
-import { company } from "@paintoor/brand";
-
-export function AboutView() {
-  const { t } = useI18n();
-  return (
-    <div className="px-4 py-14 md:px-6">
-      <div className="mx-auto max-w-3xl space-y-5">
-        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">Paintoor</span>
-        <h1 className="text-4xl font-black text-navy">{t("about.h")}</h1>
-        <p className="text-lg text-ink">{t("about.p1")}</p>
-        <p className="text-muted">{t("about.p2")}</p>
-         <div className="rounded-card border border-line bg-white p-6 shadow-card">
-          <h2 className="font-extrabold text-navy">{company.legalName}</h2>
-          <p className="mt-2 text-sm text-muted">{company.registeredAddress}</p>
-          <p className="mt-2 text-sm text-muted">
-            <a className="text-saffron" href={`tel:${company.phoneTel}`}>{company.phoneDisplay}</a>
-            {" · "}
-            <a className="text-saffron" href={`mailto:${company.emails.info}`}>{company.emails.info}</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function BlogView() {
   const { t } = useI18n();
