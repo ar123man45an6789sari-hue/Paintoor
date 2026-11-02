@@ -1,8 +1,10 @@
 /* Journal content: static editorial data, statically generated into /blog/[slug].
-   Titles, excerpts and UI chrome ship in all three languages; article bodies
-   currently ship in English and fall back to it until the Hindi and Gujarati
-   translation pass lands. */
+   Titles, excerpts and UI chrome ship in all three languages. English bodies
+   live here; Hindi bodies live in journal-hi and Gujarati in journal-gu, which
+   the export map below wires into each post. */
 import type { Lang } from "@/i18n";
+import { JOURNAL_BODIES_HI } from "./journal-hi";
+import { JOURNAL_BODIES_GU } from "./journal-gu";
 
 export type Block =
   | { kind: "p"; text: string }
@@ -28,7 +30,9 @@ export interface Post {
   body: Record<Lang, Block[]>;
 }
 
-export const POSTS: Post[] = [
+type EnPost = Omit<Post, "body"> & { body: { en: Block[] } };
+
+const EN_POSTS: EnPost[] = [
   {
     slug: "cost-guide",
     category: "cost",
@@ -73,8 +77,6 @@ export const POSTS: Post[] = [
         { kind: "p", text: "The ₹14,000 quote and the ₹28,000 quote stopped being an argument the moment the customer could see that one included two coats of putty, an exterior-grade primer on the rain wall and a premium washable emulsion — and the other included none of the three. Different scopes, different prices. That is not cheating; that is arithmetic." },
         { kind: "p", text: "Read the four lines before you read the total, and the total will finally make sense." },
       ],
-      hi: [],
-      gu: [],
     },
   },
   {
@@ -115,8 +117,6 @@ export const POSTS: Post[] = [
         { kind: "p", text: "Not us. Paintoor never touches the advance; the escrow partner holds it under their own compliance, and the release instruction is triggered by your approval. It is the same mechanic high-trust marketplaces use for large transactions, applied to a 2BHK in Powai." },
         { kind: "p", text: "So when the landing page says money stays safe until you approve, read it literally: there is a locked account with your name on the release key, and nobody — not the painter, not the platform — can turn it without you." },
       ],
-      hi: [],
-      gu: [],
     },
   },
   {
@@ -164,8 +164,6 @@ export const POSTS: Post[] = [
         ] },
         { kind: "p", text: "Interior rooms can be painted year-round with cross-ventilation; it is the exterior and terrace-adjacent walls that reward an early calendar. Fix the source in April or May, carry the paint in the same visit, and June becomes scenery instead of an emergency." },
       ],
-      hi: [],
-      gu: [],
     },
   },
   {
@@ -204,8 +202,6 @@ export const POSTS: Post[] = [
         { kind: "p", text: "A wall that only needs scraping, sanding and two coats stays in the labour-plus-material bracket. The same wall left for two more seasons can need plaster cut-out, waterproofing patchwork and a full putty redo — easily double the preparation lines of the quote, before a single litre of colour is opened. The colour you pick is never the expensive part; the surface underneath is." },
         { kind: "p", text: "If two or more of the seven signs are on your wall today, post the photos with the job. A verified partner can then price the preparation honestly instead of discovering it on day two — which is exactly how mid-job surprises are born, on both sides of the argument." },
       ],
-      hi: [],
-      gu: [],
     },
   },
   {
@@ -250,8 +246,6 @@ export const POSTS: Post[] = [
         { kind: "p", text: "When two quotes carry the same colour name, ask for the product line and the litres on each. A premium washable emulsion and an economy matt can share a shade card and completely different scrub life; the quote card in the job chat lists material with store name and GST, so the comparison stays line-by-line instead of vibe-by-vibe. If a partner suggests a cheaper line for a high-touch room, have that conversation before booking, not after." },
         { kind: "p", text: "Finish is the one choice you live with every night, not in the store for ten minutes. Decide it per room, write it into the quote, and the wall will look like the sample you approved — in the light you actually live in." },
       ],
-      hi: [],
-      gu: [],
     },
   },
   {
@@ -293,8 +287,15 @@ export const POSTS: Post[] = [
         { kind: "p", text: "Late-October demand compresses comparison time: customers message two partners instead of six and pick whoever answers first. An early slot means you can compare rate ranges and itemized quotes calmly, and your partner is not juggling four sites in the same fortnight — which is exactly when corners get cut elsewhere and your site inherits the delay." },
         { kind: "p", text: "Put the date in the job post itself: second coat done by 25 October is a filter that sorts partners before anyone messages. The calendar is a specification like any other — and unlike colour, it cannot be corrected after the fact." },
       ],
-      hi: [],
-      gu: [],
     },
   },
 ];
+
+export const POSTS: Post[] = EN_POSTS.map((post) => ({
+  ...post,
+  body: {
+    en: post.body.en,
+    hi: JOURNAL_BODIES_HI[post.slug] ?? [],
+    gu: JOURNAL_BODIES_GU[post.slug] ?? [],
+  },
+}));
