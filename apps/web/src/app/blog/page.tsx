@@ -1,5 +1,5 @@
-import { BlogView } from "@/components/home/AboutBlog";
+import { JournalIndex } from "@/components/journal/JournalIndex";
 
 export default function BlogPage() {
-  return <BlogView />;
+  return <JournalIndex />;
 }

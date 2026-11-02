@@ -1,4 +1,4 @@
-/* Site-wide strings: cities, search, nav, auth warmth, about and blog. */
+/* Site-wide strings: cities, search, nav and auth warmth. */
 import type { Lang } from "./i18n";
 
 export const SITE: Record<Lang, Record<string, string>> = {
@@ -13,14 +13,9 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "role.c.tag": "I need work done", "role.p.tag": "I am a skilled partner", "role.s.tag": "I run a store",
     "auth.welcomeBack": "Welcome back 👋", "auth.welcomeBackSub": "Good to see you again — log in and pick up where you left off.",
     "auth.newHere": "New here? Let's begin 🎉", "auth.newHereSub": "Two minutes to set up — then post your first job.",
-    "about.h": "About Paintoor", 
+    "about.h": "About Paintoor",
     "about.p1": "Paintoor starts with one craft: painting. Verified partners, fair rate ranges, itemized quotes and money that stays safe until you approve the work.",
     "about.p2": "More skills are joining soon — the same trust engine, every wall first.",
-    "blog.h": "Blog", "blog.p": "Stories, guides and rate insights from the field.",
-    "blog.soon": "Full article coming soon",
-    "b1.t": "Why painting quotes vary — and how to read them", "b1.p": "Sqft rates, primer coats and surface prep, explained simply.",
-        "b2.t": "Pre-Diwali painting: book 3 weeks early", "b2.p": "Mumbai's festive rush, zone by zone.",
-    "b3.t": "What 'money safe until approval' really means", "b3.p": "Escrow in plain language, with a real booking example.",
   },
   hi: {
     "nav.marketplace": "मार्केटप्लेस", "nav.partners": "पार्टनर्स", "nav.blog": "ब्लॉग", "nav.about": "हमारे बारे में",
@@ -36,11 +31,6 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "about.h": "Paintoor के बारे में",
    "about.p1": "Paintoor की शुरुआत एक हुनर से होती है: पेंटिंग। वेरिफाइड पार्टनर्स, उचित रेट रेंज, आइटमाइज़्ड क्वोट और पैसा जो काम मंज़ूर होने तक सुरक्षित रहता है।",
     "about.p2": "जल्द और skills भी जुड़ेंगी — वही भरोसा, हर दीवार पहले।",
-    "blog.h": "ब्लॉग", "blog.p": "फ़ील्ड से कहानियाँ, गाइड और रेट इनसाइट।",
-    "blog.soon": "पूरा लेख जल्द आ रहा है",
-    "b1.t": "पेंटिंग क्वोट अलग-अलग क्यों — और कैसे पढ़ें", "b1.p": "Sqft रेट, प्राइमर कोट और सतह की तैयारी, आसान भाषा में।",
-    "b2.t": "दिवाली पेंटिंग: 3 हफ्ते पहले बुक करें", "b2.p": "मुंबई की त्योहारी भीड़,.zone-दर-zone।",
-    "b3.t": "'काम मंज़ूर होने तक पैसा सुरक्षित' का मतलब", "b3.p": "Escrow आसान भाषा में, असली बुकिंग उदाहरण के साथ।",
   },
   gu: {
     "nav.marketplace": "માર્કેટપ્લેસ", "nav.partners": "પાર્ટનર્સ", "nav.blog": "બ્લોગ", "nav.about": "અમારા વિશે",
@@ -56,10 +46,5 @@ export const SITE: Record<Lang, Record<string, string>> = {
     "about.h": "Paintoor વિશે",
     "about.p1": "Paintoor ની શરૂઆત એક કૌશલ્યથી થાય છે: પેઇન્ટિંગ. વેરિફાઇડ પાર્ટનર્સ, યોગ્ય રેટ રેન્જ, આઇટમાઇઝ્ડ ક્વોટ અને કામ મંજૂર થાય ત્યાં સુધી સુરક્ષિત પૈસા.",
     "about.p2": "જલ્દી વધુ કૌશલ્ય જોડાશે — એ જ ભરોસો, દરેક દીવાલ પહેલા.",
-    "blog.h": "બ્લોગ", "blog.p": "ફીલ્ડમાંથી વાર્તાઓ, માર્ગદર્શિકા અને રેટ આંતરદૃષ્ટિ.",
-    "blog.soon": "પૂરો લેખ જલ્દી આવશે",
-    "b1.t": "પેઇન્ટિંગ ક્વોટ કેમ બદલાય — અને કેમ વાંચવા", "b1.p": "Sqft રેટ, પ્રાઇમર કોટ અને સપાટીની તૈયારી, સરળ ભાષામાં.",
-    "b2.t": "દિવાળી પેઇન્ટિંગ: 3 અઠવાડિયા વહેલા બુક કરો", "b2.p": "બઈની તહેવારની ભીડ, ઝોન પ્રમાણે.",
-    "b3.t": "'કામ મંજૂર થાય ત્યાં સુધી પૈસા સુરક્ષિત' નો અર્થ", "b3.p": "Escrow સરળ ભાષામાં, સાચા બુકિંગ ઉદાહરણ સાથે.",
   },
 };
