@@ -6,14 +6,15 @@
 import { useRef, useState } from "react";
 import { useI18n } from "@/i18n";
 import type { ServiceRequest } from "@/lib/requests";
+import { Icon, type IconName } from "@/components/Icons";
 
-const EMOJI: Record<string, string> = {
-  painting: "🎨",
-  electrical: "⚡",
-  plumbing: "🚿",
-  carpentry: "🪚",
-  cleaning: "🧽",
-  waterproofing: "🛡️",
+const CATEGORY_ICON: Record<string, IconName> = {
+  painting: "palette",
+  electrical: "bolt",
+  plumbing: "droplet",
+  carpentry: "hammer",
+  cleaning: "spray",
+  waterproofing: "shield",
 };
 
 /** Past this many pixels the release commits instead of springing back. */
@@ -129,9 +130,7 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span aria-hidden="true" className="text-2xl">
-              {EMOJI[request.category] ?? "🛠️"}
-            </span>
+            <Icon name={CATEGORY_ICON[request.category] ?? "wrench"} className="h-6 w-6 shrink-0 text-saffron" />
             <div>
               <h3 className="font-extrabold text-navy">{t(`sk.${request.category}`)}</h3>
               <p className="text-xs font-semibold text-muted">
@@ -145,7 +144,7 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
                 urgent ? "bg-danger/15 text-danger" : "bg-haldi/20 text-navy"
               }`}
             >
-              ⏱ {t("pd.timer", { mins: Math.max(0, minsLeft) })}
+              <Icon name="timer" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.timer", { mins: Math.max(0, minsLeft) })}
             </span>
           )}
         </div>
@@ -157,23 +156,23 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
         )}
 
         <div className="mt-3 flex flex-wrap gap-2">
-          <span className={chip}>💰 {t("pd.budgetHint")}: {t(`bud.${request.budget}`)}</span>
-          <span className={chip}>{request.material ? `🧱 ${t("pd.materialInc")}` : `🧱 ${t("pd.customerMat")}`}</span>
-          <span className={chip}>{request.date
-            ? `📅 ${t("pd.slotOn", {
+          <span className={chip}><Icon name="rupee" className="mr-1 inline h-3.5 w-3.5 align-[-0.2em]" />{t("pd.budgetHint")}: {t(`bud.${request.budget}`)}</span>
+          <span className={chip}><Icon name="brick" className="mr-1 inline h-3.5 w-3.5 align-[-0.2em]" />{request.material ? t("pd.materialInc") : t("pd.customerMat")}</span>
+          <span className={chip}><Icon name="calendar" className="mr-1 inline h-3.5 w-3.5 align-[-0.2em]" />{request.date
+            ? t("pd.slotOn", {
                 date: new Date(`${request.date}T00:00:00`).toLocaleDateString(locale, { day: "numeric", month: "short" }),
-              })}`
-            : `📅 ${t("pd.anyDate")}`}</span>
-          <span className={chip}>🕒 {t(`slot.${request.slot}`)}</span>
-          {request.photos.length > 0 && <span className={chip}>📷 {t("pd.photosN", { count: request.photos.length })}</span>}
+              })
+            : t("pd.anyDate")}</span>
+          <span className={chip}><Icon name="clock" className="mr-1 inline h-3.5 w-3.5 align-[-0.2em]" />{t(`slot.${request.slot}`)}</span>
+          {request.photos.length > 0 && <span className={chip}><Icon name="camera" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.photosN", { count: request.photos.length })}</span>}
         </div>
 
         <p className="mt-3 text-xs font-semibold text-muted">
-          🔒 {request.customer.split(" ")[0]} · {t("pd.addressHidden")}
+          <Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{request.customer.split(" ")[0]} · {t("pd.addressHidden")}
         </p>
 
         {top && dragEnabled && (
-          <p className="mt-3 text-center text-xs font-semibold text-muted">↔ {t("pd.swipeHint")}</p>
+          <p className="mt-3 text-center text-xs font-semibold text-muted"><Icon name="arrows" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.swipeHint")}</p>
         )}
 
         <div className="mt-4 flex gap-3">
@@ -188,7 +187,7 @@ export function LeadCard({ request, km, minsLeft, depth, dragEnabled, onAccept, 
             }}
             className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift"
           >
-            ✓ {t("pd.yes")}
+            <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.yes")}
           </button>
           <button
             type="button"

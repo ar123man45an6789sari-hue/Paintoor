@@ -72,7 +72,8 @@ export type IconName =
   | "wallet" | "calendar" | "clock" | "timer" | "camera" | "lock" | "shield" | "box" | "cart"
   | "truck" | "user" | "users" | "sparkle" | "toolbox" | "eye" | "download" | "save" | "brush"
   | "eraser" | "undo" | "redo" | "refresh" | "minus" | "plus" | "play" | "chart" | "doc"
-  | "briefcase" | "bulb" | "receipt" | "brick" | "layers";
+  | "briefcase" | "bulb" | "receipt" | "brick" | "layers"
+  | "bolt" | "droplet" | "hammer" | "spray" | "arrows";
 
 const SHAPES: Record<IconName, ReactNode> = {
   home: <><path d="M3 10.6 12 3l9 7.6" /><path d="M5.6 9.6V21h12.8V9.6" /><path d="M9.8 21v-5.8h4.4V21" /></>,
@@ -132,6 +133,11 @@ const SHAPES: Record<IconName, ReactNode> = {
   receipt: <><path d="M6 2.5h12v19l-3-1.8-3 1.8-3-1.8-3 1.8Z" /><path d="M9 8h6M9 12h6" /></>,
   brick: <><rect x="2.5" y="5.5" width="19" height="13" rx="1" /><path d="M2.5 10h19M2.5 14.5h19M9 5.5v4.5M15.5 10v4.5M9 14.5v4" /></>,
   layers: <><path d="m12 2.8 9 4.7-9 4.7-9-4.7Z" /><path d="m3 12.5 9 4.7 9-4.7M3 17l9 4.7 9-4.7" /></>,
+  bolt: <path d="M13.8 2 4.5 13.4h6.2L10.2 22l9.3-11.4h-6.2Z" />,
+  droplet: <path d="M12 2.6s6.4 6.9 6.4 11.1a6.4 6.4 0 0 1-12.8 0C5.6 9.5 12 2.6 12 2.6Z" />,
+  hammer: <><path d="m14.6 6.4 3 3" /><path d="M14.2 2.6 21.4 9.8l-2.6 2.6-7.2-7.2z" /><path d="m12.4 7.6-8.8 8.8a2.1 2.1 0 0 0 3 3l8.8-8.8" /></>,
+  spray: <><rect x="8.5" y="8.5" width="7" height="13" rx="2" /><path d="M10.5 8.5V5h3v3.5M18 4h.01M20.5 6.5h.01M18 9h.01" /></>,
+  arrows: <path d="M4 9h16m-4-4 4 4-4 4M20 15H4m4-4-4 4 4 4" />,
 };
 
 export function Icon({

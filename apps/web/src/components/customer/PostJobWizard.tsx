@@ -7,6 +7,7 @@ import { addRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
+import { Icon } from "@/components/Icons";
 
 // Only cities where a bookable partner actually exists today, so the
 // wizard can never promise a city the marketplace cannot serve.
@@ -108,7 +109,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
               htmlFor="wiz-photos"
               className="mt-1 flex cursor-pointer flex-col items-center gap-1 rounded-card border-2 border-dashed border-line bg-chuna px-4 py-6 text-center transition-colors hover:border-saffron"
             >
-              <span className="text-2xl" aria-hidden="true">📷</span>
+              <Icon name="camera" className="h-6 w-6 text-saffron" />
               <span className="text-sm font-extrabold text-navy">{t("wiz.drop")}</span>
               <span className="text-[11px] font-semibold text-muted">{t("wiz.dropSub")}</span>
             </label>
@@ -116,7 +117,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           {photos.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {photos.map((p) => (
-                <span key={p} className="rounded-pill border border-line bg-chuna px-3 py-1 text-xs font-bold text-navy">📷 {p}</span>
+                <span key={p} className="rounded-pill border border-line bg-chuna px-3 py-1 text-xs font-bold text-navy"><Icon name="camera" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{p}</span>
               ))}
             </div>
           )}

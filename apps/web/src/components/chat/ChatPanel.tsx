@@ -9,6 +9,7 @@ import type { ChatMessage, ChatQuote } from "@/lib/chats";
 import { getRequest, hireWithBooking, onRequestsChange } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
+import { Icon } from "@/components/Icons";
 
 type Role = "customer" | "provider";
 
@@ -105,7 +106,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
 
   return (
     <div className="rounded-card border border-line bg-white p-4 shadow-card">
-      <p className="text-xs font-black uppercase tracking-wider text-muted">💬 {t("chat.h")}</p>
+      <p className="text-xs font-black uppercase tracking-wider text-muted"><Icon name="chat" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.h")}</p>
 
       <div className="mt-3 max-h-72 space-y-2 overflow-y-auto pr-1">
         {messages.length === 0 && <p className="py-6 text-center text-sm text-muted">{t("chat.empty")}</p>}
@@ -113,7 +114,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
           m.kind === "quote" && m.quote ? (
             <div key={m.id} className={`flex ${m.from === role ? "justify-end" : "justify-start"}`}>
               <div className="w-full max-w-[260px] rounded-sheet border border-line bg-chuna p-3">
-                <p className="text-xs font-black uppercase tracking-wider text-saffron">🧾 {t("chat.quoteCard")}</p>
+                <p className="text-xs font-black uppercase tracking-wider text-saffron"><Icon name="receipt" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.quoteCard")}</p>
                 <p className="mt-1 flex justify-between text-xs font-semibold text-ink">
                   <span>{t("chat.labour")}</span>
                   <span className="tabular-nums">₹{m.quote.labour.toLocaleString("en-IN")}</span>
@@ -133,7 +134,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
                     onClick={() => setHireOpen(true)}
                     className="mt-2 min-h-11 w-full rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-snow hover:shadow-lift"
                   >
-                    ✓ {t("chat.acceptQuote")}
+                    <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.acceptQuote")}
                   </button>
                 )}
               </div>
@@ -155,14 +156,14 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
 
       {request?.jobOtp && (
         <p className="mt-3 rounded-control bg-haldi/20 px-3 py-2 text-xs font-extrabold text-navy">
-          🔑 {t("chat.booked", { otp: request.jobOtp })}
+          <Icon name="key" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.booked", { otp: request.jobOtp })}
         </p>
       )}
-      {paid && <p className="mt-2 rounded-control bg-neem/10 px-3 py-2 text-xs font-semibold text-int">🔒 {t("hire.done")}</p>}
+      {paid && <p className="mt-2 rounded-control bg-neem/10 px-3 py-2 text-xs font-semibold text-int"><Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("hire.done")}</p>}
 
       {hireOpen && lastQuote?.quote && (
         <div className="mt-3 rounded-control border border-line bg-chuna p-3">
-          <p className="text-sm font-extrabold text-navy">📅 {t("hire.h")}</p>
+          <p className="text-sm font-extrabold text-navy"><Icon name="calendar" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("hire.h")}</p>
           <div className="mt-2 grid gap-2 sm:grid-cols-2">
             <label className="block">
               <span className="mb-1 block text-xs font-bold text-ink">{t("hire.date")}</span>
@@ -199,9 +200,10 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
             disabled={paying}
             className="mt-3 min-h-12 w-full rounded-control bg-neem px-3 py-3 text-sm font-extrabold text-snow disabled:opacity-60"
           >
+            <Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />
             {paying
-              ? `🔒 ${t("hire.paying")}`
-              : `🔒 ${t("hire.pay", { amount: Math.round(lastQuote.quote.total * 0.3).toLocaleString("en-IN") })}`}
+              ? t("hire.paying")
+              : t("hire.pay", { amount: Math.round(lastQuote.quote.total * 0.3).toLocaleString("en-IN") })}
           </button>
         </div>
       )}
@@ -209,7 +211,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
       {role === "provider" && !hired &&
         (quoteOpen ? (
           <div className="mt-3 rounded-control border border-line bg-chuna p-3">
-            <p className="text-sm font-extrabold text-navy">🧾 {t("chat.quoteBtn")}</p>
+            <p className="text-sm font-extrabold text-navy"><Icon name="receipt" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.quoteBtn")}</p>
             <div className="mt-2 grid gap-2 sm:grid-cols-2">
               <label className="block">
                 <span className="mb-1 block text-xs font-bold text-ink">{t("chat.labour")} (₹)</span>
@@ -251,7 +253,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
             onClick={() => setQuoteOpen(true)}
             className="mt-3 min-h-11 w-full rounded-control border-2 border-saffron px-3 py-2 text-xs font-extrabold text-saffron hover:bg-saffron hover:text-snow"
           >
-            🧾 {t("chat.quoteBtn")}
+            <Icon name="receipt" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.quoteBtn")}
           </button>
         ))}
 

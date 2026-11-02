@@ -8,14 +8,15 @@ import { getShopProfile, getShopState, onShopStateChange } from "@/lib/shopState
 import { OrdersQueue } from "./OrdersQueue";
 import { CatalogGrid } from "./CatalogGrid";
 import { SalesPanel } from "./SalesPanel";
+import { Icon, type IconName } from "@/components/Icons";
 
 type Tab = "counter" | "catalog" | "sales" | "shop";
 
-const TABS: { id: Tab; key: string; emoji: string }[] = [
-  { id: "counter", key: "sh.tab.counter", emoji: "🛒" },
-  { id: "catalog", key: "sh.tab.catalog", emoji: "📦" },
-  { id: "sales", key: "sh.tab.sales", emoji: "💰" },
-  { id: "shop", key: "sh.tab.profile", emoji: "🏪" },
+const TABS: { id: Tab; key: string; icon: IconName }[] = [
+  { id: "counter", key: "sh.tab.counter", icon: "cart" },
+  { id: "catalog", key: "sh.tab.catalog", icon: "box" },
+  { id: "sales", key: "sh.tab.sales", icon: "rupee" },
+  { id: "shop", key: "sh.tab.profile", icon: "store" },
 ];
 
 export function ShopShell({ name, signup }: { name: string; signup?: Record<string, string> }) {
@@ -48,12 +49,12 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
           <div>
             <h1 className="text-2xl font-black">{profile.name}</h1>
             <p className="mt-0.5 text-xs font-semibold text-snow/85">
-              {profile.zone}, {profile.city} · ⭐ {profile.rating}
+              {profile.zone}, {profile.city} · <Icon name="star" className="mr-0.5 inline h-3 w-3 align-[-0.15em]" />{profile.rating}
               {profile.gstin ? ` · ${t("sh.gstin")}: ${profile.gstin}` : ""}
             </p>
           </div>
           <span className="rounded-pill bg-snow/20 px-4 py-2 text-sm font-extrabold">
-            🛎 {t(newOrders === 1 ? "sh.ordersNewOne" : "sh.ordersNew", { count: newOrders })}
+            <Icon name="serviceBell" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t(newOrders === 1 ? "sh.ordersNewOne" : "sh.ordersNew", { count: newOrders })}
           </span>
         </div>
         <div className="mt-5 grid grid-cols-2 gap-3">
@@ -80,7 +81,7 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
               tab === x.id ? "border-neem bg-neem text-snow" : "border-line bg-white text-muted hover:text-navy"
             }`}
           >
-            <span aria-hidden="true">{x.emoji}</span> {t(x.key)}
+            <Icon name={x.icon} className="mr-1.5 inline h-4 w-4 align-[-0.2em]" />{t(x.key)}
           </button>
         ))}
       </div>
@@ -90,9 +91,9 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
       {tab === "sales" && <SalesPanel />}
       {tab === "shop" && (
         <div className="rounded-card border border-line bg-white p-6 shadow-card">
-          <h2 className="text-xl font-black text-navy">🏪 {t("sh.shopH")}</h2>
+          <h2 className="text-xl font-black text-navy"><Icon name="store" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.shopH")}</h2>
           <p className="mt-2 text-sm font-semibold text-muted">
-            {profile.zone}, {profile.city} · ⭐ {profile.rating}
+            {profile.zone}, {profile.city} · <Icon name="star" className="mr-0.5 inline h-3 w-3 align-[-0.15em]" />{profile.rating}
           </p>
           <p className="mt-1 text-sm font-semibold text-muted">
             {t("sh.gstin")}: {profile.gstin}
@@ -104,7 +105,7 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
               </span>
             ))}
             <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-neem">
-              ✅ {t("sh.kycOk")}
+              <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.kycOk")}
             </span>
           </div>
         </div>

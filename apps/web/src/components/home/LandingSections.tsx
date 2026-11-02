@@ -272,7 +272,7 @@ function Categories() {
           <h2 className="mt-1 text-2xl font-black text-navy md:text-3xl">{t("cats.h")}</h2>
           <p className="mt-2 text-sm text-muted">{t("cats.p")}</p>
           <p className="mt-4 text-sm font-semibold text-ink">{t("c1.points")}</p>
-          <p className="mt-2 text-xs font-bold text-ink">✓ {t("brands.genuine")}</p>
+          <p className="mt-2 text-xs font-bold text-ink"><Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("brands.genuine")}</p>
           <div className="mt-5">
             <button
               type="button"
@@ -306,7 +306,7 @@ function TestimonialsMarquee() {
             <article key={`${p.id}-${i}`} className="w-[260px] flex-none rounded-card border border-line bg-white p-5 shadow-card md:w-[320px]">
               <div className="flex items-baseline justify-between">
                 <h3 className="font-extrabold text-navy">{p.name}</h3>
-                <span className="text-sm font-black text-haldi">★ {p.rating_avg}</span>
+                <span className="flex items-center gap-1 text-sm font-black text-haldi"><Icon name="star" className="h-3.5 w-3.5" />{p.rating_avg}</span>
               </div>
               <p className="mt-0.5 text-xs text-muted">
                 {p.city} · {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs
@@ -427,7 +427,7 @@ function RoleLens() {
               <ul className="mt-3 space-y-2 text-sm text-slate-300">
                 {[1, 2, 3].map((n) => (
                   <li key={n} className="flex gap-2">
-                    <span className="text-haldi">✓</span>
+                    <Icon name="check" className="h-4 w-4 shrink-0 text-haldi" />
                     {t(`${l.key}.${n}`)}
                   </li>
                 ))}
@@ -468,7 +468,7 @@ function FaqPreview() {
             onClick={() => router.push("/faq")}
             className="min-h-12 rounded-control border-2 border-saffron px-6 py-3 text-sm font-extrabold text-saffron transition-colors hover:bg-saffron hover:text-snow"
           >
-            {ui.seeAll} →
+            {ui.seeAll} <Icon name="arrowRight" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />
           </button>
         </div>
       </div>

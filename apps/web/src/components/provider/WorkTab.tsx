@@ -10,6 +10,7 @@ import type { ProviderProfile } from "@/lib/providers";
 import { getProviderState, onProviderStateChange, setJobProgress } from "@/lib/providerstate";
 import { pushNotification } from "@/lib/notifications";
 import { ChatPanel } from "@/components/chat/ChatPanel";
+import { Icon } from "@/components/Icons";
 
 /** Stable 4-digit job OTP per request — the customer reads it out on site. */
 function otpFor(id: string): string {
@@ -60,7 +61,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
   if (jobs.length === 0) {
     return (
       <div className="rounded-card border-2 border-dashed border-line bg-white p-6 text-center">
-        <p className="text-3xl">🧰</p>
+        <Icon name="toolbox" className="mx-auto h-8 w-8 text-saffron" />
         <p className="mt-2 font-extrabold text-navy">{t("pd.noJob")}</p>
       </div>
     );
@@ -114,7 +115,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                   onClick={() => setJobProgress(job.id, "started")}
                   className="min-h-12 flex-1 rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
-                  ▶ {t("pd.start")}
+                  <Icon name="play" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.start")}
                 </button>
               )}
               {state === "started" && (
@@ -123,12 +124,12 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                   onClick={() => finishJob(job)}
                   className="min-h-12 flex-1 rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
-                  ✓ {t("pd.complete")}
+                  <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.complete")}
                 </button>
               )}
               {state === "completed" && (
                 <p className="min-h-12 flex-1 rounded-control bg-neem/10 px-4 py-3 text-center text-sm font-extrabold text-neem">
-                  ✅ {t("pd.jobDone")}
+                  <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.jobDone")}
                 </p>
               )}
             </div>
@@ -139,7 +140,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 onClick={() => setChatFor(chatFor === job.id ? null : job.id)}
                 className="min-h-12 rounded-control border-2 border-line px-4 py-3 text-sm font-extrabold text-muted hover:border-navy hover:text-navy"
               >
-                💬 {t("chat.open")}
+                <Icon name="chat" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.open")}
               </button>
             </div>
 

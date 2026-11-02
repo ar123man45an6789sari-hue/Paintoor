@@ -11,6 +11,7 @@ import { distanceKm, getProviderProfile, openLeadsFor } from "@/lib/providers";
 import type { ProviderProfile } from "@/lib/providers";
 import { addDemoRequest, getProviderState, onProviderStateChange, recordDecline, toggleOnline } from "@/lib/providerstate";
 import { LeadCard } from "./LeadCard";
+import { Icon } from "@/components/Icons";
 
 const REASONS = [
   { id: "busy", key: "pd.reasonBusy" },
@@ -111,28 +112,28 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
 
       {!online && (
         <div className="rounded-card border-2 border-dashed border-line bg-white p-6 text-center">
-          <p className="text-3xl">🌙</p>
+          <Icon name="moon" className="mx-auto h-8 w-8 text-muted" />
           <p className="mt-2 font-extrabold text-navy">{t("pd.emptyOffline")}</p>
           <button
             type="button"
             onClick={() => setOnline(toggleOnline())}
             className="mt-4 min-h-12 rounded-control bg-neem px-5 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
           >
-            ● {t("pd.goOnline")}
+            <span className="mr-2 inline-block h-2 w-2 rounded-full bg-current align-middle" />{t("pd.goOnline")}
           </button>
         </div>
       )}
 
       {online && visible.length === 0 && (
         <div className="rounded-card border-2 border-dashed border-line bg-white p-8 text-center">
-          <p className="text-3xl">🧰</p>
+          <Icon name="toolbox" className="mx-auto h-8 w-8 text-saffron" />
           <p className="mt-2 font-extrabold text-navy">{t("pd.emptyLeads")}</p>
           <button
             type="button"
             onClick={loadDemo}
             className="mt-4 min-h-12 rounded-control border-2 border-saffron px-5 py-3 text-sm font-extrabold text-saffron hover:bg-saffron hover:text-snow"
           >
-            ✨ {t("pd.loadDemo")}
+            <Icon name="sparkle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.loadDemo")}
           </button>
         </div>
       )}

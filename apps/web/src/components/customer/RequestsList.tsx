@@ -9,6 +9,7 @@ import type { ServiceRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { getSession } from "@/lib/session";
 import { ChatPanel } from "@/components/chat/ChatPanel";
+import { Icon } from "@/components/Icons";
 
 const cap = (s: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 
@@ -23,7 +24,7 @@ function Stars({ value, onPick }: { value: number; onPick: (n: number) => void }
           onClick={() => onPick(n)}
           className={`text-xl transition-transform hover:scale-110 ${n <= value ? "" : "opacity-25"}`}
         >
-          ⭐
+          <Icon name="star" className="h-5 w-5" />
         </button>
       ))}
     </div>
@@ -75,26 +76,26 @@ function RequestCard({
       {r.photos.length > 0 && (
         <p className="mt-2">
           <span className="rounded-pill border border-line bg-chuna px-3 py-1 text-xs font-bold text-navy">
-            📷 {r.photos.length} {t("req.photos")}
+            <Icon name="camera" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{r.photos.length} {t("req.photos")}
           </span>
         </p>
       )}
       {matched && r.acceptedName && (
         <p className="mt-3 rounded-control bg-haldi/15 px-3 py-2 text-xs font-semibold text-ink">
-          🔔 {t("req.talkNext", { name: r.acceptedName })}
+          <Icon name="bell" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.talkNext", { name: r.acceptedName })}
         </p>
       )}
       {r.jobOtp && (
         <p className="mt-2 rounded-control bg-haldi/20 px-3 py-2 text-xs font-extrabold text-navy">
-          🔑 {t("chat.booked", { otp: r.jobOtp })}
-          {r.dateBooked ? ` · 📅 ${r.dateBooked} · ${t(`slot.${r.slotBooked ?? r.slot}`)}` : ""}
+          <Icon name="key" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.booked", { otp: r.jobOtp })}
+          {r.dateBooked ? ` · ${r.dateBooked} · ${t(`slot.${r.slotBooked ?? r.slot}`)}` : ""}
         </p>
       )}
 
       {done && (
         <div className="mt-3 rounded-control bg-chuna px-3 py-2">
           {r.rating ? (
-            <p className="text-xs font-extrabold text-neem">✅ {t("req.reviewed", { n: r.rating })}</p>
+            <p className="text-xs font-extrabold text-neem"><Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.reviewed", { n: r.rating })}</p>
           ) : (
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-xs font-extrabold text-navy">{t("rev.h")}</span>
@@ -129,7 +130,7 @@ function RequestCard({
             onClick={() => setChatOpen((v) => !v)}
             className="rounded-control border-2 border-navy px-3 py-1.5 text-xs font-extrabold text-navy hover:bg-navy hover:text-onnavy"
           >
-            💬 {t("chat.open")}
+            <Icon name="chat" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.open")}
           </button>
         )}
         {!done &&
@@ -200,7 +201,7 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
             onClick={onPost}
             className="mt-4 min-h-12 rounded-control bg-saffron px-5 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift"
           >
-            📝 {t("dash.tab.post")}
+            <Icon name="note" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("dash.tab.post")}
           </button>
         )}
       </div>
@@ -210,7 +211,7 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
   return (
     <div className="space-y-6">
       <p className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-navy hover:text-navy">
-        💡 {t("req.next")}
+        <Icon name="bulb" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.next")}
       </p>
 
       {open.length > 0 && (

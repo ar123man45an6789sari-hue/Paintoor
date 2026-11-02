@@ -10,6 +10,7 @@ import { useI18n } from "@/i18n";
 import { ColourPalette } from "./ColourPalette";
 import { PaintStage } from "./PaintStage";
 import { BRUSH_MAX, BRUSH_MIN, usePaintStudio } from "./usePaintStudio";
+import { Icon } from "@/components/Icons";
 
 export function PaintStudio() {
   const { t } = useI18n();
@@ -53,7 +54,7 @@ export function PaintStudio() {
           <h1 className="mt-1 text-3xl font-black text-navy md:text-4xl">{t("st.head")}</h1>
           <p className="mx-auto mt-2 max-w-2xl text-sm text-muted">{t("st.sub")}</p>
           <p className="mt-3 inline-block rounded-pill border border-line bg-white px-3 py-1 text-xs font-extrabold text-ink">
-            🔒 {t("st.privacy")}
+            <Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.privacy")}
           </p>
         </div>
 
@@ -117,7 +118,7 @@ export function PaintStudio() {
                       title={t("st.remove")}
                       className="absolute -right-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-pill bg-raatri text-[10px] font-black text-snow shadow-card transition-colors hover:bg-danger"
                     >
-                      ✕
+                      <Icon name="close" className="h-3 w-3" />
                     </button>
                   </span>
                 ))}
@@ -140,13 +141,13 @@ export function PaintStudio() {
                 <p className="text-xs font-black uppercase tracking-wider text-muted">{t("st.step1")}</p>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <button type="button" onClick={() => bag.setTool("pick")} className={toolBtn(bag.tool === "pick")}>
-                    🎯 {t("st.pick")}
+                    <Icon name="target" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.pick")}
                   </button>
                   <button type="button" onClick={() => bag.setTool("brush")} className={toolBtn(bag.tool === "brush")}>
-                    🖌️ {t("st.brush")}
+                    <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.brush")}
                   </button>
                   <button type="button" onClick={() => bag.setTool("erase")} className={toolBtn(bag.tool === "erase")}>
-                    ⌫ {t("st.erase")}
+                    <Icon name="eraser" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.erase")}
                   </button>
                 </div>
                 <div className="mt-2 flex flex-wrap gap-2">
@@ -156,7 +157,7 @@ export function PaintStudio() {
                     disabled={!bag.canUndo}
                     className={`${toolBtn(false)} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted`}
                   >
-                    ↩ {t("st.undo")}
+                    <Icon name="undo" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.undo")}
                   </button>
                   <button
                     type="button"
@@ -164,10 +165,10 @@ export function PaintStudio() {
                     disabled={!bag.canRedo}
                     className={`${toolBtn(false)} disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-muted`}
                   >
-                    ↪ {t("st.redo")}
+                    <Icon name="redo" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.redo")}
                   </button>
                   <button type="button" onClick={bag.reset} className={toolBtn(false)}>
-                    ♻ {t("st.reset")}
+                    <Icon name="refresh" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.reset")}
                   </button>
                 </div>
                 <div className="mt-3 rounded-control border border-line bg-chuna p-3">
@@ -177,7 +178,7 @@ export function PaintStudio() {
                     disabled={bag.selected <= 0}
                     className="min-h-11 w-full rounded-control bg-raatri px-3 py-2 text-xs font-extrabold text-snow transition-colors hover:brightness-125 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    💾 {t("st.save")}
+                    <Icon name="save" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.save")}
                   </button>
                   <p className="mt-1.5 text-[11px] font-semibold text-muted">
                     {bag.layers > 0 ? t("st.layers", { n: bag.layers }) : t("st.saveSub")}
@@ -212,7 +213,7 @@ export function PaintStudio() {
                 onClick={() => router.push("/providers?q=painting")}
                 className="min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow transition-shadow hover:shadow-lift"
               >
-                🎨 {t("st.cta")}
+                <Icon name="palette" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.cta")}
               </button>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { getProviderState, onProviderStateChange } from "@/lib/providerstate";
 import type { ProviderState } from "@/lib/providerstate";
+import { Icon } from "@/components/Icons";
 
 export function EarningsTab() {
   const { t } = useI18n();
@@ -41,7 +42,7 @@ export function EarningsTab() {
           <p className="text-xs font-bold uppercase tracking-wider text-muted">{t("pd.pendingPayout")}</p>
           <p className="mt-1 text-3xl font-black tabular-nums text-navy">₹{state.pendingPayout.toLocaleString("en-IN")}</p>
           <p className="mt-1 text-xs font-semibold text-muted">
-            💰 {t("pd.payoutLine", { amount: state.pendingPayout.toLocaleString("en-IN"), when: t("pd.payoutWhen") })}
+            <Icon name="rupee" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.payoutLine", { amount: state.pendingPayout.toLocaleString("en-IN"), when: t("pd.payoutWhen") })}
           </p>
         </div>
       </div>
@@ -68,7 +69,7 @@ export function EarningsTab() {
         <ul className="mt-3 space-y-2">
           {paid.map((p) => (
             <li key={p.date} className="flex items-center justify-between text-sm font-semibold text-ink">
-              <span>✅ {t("pd.paidOn", { date: p.date })}</span>
+              <span><Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.paidOn", { date: p.date })}</span>
               <span className="font-black tabular-nums text-navy">₹{p.amount.toLocaleString("en-IN")}</span>
             </li>
           ))}
@@ -78,7 +79,7 @@ export function EarningsTab() {
           onClick={() => setToast(t("pd.payoutReq"))}
           className="mt-4 min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
         >
-          💸 {t("pd.requestPayout")}
+          <Icon name="wallet" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.requestPayout")}
         </button>
       </div>
 

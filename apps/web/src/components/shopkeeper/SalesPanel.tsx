@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { getShopState, onShopStateChange } from "@/lib/shopState";
 import type { ShopState } from "@/lib/shopState";
+import { Icon } from "@/components/Icons";
 
 export function SalesPanel() {
   const { t } = useI18n();
@@ -22,7 +23,7 @@ export function SalesPanel() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-black text-navy">💰 {t("sh.salesH")}</h2>
+      <h2 className="text-2xl font-black text-navy"><Icon name="rupee" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.salesH")}</h2>
 
       <div className="rounded-card border border-line bg-white p-5 shadow-card">
         <p className="text-xs font-bold uppercase tracking-wider text-muted">{t("sh.chartH")}</p>
@@ -46,12 +47,12 @@ export function SalesPanel() {
         <ul className="mt-3 space-y-2">
           {state.settlements.slice(0, 6).map((s) => (
             <li key={s.id} className="flex items-center justify-between text-sm font-semibold text-ink">
-              <span>✅ {s.label}</span>
+              <span><Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{s.label}</span>
               <span className="font-black tabular-nums text-navy">₹{s.amount.toLocaleString("en-IN")}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-3 rounded-control bg-chuna px-3 py-2 text-xs font-semibold text-muted">💰 {t("sh.settleNext")}</p>
+        <p className="mt-3 rounded-control bg-chuna px-3 py-2 text-xs font-semibold text-muted"><Icon name="rupee" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.settleNext")}</p>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@
 import { useI18n } from "@/i18n";
 import { BADGE_LABELS, RATE_UNIT_LABEL, levelKeyFor, paiseToRupees } from "@/lib/providers";
 import type { ProviderProfile } from "@/lib/providers";
+import { Icon } from "@/components/Icons";
 
 const SCORE_ROWS: { key: string; value: number }[] = [
   { key: "sc.rating", value: 92 },
@@ -26,7 +27,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
     <div className="space-y-4">
       <div className="rounded-card border border-line bg-white p-6 shadow-card">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-xl font-black text-navy">📜 {t("pd.skillPassport")}</h2>
+          <h2 className="text-xl font-black text-navy"><Icon name="doc" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.skillPassport")}</h2>
           <span className="rounded-pill bg-saffron/15 px-3 py-1 text-xs font-black text-saffron">
             {t("pd.level")}: {t(levelKeyFor(profile.jobsDone))}
           </span>
@@ -43,14 +44,14 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
             </span>
           ))}
           <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-ink">
-            ✅ {t("pd.kycOk")}
+            <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.kycOk")}
           </span>
         </div>
       </div>
 
       <div className="rounded-card border border-line bg-white p-6 shadow-card">
         <div className="flex items-center justify-between">
-          <h3 className="font-extrabold text-navy">📊 {t("pd.scorecard")}</h3>
+          <h3 className="font-extrabold text-navy"><Icon name="chart" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.scorecard")}</h3>
           <span className="text-2xl font-black tabular-nums text-saffron">{total}</span>
         </div>
         <div className="mt-4 space-y-3">
@@ -66,22 +67,22 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
             </div>
           ))}
         </div>
-        <p className="mt-4 rounded-control bg-chuna px-3 py-2 text-xs font-semibold text-muted">💡 {t("sc.tip")}</p>
+        <p className="mt-4 rounded-control bg-chuna px-3 py-2 text-xs font-semibold text-muted"><Icon name="bulb" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sc.tip")}</p>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="rounded-card border border-line bg-white p-6 shadow-card">
-          <h3 className="font-extrabold text-navy">💼 {t("pd.rateCard")}</h3>
+          <h3 className="font-extrabold text-navy"><Icon name="briefcase" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.rateCard")}</h3>
           <p className="mt-2 text-2xl font-black tabular-nums text-navy">
             {paiseToRupees(profile.rateMin)} – {paiseToRupees(profile.rateMax)}
             <span className="text-sm font-bold text-muted"> {RATE_UNIT_LABEL[profile.unit] ?? profile.unit}</span>
           </p>
           <p className="mt-2 text-xs font-semibold text-muted">
-            🗺 {profile.zone}, {profile.city}
+            <Icon name="mapPin" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{profile.zone}, {profile.city}
           </p>
         </div>
         <div className="rounded-card border border-line bg-white p-6 shadow-card">
-          <h3 className="font-extrabold text-navy">📅 {t("pd.availability")}</h3>
+          <h3 className="font-extrabold text-navy"><Icon name="calendar" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.availability")}</h3>
           <div className="mt-3 flex flex-wrap gap-2">
             {[0, 1, 2, 3, 4, 5, 6].map((d) => {
               const free = FREE_DAYS.includes(d);

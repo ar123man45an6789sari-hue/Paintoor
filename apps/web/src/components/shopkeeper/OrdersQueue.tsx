@@ -7,6 +7,7 @@ import { useI18n } from "@/i18n";
 import { acceptOrder, addDemoOrder, deliverOrder, getShopState, onShopStateChange } from "@/lib/shopState";
 import type { ShopOrder, ShopProduct, ShopProfile } from "@/lib/shopState";
 import { pushNotification } from "@/lib/notifications";
+import { Icon } from "@/components/Icons";
 
 export function OrdersQueue({ profile }: { profile: ShopProfile }) {
   const { t } = useI18n();
@@ -66,14 +67,14 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
   if (orders.length === 0) {
     return (
       <div className="rounded-card border-2 border-dashed border-line bg-white p-6 text-center">
-        <p className="text-3xl">🛍️</p>
+        <Icon name="cart" className="mx-auto h-8 w-8 text-saffron" />
         <p className="mt-2 font-extrabold text-navy">{t("sh.emptyOrders")}</p>
         <button
           type="button"
           onClick={demo}
           className="mt-4 min-h-12 rounded-control border-2 border-neem px-5 py-3 text-sm font-extrabold text-neem hover:bg-neem hover:text-snow"
         >
-          ✨ {t("sh.demoOrder")}
+          <Icon name="sparkle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.demoOrder")}
         </button>
       </div>
     );
@@ -86,7 +87,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
         return (
           <article key={o.id} className="rounded-card border border-line bg-white p-5 shadow-card">
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="font-extrabold text-navy">🛒 {t("sh.orderFrom", { name: o.providerName })}</h3>
+              <h3 className="font-extrabold text-navy"><Icon name="cart" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.orderFrom", { name: o.providerName })}</h3>
               <span
                 className={`rounded-pill px-3 py-1 text-xs font-black ${
                   o.status === "new"
@@ -127,7 +128,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
                   onClick={() => accept(o)}
                   className="min-h-12 w-full rounded-control bg-neem px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
-                  ✓ {t("sh.accept")}
+                  <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.accept")}
                 </button>
               ) : (
                 <button
@@ -135,7 +136,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
                   onClick={() => deliver(o)}
                   className="min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
                 >
-                  🚚 {t("sh.deliver")}
+                  <Icon name="truck" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.deliver")}
                 </button>
               )}
             </div>

@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { changeStock, getShopState, onShopStateChange } from "@/lib/shopState";
 import type { ShopProduct } from "@/lib/shopState";
+import { Icon } from "@/components/Icons";
 
 export function CatalogGrid() {
   const { t } = useI18n();
@@ -19,7 +20,7 @@ export function CatalogGrid() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-black text-navy">📦 {t("sh.catalogH")}</h2>
+      <h2 className="text-2xl font-black text-navy"><Icon name="box" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.catalogH")}</h2>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {products.map((p) => {
           const out = p.stock === 0;
@@ -46,17 +47,17 @@ export function CatalogGrid() {
                     type="button"
                     aria-label={`- ${p.name}`}
                     onClick={() => changeStock(p.id, -1)}
-                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-lg font-black text-muted hover:border-danger hover:text-danger"
+                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-muted hover:border-danger hover:text-danger"
                   >
-                    −
+                    <Icon name="minus" className="h-4 w-4" />
                   </button>
                   <button
                     type="button"
                     aria-label={`+ ${p.name}`}
                     onClick={() => changeStock(p.id, 1)}
-                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-lg font-black text-muted hover:border-neem hover:text-neem"
+                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-muted hover:border-neem hover:text-neem"
                   >
-                    +
+                    <Icon name="plus" className="h-4 w-4" />
                   </button>
                 </div>
               </div>

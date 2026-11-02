@@ -5,6 +5,16 @@ import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { useSearchParams } from "next/navigation";
 import { getCity } from "@/lib/city";
+import { Icon, type IconName } from "@/components/Icons";
+
+const SKILL_ICON: Record<string, IconName> = {
+  painting: "palette",
+  electrical: "bolt",
+  plumbing: "droplet",
+  carpentry: "hammer",
+  cleaning: "spray",
+  waterproofing: "shield",
+};
 
 const RATE_UNIT: Record<string, string> = {
   per_sqft: "/sqft",
@@ -173,19 +183,17 @@ export function ProvidersBrowser() {
                   >
                     {p.name.split(" ").map((w) => w.charAt(0)).join("").slice(0, 2)}
                   </span>
-                  <span aria-hidden="true" className="absolute left-3 top-3 text-lg">
-                    {p.skills[0] === "painting" ? "🎨" : p.skills[0] === "electrical" ? "⚡" : p.skills[0] === "plumbing" ? "🚿" : p.skills[0] === "carpentry" ? "🪚" : "🧽"}
-                  </span>
+                  <Icon name={SKILL_ICON[p.skills[0]] ?? "wrench"} className="absolute left-3 top-3 h-5 w-5 text-snow" />
                   {p.badges.includes("kyc_verified") && (
                     <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-ink">
-                      ✓ KYC
+                      <Icon name="check" className="mr-1 inline h-3 w-3 align-[-0.15em]" />KYC
                     </span>
                   )}
                 </div>
                 <div className="p-4">
                   <div className="flex items-baseline justify-between gap-2">
                     <h3 className="font-extrabold text-navy">{p.name}</h3>
-                    <span className="text-sm font-black text-haldi">★ {p.rating_avg}</span>
+                    <span className="flex items-center gap-1 text-sm font-black text-haldi"><Icon name="star" className="h-3.5 w-3.5" />{p.rating_avg}</span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted">
                     {p.city} · {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs

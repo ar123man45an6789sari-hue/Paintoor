@@ -10,14 +10,15 @@ import { WorkTab } from "./WorkTab";
 import { LeadsDeck } from "./LeadsDeck";
 import { EarningsTab } from "./EarningsTab";
 import { ProfileTab } from "./ProfileTab";
+import { Icon, type IconName } from "@/components/Icons";
 
 type Tab = "work" | "leads" | "earn" | "profile";
 
-const TABS: { id: Tab; key: string; emoji: string }[] = [
-  { id: "work", key: "pd.tab.work", emoji: "🏠" },
-  { id: "leads", key: "pd.tab.leads", emoji: "🔔" },
-  { id: "earn", key: "pd.tab.earn", emoji: "💰" },
-  { id: "profile", key: "pd.tab.profile", emoji: "👤" },
+const TABS: { id: Tab; key: string; icon: IconName }[] = [
+  { id: "work", key: "pd.tab.work", icon: "home" },
+  { id: "leads", key: "pd.tab.leads", icon: "bell" },
+  { id: "earn", key: "pd.tab.earn", icon: "rupee" },
+  { id: "profile", key: "pd.tab.profile", icon: "user" },
 ];
 
 export function ProviderShell({ name, signup }: { name: string; signup?: Record<string, string> }) {
@@ -50,11 +51,11 @@ const { t } = useI18n();
       >
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span aria-hidden="true" className="text-3xl">🔧</span>
+            <Icon name="wrench" className="h-8 w-8" />
             <div>
               <h1 className="text-2xl font-black">{profile.name}</h1>
               <p className="mt-0.5 text-xs font-semibold text-snow/85">
-                {profile.zone}, {profile.city} · ⭐ {profile.rating} · {t("pd.level")}:{" "}
+                {profile.zone}, {profile.city} · <Icon name="star" className="mr-0.5 inline h-3 w-3 align-[-0.15em]" />{profile.rating} · {t("pd.level")}:{" "}
                 {t(levelKeyFor(profile.jobsDone))}
               </p>
             </div>
@@ -66,7 +67,8 @@ const { t } = useI18n();
               online ? "bg-white text-ink" : "bg-snow/20 text-snow hover:bg-snow/30"
             }`}
           >
-            {online ? `● ${t("pd.online")}` : `○ ${t("pd.offline")}`}
+            <span className={`mr-2 inline-block h-2 w-2 rounded-full align-middle ${online ? "bg-neem" : "bg-snow/60"}`} />
+            {online ? t("pd.online") : t("pd.offline")}
           </button>
         </div>
 
@@ -81,7 +83,7 @@ const { t } = useI18n();
           </div>
         </div>
         <p className="mt-3 text-xs font-semibold text-snow/90">
-          💰 {t("pd.payoutLine", { amount: payout.toLocaleString("en-IN"), when: t("pd.payoutWhen") })}
+          <Icon name="rupee" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.payoutLine", { amount: payout.toLocaleString("en-IN"), when: t("pd.payoutWhen") })}
         </p>
       </div>
 
@@ -97,7 +99,7 @@ const { t } = useI18n();
             tab === x.id ? "border-saffron bg-saffron text-snow" : "border-line bg-white text-muted hover:text-navy"
             }`}
           >
-            <span aria-hidden="true">{x.emoji}</span> {t(x.key)}
+            <Icon name={x.icon} className="mr-1.5 inline h-4 w-4 align-[-0.2em]" />{t(x.key)}
           </button>
         ))}
       </div>
