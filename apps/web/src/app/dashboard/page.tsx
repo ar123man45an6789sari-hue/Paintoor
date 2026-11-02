@@ -6,6 +6,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
+import { Icon, type IconName } from "@/components/Icons";
 import { getSession, onSessionChange } from "@/lib/session";
 import type { Session } from "@/lib/session";
 import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
@@ -14,10 +15,10 @@ import { RequestsList } from "@/components/customer/RequestsList";
 import { ProviderShell } from "@/components/provider/ProviderShell";
 import { ShopShell } from "@/components/shopkeeper/ShopShell";
 
-const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; emoji: string }> = {
-  customer: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.c", emoji: "🏠" },
-  provider: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.p", emoji: "🔧" },
-  shopkeeper: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.s", emoji: "🏪" },
+const ROLE_STYLE: Record<Session["role"], { grad: string; titleKey: string; icon: IconName }> = {
+  customer: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.c", icon: "home" },
+  provider: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.p", icon: "wrench" },
+  shopkeeper: { grad: "linear-gradient(150deg,#e00048,#a80036)", titleKey: "dash.s", icon: "store" },
 };
 
 type Tab = "over" | "find" | "post" | "req";
@@ -55,7 +56,7 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-6xl space-y-6">
         {session.role === "customer" && (
           <div className="rounded-sheet p-8 text-snow shadow-card" style={{ background: style.grad }}>
-            <div className="text-4xl">{style.emoji}</div>
+            <Icon name={style.icon} className="h-9 w-9" />
             <h1 className="mt-3 text-3xl font-black">{t(style.titleKey)}</h1>
             <p className="mt-1 text-snow/85">
               {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
@@ -83,15 +84,15 @@ export default function DashboardPage() {
             {tab === "over" && (
               <div className="grid gap-4 md:grid-cols-3">
                 <button type="button" onClick={() => setTab("post")} className="rounded-card border border-line bg-white p-6 text-left shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
-                  <div className="text-2xl">📝</div>
+                  <Icon name="note" className="h-6 w-6 text-saffron" />
                   <h3 className="mt-2 font-extrabold text-navy">{t("dash.tab.post")}</h3>
                 </button>
                 <button type="button" onClick={() => setTab("find")} className="rounded-card border border-line bg-white p-6 text-left shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
-                  <div className="text-2xl">🔍</div>
+                  <Icon name="search" className="h-6 w-6 text-saffron" />
                   <h3 className="mt-2 font-extrabold text-navy">{t("dash.tab.find")}</h3>
                 </button>
                 <button type="button" onClick={() => setTab("req")} className="rounded-card border border-line bg-white p-6 text-left shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
-                  <div className="text-2xl">📋</div>
+                  <Icon name="clipboard" className="h-6 w-6 text-saffron" />
                   <h3 className="mt-2 font-extrabold text-navy">{t("req.mine")}</h3>
                 </button>
               </div>
@@ -105,9 +106,9 @@ export default function DashboardPage() {
             {tab === "req" && <RequestsList onPost={() => setTab("post")} />}
           </>
         ) : session.role === "provider" ? (
-          <ProviderShell name={session.name} />
+           <ProviderShell name={session.name} signup={session.data} />
         ) : session.role === "shopkeeper" ? (
-          <ShopShell name={session.name} />
+           <ShopShell name={session.name} signup={session.data} />
         ) : null}
       </div>
     </div>

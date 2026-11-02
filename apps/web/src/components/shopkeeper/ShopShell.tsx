@@ -18,9 +18,9 @@ const TABS: { id: Tab; key: string; emoji: string }[] = [
   { id: "shop", key: "sh.tab.profile", emoji: "🏪" },
 ];
 
-export function ShopShell({ name }: { name: string }) {
+export function ShopShell({ name, signup }: { name: string; signup?: Record<string, string> }) {
   const { t } = useI18n();
-  const profile = useMemo(() => getShopProfile(name), [name]);
+  const profile = useMemo(() => getShopProfile(name, signup), [name, signup]);
   const [tab, setTab] = useState<Tab>("counter");
   const [today, setToday] = useState(0);
   const [week, setWeek] = useState(0);
@@ -48,7 +48,8 @@ export function ShopShell({ name }: { name: string }) {
           <div>
             <h1 className="text-2xl font-black">{profile.name}</h1>
             <p className="mt-0.5 text-xs font-semibold text-snow/85">
-              {profile.zone}, {profile.city} · ⭐ {profile.rating} · {t("sh.gstin")}: {profile.gstin}
+              {profile.zone}, {profile.city} · ⭐ {profile.rating}
+              {profile.gstin ? ` · ${t("sh.gstin")}: ${profile.gstin}` : ""}
             </p>
           </div>
           <span className="rounded-pill bg-snow/20 px-4 py-2 text-sm font-extrabold">

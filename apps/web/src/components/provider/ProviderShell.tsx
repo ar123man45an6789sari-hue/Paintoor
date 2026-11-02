@@ -20,9 +20,9 @@ const TABS: { id: Tab; key: string; emoji: string }[] = [
   { id: "profile", key: "pd.tab.profile", emoji: "👤" },
 ];
 
-export function ProviderShell({ name }: { name: string }) {
-  const { t } = useI18n();
-  const profile = useMemo(() => getProviderProfile(name), [name]);
+export function ProviderShell({ name, signup }: { name: string; signup?: Record<string, string> }) {
+const { t } = useI18n();
+ const profile = useMemo(() => getProviderProfile(name, signup), [name, signup]);
   const [tab, setTab] = useState<Tab>("work");
   const [online, setOnline] = useState(true);
   const [today, setToday] = useState(0);

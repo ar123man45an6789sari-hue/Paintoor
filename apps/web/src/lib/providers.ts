@@ -39,16 +39,21 @@ function matchSeed(name: string): SeedProvider | undefined {
   );
 }
 
-export function getProviderProfile(name: string): ProviderProfile {
-  const match = matchSeed(name);
-  const source = match ?? seed.providers[0];
-  return {
-    id: source.id,
-    name: name.trim() || source.name,
-    city: source.city,
-    zone: source.zone,
-    skills: source.skills,
-    experience: source.experience_years,
+/** Seed profile for the signed-in worker, overridden by what the signup form
+        collected (zone, years of experience) so the dashboard shows real answers
+        instead of the seed row. */
+     export function getProviderProfile(name: string, signup?: Record<string, string>): ProviderProfile {
+       const match = matchSeed(name);
+       const source = match ?? seed.providers[0];
+       const zone = signup?.zone?.trim() || source.zone;
+       const experience = Number(signup?.experience_years) || source.experience_years;
+       return {
+     id: source.id,
+     name: name.trim() || source.name,
+      city: source.city,
+       zone,
+     skills: source.skills,
+    experience,
     rating: source.rating_avg,
     reviews: source.rating_count,
     jobsDone: source.jobs_done,

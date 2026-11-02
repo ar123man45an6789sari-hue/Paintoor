@@ -10,6 +10,7 @@ import { SignupForm } from "./SignupForm";
 import type { AuthMode, AuthStep, Role } from "./types";
 import { useI18n } from "@/i18n";
 import { setRemembered, setSession } from "@/lib/session";
+ import { Icon } from "../Icons";
 
 const STEP_KEY: Record<AuthStep, string> = {
   entry: "st.entry",
@@ -31,7 +32,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
   const [identifier, setIdentifier] = useState("");
   const [otp, setOtp] = useState("");
   const [remember, setRemember] = useState(true);
-  const [startOnline, setStartOnline] = useState(true);
+  const [signup, setSignup] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (open) {
@@ -41,6 +42,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
       setName("");
       setIdentifier("");
       setOtp("");
+      setSignup({});
     }
   }, [open, initialMode]);
 
@@ -56,18 +58,21 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
 
   function finishSignup(data: Record<string, string>) {
     setName(data.full_name ?? data.owner_name ?? data.shop_name ?? "");
+    setSignup(data);
     setStep("otp");
   }
 
   function verifyOtp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (otp.length !== 6 || !role) return;
-    setSession({
-      role,
-      name: mode === "signup" ? name : identifier,
-      mode,
-      at: Date.now(),
-    });
+     const data = mode === "signup" ? signup : undefined;
+        setSession({
+          role,
+          name: mode === "signup" ? name : identifier,
+          mode,
+          at: Date.now(),
+          data,
+        });
         if (role === "provider") {
       try {
         const raw = localStorage.getItem("gs_provider_state");
@@ -77,7 +82,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
         /* private mode */
       }
     }
-   setRemembered(remember ? { role, name, mode, at: Date.now() } : null);
+   setRemembered(remember ? { role, name, mode, at: Date.now(), data } : null);
     setStep("done");
   }
 
@@ -103,10 +108,11 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t(STEP_KEY[step])}</span>
           <button type="button" onClick={onClose} aria-label="Close" className="rounded-control px-2 py-1 text-muted hover:bg-chuna hover:text-navy">
-            ✕
+            <Icon name="close" className="h-4 w-4" />
+
           </button>
         </div>
-        
+
         <div className="mb-4 rounded-control bg-chuna px-4 py-3">
           <p className="text-sm font-black text-navy">
             {mode === "login" ? t("auth.welcomeBack") : t("auth.newHere")}
@@ -212,7 +218,7 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
 
         {step === "done" && (
           <div className="space-y-4 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-pill bg-neem/15 text-3xl">✅</div>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-pill bg-neem/15 text-neem"><Icon name="checkCircle" className="h-8 w-8" /></div>
             <h3 className="text-xl font-black text-navy">{mode === "login" ? t("auth.doneLogin") : t("auth.doneTitle")}</h3>
             <p className="text-sm text-muted">{t("auth.doneDash")}</p>
             <button type="button" onClick={goDashboard} className="w-full rounded-control bg-navy px-4 py-3 font-extrabold text-snow">

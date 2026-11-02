@@ -127,8 +127,11 @@ export function onShopStateChange(cb: () => void) {
   };
 }
 
-/** Signed-up store name → seeded shop profile (same trick as providers). */
-export function getShopProfile(name: string): ShopProfile {
+/** Signed-up store name → seeded shop profile (same trick as providers).
+        `signup` carries what the shop owner typed in the form: the zone and the
+        optional GSTIN. A blank GSTIN stays blank — we never invent a tax number. */
+  export function getShopProfile(name: string, signup?: Record<string, string>): ShopProfile {
+
   const n = name.toLowerCase();
   const match =
     seed.shops.find((s) => {
@@ -139,10 +142,10 @@ export function getShopProfile(name: string): ShopProfile {
     id: match.id,
     name: name.trim() || match.name,
     city: match.city,
-    zone: match.zone,
-    categories: match.categories,
+    zone: signup?.zone?.trim() || match.zone,
     rating: match.rating_avg,
-    gstin: "24AAACG1234F1Z5",
+    gstin: signup?.gstin?.trim().toUpperCase() || "",
+    categories: match.categories,
   };
 }
 

@@ -8,6 +8,9 @@ export type Session = {
   name: string;
   mode: "signup" | "login";
   at: number;
+  /** Answers typed into the signup form (zone, experience, GSTIN, ...).
+      Absent for a plain log-in, so every reader must treat it as optional. */
+  data?: Record<string, string>;
 };
 
 const KEY = "gs_session";
