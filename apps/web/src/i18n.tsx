@@ -17,6 +17,7 @@ import { SHADES } from "./i18n-shades";
 import { STUDIO } from "./i18n-studio";
 import { ABOUT } from "./i18n-about";
 import { JRNL } from "./i18n-journal";
+import { GEO } from "./i18n-geo";
 export type Lang = "en" | "hi" | "gu";
 
 const D: Record<Lang, Record<string, string>> = {
@@ -300,8 +301,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   }
 
   const t = (k: string, params?: Record<string, string | number>) => {
-   const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...CUST[lang], ...REQS[lang], ...PROV[lang], ...MATCH[lang], ...SHOPK[lang], ...CHATQ[lang], ...SITE[lang], ...TEASER[lang], ...COMPANY[lang], ...SHADES[lang], ...STUDIO[lang], ...ABOUT[lang], ...JRNL[lang] };
-  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? CUST.en[k] ?? REQS.en[k] ?? PROV.en[k] ?? MATCH.en[k] ?? SHOPK.en[k] ?? CHATQ.en[k] ?? SITE.en[k] ?? TEASER.en[k] ?? COMPANY.en[k] ?? SHADES.en[k] ?? STUDIO.en[k] ?? ABOUT.en[k] ??JRNL.en[k] ?? k;
+   const merged = { ...D[lang], ...D2[lang], ...D3[lang], ...D4[lang], ...CUST[lang], ...REQS[lang], ...PROV[lang], ...MATCH[lang], ...SHOPK[lang], ...CHATQ[lang], ...SITE[lang], ...TEASER[lang], ...COMPANY[lang], ...SHADES[lang], ...STUDIO[lang], ...ABOUT[lang], ...JRNL[lang], ...GEO[lang] };
+  const v = merged[k] ?? D.en[k] ?? D2.en[k] ?? D3.en[k] ?? D4.en[k] ?? CUST.en[k] ?? REQS.en[k] ?? PROV.en[k] ?? MATCH.en[k] ?? SHOPK.en[k] ?? CHATQ.en[k] ?? SITE.en[k] ?? TEASER.en[k] ?? COMPANY.en[k] ?? SHADES.en[k] ?? STUDIO.en[k] ?? ABOUT.en[k] ?? JRNL.en[k] ?? GEO.en[k] ?? k;
     if (v === k && process.env.NODE_ENV !== "production") {
       console.warn(`[i18n] missing key: ${k}`);
     }
