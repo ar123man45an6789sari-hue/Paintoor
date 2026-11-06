@@ -1,55 +1,113 @@
-/* NavSearch — UrbanCompany-style pill: location sense + service search.
-   Desktop: brand/cities ke baad inline. Mobile: icon tap pe panel. */
+/* NavSearch — UrbanCompany-style pill: real location sense + service search.
+   The place is detected once per browser (GPS, then IP fallback), cached in
+   localStorage and mirrored into the URL as /{city-slug}. The browser is
+   never asked for permission twice. Desktop: inline pill. Mobile: panel. */
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { Icon, PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
-import { getCity, nearestCity, setCity } from "@/lib/city";
+import { getPlace, nameFromSlug, setPlace, type Place } from "@/lib/city";
+import { sensePlace } from "@/lib/geo";
+import { isLiveSkill, seed } from "@paintoor/mock-api";
 
 const SKILL_KEYS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
+/* First path segments that are real routes, never city slugs. */
+const STATIC = new Set([
+  "providers",
+  "studio",
+  "blog",
+  "about",
+  "faq",
+  "privacy",
+  "terms",
+  "refund",
+  "dashboard",
+  "login",
+]);
+
+const firstSeg = (path: string) => path.split("/").filter(Boolean)[0] ?? "";
 
 export function NavSearch() {
   const { t } = useI18n();
   const router = useRouter();
+  const pathname = usePathname();
+  const pathRef = useRef(pathname);
+  pathRef.current = pathname;
+
   const [open, setOpen] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
   const [sugOpen, setSugOpen] = useState(false);
-  const [city, setCityState] = useState("Mumbai");
+  const [place, setPlaceState] = useState<Place | null>(null);
   const [area, setArea] = useState("");
   const [q, setQ] = useState("");
-  const [locMsg, setLocMsg] = useState<string | null>(null);
+  const [detecting, setDetecting] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
 
-  useEffect(() => setCityState(getCity()), []);
-    /* On first visit, sense the location automatically; manual if declined. */
-  useEffect(() => {
-    let stored: string | null = null;
-    try {
-      stored = localStorage.getItem("gs_city");
-    } catch {
-      stored = null;
+  const city = place?.name ?? "Mumbai";
+  const liveCities = useMemo(
+    () =>
+      Array.from(
+        new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => p.city)),
+      ),
+    [],
+  );
+
+  /** Store the place, show it in the pill and mirror it into the URL when the
+      visitor is on the home page or on a city page. */
+  function adopt(p: Place) {
+    setPlaceState(p);
+    setPlace(p);
+    const seg = firstSeg(pathRef.current);
+    const onHomeOrCity = pathRef.current === "/" || (seg !== "" && !STATIC.has(seg));
+    if (onHomeOrCity && pathRef.current !== "/" + p.slug) {
+      router.replace("/" + p.slug);
     }
-    if (!stored) sense();
+  }
+
+  useEffect(() => {
+    const seg = firstSeg(pathRef.current);
+    const stored = getPlace();
+    if (seg !== "" && !STATIC.has(seg)) {
+      // A city slug in the URL wins on arrival (typed, shared or bookmarked).
+      if (stored && stored.slug === seg) {
+        setPlaceState(stored);
+        return;
+      }
+      const fromUrl: Place = {
+        name: nameFromSlug(seg),
+        slug: seg,
+        region: "",
+        country: "",
+        source: "url",
+        at: Date.now(),
+      };
+      setPlaceState(fromUrl);
+      setPlace(fromUrl);
+      return;
+    }
+    if (stored) {
+      setPlaceState(stored);
+      if (pathRef.current === "/" ) router.replace("/" + stored.slug);
+      return;
+    }
+    setDetecting(true);
+    sensePlace().then((p) => {
+      setDetecting(false);
+      adopt(p);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function sense() {
-    setLocMsg("…");
-    if (!("geolocation" in navigator)) {
-      setLocMsg(t("search.locDenied"));
-      return;
-    }
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const c = nearestCity(pos.coords.latitude, pos.coords.longitude);
-        setCity(c);
-        setCityState(c);
-        setLocMsg(t("search.locFound", { city: c }));
-      },
-      () => setLocMsg(t("search.locDenied")),
-      { timeout: 6000 },
-    );
+  function reSense() {
+    setDetecting(true);
+    setMsg(null);
+    sensePlace().then((p) => {
+      setDetecting(false);
+      adopt(p);
+      setMsg(t("search.locFound", { city: p.name }));
+    });
   }
 
   function go() {
@@ -74,22 +132,28 @@ export function NavSearch() {
         <button
           type="button"
           onClick={() => setLocOpen((v) => !v)}
-          className="flex min-h-11 items-center gap-1 rounded-l-pill px-3 text-xs font-extrabold text-navy hover:bg-chuna"
+          className="flex min-h-11 items-center gap-1.5 rounded-l-pill px-3 text-xs font-extrabold text-navy hover:bg-chuna"
         >
-               <PinIcon className="h-4 w-4" />
+          <PinIcon className="h-4 w-4 shrink-0" />
+          <span className="max-w-[104px] truncate">{detecting ? "…" : city}</span>
         </button>
         {locOpen && (
           <>
             <button type="button" aria-label={t("notif.close")} onClick={() => setLocOpen(false)} className="fixed inset-0 z-40 cursor-default" />
-            <div className="absolute left-0 top-12 z-50 w-64 rounded-card border border-line bg-white p-2 shadow-card">
+            <div className="absolute left-0 top-12 z-50 w-72 rounded-card border border-line bg-white p-2 shadow-card">
               <button
                 type="button"
-                onClick={sense}
+                onClick={reSense}
                 className="flex min-h-11 w-full items-center gap-2 rounded-control bg-saffron px-3 py-2 text-xs font-extrabold text-snow"
               >
                 <Icon name="target" className="h-4 w-4" />{t("search.useLoc")}
               </button>
-              {locMsg && <p className="mt-1 px-1 text-xs font-semibold text-muted">{locMsg}</p>}
+              {detecting && <p className="mt-1 px-1 text-xs font-semibold text-muted">{t("geo.detecting")}</p>}
+              {msg && <p className="mt-1 px-1 text-xs font-semibold text-muted">{msg}</p>}
+              {place?.source === "ip" && <p className="mt-1 px-1 text-xs font-semibold text-muted">{t("geo.ip")}</p>}
+              {!liveCities.includes(city) && (
+                <p className="mt-1 rounded-control bg-chuna px-2 py-1.5 text-xs font-semibold text-saffron">{t("geo.note", { city })}</p>
+              )}
               <input
                 value={area}
                 onChange={(e) => setArea(e.target.value)}
