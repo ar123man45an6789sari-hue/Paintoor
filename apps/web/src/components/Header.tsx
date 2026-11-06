@@ -5,7 +5,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { Wordmark } from "./Wordmark";
@@ -56,7 +55,7 @@ export function Header() {
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
-  
+
   /* One popover at a time: opening one closes the others. */
   useEffect(() => onPopoverClose("lang", () => setLangOpen(false)), []);
   useEffect(() => onPopoverClose("acct", () => setAcctOpen(false)), []);
@@ -113,13 +112,8 @@ export function Header() {
       <header className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
         <div className="flex min-h-16 w-full flex-wrap items-center gap-3 px-3 py-2 md:gap-4 md:px-4 lg:h-16 lg:flex-nowrap lg:py-0">
           <Link href={session ? "/dashboard" : "/"} className="flex shrink-0 items-center gap-2 text-navy">
-            <span className="dark:hidden">
-              <Image src="/paintoor-horizontal.png" alt="Paintoor" width={1000} height={263} className="h-8 w-auto" priority />
-            </span>
-            <span className="hidden items-center gap-2 dark:flex">
-              <Logo className="h-8 w-8" />
-               <Wordmark className="text-lg font-black tracking-tight text-snow md:text-xl" />
-            </span>
+            <Logo className="h-8 w-8" />
+            <Wordmark className="text-lg font-black tracking-tight text-navy md:text-xl dark:text-snow" />
           </Link>
 
             <div className="order-last w-full min-w-0 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">

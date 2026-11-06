@@ -153,6 +153,18 @@ export function AboutStory() {
               <a className="font-semibold text-ink hover:text-saffron" href={`mailto:${company.emails.support}`}>{company.emails.support}</a>
             </li>
           </ul>
+                    <h4 className="mt-6 text-xs font-extrabold uppercase tracking-[0.16em] text-saffron">{t("ab.mailH")}</h4>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {Object.entries(company.emails).map(([role, mail]) => (
+              <a
+                key={role}
+                href={`mailto:${mail}`}
+                className="rounded-pill border border-line px-2.5 py-1 text-xs font-bold text-ink hover:border-saffron hover:text-saffron"
+              >
+                {mail}
+              </a>
+            ))}
+          </div>
         </div>
       </section>
 

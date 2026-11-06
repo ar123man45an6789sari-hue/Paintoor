@@ -54,11 +54,11 @@ function Counter({ end, suffix, label }: { end: number; suffix: string; label: s
 
   return (
     <div className="text-center">
-      <span ref={ref} className="block text-3xl font-black text-haldi md:text-4xl">
+        <span ref={ref} className="block text-3xl font-black text-snow md:text-4xl">
         {value}
         {suffix}
       </span>
-      <span className="mt-1 block text-xs text-muted">{label}</span>
+      <span className="mt-1 block text-xs text-snow/80">{label}</span>
     </div>
   );
 }
@@ -153,7 +153,7 @@ export function CinematicHero() {
 export function PulseBand() {
   const { t } = useI18n();
   return (
-    <section className="bg-raatri px-5 py-10">
+      <section className="bg-saffron px-5 py-10">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-6 md:grid-cols-4">
         {PULSE_VALUES.map((item, i) => (
           <Counter key={PULSE_KEYS[i]} end={item.end} suffix={item.suffix} label={t(PULSE_KEYS[i])} />

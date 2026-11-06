@@ -5,7 +5,6 @@
 import Link from "next/link";
 import { useI18n } from "@/i18n";
 import { company, helpCentre, poweredBy, socials } from "@paintoor/brand";
-import { Logo } from "./Logo";
 import { Icon } from "./Icons";
 import { Wordmark } from "./Wordmark";
 
@@ -92,17 +91,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
-      {/* Diagonal brand watermark: sits under every piece of real content at
-          7% so the footer text stays fully readable. Purely decorative. */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 flex select-none items-center justify-center">
-        {/* Mobile: logo on top, name below (space is tight). Laptop: side by
-            side and much bigger. 7% keeps every real line of text readable. */}
-        <div className="flex -rotate-12 flex-col items-center gap-3 opacity-[0.07] md:flex-row md:gap-10">
-          <Logo className="h-28 w-28 md:h-56 md:w-56" />
-          <Wordmark className="text-[17vw] font-black leading-none tracking-tight text-snow md:text-[11vw]" />
-        </div>
-      </div>
-      <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+      <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.2fr_1fr_1fr_1fr_1.2fr]">
         <div>
           <h2 className="mb-2">
             <Wordmark className="text-2xl font-black text-snow" />
@@ -136,27 +125,20 @@ export function Footer() {
             )}
           </div>
         ))}
+         <div>
+          <h2 className="mb-2 text-snow">{t("foot.regd")}</h2>
+          <p className="text-xs leading-relaxed">{company.registeredOffice}</p>
+        </div>
       </div>
 
       <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
         <p className="text-xs font-extrabold text-snow">{company.legalName}</p>
         <p className="mt-2 text-xs font-extrabold text-haldi">*{helpCentre.label}*</p>
         <p className="mt-1 text-xs">{helpCentre.address}</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {Object.entries(company.emails).map(([role, mail]) => (
-            <a
-              key={role}
-              href={`mailto:${mail}`}
-              className="rounded-pill border border-snow/20 px-2.5 py-1 text-xs font-bold text-muted hover:border-haldi hover:text-haldi"
-            >
-              {mail}
-            </a>
-          ))}
-        </div>
       </div>
 
       <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-3 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
-        <span>© {new Date().getFullYear()} {company.legalName}</span>
+        <span>© {new Date().getFullYear()} {company.shortName}</span>
         <div className="flex items-center gap-2">
           {socials.map((s) =>
             s.url ? (
@@ -182,7 +164,7 @@ export function Footer() {
             ),
           )}
         </div>
-        <span className="font-extrabold text-snow">Powered by {poweredBy}</span>
+        <span>Powered by {poweredBy}</span>
       </div>
     </footer>
   );
