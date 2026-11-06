@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@paintoor/brand": "*",
+    "indian-cities-json": "^2.0.0",
     "@paintoor/mock-api": "*",
     "lottie-web": "^5.13.0",
     "next": "^15.1.6",
