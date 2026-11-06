@@ -1,7 +1,8 @@
 /* PartnersBrowser — the Partner Bazaar. A shop-style shelf of verified
-   painters: audience-aware framing (customer / painter hiring crew / store),
-   live search, city + area + skill filters, sorting, a persistent shortlist
-   and an honest trust strip. Everything reads the offline seed; no network. */
+   painters: live search, city + area filters, sorting and an honest trust
+   strip. Painting is the only live skill at launch, so there is no skill
+   dropdown — the shelf simply shows bookable painters. Everything reads the
+   offline seed; no network. */
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
@@ -35,23 +36,8 @@ const BADGES: Record<string, string> = {
   certified: "Certified",
 };
 
-const SKILLS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
 const SORTS = ["top", "jobs", "rateLow", "rateHigh", "exp"] as const;
 type Sort = (typeof SORTS)[number];
-const AUDIENCES = ["customer", "painter", "store"] as const;
-type Audience = (typeof AUDIENCES)[number];
-const LS_SHORTLIST = "gs_shortlist";
-
-function skillFromQuery(q: string): string | null {
-  const s = q.toLowerCase();
-  if (!s) return null;
-  if (s.includes("paint")) return "painting";
-  if (s.includes("elec") || s.includes("bijli")) return "electrical";
-  if (s.includes("plumb") || s.includes("nal")) return "plumbing";
-  if (s.includes("carp") || s.includes("wood")) return "carpentry";
-  if (s.includes("clean") || s.includes("safai")) return "cleaning";
-  return null;
-}
 
 const GRADIENTS = [
   ["#e00048", "#a80036"],
@@ -63,7 +49,6 @@ const GRADIENTS = [
 ];
 
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
-const audKey = (a: Audience) => (a === "customer" ? "c" : a === "painter" ? "p" : "s");
 
 export function ProvidersBrowser() {
   const { t } = useI18n();
@@ -95,36 +80,8 @@ export function ProvidersBrowser() {
   }, [params, cities]);
 
   const [zone, setZone] = useState(params.get("zone") ?? "all");
-  const [skill, setSkill] = useState(() => skillFromQuery(params.get("q") ?? "") ?? "all");
-  const [query, setQuery] = useState(() => {
-    const q = params.get("q") ?? "";
-    return skillFromQuery(q) ? "" : q;
-  });
+  const [query, setQuery] = useState(params.get("q") ?? "");
   const [sort, setSort] = useState<Sort>("top");
-  const [audience, setAudience] = useState<Audience>("customer");
-  const [saved, setSaved] = useState<string[]>([]);
-
-  // Shortlist survives reloads (localStorage), like a shop basket.
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LS_SHORTLIST);
-      if (raw) setSaved(JSON.parse(raw) as string[]);
-    } catch {
-      /* private mode */
-    }
-  }, []);
-
-  function toggleSave(id: string) {
-    setSaved((prev) => {
-      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
-      try {
-        localStorage.setItem(LS_SHORTLIST, JSON.stringify(next));
-      } catch {
-        /* private mode */
-      }
-      return next;
-    });
-  }
 
   const zones = useMemo(
     () =>
@@ -137,15 +94,16 @@ export function ProvidersBrowser() {
   );
 
   const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
     const list = seed.providers.filter(
       (p) =>
         p.skills.some(isLiveSkill) &&
         (city === "all" || p.city === city) &&
         (zone === "all" || p.zone === zone) &&
-        (skill === "all" || p.skills.includes(skill)) &&
-        (!query ||
-          p.name.toLowerCase().includes(query.toLowerCase()) ||
-          p.zone.toLowerCase().includes(query.toLowerCase())),
+        (!q ||
+          p.name.toLowerCase().includes(q) ||
+          p.zone.toLowerCase().includes(q) ||
+          p.skills.some((s) => s.includes(q))),
     );
     type P = (typeof list)[number];
     const by: Record<Sort, (a: P, b: P) => number> = {
@@ -156,7 +114,7 @@ export function ProvidersBrowser() {
       exp: (a, b) => b.experience_years - a.experience_years,
     };
     return [...list].sort(by[sort]);
-  }, [city, zone, skill, query, sort]);
+  }, [city, zone, query, sort]);
 
   const kycCount = useMemo(
     () => filtered.filter((p) => p.badges.includes("kyc_verified")).length,
@@ -166,17 +124,12 @@ export function ProvidersBrowser() {
   function clearFilters() {
     setCity("all");
     setZone("all");
-    setSkill("all");
     setQuery("");
     setSort("top");
   }
 
   const selectClass =
     "rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron dark:bg-raatri dark:text-snow";
-  const chip = (active: boolean) =>
-    `rounded-pill px-3 py-1.5 text-xs font-extrabold transition-colors ${
-      active ? "bg-saffron text-snow" : "border border-line bg-white text-navy hover:border-saffron dark:bg-raatri dark:text-snow"
-    }`;
 
   return (
     <div>
@@ -187,19 +140,7 @@ export function ProvidersBrowser() {
         <p className="mt-3 max-w-2xl text-muted">{t("pt.p")}</p>
       </div>
 
-      {/* Audience switcher: the same shelf serves three kinds of visitor. */}
-      <div className="mb-4 flex flex-wrap gap-2">
-        {AUDIENCES.map((a) => (
-          <button key={a} type="button" onClick={() => setAudience(a)} className={chip(audience === a)}>
-            {t(`pt.aud.${audKey(a)}`)}
-          </button>
-        ))}
-      </div>
-      <p className="mb-6 max-w-2xl rounded-card border-l-4 border-saffron bg-chuna px-4 py-3 text-sm text-ink dark:bg-raatri dark:text-snow">
-        {t(`pt.aud.${audKey(audience)}.p`)}
-      </p>
-
-      {/* Toolbar: search + filters + sort + shortlist count */}
+      {/* Toolbar: search + city + area + sort */}
       <div className="rounded-card border border-line bg-white p-4 shadow-card dark:bg-raatri">
         <div className="flex flex-wrap items-end gap-3">
           <label className="block min-w-[180px] flex-1">
@@ -239,17 +180,6 @@ export function ProvidersBrowser() {
             </select>
           </label>
           <label className="block">
-            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.skill")}</span>
-            <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
-              <option value="all">{t("prov.allSkills")}</option>
-              {SKILLS.map((s) => (
-                <option key={s} value={s} disabled={!isLiveSkill(s)}>
-                  {t(`sk.${s}`)}{!isLiveSkill(s) ? ` — ${t("soon.tag")}` : ""}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="block">
             <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("pt.sort")}</span>
             <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className={selectClass}>
               {SORTS.map((s) => (
@@ -263,36 +193,15 @@ export function ProvidersBrowser() {
           <span className="flex items-center gap-1 text-muted">
             <Icon name="shield" className="h-4 w-4 text-neem" />{kycCount} {t("pt.trust1")}
           </span>
-          <span className="ml-auto flex items-center gap-1 font-bold text-navy dark:text-snow">
-            <Icon name="save" className="h-4 w-4 text-saffron" />{t("pt.savedCount", { n: saved.length })}
-          </span>
           <button
             type="button"
             onClick={clearFilters}
-            className="rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-saffron hover:text-saffron"
+            className="ml-auto rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-saffron hover:text-saffron"
           >
             {t("pt.clear")}
           </button>
         </div>
       </div>
-
-      {/* Painter banner: painters hire painters on big jobs. */}
-      {audience !== "painter" && (
-        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-card border border-line bg-navy px-5 py-4 text-snow">
-          <Icon name="users" className="h-6 w-6 text-haldi" />
-          <div className="min-w-[200px] flex-1">
-            <p className="font-extrabold">{t("pt.bannerH")}</p>
-            <p className="text-sm text-snow/75">{t("pt.bannerP")}</p>
-          </div>
-          <button
-            type="button"
-            onClick={() => setAudience("painter")}
-            className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow hover:shadow-lift"
-          >
-            {t("pt.bannerBtn")}
-          </button>
-        </div>
-      )}
 
       {/* The shelf */}
       {filtered.length === 0 ? (
@@ -308,7 +217,6 @@ export function ProvidersBrowser() {
         <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((p, i) => {
             const [from, to] = GRADIENTS[i % GRADIENTS.length];
-            const isSaved = saved.includes(p.id);
             return (
               <article
                 key={p.id}
@@ -325,16 +233,6 @@ export function ProvidersBrowser() {
                     {p.name.split(" ").map((w) => w.charAt(0)).join("").slice(0, 2)}
                   </span>
                   <Icon name={SKILL_ICON[p.skills[0]] ?? "wrench"} className="absolute left-3 top-3 h-5 w-5 text-snow" />
-                  <button
-                    type="button"
-                    aria-label={isSaved ? t("pt.saved") : t("pt.save")}
-                    onClick={() => toggleSave(p.id)}
-                    className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-pill transition-colors ${
-                      isSaved ? "bg-saffron text-snow" : "bg-white/90 text-ink hover:bg-saffron hover:text-snow"
-                    }`}
-                  >
-                    <Icon name={isSaved ? "check" : "save"} className="h-4 w-4" />
-                  </button>
                   {p.badges.includes("kyc_verified") && (
                     <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-ink">
                       <Icon name="check" className="mr-1 inline h-3 w-3 align-[-0.15em]" />KYC
