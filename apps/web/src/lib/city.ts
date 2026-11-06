@@ -4,7 +4,7 @@
    derive it from the seed providers, so a city can never be offered without
    a partner in it. */
 
-export type PlaceSource = "gps" | "ip" | "manual" | "url";
+export type PlaceSource = "gps" | "ip" | "manual" | "url" | "default";
 
 export interface Place {
   name: string; // display city, e.g. "Vadodara"

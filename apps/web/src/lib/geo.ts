@@ -81,7 +81,7 @@ export async function sensePlace(): Promise<Place> {
     setPlace(p);
     return p;
   }
-  const p = placeFrom("Mumbai", "Maharashtra", "India", "manual");
+  const p = placeFrom("Mumbai", "Maharashtra", "India", "default");
   setPlace(p);
   return p;
 }

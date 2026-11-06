@@ -29,6 +29,9 @@ const STATIC = new Set([
 
 const firstSeg = (path: string) => path.split("/").filter(Boolean)[0] ?? "";
 
+/* A cached GPS/IP reading older than this is re-validated in the background. */
+const FRESH_MS = 30 * 60 * 1000;
+
 export function NavSearch() {
   const { t } = useI18n();
   const router = useRouter();
@@ -66,15 +69,15 @@ export function NavSearch() {
     }
   }
 
-  useEffect(() => {
+    useEffect(() => {
     const seg = firstSeg(pathRef.current);
     const stored = getPlace();
-    if (seg !== "" && !STATIC.has(seg)) {
-      // A city slug in the URL wins on arrival (typed, shared or bookmarked).
-      if (stored && stored.slug === seg) {
-        setPlaceState(stored);
-        return;
-      }
+
+    /* A city slug in the URL that differs from the cached one is explicit
+       visitor intent — a shared link, a bookmark or a typed address. Honour it
+       on screen, but never write it into the cache: the cache must only ever
+       hold where this person actually is. */
+    if (seg !== "" && !STATIC.has(seg) && (!stored || stored.slug !== seg)) {
       const fromUrl: Place = {
         name: nameFromSlug(seg),
         slug: seg,
@@ -84,15 +87,29 @@ export function NavSearch() {
         at: Date.now(),
       };
       setPlaceState(fromUrl);
-      setPlace(fromUrl);
       return;
     }
+
+    /* Paint the cached place instantly so the pill is never empty, and mirror
+       it into the URL when the visitor landed on the bare home page. */
     if (stored) {
       setPlaceState(stored);
-      if (pathRef.current === "/" ) router.replace("/" + stored.slug);
-      return;
+      if (pathRef.current === "/") router.replace("/" + stored.slug);
     }
-    setDetecting(true);
+
+    /* Re-validate in the background unless the cached reading is a real and
+       recent location fix. "url" and "default" are not fixes — one is a
+       borrowed city, the other a give-up fallback — so both stay retryable
+       and an already-poisoned cache heals itself. The browser remembers the
+       geolocation grant, so a repeat read never prompts the visitor again. */
+    const isRealFix =
+      stored !== null &&
+      stored.source !== "url" &&
+      stored.source !== "default" &&
+      Date.now() - stored.at < FRESH_MS;
+    if (isRealFix) return;
+
+    setDetecting(stored === null);
     sensePlace().then((p) => {
       setDetecting(false);
       adopt(p);
