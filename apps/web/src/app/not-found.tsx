@@ -27,7 +27,7 @@ export default function NotFound() {
           {t("nf.home")}
         </Link>
         <Link
-          href="/providers"
+          href="/partners"
           className="rounded-control border-2 border-line px-6 py-3 text-sm font-extrabold text-navy transition-colors hover:border-saffron hover:text-saffron"
         >
           {t("nf.cities")}

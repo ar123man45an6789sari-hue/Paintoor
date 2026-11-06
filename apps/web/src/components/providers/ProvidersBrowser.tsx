@@ -1,10 +1,14 @@
-/* ProvidersBrowser — hooks INSIDE component; localised labels; All-India default. */
+/* PartnersBrowser — the Partner Bazaar. A shop-style shelf of verified
+   painters: audience-aware framing (customer / painter hiring crew / store),
+   live search, city + area + skill filters, sorting, a persistent shortlist
+   and an honest trust strip. Everything reads the offline seed; no network. */
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { useSearchParams } from "next/navigation";
 import { getCity } from "@/lib/city";
+import { requestAuth } from "@/lib/authEvents";
 import { Icon, type IconName } from "@/components/Icons";
 
 const SKILL_ICON: Record<string, IconName> = {
@@ -32,6 +36,12 @@ const BADGES: Record<string, string> = {
 };
 
 const SKILLS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
+const SORTS = ["top", "jobs", "rateLow", "rateHigh", "exp"] as const;
+type Sort = (typeof SORTS)[number];
+const AUDIENCES = ["customer", "painter", "store"] as const;
+type Audience = (typeof AUDIENCES)[number];
+const LS_SHORTLIST = "gs_shortlist";
+
 function skillFromQuery(q: string): string | null {
   const s = q.toLowerCase();
   if (!s) return null;
@@ -53,11 +63,13 @@ const GRADIENTS = [
 ];
 
 const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
+const audKey = (a: Audience) => (a === "customer" ? "c" : a === "painter" ? "p" : "s");
 
 export function ProvidersBrowser() {
   const { t } = useI18n();
-   const params = useSearchParams();
-   // Only cities that actually have a bookable (live-skill) partner are listed,
+  const params = useSearchParams();
+
+  // Only cities that actually have a bookable (live-skill) partner are listed,
   // so the dropdown can never select a city with zero results.
   const cities = useMemo(
     () =>
@@ -66,7 +78,8 @@ export function ProvidersBrowser() {
       ).sort(),
     [],
   );
-    // First paint starts neutral ("all") on server AND client. A linked city
+
+  // First paint starts neutral ("all") on server AND client. A linked city
   // (?city=...) is safe to read here; the saved city lives in localStorage,
   // which only exists in the browser, so it is applied after mount — reading
   // it during render would desync server and client (hydration error).
@@ -80,103 +93,231 @@ export function ProvidersBrowser() {
     const saved = getCity();
     if (saved !== "all" && cities.includes(saved)) setCity(saved);
   }, [params, cities]);
+
   const [zone, setZone] = useState(params.get("zone") ?? "all");
   const [skill, setSkill] = useState(() => skillFromQuery(params.get("q") ?? "") ?? "all");
   const [query, setQuery] = useState(() => {
     const q = params.get("q") ?? "";
     return skillFromQuery(q) ? "" : q;
   });
+  const [sort, setSort] = useState<Sort>("top");
+  const [audience, setAudience] = useState<Audience>("customer");
+  const [saved, setSaved] = useState<string[]>([]);
+
+  // Shortlist survives reloads (localStorage), like a shop basket.
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(LS_SHORTLIST);
+      if (raw) setSaved(JSON.parse(raw) as string[]);
+    } catch {
+      /* private mode */
+    }
+  }, []);
+
+  function toggleSave(id: string) {
+    setSaved((prev) => {
+      const next = prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id];
+      try {
+        localStorage.setItem(LS_SHORTLIST, JSON.stringify(next));
+      } catch {
+        /* private mode */
+      }
+      return next;
+    });
+  }
 
   const zones = useMemo(
     () =>
       Array.from(
         new Set(
-          seed.providers
-            .filter((p) => city === "all" || p.city === city)
-            .map((p) => p.zone),
+          seed.providers.filter((p) => city === "all" || p.city === city).map((p) => p.zone),
         ),
       ).sort(),
     [city],
   );
 
-    const filtered = useMemo(
-    () =>
-      seed.providers.filter(
-        (p) =>
-          p.skills.some(isLiveSkill) &&
-          (city === "all" || p.city === city) &&
-          (zone === "all" || p.zone === zone) &&
-          (skill === "all" || p.skills.includes(skill)) &&
-          (!query ||
-            p.name.toLowerCase().includes(query.toLowerCase()) ||
-            p.zone.toLowerCase().includes(query.toLowerCase())),
-      ),
-    [city, zone, skill, query],
+  const filtered = useMemo(() => {
+    const list = seed.providers.filter(
+      (p) =>
+        p.skills.some(isLiveSkill) &&
+        (city === "all" || p.city === city) &&
+        (zone === "all" || p.zone === zone) &&
+        (skill === "all" || p.skills.includes(skill)) &&
+        (!query ||
+          p.name.toLowerCase().includes(query.toLowerCase()) ||
+          p.zone.toLowerCase().includes(query.toLowerCase())),
+    );
+    type P = (typeof list)[number];
+    const by: Record<Sort, (a: P, b: P) => number> = {
+      top: (a, b) => b.rating_avg - a.rating_avg,
+      jobs: (a, b) => b.jobs_done - a.jobs_done,
+      rateLow: (a, b) => a.rate_range_paise.min - b.rate_range_paise.min,
+      rateHigh: (a, b) => b.rate_range_paise.min - a.rate_range_paise.min,
+      exp: (a, b) => b.experience_years - a.experience_years,
+    };
+    return [...list].sort(by[sort]);
+  }, [city, zone, skill, query, sort]);
+
+  const kycCount = useMemo(
+    () => filtered.filter((p) => p.badges.includes("kyc_verified")).length,
+    [filtered],
   );
 
+  function clearFilters() {
+    setCity("all");
+    setZone("all");
+    setSkill("all");
+    setQuery("");
+    setSort("top");
+  }
+
   const selectClass =
-    "rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron";
+    "rounded-control border border-line bg-white px-3 py-2.5 text-sm font-semibold text-ink outline-none focus:border-saffron dark:bg-raatri dark:text-snow";
+  const chip = (active: boolean) =>
+    `rounded-pill px-3 py-1.5 text-xs font-extrabold transition-colors ${
+      active ? "bg-saffron text-snow" : "border border-line bg-white text-navy hover:border-saffron dark:bg-raatri dark:text-snow"
+    }`;
 
-    return (
+  return (
     <div>
-      <div className="mb-8">
-        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("prov.tag")}</span>
-        <h1 className="mt-2 text-4xl font-black text-navy">{t("prov.h")}</h1>
-        <p className="mt-3 max-w-2xl text-muted">{t("prov.p")}</p>
-      </div>
-      <div className="flex flex-wrap items-end gap-3 rounded-card border border-line bg-white p-4 shadow-card">
-        <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.city")}</span>
-          <select
-            value={city}
-            onChange={(e) => {
-              setCity(e.target.value);
-              setZone("all");
-            }}
-            className={selectClass}
-          >
-            <option value="all">{t("prov.allIndia")}</option>
-            {cities.map((c) => (
-              <option key={c} value={c}>{c}</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.area")}</span>
-          <select value={zone} onChange={(e) => setZone(e.target.value)} className={selectClass}>
-            <option value="all">{t("prov.allAreas")}</option>
-            {zones.map((z) => (
-              <option key={z} value={z}>{z}</option>
-            ))}
-          </select>
-        </label>
-        <label className="block">
-          <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.skill")}</span>
-          <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
-            <option value="all">{t("prov.allSkills")}</option>
-            {SKILLS.map((s) => (
-              <option key={s} value={s} disabled={!isLiveSkill(s)}>
-                {t(`sk.${s}`)}{!isLiveSkill(s) ? ` — ${t("soon.tag")}` : ""}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p className="ml-auto text-sm font-bold text-navy">
-        {t("prov.count", { n: filtered.length })}
-        </p>
+      {/* Headline */}
+      <div className="mb-6">
+        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("pt.tag")}</span>
+        <h1 className="mt-2 text-4xl font-black text-navy dark:text-snow">{t("pt.h")}</h1>
+        <p className="mt-3 max-w-2xl text-muted">{t("pt.p")}</p>
       </div>
 
+      {/* Audience switcher: the same shelf serves three kinds of visitor. */}
+      <div className="mb-4 flex flex-wrap gap-2">
+        {AUDIENCES.map((a) => (
+          <button key={a} type="button" onClick={() => setAudience(a)} className={chip(audience === a)}>
+            {t(`pt.aud.${audKey(a)}`)}
+          </button>
+        ))}
+      </div>
+      <p className="mb-6 max-w-2xl rounded-card border-l-4 border-saffron bg-chuna px-4 py-3 text-sm text-ink dark:bg-raatri dark:text-snow">
+        {t(`pt.aud.${audKey(audience)}.p`)}
+      </p>
+
+      {/* Toolbar: search + filters + sort + shortlist count */}
+      <div className="rounded-card border border-line bg-white p-4 shadow-card dark:bg-raatri">
+        <div className="flex flex-wrap items-end gap-3">
+          <label className="block min-w-[180px] flex-1">
+            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("pt.search")}</span>
+            <div className="flex items-center gap-2 rounded-control border border-line bg-white px-3 focus-within:border-saffron dark:bg-raatri">
+              <Icon name="search" className="h-4 w-4 text-muted" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full bg-transparent py-2.5 text-sm font-semibold text-ink outline-none dark:text-snow"
+              />
+            </div>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.city")}</span>
+            <select
+              value={city}
+              onChange={(e) => {
+                setCity(e.target.value);
+                setZone("all");
+              }}
+              className={selectClass}
+            >
+              <option value="all">{t("prov.allIndia")}</option>
+              {cities.map((c) => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.area")}</span>
+            <select value={zone} onChange={(e) => setZone(e.target.value)} className={selectClass}>
+              <option value="all">{t("prov.allAreas")}</option>
+              {zones.map((z) => (
+                <option key={z} value={z}>{z}</option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("prov.skill")}</span>
+            <select value={skill} onChange={(e) => setSkill(e.target.value)} className={selectClass}>
+              <option value="all">{t("prov.allSkills")}</option>
+              {SKILLS.map((s) => (
+                <option key={s} value={s} disabled={!isLiveSkill(s)}>
+                  {t(`sk.${s}`)}{!isLiveSkill(s) ? ` — ${t("soon.tag")}` : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="block">
+            <span className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-muted">{t("pt.sort")}</span>
+            <select value={sort} onChange={(e) => setSort(e.target.value as Sort)} className={selectClass}>
+              {SORTS.map((s) => (
+                <option key={s} value={s}>{t(`pt.sort.${s}`)}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-line pt-3 text-sm">
+          <span className="font-bold text-navy dark:text-snow">{t("pt.count", { n: filtered.length })}</span>
+          <span className="flex items-center gap-1 text-muted">
+            <Icon name="shield" className="h-4 w-4 text-neem" />{kycCount} {t("pt.trust1")}
+          </span>
+          <span className="ml-auto flex items-center gap-1 font-bold text-navy dark:text-snow">
+            <Icon name="save" className="h-4 w-4 text-saffron" />{t("pt.savedCount", { n: saved.length })}
+          </span>
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-saffron hover:text-saffron"
+          >
+            {t("pt.clear")}
+          </button>
+        </div>
+      </div>
+
+      {/* Painter banner: painters hire painters on big jobs. */}
+      {audience !== "painter" && (
+        <div className="mt-5 flex flex-wrap items-center gap-4 rounded-card border border-line bg-navy px-5 py-4 text-snow">
+          <Icon name="users" className="h-6 w-6 text-haldi" />
+          <div className="min-w-[200px] flex-1">
+            <p className="font-extrabold">{t("pt.bannerH")}</p>
+            <p className="text-sm text-snow/75">{t("pt.bannerP")}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setAudience("painter")}
+            className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow hover:shadow-lift"
+          >
+            {t("pt.bannerBtn")}
+          </button>
+        </div>
+      )}
+
+      {/* The shelf */}
       {filtered.length === 0 ? (
-        <div className="mt-10 rounded-card border border-dashed border-line bg-white p-6 text-center text-muted">
+        <div className="mt-10 rounded-card border border-dashed border-line bg-white p-8 text-center text-muted dark:bg-raatri">
           {t("prov.empty")}
+          <div className="mt-4">
+            <button type="button" onClick={clearFilters} className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow">
+              {t("pt.clear")}
+            </button>
+          </div>
         </div>
       ) : (
         <div className="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((p, i) => {
             const [from, to] = GRADIENTS[i % GRADIENTS.length];
+            const isSaved = saved.includes(p.id);
             return (
-              <article key={p.id} className="overflow-hidden rounded-card border border-line bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-lift">
-                <div className="relative flex h-28 items-center justify-center" style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}>
+              <article
+                key={p.id}
+                className="flex flex-col overflow-hidden rounded-card border border-line bg-white shadow-card transition-all hover:-translate-y-1 hover:shadow-lift dark:bg-raatri"
+              >
+                <div
+                  className="relative flex h-28 items-center justify-center"
+                  style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
+                >
                   <span
                     className="flex h-16 w-16 items-center justify-center rounded-pill border-4 border-snow/70 text-2xl font-black text-snow"
                     style={{ backgroundImage: `linear-gradient(135deg, ${from}, ${to})` }}
@@ -184,33 +325,59 @@ export function ProvidersBrowser() {
                     {p.name.split(" ").map((w) => w.charAt(0)).join("").slice(0, 2)}
                   </span>
                   <Icon name={SKILL_ICON[p.skills[0]] ?? "wrench"} className="absolute left-3 top-3 h-5 w-5 text-snow" />
+                  <button
+                    type="button"
+                    aria-label={isSaved ? t("pt.saved") : t("pt.save")}
+                    onClick={() => toggleSave(p.id)}
+                    className={`absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-pill transition-colors ${
+                      isSaved ? "bg-saffron text-snow" : "bg-white/90 text-ink hover:bg-saffron hover:text-snow"
+                    }`}
+                  >
+                    <Icon name={isSaved ? "check" : "save"} className="h-4 w-4" />
+                  </button>
                   {p.badges.includes("kyc_verified") && (
                     <span className="absolute bottom-2 right-3 rounded-pill bg-white/90 px-2 py-0.5 text-xs font-black text-ink">
                       <Icon name="check" className="mr-1 inline h-3 w-3 align-[-0.15em]" />KYC
                     </span>
                   )}
                 </div>
-                <div className="p-4">
+                <div className="flex flex-1 flex-col p-4">
                   <div className="flex items-baseline justify-between gap-2">
-                    <h3 className="font-extrabold text-navy">{p.name}</h3>
-                    <span className="flex items-center gap-1 text-sm font-black text-haldi"><Icon name="star" className="h-3.5 w-3.5" />{p.rating_avg}</span>
+                    <h3 className="font-extrabold text-navy dark:text-snow">{p.name}</h3>
+                    <span className="flex items-center gap-1 text-sm font-black text-haldi">
+                      <Icon name="star" className="h-3.5 w-3.5" />{p.rating_avg}
+                    </span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted">
                     {p.city} · {p.zone} · {p.experience_years} yrs · {p.jobs_done} jobs
                   </p>
                   <div className="mt-2 flex flex-wrap gap-1">
-                    {p.badges.map((b) => (
-                      <span key={b} className="rounded-pill border border-line bg-chuna px-2 py-0.5 text-xs font-bold text-navy">
+                    {p.skills.map((s) => (
+                      <span key={s} className="flex items-center gap-1 rounded-pill bg-saffron/10 px-2 py-0.5 text-xs font-bold text-saffron">
+                        <Icon name={SKILL_ICON[s] ?? "wrench"} className="h-3 w-3" />{t(`sk.${s}`)}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {p.badges.filter((b) => b !== "kyc_verified").map((b) => (
+                      <span key={b} className="rounded-pill border border-line bg-chuna px-2 py-0.5 text-xs font-bold text-navy dark:bg-raatri dark:text-snow">
                         {BADGES[b] ?? b}
                       </span>
                     ))}
                   </div>
                   <p className="mt-3 border-l-2 border-saffron pl-2 text-sm italic text-muted">“{p.quote}”</p>
-                  <div className="mt-4 flex items-center justify-between">
-                    <span className="font-black text-navy">
+                  <div className="mt-auto flex items-center justify-between pt-4">
+                    <span className="font-black text-navy dark:text-snow">
                       {rupees(p.rate_range_paise.min)}–{rupees(p.rate_range_paise.max)}
                       <span className="text-xs font-semibold text-muted">{RATE_UNIT[p.rate_range_paise.unit]}</span>
                     </span>
+                    <button
+                      type="button"
+                      onClick={() => requestAuth("signup")}
+                      className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift"
+                    >
+                      {t("pt.hire")}
+                    </button>
                   </div>
                 </div>
               </article>
@@ -218,6 +385,15 @@ export function ProvidersBrowser() {
           })}
         </div>
       )}
+
+      {/* Trust strip */}
+      <div className="mt-10 grid gap-4 rounded-card border border-line bg-chuna p-5 sm:grid-cols-3 dark:bg-raatri">
+        {(["pt.trust1", "pt.trust2", "pt.trust3"] as const).map((k) => (
+          <p key={k} className="flex items-center gap-2 text-sm font-bold text-navy dark:text-snow">
+            <Icon name="checkCircle" className="h-4 w-4 text-neem" />{t(k)}
+          </p>
+        ))}
+      </div>
     </div>
   );
 }

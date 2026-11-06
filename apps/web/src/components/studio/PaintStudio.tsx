@@ -210,7 +210,7 @@ export function PaintStudio() {
 
               <button
                 type="button"
-                onClick={() => router.push("/providers?q=painting")}
+                onClick={() => router.push("/painters?q=painting")}
                 className="min-h-12 w-full rounded-control bg-saffron px-4 py-3 text-sm font-extrabold text-snow transition-shadow hover:shadow-lift"
               >
                 <Icon name="palette" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("st.cta")}

@@ -16,6 +16,7 @@ const SKILL_KEYS = ["painting", "electrical", "plumbing", "carpentry", "cleaning
 /* First path segments that are real routes, never city slugs. */
 const STATIC = new Set([
   "providers",
+  "partners",
   "studio",
   "blog",
   "about",
@@ -134,7 +135,7 @@ export function NavSearch() {
     if (q.trim()) params.set("q", q.trim());
     setSugOpen(false);
     setOpen(false);
-    router.push(`/providers?${params.toString()}`);
+    router.push(`/partners?${params.toString()}`);
   }
 
   const suggestions = q.trim()

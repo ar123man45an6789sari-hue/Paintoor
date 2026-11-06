@@ -108,7 +108,7 @@ function CtaCard() {
           {t("jn.cta1")}
         </Link>
         <Link
-          href="/providers"
+          href="/partners"
           className="rounded-control border-2 border-snow/40 px-6 py-3 text-sm font-extrabold text-snow transition-colors hover:border-snow"
         >
           {t("jn.cta2")}

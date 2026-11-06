@@ -1,15 +1,7 @@
-import { Suspense } from "react";
-import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
+import { redirect } from "next/navigation";
 
-/** Thin server shell; Suspense is required because this page reads useSearchParams. */
+/** The marketplace was renamed to /partners. Keep the old URL working so
+ *  existing links, cached sitemaps and bookmarks never dead-end. */
 export default function ProvidersPage() {
-  return (
-    <div className="px-4 py-14 md:px-6">
-      <div className="mx-auto max-w-6xl">
-        <Suspense fallback={null}>
-          <ProvidersBrowser />
-        </Suspense>
-      </div>
-    </div>
-  );
+  redirect("/partners");
 }

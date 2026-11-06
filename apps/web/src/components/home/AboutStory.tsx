@@ -176,7 +176,7 @@ export function AboutStory() {
           <h2 className="relative text-3xl font-black text-snow md:text-4xl">{t("ab.ctaH")}</h2>
           <p className="relative mx-auto mt-4 max-w-xl text-snow/75">{t("ab.ctaP")}</p>
           <div className="relative mt-8 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/providers" className="rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift">
+            <Link href="/partners" className="rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift">
               {t("ab.cta1")}
             </Link>
             <Link href="/#how" className="rounded-control border-2 border-snow/40 px-6 py-3 text-sm font-extrabold text-snow transition-colors hover:border-snow">

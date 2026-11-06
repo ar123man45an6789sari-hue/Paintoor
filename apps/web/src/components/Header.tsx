@@ -24,7 +24,7 @@ const NAV = [
   { href: "/studio", key: "nav.studio" },
   { href: "/#services", key: "nav.services" },
   { href: "/#how", key: "nav.marketplace" },
-  { href: "/#workers", key: "nav.partners" },
+  { href: "/partners", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },
   { href: "/about", key: "nav.about" },
 ];
