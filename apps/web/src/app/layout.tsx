@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SITE_NAME, SITE_URL } from "@/lib/site";
 import { I18nProvider } from "@/i18n";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -16,9 +17,25 @@ const noto = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Paintoor — Home services, delivered with trust",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Paintoor — Home services, delivered with trust",
+    template: "%s — Paintoor",
+  },
   description:
-    "Verified painters in Mumbai. Compare itemized quotes, pay safely into escrow, approve the work.",
+    "Verified painters in Mumbai and Vadodara. Compare itemized quotes, pay safely into escrow, and release the money only after you approve the work.",
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "en_IN",
+    title: "Paintoor — Home services, delivered with trust",
+    description:
+      "Verified painters in Mumbai and Vadodara. Compare itemized quotes, pay safely into escrow, approve the work.",
+    images: [
+      { url: "/paintoor-horizontal.png", width: 1000, height: 263, alt: "Paintoor" },
+    ],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

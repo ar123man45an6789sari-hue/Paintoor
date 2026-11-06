@@ -5,9 +5,7 @@ export const MATCH: Record<Lang, Record<string, string>> = {
   en: {
     "req.with": "with {name}",
     "notif.close": "Close",
-    "notif.newLead.title": "New Lead",
-    "notif.newLead.body": "You have a new lead in {category} for {zone}.",
-    "req.talkNext": "Talk to {name} and finalise the quote — chat arrives in S12.",
+     "req.talkNext": "Talk to {name} and finalise the quote — chat arrives in S12.",
   },
   hi: {
     "req.with": "{name} के साथ",

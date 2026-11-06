@@ -17,6 +17,7 @@
     "typecheck": "npm run typecheck --workspaces --if-present"
   },
   "dependencies": {
+    "indian-cities-json": "^2.0.0",
     "lottie-web": "^5.13.0"
   }
 }

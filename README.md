@@ -5,7 +5,10 @@ Customers, verified painting partners, paint shops and an admin console —
 built around approval-first money (payment releases only after the customer
 approves the finished work).
 
-**Pilot city: Mumbai, Maharashtra.** UI languages: English, हिंदी, ગુજરાતી.
+**Pilot city: Mumbai, Maharashtra.** Vadodara, Gujarat is live alongside it.
+Every other Indian city renders with an honest "not live yet" state and stays
+out of the index; URLs outside India return a real 404.
+UI languages: English, हिंदी, ગુજરાતી.
 
 ## Status
 

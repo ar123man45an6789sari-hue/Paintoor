@@ -5,6 +5,23 @@
 const KEY = "gs_city";
 const CHANGE = "gs:city-changed";
 
+export function slugify(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+export function nameFromSlug(slug: string): string {
+  return slug
+    .split("-")
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
 export function getCity(): string {
   try {
     return localStorage.getItem(KEY) ?? "Mumbai";

@@ -1,13 +1,14 @@
 /* PostJobWizard — 4 steps, writes to the demo request store. */
 "use client";
 
-import { useState } from "react";
+import { useEffect,useState } from "react";
 import { useI18n } from "@/i18n";
 import { addRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
 import { Icon } from "@/components/Icons";
+import { getCity } from "@/lib/city";
 
 // Only cities where a bookable partner actually exists today, so the
 // wizard can never promise a city the marketplace cannot serve.
@@ -24,6 +25,16 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
   const [description, setDescription] = useState("");
   const [photos, setPhotos] = useState<string[]>([]);
   const [city, setCity] = useState("Mumbai");
+
+  /* Mumbai stays the first paint — it is the pilot city, and reading
+     localStorage during the initial render would desync server and client.
+     The visitor's own city is adopted after mount, but only if we actually
+     serve it, so the wizard can never promise a city with no partners.
+     Same pattern ProvidersBrowser already uses. */
+  useEffect(() => {
+    const saved = getCity();
+    if (CITIES.includes(saved)) setCity(saved);
+  }, []);
   const [zone, setZone] = useState("");
   const [landmark, setLandmark] = useState("");
   const [date, setDate] = useState("");
