@@ -22,6 +22,9 @@ import { AccountIcon, Icon, PlusIcon, type IconName } from "./Icons";
 
 const NAV = [
   { href: "/studio", key: "nav.studio" },
+    /* Label only for now: the client will decide where Services points later,
+     so it renders as plain text (no link) in both navs. */
+  { href: "", key: "nav.services" },
   { href: "/#how", key: "nav.marketplace" },
   { href: "/partners", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },
@@ -120,8 +123,12 @@ export function Header() {
           </div>
 
           <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">
-            {NAV.map((item) =>
-              item.href.startsWith("/") ? (
+              {NAV.map((item) =>
+              item.href === "" ? (
+                <span key={item.key} className="cursor-default text-sm font-semibold text-muted">
+                  {t(item.key)}
+                </span>
+              ) : item.href.startsWith("/") ? (
                 <Link key={item.href} href={item.href} className="text-sm font-semibold text-muted transition-colors hover:text-navy">
                   {t(item.key)}
                 </Link>
@@ -244,11 +251,17 @@ export function Header() {
           <>
             <button type="button" aria-label={t("notif.close")} onClick={() => setMenuOpen(false)} className="fixed inset-0 z-40 cursor-default" />
             <nav aria-label={t("nav.menu")} className="relative z-50 border-t border-line bg-white px-3 pb-4 pt-2 shadow-card lg:hidden">
-              {NAV.map((item) => (
-                <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block rounded-control px-3 py-2.5 text-sm font-extrabold text-ink hover:bg-chuna">
-                  {t(item.key)}
-                </Link>
-              ))}
+             {NAV.map((item) =>
+                item.href === "" ? (
+                  <span key={item.key} className="block cursor-default rounded-control px-3 py-2.5 text-sm font-extrabold text-muted">
+                    {t(item.key)}
+                  </span>
+                ) : (
+                  <Link key={item.href} href={item.href} onClick={() => setMenuOpen(false)} className="block rounded-control px-3 py-2.5 text-sm font-extrabold text-ink hover:bg-chuna">
+                    {t(item.key)}
+                  </Link>
+                ),
+              )}
               <div className="mt-2 flex items-center gap-2 border-t border-line pt-3">
                 <button
                   type="button"
