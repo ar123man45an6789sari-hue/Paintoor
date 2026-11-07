@@ -53,8 +53,7 @@ export const STUDIO: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · Choose the shade",
     "st.wall": "colour under cursor",
     "st.photoAlt": "Your photo with the painted preview",
-    "brands.genuine": "Genuine stock · company warranty",
-
+    "brands.genuine": "Genuine stock · company warranty", "brands.with": "Our partners work with",
     "fam.whites": "Whites", "fam.creams": "Creams", "fam.yellows": "Yellows", "fam.oranges": "Oranges",
     "fam.reds": "Reds", "fam.pinks": "Pinks", "fam.purples": "Purples", "fam.blues": "Blues",
     "fam.greens": "Greens", "fam.teals": "Teals", "fam.browns": "Browns", "fam.greys": "Greys", "fam.darks": "Darks",
@@ -109,8 +108,7 @@ export const STUDIO: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · शेड चुनिए",
     "st.wall": "कर्सर के नीचे रंग",
     "st.photoAlt": "पेंट किए प्रीव्यू के साथ आपकी फोटो",
-    "brands.genuine": "असली स्टॉक · कंपनी वारंटी",
-
+    "brands.genuine": "असली स्टॉक · कंपनी वारंटी", "brands.with": "हमारे पार्टनर इनके साथ काम करते हैं",
     "fam.whites": "सफ़ेद", "fam.creams": "क्रीम", "fam.yellows": "पीले", "fam.oranges": "नारंगी",
     "fam.reds": "लाल", "fam.pinks": "गुलाबी", "fam.purples": "बैंगनी", "fam.blues": "नीले",
     "fam.greens": "हरे", "fam.teals": "टील", "fam.browns": "भूरे", "fam.greys": "स्लेटी", "fam.darks": "गहरे",
@@ -165,8 +163,7 @@ export const STUDIO: Record<Lang, Record<string, string>> = {
     "st.step2": "2 · શેડ પસંદ કરો",
     "st.wall": "કર્સર હેઠળ રંગ",
     "st.photoAlt": "પેઇન્ટેડ પ્રિવ્યૂ સાથે તમારો ફોટો",
-    "brands.genuine": "સાચો સ્ટૉક · કંપની વૉરંટી",
-
+    "brands.genuine": "સાચો સ્ટૉક · કંપની વૉરંટી", "brands.with": "અમારા પાર્ટનર્સ આની સાથે કામ કરે છે",
     "fam.whites": "સફેદ", "fam.creams": "ક્રીમ", "fam.yellows": "પીળા", "fam.oranges": "નારંગી",
     "fam.reds": "લાલ", "fam.pinks": "ગુલાબી", "fam.purples": "જાંબલી", "fam.blues": "વાદળી",
     "fam.greens": "લીલા", "fam.teals": "ટીલ", "fam.browns": "ભૂરા", "fam.greys": "સ્લેટી", "fam.darks": "ઘેરા",

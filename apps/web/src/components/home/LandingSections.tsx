@@ -123,10 +123,11 @@ function StoryPin() {
   );
 }
 
-/* Paint brands our partners work with — one card on the big stage at a
-   time: it pops in from the right, stays a beat, then swipes out to the
-   left as the next one arrives. Bucket+logo images live in
-   public/brands/ and are named after each brand's slug. */
+/* Paint brands our partners work with — shown as individual cards on a
+   seamless horizontal marquee (same engine as the partner-review strip):
+   the track holds the list twice and slides -50%, so cards flow in one
+   endless line instead of one logo swapping inside a single box. Pauses on
+   hover, stops entirely under prefers-reduced-motion. */
 const BRANDS = [
   { name: "Asian Paints", slug: "asian-paints", lines: "Exterior · Interior · Wood" },
   { name: "Berger", slug: "berger", lines: "Exterior · Interior · Metal" },
@@ -138,123 +139,36 @@ const BRANDS = [
   { name: "JSW Paints", slug: "jsw", lines: "Exterior · Interior · Primer" },
 ];
 
-function BrandCard({ b, leaving }: { b: (typeof BRANDS)[number]; leaving?: boolean }) {
+function BrandsMarquee() {
+  const loop = [...BRANDS, ...BRANDS];
   return (
-    <article
-      className={`absolute inset-0 overflow-hidden rounded-sheet border-2 border-saffron bg-white shadow-card ${
-        leaving ? "brand-out" : "brand-in"
-      }`}
-    >
-      {/* Partner logo, whole and uncropped: contain + breathing room so no
-          edge ever clips or overlaps, on a clean white stage. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`/brands/${b.slug}.png`}
-        alt={b.name}
-        draggable={false}
-        decoding="async"
-        className="absolute inset-0 h-full w-full select-none object-contain p-6 md:p-10"
-      />
-    </article>
-  );
-}
-
-function BrandStage() {
-  /* idx = card on stage, prev = card still sliding out. One state object so
-     the interval updater stays pure. */
-  const [stage, setStage] = useState<{ idx: number; prev: number | null }>({ idx: 0, prev: null });
-  const pausedRef = useRef(false);
-  const dragX = useRef<number | null>(null);
-
-  /* ~1.8s per brand keeps the loop lively without feeling rushed. */
-  useEffect(() => {
-    const id = window.setInterval(() => {
-      if (pausedRef.current) return;
-      setStage((s) => ({ idx: (s.idx + 1) % BRANDS.length, prev: s.idx }));
-    }, 1800);
-    return () => window.clearInterval(id);
-  }, []);
-
-  /* Clear the outgoing card once its slide-out has finished. */
-  useEffect(() => {
-    if (stage.prev === null) return;
-    const id = window.setTimeout(() => setStage((s) => ({ ...s, prev: null })), 640);
-    return () => window.clearTimeout(id);
-  }, [stage]);
-
-  const jump = (i: number) => setStage((s) => (i === s.idx ? s : { idx: i, prev: s.idx }));
-  const step = (dir: 1 | -1) =>
-    setStage((s) => ({ idx: (s.idx + dir + BRANDS.length) % BRANDS.length, prev: s.idx }));
-
-  /* Pink pill + black chevron, sitting OUTSIDE the photo so the artwork
-     never gets covered. Desktop: beside the stage. Mobile: beside dots. */
-  const arrow = (dir: 1 | -1, size: string) => (
-    <button
-      type="button"
-      aria-label={dir === -1 ? "Previous brand" : "Next brand"}
-      onClick={() => step(dir)}
-      className={`flex flex-none items-center justify-center rounded-full bg-saffron text-black shadow-card transition hover:brightness-95 active:scale-95 ${size}`}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={3}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        aria-hidden="true"
-        className="h-5 w-5"
-      >
-        <path d={dir === -1 ? "M15 18l-6-6 6-6" : "M9 18l6-6-6-6"} />
-      </svg>
-    </button>
-  );
-
-  return (
-    <div
-      onMouseEnter={() => {
-        pausedRef.current = true;
-      }}
-      onMouseLeave={() => {
-        pausedRef.current = false;
-      }}
-      onPointerDown={(e) => {
-        dragX.current = e.clientX;
-      }}
-      onPointerCancel={() => {
-        dragX.current = null;
-      }}
-      onPointerUp={(e) => {
-        if (dragX.current === null) return;
-        const dx = e.clientX - dragX.current;
-        dragX.current = null;
-        if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
-      }}
-    >
-      <div className="flex items-center gap-3 md:gap-4">
-        {arrow(-1, "hidden h-11 w-11 md:flex")}
-                {/* Big ad-board stage: height follows the viewport so it stays huge
-            on every screen, mobile included. */}
-        <div className="relative h-[58vh] max-h-[680px] min-h-[420px] flex-1 overflow-hidden md:h-[72vh] md:max-h-[880px] md:min-h-[520px]">
-          {stage.prev !== null && <BrandCard b={BRANDS[stage.prev]} leaving />}
-          <BrandCard b={BRANDS[stage.idx]} />
-        </div>
-        {arrow(1, "hidden h-11 w-11 md:flex")}
-      </div>
-      <div className="mt-3 flex items-center justify-center gap-3">
-        {arrow(-1, "h-9 w-9 md:hidden")}
-        <div className="flex gap-1.5">
-          {BRANDS.map((b, i) => (
-            <button
-              key={b.slug}
-              type="button"
-              aria-label={b.name}
-              onClick={() => jump(i)}
-              className={`h-2 rounded-pill transition-all ${i === stage.idx ? "w-6 bg-saffron" : "w-2 bg-line hover:bg-muted"}`}
-            />
+    <div className="relative mt-4">
+      {/* Soft edge fades so cards emerge and retire instead of hard-clipping. */}
+      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-chuna to-transparent md:w-20 dark:from-raatri" />
+      <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-chuna to-transparent md:w-20 dark:from-raatri" />
+      <div className="marquee">
+        <div className="marquee-track flex gap-4 pr-4">
+          {loop.map((b, i) => (
+            <article
+              key={`${b.slug}-${i}`}
+              className="group flex w-[150px] flex-none flex-col items-center gap-2 rounded-card border border-line bg-white px-4 py-5 shadow-card transition hover:-translate-y-1 hover:shadow-lift md:w-[180px] dark:bg-raatri"
+            >
+              {/* Brand logo kept small and whole: the card, not the logo, is
+                  the hero now. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={`/brands/${b.slug}.png`}
+                alt={b.name}
+                loading="lazy"
+                decoding="async"
+                draggable={false}
+                className="h-12 w-auto max-w-full select-none object-contain opacity-80 transition group-hover:opacity-100 md:h-14"
+              />
+              <span className="text-xs font-extrabold text-navy dark:text-snow">{b.name}</span>
+              <span className="text-center text-[10px] font-semibold leading-tight text-muted">{b.lines}</span>
+            </article>
           ))}
         </div>
-        {arrow(1, "h-9 w-9 md:hidden")}
       </div>
     </div>
   );
@@ -264,27 +178,29 @@ function Categories() {
   const { t } = useI18n();
   const router = useRouter();
   return (
-        <section id="services" className="bg-chuna px-4 py-16 md:px-8 md:py-20">
-      <div className="mx-auto grid max-w-7xl items-center gap-6 lg:grid-cols-[1.9fr_1fr] lg:gap-10">
-        <BrandStage />
-        <aside className="reveal">
-          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("nav.services")}</span>
-          <h2 className="mt-1 text-2xl font-black text-navy md:text-3xl">{t("cats.h")}</h2>
-          <p className="mt-2 text-sm text-muted">{t("cats.p")}</p>
-          <p className="mt-4 text-sm font-semibold text-ink">{t("c1.points")}</p>
-          <p className="mt-2 text-xs font-bold text-ink"><Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("brands.genuine")}</p>
-          <div className="mt-5">
-            <button
-              type="button"
-              onClick={() => router.push("/partners?q=painting")}
-              className="min-h-12 rounded-control bg-saffron px-5 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
-            >
-              <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("svc.bookCta")}
-
-            </button>
-          </div>
-        </aside>
+    <section id="services" className="overflow-hidden bg-chuna px-4 py-16 md:px-8 md:py-20 dark:bg-raatri">
+      {/* Paintoor is the service; the brands below are the materials our
+          verified partners work with. Copy leads, logos support. */}
+      <div className="mx-auto max-w-3xl text-center">
+        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("nav.services")}</span>
+        <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl dark:text-snow">{t("cats.h")}</h2>
+        <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">{t("cats.p")}</p>
+        <p className="mt-4 text-sm font-semibold text-ink dark:text-snow">{t("c1.points")}</p>
+        <p className="mt-2 text-xs font-bold text-ink dark:text-snow">
+          <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("brands.genuine")}
+        </p>
+        <div className="mt-6">
+          <button
+            type="button"
+            onClick={() => router.push("/partners?q=painting")}
+            className="min-h-12 rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
+          >
+            <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("svc.bookCta")}
+          </button>
+        </div>
       </div>
+      <p className="mt-12 text-center text-xs font-extrabold uppercase tracking-[0.18em] text-muted">{t("brands.with")}</p>
+      <BrandsMarquee />
     </section>
   );
 }
