@@ -179,7 +179,12 @@ html.theme-anim *::after {
 /* Partner reviews — endless horizontal loop, pause on hover. */
 .marquee { overflow: hidden; }
 .marquee-track { width: max-content; animation: marquee 34s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee:hover .marquee-track,
+.marquee:active .marquee-track { animation-play-state: paused; }
+/* Keep vertical page-scroll working while a finger rests on the strip. */
+.marquee { touch-action: pan-y; }
+/* The brand shelf runs a touch quicker than the review strip. */
+.marquee-track.fast { animation-duration: 24s; }
 @keyframes marquee { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }

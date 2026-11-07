@@ -22,7 +22,6 @@ import { AccountIcon, Icon, PlusIcon, type IconName } from "./Icons";
 
 const NAV = [
   { href: "/studio", key: "nav.studio" },
-  { href: "/#services", key: "nav.services" },
   { href: "/#how", key: "nav.marketplace" },
   { href: "/partners", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },

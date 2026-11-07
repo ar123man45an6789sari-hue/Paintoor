@@ -142,16 +142,16 @@ const BRANDS = [
 function BrandsMarquee() {
   const loop = [...BRANDS, ...BRANDS];
   return (
-    <div className="relative mt-4">
+    <div className="relative mt-3">
       {/* Soft edge fades so cards emerge and retire instead of hard-clipping. */}
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-chuna to-transparent md:w-20 dark:from-raatri" />
       <span aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-chuna to-transparent md:w-20 dark:from-raatri" />
       <div className="marquee">
-        <div className="marquee-track flex gap-4 pr-4">
+        <div className="marquee-track fast flex gap-4 pr-4">
           {loop.map((b, i) => (
             <article
               key={`${b.slug}-${i}`}
-              className="group flex w-[150px] flex-none flex-col items-center gap-2 rounded-card border border-line bg-white px-4 py-5 shadow-card transition hover:-translate-y-1 hover:shadow-lift md:w-[180px] dark:bg-raatri"
+              className="group flex w-[150px] flex-none flex-col items-center gap-2 rounded-card border border-line bg-white px-4 py-4 shadow-card transition hover:-translate-y-1 hover:shadow-lift md:w-[180px] dark:bg-raatri"
             >
               {/* Brand logo kept small and whole: the card, not the logo, is
                   the hero now. */}
@@ -178,18 +178,17 @@ function Categories() {
   const { t } = useI18n();
   const router = useRouter();
   return (
-    <section id="services" className="overflow-hidden bg-chuna px-4 py-16 md:px-8 md:py-20 dark:bg-raatri">
+    <section id="services" className="overflow-hidden bg-chuna px-4 py-10 md:px-8 md:py-12 dark:bg-raatri">
       {/* Paintoor is the service; the brands below are the materials our
           verified partners work with. Copy leads, logos support. */}
       <div className="mx-auto max-w-3xl text-center">
-        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("nav.services")}</span>
         <h2 className="mt-1 text-3xl font-black text-navy md:text-4xl dark:text-snow">{t("cats.h")}</h2>
         <p className="mt-3 text-sm leading-relaxed text-muted md:text-base">{t("cats.p")}</p>
         <p className="mt-4 text-sm font-semibold text-ink dark:text-snow">{t("c1.points")}</p>
         <p className="mt-2 text-xs font-bold text-ink dark:text-snow">
           <Icon name="check" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("brands.genuine")}
         </p>
-        <div className="mt-6">
+        <div className="mt-5">
           <button
             type="button"
             onClick={() => router.push("/partners?q=painting")}
@@ -199,7 +198,7 @@ function Categories() {
           </button>
         </div>
       </div>
-      <p className="mt-12 text-center text-xs font-extrabold uppercase tracking-[0.18em] text-muted">{t("brands.with")}</p>
+      <p className="mt-8 text-center text-xs font-extrabold uppercase tracking-[0.18em] text-muted">{t("brands.with")}</p>
       <BrandsMarquee />
     </section>
   );
