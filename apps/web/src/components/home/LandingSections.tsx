@@ -8,6 +8,7 @@ import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
 import { StudioTeaser } from "@/components/studio/StudioTeaser";
+import { SnakeSpine } from "./SnakeSpine";
 import { FAQS, FAQ_PICKS, FAQ_UI } from "@/lib/faq";
 
 
@@ -32,95 +33,6 @@ function useReveal() {
     document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     return () => io.disconnect();
   }, []);
-}
-
-const ACT_KEYS = ["a1", "a2", "a3", "a4", "a5"];
-const ACT_TAGS = ["Act 1 · Request", "Act 2 · Choice", "Act 3 · Quote", "Act 4 · Safe pay", "Act 5 · Delight"];
-
-function StoryPin() {
-  const { t } = useI18n();
-  const ref = useRef<HTMLElement>(null);
-  const [act, setAct] = useState(0);
-
-  useEffect(() => {
-    const section = ref.current;
-    if (!section) return;
-    let ticking = false;
-    const paint = () => {
-      ticking = false;
-      const r = section.getBoundingClientRect();
-      const p = clamp(-r.top / (section.offsetHeight - window.innerHeight), 0, 1);
-      setAct(clamp(Math.floor(p * 5), 0, 4));
-    };
-    const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(paint);
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    paint();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  return (
-    <section id="how" ref={ref} className="ls-story">
-      <div className="ls-pin">
-        <div className="ls-head">
-          <h2 className="text-3xl font-black text-navy md:text-4xl">{t("story.h")}</h2>
-          <p className="mt-1 text-muted">{t("story.p")}</p>
-        </div>
-
-        {ACT_KEYS.map((k, i) => (
-          <div key={k} className={`act-copy ${i === act ? "on" : ""}`}>
-            <span className="text-xs font-black tracking-[0.16em] text-saffron">{ACT_TAGS[i]}</span>
-            <h3 className="mt-2 text-2xl font-black text-navy md:text-3xl">{t(`${k}.h`)}</h3>
-            <p className="mt-2 text-muted">{t(`${k}.p`)}</p>
-          </div>
-        ))}
-
-        <div className="ls-phone" aria-hidden="true">
-          <div className="screen">
-             <div className={`ls-scr ${act === 0 ? "on" : ""}`}>
-              <div className="h-2.5 w-3/5 rounded-pill bg-[#e8eaed]" />
-              <div className="mt-2 h-24 rounded-xl bg-gradient-to-br from-[#f9ccdb] to-[#f6b3c8]" />
-              <div className="mt-3 rounded-card border border-[#e2e4e7] p-2.5"><div className="h-2.5 w-2/5 rounded bg-[#f9ccdb]" /></div>
-              <div className="mt-3 rounded-lg bg-saffron py-2 text-center text-xs font-extrabold text-snow">Send to Workers</div>
-            </div>
-            <div className={`ls-scr ${act === 1 ? "on" : ""}`}>
-              {["Sunil V. · 4.8★", "Rafiq M. · 4.6★", "Dinesh P. · 4.7★"].map((n) => (
-                <div key={n} className="mt-2 flex items-center gap-2 rounded-card border border-[#e2e4e7] p-2.5">
-                  <span className="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-gradient-to-br from-saffron to-haldi text-xs font-black text-snow">{n.charAt(0)}</span>
-                  <span className="text-xs font-bold text-navy">{n}</span>
-                </div>
-              ))}
-            </div>
-            <div className={`ls-scr ${act === 2 ? "on" : ""}`}>
-              <div className="mt-2 rounded-card border border-[#e2e4e7] p-2.5"><p className="text-xs font-bold text-navy">Labour · 320 sqft</p><p className="text-xs text-muted">₹7,040</p></div>
-              <div className="mt-2 rounded-card border border-[#e2e4e7] p-2.5"><p className="text-xs font-bold text-navy">Material · Gupta Paints</p><p className="text-xs text-muted">Royale 10L + primer · ₹5,970</p></div>
-              <div className="mt-2 rounded-card border border-[#e2e4e7] p-2.5"><p className="text-xs font-bold text-navy">Total (GST incl.)</p><p className="text-xs font-black text-navy">₹16,541</p></div>
-            </div>
-            <div className={`ls-scr ${act === 3 ? "on" : ""}`}>
-              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-saffron"><Icon name="lock" className="h-6 w-6" /></div>
-              <p className="mt-2 text-center text-xs font-bold text-navy">₹4,962 safe in escrow</p>
-              <p className="text-center text-xs text-muted">Released only after approval</p>
-            </div>
-            <div className={`ls-scr ${act === 4 ? "on" : ""}`}>
-              <div className="mx-auto mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#fce6ed] text-neem"><Icon name="checkCircle" className="h-6 w-6" /></div>
-              <p className="mt-2 text-center text-xs font-bold text-navy">Job done · rated 4.8★</p>
-              <p className="text-center text-xs text-muted">Invoice + warranty card ready</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="rail-dots" aria-hidden="true">
-          {ACT_KEYS.map((k, i) => (
-            <i key={k} className={i === act ? "on" : ""} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
 }
 
 /* Paint brands our partners work with — shown as individual cards on a
@@ -395,7 +307,7 @@ export function LandingSections() {
   useReveal();
   return (
     <>
-      <StoryPin />
+      <SnakeSpine />
       <Categories />
       <StudioTeaser />
       <RoleLens />
