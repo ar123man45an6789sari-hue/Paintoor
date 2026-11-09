@@ -38,7 +38,7 @@ const EN_POSTS: EnPost[] = [
     category: "cost",
     date: "2026-10-14",
     readMins: 7,
-    cover: "/blog/cost-guide.jpg",
+    cover: "/blog/cost-guide.png",
     featured: true,
     title: {
       en: "Why painting quotes vary so much — and how to actually read one",
@@ -84,7 +84,7 @@ const EN_POSTS: EnPost[] = [
     category: "trust",
     date: "2026-10-21",
     readMins: 6,
-    cover: "/blog/escrow-trust.jpg",
+    cover: "/blog/escrow-trust.png",
     featured: true,
     title: {
       en: "What 'your money stays safe until you approve' actually means",
@@ -124,7 +124,7 @@ const EN_POSTS: EnPost[] = [
     category: "seasonal",
     date: "2026-06-02",
     readMins: 5,
-    cover: "/blog/monsoon.jpg",
+    cover: "/blog/monsoon.png",
     title: {
       en: "Mumbai monsoon and your walls: what to fix before the first rain lands",
       hi: "मुंबई का मॉनसून और आपकी दीवारें: पहली बारिश से पहले क्या ठीक करें",
@@ -171,7 +171,7 @@ const EN_POSTS: EnPost[] = [
     category: "planning",
     date: "2026-08-17",
     readMins: 5,
-    cover: "/blog/repaint-signs.jpg",
+    cover: "/blog/repaint-signs.png",
     title: {
       en: "Seven honest signs it is time to repaint — before the wall becomes the expensive part",
       hi: "सात साफ़ संकेत कि दीवार को repainting चाहिए — देर होने से पहले",

@@ -25,7 +25,7 @@ const NAV = [
     /* Label only for now: the client will decide where Services points later,
      so it renders as plain text (no link) in both navs. */
   { href: "", key: "nav.services" },
-  { href: "/#how", key: "nav.marketplace" },
+  { href: "/marketplace", key: "nav.marketplace" },
   { href: "/partners", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },
   { href: "/about", key: "nav.about" },

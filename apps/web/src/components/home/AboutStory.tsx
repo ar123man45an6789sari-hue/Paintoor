@@ -36,7 +36,7 @@ export function AboutStory() {
     <div>
       {/* 1 — full-bleed hero; text is always light because the image is dark */}
       <div className="relative h-[60vh] min-h-[420px] w-full overflow-hidden bg-raatri">
-        <Image src="/about/hero.jpg" alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image src="/about/hero.png" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/10" />
         <div className="absolute inset-x-0 bottom-0 px-4 pb-10 md:px-8 md:pb-14">
           <div className="mx-auto max-w-6xl">
@@ -96,7 +96,7 @@ export function AboutStory() {
       <section className="mx-auto max-w-6xl px-4 py-16 md:px-8 md:py-24">
         <div className="grid overflow-hidden rounded-sheet bg-raatri md:grid-cols-5">
           <div className="relative min-h-[240px] md:col-span-2 md:min-h-[360px]">
-            <Image src="/about/craft.jpg" alt="" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
+            <Image src="/about/craft.png" alt="" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
           </div>
           <div className="p-7 md:col-span-3 md:p-12">
             <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t("ab.craftTag")}</span>
