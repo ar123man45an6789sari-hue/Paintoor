@@ -1,8 +1,8 @@
 /* SideRails — two edge tabs pinned mid-right on every page (idea borrowed
    from painting-service sites, restyled on-brand): "Enquire now" opens a
-   call-back form, "Painting cost" opens the kit estimator that used to
-   sit at the bottom of the marketplace. The estimator feeds the global
-   cart, so its total lands straight in the header badge. */
+   call-back form (with plan timing + WhatsApp opt-in, the fields users
+   expect from Asian Paints-style booking), "Painting cost" opens the kit
+   estimator that feeds the global cart. */
 "use client";
 
 import { useState } from "react";
@@ -70,6 +70,8 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
   const [phone, setPhone] = useState("");
   const [city, setCity] = useState("");
   const [need, setNeed] = useState("i");
+  const [plan, setPlan] = useState("now");
+  const [wa, setWa] = useState(true);
   const [sent, setSent] = useState(false);
   const [err, setErr] = useState("");
 
@@ -78,6 +80,8 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
     if (!/^\d{10}$/.test(phone)) { setErr(t("enq.err")); return; }
     setSent(true);
   }
+
+  const planLabel = plan === "now" ? t("enq.plan.now") : plan === "month" ? t("enq.plan.month") : t("enq.plan.later");
 
   return (
     <Shell label={t("enq.title")} onClose={onClose}>
@@ -88,6 +92,10 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
           </span>
           <h3 className="mt-4 text-lg font-black text-navy dark:text-snow">{t("enq.done")}</h3>
           <p className="mt-1 max-w-[260px] text-sm text-muted">{t("enq.doneSub")}</p>
+          <p className="mt-2 text-xs font-bold text-muted">
+            {t("enq.plan")}: <span className="text-ink dark:text-snow">{planLabel}</span>
+            {wa ? ` · ${t("enq.waNote")}` : ""}
+          </p>
           <button type="button" onClick={onClose} className="mt-5 min-h-11 rounded-pill bg-saffron px-6 py-2.5 text-sm font-extrabold text-snow hover:bg-[#a80036]">
             {t("mk.close")}
           </button>
@@ -123,6 +131,18 @@ function EnquiryModal({ onClose }: { onClose: () => void }) {
               <option value="w">{t("enq.need.w")}</option>
               <option value="f">{t("enq.need.f")}</option>
             </select>
+          </label>
+          <label className="block">
+            <span className="text-sm font-bold text-ink dark:text-snow">{t("enq.plan")}</span>
+            <select value={plan} onChange={(e) => setPlan(e.target.value)} className={field}>
+              <option value="now">{t("enq.plan.now")}</option>
+              <option value="month">{t("enq.plan.month")}</option>
+              <option value="later">{t("enq.plan.later")}</option>
+            </select>
+          </label>
+          <label className="flex items-center gap-2 text-sm font-bold text-muted">
+            <input type="checkbox" checked={wa} onChange={(e) => setWa(e.target.checked)} className="accent-saffron" />
+            {t("enq.wa")}
           </label>
           <button type="submit" className="min-h-12 w-full rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036]">
             {t("enq.send")}
