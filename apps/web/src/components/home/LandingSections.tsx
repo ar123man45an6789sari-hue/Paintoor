@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
+import { requestAuth } from "@/lib/authEvents";
+import type { Role } from "@/components/auth/types";
 import { Icon, type IconName } from "@/components/Icons";
 import { StudioTeaser } from "@/components/studio/StudioTeaser";
 import { SnakeSpine } from "./SnakeSpine";
@@ -233,39 +235,49 @@ function EscrowFlow() {
 
 function RoleLens() {
   const { t } = useI18n();
-  const LENSES: { icon: IconName; key: string }[] = [
-    { icon: "home", key: "l1" },
-    { icon: "wrench", key: "l2" },
-    { icon: "store", key: "l3" },
+  const LENSES: { icon: IconName; key: string; role: Role }[] = [
+    { icon: "home", key: "l1", role: "customer" },
+    { icon: "wrench", key: "l2", role: "provider" },
+    { icon: "store", key: "l3", role: "shopkeeper" },
   ];
   return (
-    <section id="why" className="bg-raatri px-5 py-24 text-snow">
+    <section id="why" className="lens-pink px-5 py-24 text-snow">
       <div className="mx-auto max-w-6xl">
         <div className="reveal text-center">
-          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-haldi">Why us</span>
+          <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-snow/80">Why us</span>
           <h2 className="mt-1 text-3xl font-black md:text-4xl">{t("lens.h")}</h2>
-          <p className="mx-auto mt-2 max-w-2xl text-sm text-slate-400">{t("lens.p")}</p>
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-snow/85">{t("lens.p")}</p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {LENSES.map((l) => (
-            <div key={l.key} className="reveal rounded-sheet border border-snow/12 bg-snow/5 p-6">
-             <Icon name={l.icon} className="h-7 w-7 text-haldi" />
+            <button
+              key={l.key}
+              type="button"
+              onClick={() => requestAuth("signup", l.role)}
+              className="reveal group rounded-sheet border border-snow/25 bg-snow/10 p-6 text-left backdrop-blur-sm transition-all hover:-translate-y-1 hover:border-snow/60 hover:bg-snow/15"
+            >
+              <Icon name={l.icon} className="h-7 w-7 text-snow" />
               <h3 className="mt-3 text-lg font-extrabold">{t(`${l.key}.t`)}</h3>
-              <ul className="mt-3 space-y-2 text-sm text-slate-300">
+              <ul className="mt-3 space-y-2 text-sm text-snow/90">
                 {[1, 2, 3].map((n) => (
                   <li key={n} className="flex gap-2">
-                    <Icon name="check" className="h-4 w-4 shrink-0 text-haldi" />
+                    <Icon name="check" className="h-4 w-4 shrink-0 text-snow" />
                     {t(`${l.key}.${n}`)}
                   </li>
                 ))}
               </ul>
-            </div>
+              <span className="mt-4 inline-flex items-center gap-1.5 text-xs font-extrabold uppercase tracking-[0.14em] text-snow/90">
+                {t("lens.cta")}
+                <Icon name="arrowRight" className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+              </span>
+            </button>
           ))}
         </div>
       </div>
     </section>
   );
 }
+
 function FaqPreview() {
   const { lang } = useI18n();
   const router = useRouter();

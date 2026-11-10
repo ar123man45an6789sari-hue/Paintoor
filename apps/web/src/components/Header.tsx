@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { Wordmark } from "./Wordmark";
 import { AuthModal } from "./auth/AuthModal";
-import type { AuthMode } from "./auth/types";
+import type { AuthMode, Role } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
@@ -50,13 +50,14 @@ export function Header() {
   const router = useRouter();
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
+  const [authRole, setAuthRole] = useState<Role | null>(null);
   const [langOpen, setLangOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [session, setSessionState] = useState<Session | null>(null);
 
-  useEffect(() => onAuthRequest((m) => { setAuthMode(m); setAuthOpen(true); }), []);
+  useEffect(() => onAuthRequest((req) => { setAuthMode(req.mode); setAuthRole(req.role); setAuthOpen(true); }), []);
 
   /* One popover at a time: opening one closes the others. */
   useEffect(() => onPopoverClose("lang", () => setLangOpen(false)), []);
@@ -97,6 +98,7 @@ export function Header() {
 
   function openAuth(mode: AuthMode) {
     setAuthMode(mode);
+    setAuthRole(null);
     setAcctOpen(false);
     setAuthOpen(true);
   }
@@ -306,7 +308,7 @@ export function Header() {
         )}
       </header>
 
-      <AuthModal open={authOpen} initialMode={authMode} onClose={() => setAuthOpen(false)} />
+      <AuthModal open={authOpen} initialMode={authMode} initialRole={authRole} onClose={() => setAuthOpen(false)} />
     </>
   );
 }

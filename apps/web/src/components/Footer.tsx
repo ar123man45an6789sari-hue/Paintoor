@@ -90,7 +90,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-raatri px-4 py-10 text-sm text-muted md:px-6">
+    <footer className="lens-pink relative overflow-hidden border-t border-snow/20  px-4 py-10 text-sm text-snow/80 md:px-6">
       <div className="relative mx-auto grid max-w-6xl gap-8 md:grid-cols-[1.2fr_1fr_1fr_1fr_1.2fr]">
         <div>
           <h2 className="mb-2">
@@ -98,13 +98,13 @@ export function Footer() {
           </h2>
           <p className="max-w-[280px] text-sm">{t("foot.about")}</p>
           <p className="mt-3 text-sm">
-            <a href={`tel:${company.phoneTel}`} className="hover:text-haldi">
+            <a href={`tel:${company.phoneTel}`} className="hover:text-snow hover:underline">
                 <Icon name="phone" /> {t("foot.helpline")}
 
             </a>
           </p>
           <p className="mt-1 text-sm">
-            <a href={`mailto:${company.emails.support}`} className="hover:text-haldi">
+            <a href={`mailto:${company.emails.support}`} className="hover:text-snow hover:underline">
                <Icon name="mail" /> {company.emails.support}
             </a>
           </p>
@@ -114,11 +114,11 @@ export function Footer() {
             <h2 className="mb-2 text-snow">{col.head}</h2>
             {col.links.map((l) =>
               l.href.startsWith("/") ? (
-                <Link key={l.key} href={l.href} className="mb-1.5 block hover:text-haldi">
+                <Link key={l.key} href={l.href} className="mb-1.5 block hover:text-snow hover:underline">
                   {t(l.key)}
                 </Link>
               ) : (
-                <a key={l.key} href={l.href} className="mb-1.5 block hover:text-haldi">
+                <a key={l.key} href={l.href} className="mb-1.5 block hover:text-snow hover:underline">
                   {t(l.key)}
                 </a>
               ),
@@ -131,13 +131,13 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/10 bg-snow/5 p-4">
+      <div className="relative mx-auto mt-8 max-w-6xl rounded-card border border-snow/25 bg-snow/10 p-4">
         <p className="text-xs font-extrabold text-snow">{company.legalName}</p>
-        <p className="mt-2 text-xs font-extrabold text-haldi">*{helpCentre.label}*</p>
+        <p className="mt-2 text-xs font-extrabold text-snow">*{helpCentre.label}*</p>
         <p className="mt-1 text-xs">{helpCentre.address}</p>
       </div>
 
-      <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-3 border-t border-snow/10 pt-4 text-xs md:flex-row md:items-center md:justify-between">
+      <div className="relative mx-auto mt-6 flex max-w-6xl flex-col gap-3 border-t border-snow/25 pt-4 text-xs md:flex-row md:items-center md:justify-between">
         <span>© {new Date().getFullYear()} {company.shortName}</span>
         <div className="flex items-center gap-2">
           {socials.map((s) =>
@@ -148,7 +148,7 @@ export function Footer() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={s.label}
-                className="flex h-9 w-9 items-center justify-center rounded-pill border border-snow/15 bg-snow/5 text-snow/80 transition-colors hover:border-saffron hover:text-snow"
+                className="flex h-9 w-9 items-center justify-center rounded-pill border border-snow/30 bg-snow/10 text-snow/80 transition-colors hover:border-saffron hover:text-snow"
               >
                 <SocialGlyph id={s.id} />
               </a>
@@ -157,7 +157,7 @@ export function Footer() {
                 key={s.id}
                 title={`${s.label} — coming soon`}
                 aria-label={`${s.label} (coming soon)`}
-                className="flex h-9 w-9 cursor-default items-center justify-center rounded-pill border border-snow/15 bg-snow/5 text-snow/50"
+                className="flex h-9 w-9 cursor-default items-center justify-center rounded-pill border border-snow/25 bg-snow/10 text-snow/60"
               >
                 <SocialGlyph id={s.id} />
               </span>

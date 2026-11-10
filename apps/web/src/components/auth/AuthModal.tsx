@@ -20,9 +20,9 @@ const STEP_KEY: Record<AuthStep, string> = {
   done: "st.done",
 };
 
-type Props = { open: boolean; initialMode: AuthMode; onClose: () => void };
+type Props = { open: boolean; initialMode: AuthMode; initialRole?: Role | null; onClose: () => void };
 
-export function AuthModal({ open, initialMode, onClose }: Props) {
+export function AuthModal({ open, initialMode, initialRole=null, onClose }: Props) {
   const { t } = useI18n();
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(initialMode);
@@ -38,8 +38,8 @@ export function AuthModal({ open, initialMode, onClose }: Props) {
   useEffect(() => {
     if (open) {
       setMode(initialMode);
-      setStep("role");
-      setRole(null);
+      setStep(initialRole ? "form" : "role");
+      setRole(initialRole);
       setName("");
       setIdentifier("");
       setOtp("");

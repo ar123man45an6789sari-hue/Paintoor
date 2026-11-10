@@ -1,15 +1,19 @@
 /* Tiny event bus: any component can open the auth modal
-   (hero CTA, header buttons, mobile sign-in) without prop drilling. */
-import type { AuthMode } from "@/components/auth/types";
+   (hero CTA, header buttons, landing role lenses) without prop drilling.
+   An optional role skips the role picker and lands straight on that
+   role's form, keeping the Register / Log in tabs available. */
+import type { AuthMode, Role } from "@/components/auth/types";
 
 const EVENT = "gs:auth";
 
-export function requestAuth(mode: AuthMode) {
-  window.dispatchEvent(new CustomEvent<AuthMode>(EVENT, { detail: mode }));
+export type AuthRequest = { mode: AuthMode; role: Role | null };
+
+export function requestAuth(mode: AuthMode, role?: Role) {
+  window.dispatchEvent(new CustomEvent<AuthRequest>(EVENT, { detail: { mode, role: role ?? null } }));
 }
 
-export function onAuthRequest(cb: (mode: AuthMode) => void) {
-  const handler = (e: Event) => cb((e as CustomEvent<AuthMode>).detail);
+export function onAuthRequest(cb: (req: AuthRequest) => void) {
+  const handler = (e: Event) => cb((e as CustomEvent<AuthRequest>).detail);
   window.addEventListener(EVENT, handler);
   return () => window.removeEventListener(EVENT, handler);
 }
