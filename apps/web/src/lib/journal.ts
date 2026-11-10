@@ -209,7 +209,7 @@ const EN_POSTS: EnPost[] = [
     category: "guide",
     date: "2026-09-09",
     readMins: 6,
-    cover: "/blog/finishes.jpg",
+    cover: "/blog/finishes.png",
     title: {
       en: "Matt, satin or emulsion sheen? Choosing a finish room by room",
       hi: "Matt, satin या emulsion sheen? कमरे-कमरे का सही finish चुनना",
