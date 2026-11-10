@@ -4,7 +4,7 @@ import {
   AISLES, BRANDS, FAMS, PRODUCTS, STORES, brandOf, cheapest, offPct,
   priceAt, storesFor, type Product,
 } from "@/lib/marketplace";
-import { addLine } from "@/lib/cartStore";
+import { addLine, cartCount, requestCartOpen, useCart } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
 import { FilterBar, type Toggles } from "./FilterBar";
@@ -48,6 +48,7 @@ export function MarketplaceBrowser() {
   const [compareOpen, setCompareOpen] = useState(false);
   const [modal, setModal] = useState<Product | null>(null);
   const [toast, setToast] = useState("");
+  const cartLines = useCart();
 
   useEffect(() => {
     try { window.localStorage.setItem("pt_wish", JSON.stringify(wish)); } catch { /* private mode */ }
@@ -327,6 +328,17 @@ export function MarketplaceBrowser() {
       <ProductModal p={modal} onClose={() => setModal(null)} onAddAt={(p, sid) => addProduct(p, sid)} />
       <CompareTray ids={compare} onRemove={(id) => setCompare((c) => c.filter((x) => x !== id))} onClear={() => setCompare([])} onOpen={() => setCompareOpen(true)} />
       {compareOpen && <CompareModal ids={compare} onClose={() => setCompareOpen(false)} onAdd={(p) => addProduct(p)} />}
+      <button
+        type="button"
+        onClick={requestCartOpen}
+        aria-label={t("mk.cart.title")}
+        className={`fixed right-5 z-40 flex h-14 w-14 items-center justify-center rounded-pill bg-saffron text-snow shadow-lift transition-all hover:scale-105 ${compare.length > 0 ? "bottom-24" : "bottom-5"}`}
+      >
+        <Icon name="cart" className="h-6 w-6" />
+        {cartCount(cartLines) > 0 && (
+          <span className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-pill border-2 border-snow bg-navy px-1 text-xs font-black text-snow">{cartCount(cartLines)}</span>
+        )}
+      </button>
       {toast && <div className="mk-toast rounded-pill bg-navy px-5 py-3 text-sm font-extrabold text-snow shadow-lift dark:bg-[#12161a]">{toast}</div>}
     </>
   );

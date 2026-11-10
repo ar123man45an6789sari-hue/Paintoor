@@ -149,6 +149,12 @@ export function Header() {
           </nav>
 
           <div className="ml-auto flex shrink-0 items-center gap-2 lg:ml-0">
+          <button type="button" onClick={() => setCartOpen(true)} aria-label={t("mk.cart.title")} className={`${iconBtn} relative`}>
+            <Icon name="cart" className="h-[18px] w-[18px]" />
+            {cartCount(cart) > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-saffron px-1 text-[10px] font-black text-snow">{cartCount(cart)}</span>
+            )}
+          </button>
           <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} hidden lg:flex`}>
             {dark ? <Icon name="sun" className="h-[18px] w-[18px]" /> : <Icon name="moon" className="h-[18px] w-[18px]" />}
           </button>
