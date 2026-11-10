@@ -1,19 +1,16 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import {
-  AISLES, BRANDS, FAMS, PRODUCTS, STORES, brandOf, buildKit, cheapest, offPct,
-  packLabel, priceAt, storesFor, type Kit, type Product,
+  AISLES, BRANDS, FAMS, PRODUCTS, STORES, brandOf, cheapest, offPct,
+  priceAt, storesFor, type Product,
 } from "@/lib/marketplace";
+import { addLine } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
 import { FilterBar, type Toggles } from "./FilterBar";
 import { ProductCard } from "./ProductCard";
 import { StoreCard } from "./StoreCard";
-import { PaintCalculator } from "./PaintCalculator";
 import { ProductModal } from "./ProductModal";
-import { CartDrawer } from "./CartDrawer";
-
-export type CartLine = { key: string; title: string; meta: string; price: number; storeId: string; qty: number };
 
 const SORTS = ["pop", "lo", "hi", "rat", "dis"] as const;
 type Sort = (typeof SORTS)[number];
@@ -31,9 +28,7 @@ export function MarketplaceBrowser() {
   const [toggles, setToggles] = useState<Toggles>({ stock: false, open: false, offer: false });
   const [sort, setSort] = useState<Sort>("pop");
   const [wish, setWish] = useState<number[]>([]);
-  const [cart, setCart] = useState<Record<string, CartLine>>({});
   const [modal, setModal] = useState<Product | null>(null);
-  const [drawer, setDrawer] = useState(false);
   const [toast, setToast] = useState("");
 
   useEffect(() => {
@@ -43,12 +38,11 @@ export function MarketplaceBrowser() {
   }, [toast]);
 
   useEffect(() => {
-    const open = drawer || !!modal;
-    document.body.style.overflow = open ? "hidden" : "";
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") { setDrawer(false); setModal(null); } };
+    document.body.style.overflow = modal ? "hidden" : "";
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setModal(null); };
     window.addEventListener("keydown", onKey);
     return () => { document.body.style.overflow = ""; window.removeEventListener("keydown", onKey); };
-  }, [drawer, modal]);
+  }, [modal]);
 
   const counts = useMemo(() => {
     const c: Record<string, number> = { all: PRODUCTS.length };
@@ -88,39 +82,11 @@ export function MarketplaceBrowser() {
     return [...list].sort(by[sort]);
   }, [query, aisle, packs, fins, rating, budget, fam, storeId, toggles, sort]);
 
-  const lines = Object.values(cart);
-  const addLine = (line: CartLine) => {
-    setCart((c) => {
-      const old = c[line.key];
-      return { ...c, [line.key]: old ? { ...old, qty: old.qty + line.qty } : line };
-    });
-  };
   const addProduct = (p: Product, sid?: string) => {
     const s = sid ? STORES.find((x) => x.id === sid)! : cheapest(p).s;
     addLine({ key: `${p.id}@${s.id}`, title: p.n, meta: `${p.size === 40 ? "40 kg" : `${p.size} L`} · ${s.n}`, price: priceAt(p, s), storeId: s.id, qty: 1 });
     setToast(`✓ ${p.n} — ${s.n.split(" ")[0]}`);
   };
-  const addKit = (kit: Kit, brand: string, area: number, coats: number, surface: string) => {
-    const b = brandOf(brand).name;
-    const mk = (key: string, title: string, meta: string, price: number) =>
-      price > 0 && addLine({ key, title, meta, price, storeId: "kit", qty: 1 });
-    if (!kit.wood) {
-      mk(`kit-putty@${brand}`, t("mk.calc.putty"), `${kit.puttyKg} kg · ${b}`, kit.puttyPrice);
-      mk(`kit-primer@${brand}`, t("mk.calc.primer"), `${packLabel(kit.primerPacks)} · ${b}`, kit.primerPrice);
-    }
-    mk(`kit-top@${brand}`, kit.wood ? t("mk.calc.enamel") : t("mk.calc.top"), `${packLabel(kit.topPacks)} · ${b}`, kit.topPrice);
-    mk(`kit-tools@${brand}`, t("mk.calc.tools"), `${area} sq ft · ${coats} coat(s) · ${surface}`, kit.tools);
-    setDrawer(true);
-    setToast(`✓ ${t("mk.calc.kit")}`);
-  };
-  const setQty = (key: string, d: number) =>
-    setCart((c) => {
-      const l = c[key];
-      if (!l) return c;
-      const qty = l.qty + d;
-      if (qty <= 0) { const { [key]: _, ...rest } = c; return rest; }
-      return { ...c, [key]: { ...l, qty } };
-    });
   const clearAll = () => {
     setQuery(""); setAisle("all"); setPacks([]); setFins([]); setRating(0);
     setBudget([200, 7000]); setFam(""); setStoreId(""); setToggles({ stock: false, open: false, offer: false });
@@ -264,23 +230,7 @@ export function MarketplaceBrowser() {
         </div>
       </section>
 
-      <PaintCalculator onAddKit={addKit} />
-
       <ProductModal p={modal} onClose={() => setModal(null)} onAddAt={(p, sid) => addProduct(p, sid)} />
-      <CartDrawer
-        open={drawer} lines={lines} onClose={() => setDrawer(false)}
-        onQty={setQty} onRemove={(key) => setCart((c) => { const { [key]: _, ...rest } = c; return rest; })}
-        onPlace={() => { setCart({}); setDrawer(false); setToast(`✅ ${t("mk.cart.place")}`); }}
-      />
-      <button
-        type="button"
-        onClick={() => setDrawer(true)}
-        aria-label={t("mk.cart.title")}
-        className="fixed bottom-5 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-pill bg-saffron text-snow shadow-lift transition-transform hover:scale-105"
-      >
-        <Icon name="cart" className="h-6 w-6" />
-        {lines.length > 0 && <span className="absolute -right-1 -top-1 flex h-6 min-w-6 items-center justify-center rounded-pill border-2 border-snow bg-navy px-1 text-xs font-black text-snow">{lines.reduce((a, l) => a + l.qty, 0)}</span>}
-      </button>
       {toast && <div className="mk-toast rounded-pill bg-navy px-5 py-3 text-sm font-extrabold text-snow shadow-lift dark:bg-[#12161a]">{toast}</div>}
     </>
   );

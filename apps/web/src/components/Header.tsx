@@ -11,6 +11,9 @@ import { Wordmark } from "./Wordmark";
 import { AuthModal } from "./auth/AuthModal";
 import type { AuthMode, Role } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
+import { cartCount, onCartOpen, useCart } from "@/lib/cartStore";
+import { CartDrawer } from "./marketplace/CartDrawer";
+import { SideRails } from "./SideRails";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
@@ -51,6 +54,8 @@ export function Header() {
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<AuthMode>("signup");
   const [authRole, setAuthRole] = useState<Role | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
+  const cart = useCart();
   const [langOpen, setLangOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -58,6 +63,7 @@ export function Header() {
   const [session, setSessionState] = useState<Session | null>(null);
 
   useEffect(() => onAuthRequest((req) => { setAuthMode(req.mode); setAuthRole(req.role); setAuthOpen(true); }), []);
+  useEffect(() => onCartOpen(() => setCartOpen(true)), []);
 
   /* One popover at a time: opening one closes the others. */
   useEffect(() => onPopoverClose("lang", () => setLangOpen(false)), []);
@@ -265,6 +271,13 @@ export function Header() {
                 ),
               )}
               <div className="mt-2 flex items-center gap-2 border-t border-line pt-3">
+            <button type="button" onClick={() => setCartOpen(true)} aria-label={t("mk.cart.title")} className={`${iconBtn} relative`}>
+            <Icon name="cart" className="h-[18px] w-[18px]" />
+            {cartCount(cart) > 0 && (
+              <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-saffron px-1 text-[10px] font-black text-snow">{cartCount(cart)}</span>
+            )}
+          </button>
+
                 <button
                   type="button"
                   onClick={() => {
@@ -309,6 +322,8 @@ export function Header() {
       </header>
 
       <AuthModal open={authOpen} initialMode={authMode} initialRole={authRole} onClose={() => setAuthOpen(false)} />
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
+      <SideRails />
     </>
   );
 }
