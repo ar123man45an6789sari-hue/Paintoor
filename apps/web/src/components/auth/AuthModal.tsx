@@ -45,7 +45,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
       setOtp("");
       setSignup({});
     }
-  }, [open, initialMode]);
+  }, [open, initialMode,initialRole]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {

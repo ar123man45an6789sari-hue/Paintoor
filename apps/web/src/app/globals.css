@@ -347,4 +347,3 @@ html.dark .mk-stage::after { opacity: .06; mix-blend-mode: screen; }
    Light: solid brand gradient (image-2 look). Dark: deep maroon-pink so
    white text keeps its contrast and the page still reads "night mode". */
 .lens-pink { background: linear-gradient(135deg, #e00048 0%, #c40040 45%, #a80036 100%); }
-html.dark .lens-pink { background: linear-gradient(135deg, #6d0022 0%, #4a0017 55%, #2e000d 100%); }
