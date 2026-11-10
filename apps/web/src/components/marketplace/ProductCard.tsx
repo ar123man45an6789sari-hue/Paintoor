@@ -4,10 +4,11 @@ import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
 
 export function ProductCard({
-  p, wished, onWish, onAdd, onOpen,
+  p, wished, onWish, onAdd, onOpen, comparing, onCompare,
 }: {
   p: Product; wished: boolean; onWish: (id: number) => void;
   onAdd: (p: Product) => void; onOpen: (p: Product) => void;
+  comparing: boolean; onCompare: (id: number) => void;
 }) {
   const { t } = useI18n();
   const b = brandOf(p.b);
@@ -67,7 +68,16 @@ export function ProductCard({
           <button type="button" onClick={() => onAdd(p)} className="min-h-9 flex-1 rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036]">
             {t("mk.add")}
           </button>
-          <button type="button" onClick={() => onOpen(p)} className="min-h-9 rounded-control border border-line bg-white px-4 py-2 text-sm font-extrabold text-ink transition-colors hover:border-saffron hover:text-saffron dark:bg-raatri dark:text-snow">
+          <button
+            type="button"
+            onClick={() => onCompare(p.id)}
+            aria-pressed={comparing}
+            className={`min-h-9 rounded-control border px-4 py-2 text-sm font-extrabold transition-colors ${
+              comparing
+                ? "border-saffron bg-saffron text-snow"
+                : "border-line bg-white text-ink hover:border-saffron hover:text-saffron dark:bg-raatri dark:text-snow"
+            }`}
+          >
             {t("mk.compare")}
           </button>
         </div>
