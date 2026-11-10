@@ -1,16 +1,17 @@
-/* ServiceBuilder — the signature piece: pick a service, area, crew, store
-   and brand, and watch a live bill of quantities price itself. Material
-   lines re-price per store with the same formula the marketplace uses
-   (priceAt), labour is rate × area, and the whole job drops into the
-   global cart as one escrow-backed bill. */
+/* ServiceBuilder — the signature piece: pick a service, area, crew, store,
+   brand and slot, and watch a live bill of quantities price itself.
+   Material lines re-price per store with the same formula the marketplace
+   uses (priceAt), labour is rate × area, and the job either drops into the
+   global cart as one escrow-backed bill or gets booked into a slot. */
 "use client";
 
 import { useEffect, useState } from "react";
 import { BRANDS, STORES, brandOf, buildKit, packLabel } from "@/lib/marketplace";
-import { SERVICES, crewDays, serviceOf } from "@/lib/services";
+import { DAYPARTS, SERVICES, crewDays, nextSlots, serviceOf, type DayPart } from "@/lib/services";
 import { addLine, requestCartOpen } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
+import { BookModal } from "./BookModal";
 
 const ROOMS = [
   { key: "1bhk", label: "1 BHK", area: 120 },
@@ -29,12 +30,16 @@ const field =
 export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: string) => void }) {
   const { t } = useI18n();
   const sv = serviceOf(svcId);
+  const slots = nextSlots(7);
   const [room, setRoom] = useState("2bhk");
   const [area, setArea] = useState(320);
   const [coats, setCoats] = useState(sv.coats);
   const [crew, setCrew] = useState(3);
   const [storeId, setStoreId] = useState("sharma");
   const [brand, setBrand] = useState(BRANDS[0].slug);
+  const [slotKey, setSlotKey] = useState(slots[0].key);
+  const [part, setPart] = useState<DayPart>("am");
+  const [booking, setBooking] = useState(false);
 
   useEffect(() => { setCoats(serviceOf(svcId).coats); }, [svcId]);
 
@@ -44,6 +49,7 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
   const at = (v: number) => Math.round((v * store.f) / 100) * 10;
   const labour = sv.rate * area;
   const days = crewDays(sv, area, crew);
+  const slot = slots.find((s) => s.key === slotKey) ?? slots[0];
 
   const matLines = (kit.wood
     ? [{ label: t("mk.calc.enamel"), meta: packLabel(kit.topPacks), base: kit.topPrice }]
@@ -118,6 +124,26 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
             <Icon name="clock" className="h-3.5 w-3.5" />{t("svc.days", { d: String(days) })}
           </p>
         </div>
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.14em] text-muted">{t("svc.slot")}</p>
+          <div className="mk-rail mt-2">
+            {slots.map((s) => (
+              <button
+                key={s.key} type="button" onClick={() => setSlotKey(s.key)} aria-pressed={slotKey === s.key}
+                className={`flex-none rounded-control border px-3 py-2 text-xs font-extrabold transition-colors ${
+                  slotKey === s.key ? "border-saffron bg-saffron text-snow" : "border-line bg-white text-ink hover:border-saffron hover:text-saffron dark:bg-raatri dark:text-snow"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+          <div className="mt-2 flex gap-2">
+            {DAYPARTS.map((p) => (
+              <button key={p} type="button" className={seg(part === p)} onClick={() => setPart(p)}>{t(`svc.${p}`)}</button>
+            ))}
+          </div>
+        </div>
         <div className="grid gap-4 sm:grid-cols-2">
           <label className="block">
             <span className="text-xs font-black uppercase tracking-[0.14em] text-muted">{t("svc.store")}</span>
@@ -163,7 +189,21 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
         <button type="button" onClick={addJob} className="mt-4 flex min-h-11 items-center justify-center gap-2 rounded-control bg-saffron px-5 py-2.5 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036]">
           <Icon name="cart" className="h-4 w-4" /> {t("svc.add")}
         </button>
+        <button
+          type="button"
+          onClick={() => setBooking(true)}
+          className="mt-2 flex min-h-11 items-center justify-center gap-2 rounded-control border-2 border-saffron px-5 py-2.5 text-sm font-extrabold text-saffron transition-colors hover:bg-saffron hover:text-snow"
+        >
+          <Icon name="calendar" className="h-4 w-4" /> {t("svc.book")} — {slot.label} · {t(`svc.${part}`)}
+        </button>
       </div>
+
+      {booking && (
+        <BookModal
+          cfg={{ svcId, area, coats, crew, storeId, brand, total, days, slotKey: slot.key, slotLabel: slot.label, part }}
+          onClose={() => setBooking(false)}
+        />
+      )}
     </div>
   );
 }

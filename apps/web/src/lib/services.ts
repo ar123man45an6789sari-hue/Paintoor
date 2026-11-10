@@ -1,6 +1,6 @@
 /* Services catalogue + crew maths for the /services page. Labour rates are
    per sq ft; day estimates scale with area and crew size. Frontend-only:
-   crews are showcase mocks, slots/booking land in Part 2. */
+   crews, slots and bookings (localStorage pt_bookings) are showcase mocks. */
 
 export type Service = {
   id: string; rate: number; prod: number; rating: number; jobs: number;
@@ -27,3 +27,42 @@ export const CREWS = [
   { name: "Salim Pathan", rating: 4.8, jobs: 176, langs: "HI · UR · GU", since: 2018 },
   { name: "Dinesh Prajapati", rating: 4.7, jobs: 143, langs: "GU · HI", since: 2020 },
 ];
+
+/* Next n days as bookable slots (tomorrow onwards). */
+export type Slot = { key: string; label: string };
+export function nextSlots(n = 7): Slot[] {
+  const out: Slot[] = [];
+  for (let i = 1; i <= n; i++) {
+    const d = new Date();
+    d.setDate(d.getDate() + i);
+    out.push({
+      key: d.toISOString().slice(0, 10),
+      label: d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" }),
+    });
+  }
+  return out;
+}
+
+export const DAYPARTS = ["am", "pm", "eve"] as const;
+export type DayPart = (typeof DAYPARTS)[number];
+
+/* A saved booking (localStorage pt_bookings). */
+export type Booking = {
+  id: string; svc: string; area: number; crew: number; store: string;
+  total: number; slot: string; part: DayPart; wa: boolean; at: number;
+};
+
+export function readBookings(): Booking[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = window.localStorage.getItem("pt_bookings");
+    const v = raw ? (JSON.parse(raw) as Booking[]) : [];
+    return Array.isArray(v) ? v : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveBookings(list: Booking[]) {
+  try { window.localStorage.setItem("pt_bookings", JSON.stringify(list)); } catch { /* private mode */ }
+}

@@ -1,10 +1,11 @@
 /* Services page body — labour catalogue with rate cards, the live BOQ
-   builder, verified crew, the Paintoor promise and FAQs. Everything is
-   showcase data from lib/services; booking slots land in Part 2. */
+   builder + slot booking, your saved bookings rail, verified crew, the
+   Paintoor promise and FAQs. Showcase data from lib/services; bookings
+   persist in localStorage pt_bookings (frontend-only). */
 "use client";
 
-import { useRef, useState } from "react";
-import { SERVICES, CREWS } from "@/lib/services";
+import { useEffect, useRef, useState } from "react";
+import { SERVICES, CREWS, readBookings, saveBookings, type Booking } from "@/lib/services";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
 import { ServiceBuilder } from "./ServiceBuilder";
@@ -12,10 +13,25 @@ import { ServiceBuilder } from "./ServiceBuilder";
 export function ServiceBrowser() {
   const { t } = useI18n();
   const [svcId, setSvcId] = useState("interior");
+  const [bookings, setBookings] = useState<Booking[]>([]);
   const builderRef = useRef<HTMLDivElement>(null);
   const plan = (id: string) => {
     setSvcId(id);
     builderRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  useEffect(() => {
+    setBookings(readBookings());
+    const refresh = () => setBookings(readBookings());
+    window.addEventListener("pt:booked", refresh);
+    window.addEventListener("storage", refresh);
+    return () => { window.removeEventListener("pt:booked", refresh); window.removeEventListener("storage", refresh); };
+  }, []);
+
+  const cancel = (id: string) => {
+    const next = readBookings().filter((b) => b.id !== id);
+    saveBookings(next);
+    setBookings(next);
   };
 
   return (
@@ -67,6 +83,28 @@ export function ServiceBrowser() {
           <ServiceBuilder svcId={svcId} onSvc={setSvcId} />
         </div>
       </div>
+
+      {bookings.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-8 md:px-8">
+          <h2 className="text-[22px] font-black text-navy md:text-[26px] dark:text-snow">{t("svc.bk.yours")}</h2>
+          <div className="mk-rail mt-4">
+            {bookings.map((b) => (
+              <article key={b.id} className="w-[260px] flex-none rounded-card border border-line bg-white p-4 shadow-card dark:bg-raatri">
+                <p className="flex items-center justify-between gap-2 text-xs font-black text-saffron">
+                  <span>{b.id}</span>
+                  <span className="rounded-pill bg-[#0e9f8a]/10 px-2 py-0.5 text-[10px] text-[#0e9f8a]">{t("svc.bk.scheduled")}</span>
+                </p>
+                <p className="mt-2 text-sm font-extrabold text-navy dark:text-snow">{t(`svc.${b.svc}.name`)}</p>
+                <p className="mt-1 text-xs text-muted">{b.slot} · {t(`svc.${b.part}`)} · {t("svc.crewOf")} {b.crew}</p>
+                <p className="mt-1 text-sm font-black text-ink dark:text-snow">₹{b.total.toLocaleString("en-IN")}</p>
+                <button type="button" onClick={() => cancel(b.id)} className="mt-3 min-h-9 rounded-control border border-line px-3 py-1.5 text-xs font-extrabold text-muted transition-colors hover:border-danger hover:text-danger">
+                  {t("svc.bk.cancel")}
+                </button>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 py-10 md:px-8 md:py-14">
         <h2 className="text-[22px] font-black text-navy md:text-[26px] dark:text-snow">{t("svc.crewTitle")}</h2>
