@@ -27,11 +27,13 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
   const total = subtotal + delivery;
   const groups = STORES.map((s) => ({ s, items: lines.filter((l) => l.storeId === s.id) })).filter((g) => g.items.length);
   const kitItems = lines.filter((l) => l.storeId === "kit");
+  const svcItems = lines.filter((l) => l.storeId === "svc");
 
   function place() {
     const etas = [
       ...groups.map(({ s }) => ({ name: s.n, eta: s.km <= 3 ? t("mk.today") : t("mk.tomorrow") })),
       ...(kitItems.length ? [{ name: t("mk.calc.kit"), eta: t("mk.tomorrow") }] : []),
+      ...(svcItems.length ? [{ name: t("svc.group"), eta: t("mk.tomorrow") }] : []),
     ];
     const id = `PT-${Date.now().toString(36).slice(-5).toUpperCase()}${Math.floor(Math.random() * 90 + 10)}`;
     setPlaced({ id, total, etas });
@@ -102,6 +104,14 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
               <div className="mb-4">
                 <p className="text-xs font-black uppercase tracking-[0.14em] text-saffron">{t("mk.calc.kit")}</p>
                 <ul className="mt-2 space-y-2">{kitItems.map((l) => <Line key={l.key} l={l} />)}</ul>
+              </div>
+            )}
+            {svcItems.length > 0 && (
+              <div className="mb-4">
+                <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.14em] text-saffron">
+                  <Icon name="users" className="h-3.5 w-3.5" /> {t("svc.group")}
+                </p>
+                <ul className="mt-2 space-y-2">{svcItems.map((l) => <Line key={l.key} l={l} />)}</ul>
               </div>
             )}
             {groups.map(({ s, items }) => (

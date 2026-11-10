@@ -105,7 +105,7 @@ function Categories() {
         <div className="mt-5">
           <button
             type="button"
-            onClick={() => router.push("/partners?q=painting")}
+            onClick={() => router.push("/services")}
             className="min-h-12 rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow hover:shadow-lift"
           >
             <Icon name="brush" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("svc.bookCta")}

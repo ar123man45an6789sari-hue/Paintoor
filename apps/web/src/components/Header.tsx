@@ -25,9 +25,7 @@ import { AccountIcon, Icon, PlusIcon, type IconName } from "./Icons";
 
 const NAV = [
   { href: "/studio", key: "nav.studio" },
-    /* Label only for now: the client will decide where Services points later,
-     so it renders as plain text (no link) in both navs. */
-  { href: "", key: "nav.services" },
+  { href: "/services", key: "nav.services" },
   { href: "/marketplace", key: "nav.marketplace" },
   { href: "/partners", key: "nav.partners" },
   { href: "/blog", key: "nav.blog" },
