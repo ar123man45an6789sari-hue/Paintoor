@@ -1,14 +1,11 @@
-/* Paintoor Services — verified painting crews with a live, transparent bill:
-   labour rates + store-priced materials in one escrow-backed cart. */
-import { Suspense } from "react";
-import { ServiceBrowser } from "@/components/services/ServiceBrowser";
+/* Paintoor Services — silent/premium editorial page: full-bleed hero,
+   hairline service index (each row links to its own explanation page),
+   quote band, method, materials spread, then the live BOQ builder + slot
+   booking. Imagery lives in /public/services. */
+import { ServicesPage } from "@/components/services/ServicesPage";
 
-export const metadata = { title: "Services — Paintoor", description: "Book verified painting crews in Vadodara. See the full bill first: live store prices for materials, per-sq-ft labour rates and ₹0 advance." };
+export const metadata = { title: "Services — Paintoor", description: "Six painting services, one itemised bill. Live per-store material pricing, crew and day estimates, slot booking and ₹0 advance escrow in Vadodara." };
 
-export default function ServicesPage() {
-  return (
-    <Suspense fallback={null}>
-      <ServiceBrowser />
-    </Suspense>
-  );
+export default function ServicesRoute() {
+  return <ServicesPage />;
 }

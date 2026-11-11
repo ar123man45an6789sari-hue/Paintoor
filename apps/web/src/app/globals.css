@@ -347,3 +347,31 @@ html.dark .mk-stage::after { opacity: .06; mix-blend-mode: screen; }
    Light: solid brand gradient (image-2 look). Dark: deep maroon-pink so
    white text keeps its contrast and the page still reads "night mode". */
 .lens-pink { background: linear-gradient(135deg, #e00048 0%, #c40040 45%, #a80036 100%); }
+
+/* Services index rows: quiet white hover band, no horizontal overflow */
+.svc-row:hover, .svc-row:focus-visible {
+  background: rgb(var(--c-surface));
+  box-shadow: -32px 0 0 rgb(var(--c-surface)), 32px 0 0 rgb(var(--c-surface));
+}
+/* Detail-page FAQ: native <details>, hairline rows */
+.svc-faq summary { list-style: none; cursor: pointer; }
+.svc-faq summary::-webkit-details-marker { display: none; }
+.svc-faq[open] summary .svc-faq-plus { transform: rotate(45deg); }
+
+/* Smooth brand buttons: colour, halo and lift ease in/out — no snapping.
+   Respects reduced-motion by dropping movement entirely. */
+.btn-pink, .btn-ghost {
+  transition: background-color .3s ease, border-color .3s ease, color .3s ease,
+    box-shadow .3s ease, transform .2s ease;
+}
+.btn-pink:hover { box-shadow: 0 12px 28px rgba(224, 0, 72, .32); transform: translateY(-1px); }
+.btn-pink:active { transform: translateY(0) scale(.985); box-shadow: 0 6px 16px rgba(224, 0, 72, .24); }
+.btn-ghost:hover { transform: translateY(-1px); }
+.btn-pink:focus-visible, .btn-ghost:focus-visible {
+  outline: 2px solid rgb(var(--c-saffron));
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-pink, .btn-ghost { transition: none; }
+  .btn-pink:hover, .btn-ghost:hover, .btn-pink:active { transform: none; box-shadow: none; }
+}
