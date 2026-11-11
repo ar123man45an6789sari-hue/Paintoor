@@ -10,6 +10,7 @@ import { useI18n } from "@/i18n";
 import { FilterBar, type Toggles } from "./FilterBar";
 import { ProductCard } from "./ProductCard";
 import { StoreCard } from "./StoreCard";
+import { getPlace, onCityChange } from "@/lib/city";
 import { ProductModal } from "./ProductModal";
 import { CompareModal, CompareTray } from "./Compare";
 
@@ -28,6 +29,23 @@ function readList(key: string): number[] {
     return [];
   }
 }
+
+/* PIN codes for the pilot region (MMR). A city outside the map shows without a
+   code, so the pill stays honest when the visitor picks another city. */
+const MMR_PIN: Record<string, string> = {
+  Mumbai: "400001",
+  "Navi Mumbai": "400701",
+  Thane: "400601",
+  Vasai: "401202",
+  Virar: "401303",
+  Kalyan: "421301",
+  Dombivli: "421201",
+  Panvel: "410206",
+  Bhiwandi: "421302",
+  Palghar: "401404",
+};
+
+const pinLabel = (name: string) => (MMR_PIN[name] ? `${name} ${MMR_PIN[name]}` : name);
 
 export function MarketplaceBrowser() {
   const { t } = useI18n();
@@ -49,6 +67,16 @@ export function MarketplaceBrowser() {
   const [modal, setModal] = useState<Product | null>(null);
   const [toast, setToast] = useState("");
   const cartLines = useCart();
+
+    /* The pin pill follows the detected or picked place. Mumbai is the pilot
+     city, so it is also the first-paint default — server and client agree. */
+  const [pin, setPin] = useState("Mumbai 400001");
+
+  useEffect(() => {
+    const read = () => setPin(pinLabel(getPlace()?.name || "Mumbai"));
+    read();
+    return onCityChange(read);
+  }, []);
 
   useEffect(() => {
     try { window.localStorage.setItem("pt_wish", JSON.stringify(wish)); } catch { /* private mode */ }
@@ -178,7 +206,7 @@ export function MarketplaceBrowser() {
           <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted md:text-base">{t("mk.sub")}</p>
           <div className="relative mt-6 flex min-h-11 items-center gap-2 rounded-pill border border-line bg-white p-1.5 pl-3 shadow-card dark:bg-raatri">
             <span className="flex items-center gap-1.5 whitespace-nowrap rounded-pill bg-chuna px-3 py-1.5 text-xs font-extrabold text-ink dark:bg-[#12161a] dark:text-snow">
-              <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" /> Vadodara 390001
+              <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" /> {pin}
             </span>
             <button type="button" className="whitespace-nowrap text-xs font-black text-saffron">{t("mk.change")}</button>
             <input

@@ -17,7 +17,7 @@ export function generateMetadata({ params }: { params: Promise<Params> }): Promi
     const sv = SERVICES.find((s) => s.id === id);
     const name = sv ? id.charAt(0).toUpperCase() + id.slice(1) : "Service";
     return {
-      title: `${name} painting in Vadodara — Paintoor`,
+      title: `${name} painting in Mumbai`,
       description: `How Paintoor runs ${name.toLowerCase()} jobs: what is included, how the price is built, the crew process and ₹0 advance escrow.`,
       alternates: { canonical: `/services/${id}` },
     };

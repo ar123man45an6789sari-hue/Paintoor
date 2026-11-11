@@ -23,14 +23,14 @@ export const metadata: Metadata = {
     template: "%s — Paintoor",
   },
   description:
-    "Verified painters in Mumbai and Vadodara. Compare itemized quotes, pay safely into escrow, and release the money only after you approve the work.",
+      "Verified painters in Mumbai, our pilot city. Compare itemized quotes, pay safely into escrow, approve the work.",
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
     locale: "en_IN",
     title: "Paintoor — Home services, delivered with trust",
     description:
-      "Verified painters in Mumbai and Vadodara. Compare itemized quotes, pay safely into escrow, approve the work.",
+      "Verified painters in Mumbai, our pilot city. Compare itemized quotes, pay safely into escrow, and release the money only after you approve the work.",
     images: [
       { url: "/paintoor-horizontal.png", width: 1000, height: 263, alt: "Paintoor" },
     ],

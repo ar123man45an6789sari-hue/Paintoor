@@ -71,7 +71,7 @@ export async function generateMetadata({
 }
 
 /** City landing: the marketing page with the visitor's city in the URL, e.g.
-    paintoor.in/vadodara. Paintoor is built for all of India, so every real
+    paintoor.in/mumbai. Paintoor is built for all of India, so every real
     Indian city renders — NavSearch adopts the slug on mount and keeps it in
     sync with the detected or picked place. Anything outside India, or a
     nonsense slug, gets a real 404 rather than an indexable duplicate. */

@@ -45,11 +45,11 @@ export const FAMS = [
 ];
 
 export const STORES: Store[] = [
-  { id: "rang", n: "Rang Paints & Hardware", o: "Imran Qureshi", a: "12 Alkapuri, Vadodara", km: 4.8, r: 4.6, rv: 412, f: 9, open: true, cls: "8:00 pm", y: 2016, br: ["asian-paints", "dulux", "jsw", "indigo"] },
-  { id: "gupta", n: "Gupta Paint House", o: "Anil Gupta", a: "3 Sayajigunj, Vadodara", km: 1.2, r: 4.5, rv: 388, f: 9, open: true, cls: "8:00 pm", y: 2009, br: ["berger", "nerolac", "birla-opus"] },
-  { id: "sharma", n: "Sharma & Sons Paints", o: "Rakesh Sharma", a: "88 Mandvi Road, Vadodara", km: 2.9, r: 4.7, rv: 501, f: 10, open: true, cls: "9:00 pm", y: 2001, br: ["asian-paints", "berger", "nerolac"] },
-  { id: "mehta", n: "Mehta Colour World", o: "Hetal Mehta", a: "5 Gotri, Vadodara", km: 3.4, r: 4.3, rv: 267, f: 11, open: false, cls: "Opens 10 am", y: 2013, br: ["asian-paints", "dulux", "birla-opus", "jsw"] },
-  { id: "deshmukh", n: "Deshmukh Colour Point", o: "Sneha Deshmukh", a: "21 Nizampura, Vadodara", km: 5.4, r: 4.7, rv: 198, f: 10, open: true, cls: "7:30 pm", y: 2018, br: ["nerolac", "indigo", "shalimar", "birla-opus"] },
+  { id: "rang", n: "Rang Paints & Hardware", o: "Imran Qureshi", a: "12 Linking Road, Bandra West, Mumbai", km: 4.8, r: 4.6, rv: 412, f: 9, open: true, cls: "8:00 pm", y: 2016, br: ["asian-paints", "dulux", "jsw", "indigo"] },
+  { id: "gupta", n: "Gupta Paint House", o: "Anil Gupta", a: "3 LBS Marg, Mulund West, Mumbai", km: 1.2, r: 4.5, rv: 388, f: 9, open: true, cls: "8:00 pm", y: 2009, br: ["berger", "nerolac", "birla-opus"] },
+  { id: "sharma", n: "Sharma & Sons Paints", o: "Rakesh Sharma", a: "88 Mohammed Ali Road, Byculla, Mumbai", km: 2.9, r: 4.7, rv: 501, f: 10, open: true, cls: "9:00 pm", y: 2001, br: ["asian-paints", "berger", "nerolac"] },
+  { id: "mehta", n: "Mehta Colour World", o: "Hetal Mehta", a: "5 M.G. Road, Ghatkopar West, Mumbai", km: 3.4, r: 4.3, rv: 267, f: 11, open: false, cls: "Opens 10 am", y: 2013, br: ["asian-paints", "dulux", "birla-opus", "jsw"] },
+  { id: "deshmukh", n: "Deshmukh Colour Point", o: "Sneha Deshmukh", a: "21 Ram Maruti Road, Thane West", km: 5.4, r: 4.7, rv: 198, f: 10, open: true, cls: "7:30 pm", y: 2018, br: ["nerolac", "indigo", "shalimar", "birla-opus"] },
 ];
 
 const SH: Record<string, string[]> = {

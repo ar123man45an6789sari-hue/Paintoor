@@ -79,7 +79,80 @@ export function openLeadsFor(profile: ProviderProfile, requests: ServiceRequest[
     .sort((a, b) => b.at - a.at);
 }
 
+/* Zone centres used only to show a painter how far a lead is. Mumbai is the
+   pilot city, so the MMR localities come first and Mumbai is the fallback;
+   the other seed cities are listed too so their painters get real numbers
+   instead of a default dot in the wrong state. */
 const ZONE_CENTER: Record<string, { lat: number; lng: number }> = {
+  /* — Mumbai — */
+  "andheri west": { lat: 19.1364, lng: 72.8296 },
+  "andheri east": { lat: 19.1197, lng: 72.8464 },
+  versova: { lat: 19.1317, lng: 72.8214 },
+  lokhandwala: { lat: 19.1416, lng: 72.8289 },
+  jogeshwari: { lat: 19.1336, lng: 72.8419 },
+  "goregaon west": { lat: 19.1615, lng: 72.8481 },
+  "goregaon east": { lat: 19.1619, lng: 72.8648 },
+  "malad west": { lat: 19.1864, lng: 72.8480 },
+  "malad east": { lat: 19.1887, lng: 72.8624 },
+  "kandivali west": { lat: 19.2072, lng: 72.8418 },
+  "kandivali east": { lat: 19.2090, lng: 72.8620 },
+  "borivali west": { lat: 19.2307, lng: 72.8567 },
+  "borivali east": { lat: 19.2320, lng: 72.8690 },
+  dahisar: { lat: 19.2541, lng: 72.8589 },
+  "bandra west": { lat: 19.0596, lng: 72.8295 },
+  "bandra east": { lat: 19.0616, lng: 72.8497 },
+  "khar west": { lat: 19.0719, lng: 72.8347 },
+  "santacruz west": { lat: 19.0836, lng: 72.8411 },
+  "vile parle east": { lat: 19.0997, lng: 72.8468 },
+  juhu: { lat: 19.1075, lng: 72.8263 },
+  powai: { lat: 19.1176, lng: 72.9060 },
+  marol: { lat: 19.1163, lng: 72.8731 },
+  "kurla west": { lat: 19.0665, lng: 72.8770 },
+  "ghatkopar west": { lat: 19.0889, lng: 72.9070 },
+  "ghatkopar east": { lat: 19.0900, lng: 72.9170 },
+  vikroli: { lat: 19.1095, lng: 72.9260 },
+  kanjurmarg: { lat: 19.1270, lng: 72.9330 },
+  bhandup: { lat: 19.1480, lng: 72.9340 },
+  "mulund west": { lat: 19.1760, lng: 72.9430 },
+  chembur: { lat: 19.0509, lng: 72.9019 },
+  sion: { lat: 19.0439, lng: 72.8690 },
+  "dadar west": { lat: 19.0213, lng: 72.8423 },
+  worli: { lat: 19.0176, lng: 72.8300 },
+  "lower parel": { lat: 18.9986, lng: 72.8290 },
+  mahim: { lat: 19.0400, lng: 72.8400 },
+  wadala: { lat: 19.0178, lng: 72.8560 },
+  matunga: { lat: 19.0274, lng: 72.8540 },
+  byculla: { lat: 18.9745, lng: 72.8403 },
+  colaba: { lat: 18.9220, lng: 72.8347 },
+  fort: { lat: 18.9388, lng: 72.8354 },
+  /* — rest of the Mumbai Metropolitan Region — */
+  "thane west": { lat: 19.2000, lng: 72.9700 },
+  "thane east": { lat: 19.2100, lng: 72.9900 },
+  "ram maruti road": { lat: 19.1970, lng: 72.9720 },
+  "mira road": { lat: 19.2819, lng: 72.8693 },
+  "bhayander west": { lat: 19.2969, lng: 72.8531 },
+  "vasai west": { lat: 19.3816, lng: 72.8180 },
+  virar: { lat: 19.4500, lng: 72.8000 },
+  "nala sopara": { lat: 19.4200, lng: 72.8200 },
+  panvel: { lat: 18.9894, lng: 73.1175 },
+  kharghar: { lat: 19.0540, lng: 73.0650 },
+  vashi: { lat: 19.0770, lng: 72.9980 },
+  nerul: { lat: 19.0300, lng: 73.0200 },
+  sanpada: { lat: 19.0640, lng: 73.0130 },
+  koparkhairane: { lat: 19.1100, lng: 73.0100 },
+  airoli: { lat: 19.1500, lng: 72.9960 },
+  kalyan: { lat: 19.2400, lng: 73.1300 },
+  dombivli: { lat: 19.2150, lng: 73.0900 },
+  ulhasnagar: { lat: 19.2200, lng: 73.1500 },
+  badlapur: { lat: 19.1500, lng: 73.2300 },
+  palghar: { lat: 19.6950, lng: 72.7680 },
+  alibaug: { lat: 18.6411, lng: 72.8792 },
+  /* — other live partner cities — */
+  bopal: { lat: 23.0520, lng: 72.4600 },
+  vesu: { lat: 21.1650, lng: 72.7700 },
+  "ranjit avenue": { lat: 31.6500, lng: 74.8600 },
+  "t. nagar": { lat: 13.0418, lng: 80.2341 },
+  "vijay nagar": { lat: 22.7520, lng: 75.8930 },
   alkapuri: { lat: 22.3135, lng: 73.1747 },
   "race course": { lat: 22.3089, lng: 73.1831 },
   akota: { lat: 22.3043, lng: 73.1666 },
@@ -102,7 +175,8 @@ const ZONE_CENTER: Record<string, { lat: number; lng: number }> = {
   manjalpur: { lat: 22.2766, lng: 73.1944 },
 };
 
-const FALLBACK_CENTER = { lat: 22.3072, lng: 73.1812 };
+/* Mumbai (pilot city) is the fallback for an area we do not have a dot for. */
+const FALLBACK_CENTER = { lat: 19.0760, lng: 72.8777 };
 
 function centerOf(zone: string) {
   return ZONE_CENTER[zone.trim().toLowerCase()] ?? FALLBACK_CENTER;

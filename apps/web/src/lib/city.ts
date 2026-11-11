@@ -7,9 +7,9 @@
 export type PlaceSource = "gps" | "ip" | "manual" | "url" | "default";
 
 export interface Place {
-  name: string; // display city, e.g. "Vadodara"
-  slug: string; // url-safe form, e.g. "vadodara"
-  region: string; // state or subdivision, e.g. "Gujarat"
+  name: string; // display city, e.g. "MUmbai"
+  slug: string; // url-safe form, e.g. "Mumbai"
+  region: string; // state or subdivision, e.g. "Maharashtra"
   country: string; // e.g. "India"
   source: PlaceSource; // how the name was resolved
   at: number; // epoch ms of the decision
