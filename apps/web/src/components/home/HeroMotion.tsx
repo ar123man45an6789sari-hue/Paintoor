@@ -72,7 +72,7 @@ export function CinematicHero() {
           <svg
         viewBox="0 0 200 200"
         fill="none"
-       className="pointer-events-none absolute -right-[252px] -top-[190px] z-0 h-[560px] w-[560px] overflow-visible md:-right-[324px] md:-top-[245px] md:h-[720px] md:w-[720px]"
+       className="pointer-events-none absolute -right-[248px] -top-[195px] z-0 h-[480px] w-[480px] overflow-visible md:-right-[310px] md:-top-[244px] md:h-[600px] md:w-[600px]"
         aria-hidden="true"
       >
         <defs>
@@ -150,7 +150,7 @@ export function CinematicHero() {
         </div>
 
           <div className="flex items-center justify-center" aria-hidden="true">
-          <div className="relative -mt-96 w-full max-w-[620px] md:-mt-40">
+          <div className="relative -mt-36 w-full max-w-[620px] md:-mt-16">
             <PainterLottie />
           </div>
         </div>

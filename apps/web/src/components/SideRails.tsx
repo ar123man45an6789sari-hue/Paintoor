@@ -25,7 +25,7 @@ export function SideRails() {
   const [which, setWhich] = useState<"" | "enq" | "cost">("");
   return (
     <>
-      <div className="fixed right-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2">
+      <div className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2">
         <button
           type="button"
           onClick={() => setWhich("enq")}
