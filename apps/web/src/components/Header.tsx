@@ -13,7 +13,7 @@ import type { AuthMode, Role } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
 import { cartCount, onCartOpen, useCart } from "@/lib/cartStore";
 import { CartDrawer } from "./marketplace/CartDrawer";
-import { SideRails } from "./SideRails";
+import { SideRails, SideRailsMobile } from "./SideRails";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
@@ -124,8 +124,9 @@ export function Header() {
             <Wordmark className="text-lg font-black tracking-tight text-navy md:text-xl dark:text-snow" />
           </Link>
 
-            <div className="order-last w-full min-w-0 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">
+           <div className="order-last flex w-full min-w-0 items-center gap-2 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">
             <NavSearch />
+            <SideRailsMobile />
           </div>
 
           <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">

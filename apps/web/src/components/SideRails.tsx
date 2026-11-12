@@ -25,18 +25,48 @@ export function SideRails() {
   const [which, setWhich] = useState<"" | "enq" | "cost">("");
   return (
     <>
-      <div className="fixed left-0 top-1/2 z-40 flex -translate-y-1/2 flex-col gap-2">
+      <div className="fixed left-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col gap-2 md:flex">
         <button
           type="button"
           onClick={() => setWhich("enq")}
-          className="lens-pink rounded-l-card px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-snow shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180"
+          className="lens-pink rounded-r-card px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-snow shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180"
         >
           {t("rail.enquire")}
         </button>
         <button
           type="button"
           onClick={() => setWhich("cost")}
-          className="rounded-l-card border border-r-0 border-line bg-white px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-saffron shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180 dark:bg-raatri"
+          className="rounded-r-card border border-l-0 border-line bg-white px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-saffron shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180 dark:bg-raatri"
+        >
+          {t("rail.cost")}
+        </button>
+      </div>
+      {which === "enq" && <EnquiryModal onClose={() => setWhich("")} />}
+      {which === "cost" && <CostModal onClose={() => setWhich("")} />}
+    </>
+  );
+}
+
+/* Mobile twin of the edge rails: two compact pills that sit in the header's
+   second row (right of the search button) so they stay glued to the sticky
+   header while scrolling; desktop keeps the vertical left-edge tabs. */
+export function SideRailsMobile() {
+  const { t } = useI18n();
+  const [which, setWhich] = useState<"" | "enq" | "cost">("");
+  return (
+    <>
+      <div className="ml-auto flex shrink-0 items-center gap-1.5 md:hidden">
+        <button
+          type="button"
+          onClick={() => setWhich("enq")}
+          className="lens-pink rounded-control px-2.5 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-snow shadow-lift"
+        >
+          {t("rail.enquire")}
+        </button>
+        <button
+          type="button"
+          onClick={() => setWhich("cost")}
+          className="rounded-control border border-line bg-white px-2.5 py-2 text-[10px] font-black uppercase tracking-[0.14em] text-saffron shadow-lift dark:bg-raatri"
         >
           {t("rail.cost")}
         </button>
