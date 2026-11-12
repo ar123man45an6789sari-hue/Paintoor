@@ -72,7 +72,7 @@ export function CinematicHero() {
           <svg
         viewBox="0 0 200 200"
         fill="none"
-        className="pointer-events-none absolute -right-16 -top-16 z-0 h-80 w-80 overflow-visible md:-right-40 md:-top-40 md:h-[480px] md:w-[480px]"
+       className="pointer-events-none absolute -right-[252px] -top-[190px] z-0 h-[560px] w-[560px] overflow-visible md:-right-[324px] md:-top-[245px] md:h-[720px] md:w-[720px]"
         aria-hidden="true"
       >
         <defs>
@@ -90,10 +90,10 @@ export function CinematicHero() {
             return (
               <line
                 key={d}
-                x1={100 + Math.cos(r) * 27}
-                y1={100 + Math.sin(r) * 27}
-                x2={100 + Math.cos(r) * 40}
-                y2={100 + Math.sin(r) * 40}
+                x1={100 + Math.cos(r) * 38}
+                y1={100 + Math.sin(r) * 38}
+                x2={100 + Math.cos(r) * 56}
+                y2={100 + Math.sin(r) * 56}
                 stroke="#e00048"
                 strokeWidth="7"
                 strokeLinecap="round"
@@ -101,7 +101,7 @@ export function CinematicHero() {
             );
           })}
         </g>
-        <circle className="sun-core" cx="100" cy="100" r="19" fill="#e00048" />
+        <circle className="sun-core" cx="100" cy="100" r="34" fill="#e00048" />
       </svg>
       <div
         className="orb"
