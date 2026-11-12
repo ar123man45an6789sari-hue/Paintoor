@@ -77,7 +77,7 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
 
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-      <div className="space-y-4 rounded-card border border-line bg-white p-5 dark:bg-raatri">
+      <div className="min-w-0 space-y-4 rounded-card border border-line bg-white p-5 dark:bg-raatri">
         <label className="block">
           <span className="text-xs font-black uppercase tracking-[0.14em] text-muted">{t("svc.cards")}</span>
           <select value={svcId} onChange={(e) => onSvc(e.target.value)} className={field}>
@@ -160,28 +160,28 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
         </div>
       </div>
 
-      <div className="flex flex-col rounded-card border border-line bg-white p-5 dark:bg-raatri">
+      <div className="flex min-w-0 flex-col rounded-card border border-line bg-white p-5 dark:bg-raatri">
         <p className="text-xs font-black uppercase tracking-[0.14em] text-saffron">{t("svc.boq")}</p>
         <p className="mt-1 text-xs text-muted">{store.n} · {brandOf(brand).name}</p>
         <ul className="mt-3 divide-y divide-dashed divide-line text-sm">
           {matLines.map((l) => (
             <li key={l.label} className="flex items-baseline justify-between gap-3 py-2">
-              <span className="font-extrabold text-ink dark:text-snow">{l.label}<span className="ml-2 text-xs font-semibold text-muted">{l.meta}</span></span>
-              <span className="font-black text-ink dark:text-snow">₹{at(l.base).toLocaleString("en-IN")}</span>
+              <span className="min-w-0 break-words font-extrabold text-ink dark:text-snow">{l.label}<span className="ml-2 text-xs font-semibold text-muted">{l.meta}</span></span>
+              <span className="whitespace-nowrap font-black text-ink dark:text-snow">₹{at(l.base).toLocaleString("en-IN")}</span>
             </li>
           ))}
           <li className="flex items-baseline justify-between gap-3 py-2">
-            <span className="font-extrabold text-ink dark:text-snow">{t("svc.boq.lab", { r: String(sv.rate) })}<span className="ml-2 text-xs font-semibold text-muted">{area} sq ft</span></span>
-            <span className="font-black text-ink dark:text-snow">₹{labour.toLocaleString("en-IN")}</span>
+            <span className="min-w-0 break-words font-extrabold text-ink dark:text-snow">{t("svc.boq.lab", { r: String(sv.rate) })}<span className="ml-2 text-xs font-semibold text-muted">{area} sq ft</span></span>
+            <span className="whitespace-nowrap font-black text-ink dark:text-snow">₹{labour.toLocaleString("en-IN")}</span>
           </li>
           <li className="flex items-baseline justify-between gap-3 py-2">
-            <span className="font-extrabold text-ink dark:text-snow">{t("svc.boq.tools")}</span>
-            <span className="font-black text-ink dark:text-snow">₹{tools.toLocaleString("en-IN")}</span>
+            <span className="min-w-0 break-words font-extrabold text-ink dark:text-snow">{t("svc.boq.tools")}</span>
+            <span className="whitespace-nowrap font-black text-ink dark:text-snow">₹{tools.toLocaleString("en-IN")}</span>
           </li>
         </ul>
         <div className="mt-2 flex items-baseline justify-between border-t border-line pt-3">
           <span className="text-sm font-black text-ink dark:text-snow">{t("svc.boq.total")}</span>
-          <span className="text-[26px] font-black leading-none text-saffron">₹{total.toLocaleString("en-IN")}</span>
+           <span className="whitespace-nowrap text-[26px] font-black leading-none text-saffron">₹{total.toLocaleString("en-IN")}</span>
         </div>
         <p className="mt-2 flex items-start gap-1.5 text-xs font-bold text-[#0e9f8a]">
           <Icon name="lock" className="mt-0.5 h-3.5 w-3.5" />{t("svc.boq.advance")}

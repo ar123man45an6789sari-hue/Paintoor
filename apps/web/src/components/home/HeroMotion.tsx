@@ -68,11 +68,11 @@ export function CinematicHero() {
   const words = [t("hero.w1"), t("hero.w2"), t("hero.w3"), t("hero.w4"), t("hero.w5")];
 
   return (
-    <section className="relative overflow-hidden bg-surface px-5 py-16 text-ink md:py-28 dark:bg-raatri dark:text-snow">
+    <section className="relative overflow-hidden bg-surface px-5 py-12 text-ink md:py-28 dark:bg-raatri dark:text-snow">
           <svg
         viewBox="0 0 200 200"
         fill="none"
-        className="pointer-events-none absolute -right-8 -top-8 z-10 h-40 w-40 overflow-visible md:-right-6 md:-top-6 md:h-[360px] md:w-[360px]"
+        className="pointer-events-none absolute -right-16 -top-16 z-0 h-80 w-80 overflow-visible md:-right-40 md:-top-40 md:h-[480px] md:w-[480px]"
         aria-hidden="true"
       >
         <defs>
@@ -115,7 +115,7 @@ export function CinematicHero() {
       />
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-2 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
-        <div>
+        <div className="relative z-10">
          <span className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
             <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" />
             {t("hero.badge", { cities: CITY_COUNT, partners: PARTNER_COUNT })}
@@ -150,7 +150,7 @@ export function CinematicHero() {
         </div>
 
           <div className="flex items-center justify-center" aria-hidden="true">
-          <div className="relative w-full max-w-[620px] md:mt-28">
+          <div className="relative -mt-96 w-full max-w-[620px] md:-mt-40">
             <PainterLottie />
           </div>
         </div>
