@@ -196,7 +196,7 @@ function CostModal({ onClose }: { onClose: () => void }) {
         <div className="space-y-4">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.14em] text-muted">{t("mk.calc.room")}</p>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-2 flex flex-wrap gap-2">
               {ROOMS.map((r) => (
                 <button key={r.key} type="button" className={seg(room === r.key)} onClick={() => { setRoom(r.key); setArea(r.area); }}>{r.label}</button>
               ))}

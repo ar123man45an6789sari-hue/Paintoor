@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer base {
+    /* Structural guard: nothing may push the page sideways on any screen.
+     "clip" (not "hidden") keeps sticky headers working and never creates a
+     scroll container — the layout simply sticks to the frame. */
+  html, body {
+    overflow-x: clip;
+  }
   body {
     @apply bg-chuna text-ink antialiased;
   }
@@ -111,10 +117,16 @@ html.theme-anim *::after {
 /* Dark-mode sweep v6 — jo backgrounds hardcoded the, ab token-flip hote hain. */
 .ls-workers { background: var(--pin-a); }
 .esc-bg { background: linear-gradient(180deg, var(--pin-a), var(--pin-b)); }
-/* Paintoor sun — rays rotate around the hero sun. */
-.sun-rays {
-  transform-origin: 310px 42px;
-  animation: sunspin 16s linear infinite;
+/* Paintoor sun — soft light-pink halo rays spin slowly behind the brand
+   spokes, so the sun reads warm and alive instead of a static sticker.
+   Everything eases in once and stops for reduced-motion visitors. */
+.sun-glow { opacity: 0; animation: sunin 1.2s ease forwards 1s; }
+.sun-rays { opacity: 0; animation: sunspin 28s linear infinite, sunin .8s ease forwards 1.1s; }
+.sun-core { opacity: 0; animation: sunin .8s ease forwards 1.1s; }
+@keyframes sunspin { to { transform: rotate(360deg); } }
+@keyframes sunin { to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .sun-glow, .sun-rays, .sun-core { animation: none; opacity: 1; }
 }
 @keyframes sunspin {
   to { transform: rotate(360deg); }
@@ -154,9 +166,6 @@ html.theme-anim *::after {
   .marquee-track { animation: none; }
 }
 
-.sun-core { opacity: 0; animation: sunin .8s ease forwards 1.1s; }
-.sun-rays { opacity: 0; animation: sunspin 16s linear infinite, sunin .8s ease forwards 1.1s; }
-@keyframes sunin { to { opacity: 1; } }
 /* Brand stage: incoming and outgoing cards move together like one smooth
    horizontal scroll. Reduced-motion visitors get instant swaps. */
 .brand-in {

@@ -68,31 +68,40 @@ export function CinematicHero() {
   const words = [t("hero.w1"), t("hero.w2"), t("hero.w3"), t("hero.w4"), t("hero.w5")];
 
   return (
-    <section className="relative overflow-hidden bg-surface px-5 py-24 text-ink md:py-28 dark:bg-raatri dark:text-snow">
-            <svg
-        viewBox="0 0 100 100"
+    <section className="relative overflow-hidden bg-surface px-5 py-16 text-ink md:py-28 dark:bg-raatri dark:text-snow">
+          <svg
+        viewBox="0 0 200 200"
         fill="none"
-        className="pointer-events-none absolute right-5 top-6 z-10 h-14 w-14 md:right-12 md:top-10 md:h-20 md:w-20"
+        className="pointer-events-none absolute -right-8 -top-8 z-10 h-40 w-40 overflow-visible md:-right-6 md:-top-6 md:h-[360px] md:w-[360px]"
         aria-hidden="true"
       >
-        <g className="sun-rays" style={{ transformOrigin: "50px 50px" }}>
+        <defs>
+          <radialGradient id="pt-sun-glow">
+            <stop offset="0%" stopColor="#e00048" stopOpacity="0.28" />
+            <stop offset="45%" stopColor="#f27ba0" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#f27ba0" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        <circle className="sun-glow" cx="100" cy="100" r="99" fill="url(#pt-sun-glow)" />
+        {/* Crisp brand spokes on top, rotating a touch quicker. */}
+        <g className="sun-rays" style={{ transformOrigin: "100px 100px" }}>
           {[0, 45, 90, 135, 180, 225, 270, 315].map((d) => {
             const r = (d * Math.PI) / 180;
             return (
               <line
                 key={d}
-                x1={50 + Math.cos(r) * 28}
-                y1={50 + Math.sin(r) * 28}
-                x2={50 + Math.cos(r) * 40}
-                y2={50 + Math.sin(r) * 40}
+                x1={100 + Math.cos(r) * 27}
+                y1={100 + Math.sin(r) * 27}
+                x2={100 + Math.cos(r) * 40}
+                y2={100 + Math.sin(r) * 40}
                 stroke="#e00048"
-                strokeWidth="6"
+                strokeWidth="7"
                 strokeLinecap="round"
               />
             );
           })}
         </g>
-        <circle className="sun-core" cx="50" cy="50" r="19" fill="#e00048" />
+        <circle className="sun-core" cx="100" cy="100" r="19" fill="#e00048" />
       </svg>
       <div
         className="orb"
@@ -105,7 +114,7 @@ export function CinematicHero() {
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[1.15fr_0.85fr]">
+      <div className="relative mx-auto grid max-w-6xl items-center gap-2 md:grid-cols-[1.15fr_0.85fr] md:gap-10">
         <div>
          <span className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
             <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" />
@@ -141,7 +150,7 @@ export function CinematicHero() {
         </div>
 
           <div className="flex items-center justify-center" aria-hidden="true">
-          <div className="relative w-full max-w-[620px]">
+          <div className="relative w-full max-w-[620px] md:mt-28">
             <PainterLottie />
           </div>
         </div>
