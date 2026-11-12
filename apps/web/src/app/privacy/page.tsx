@@ -40,7 +40,7 @@ const COPY: Record<Lang, LegalCopy> = {
   },
 };
 
-export const metadata = { title: "Privacy policy — Paintoor" };
+export const metadata = { title: "Privacy policy" };
 
 export default function PrivacyPage() {
   return <LegalPage copy={COPY} />;

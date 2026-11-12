@@ -40,7 +40,7 @@ const COPY: Record<Lang, LegalCopy> = {
   },
 };
 
-export const metadata = { title: "Terms of use — Paintoor" };
+export const metadata = { title: "Terms of use" };
 
 export default function TermsPage() {
   return <LegalPage copy={COPY} />;

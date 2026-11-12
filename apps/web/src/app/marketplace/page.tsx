@@ -4,7 +4,7 @@
 import { Suspense } from "react";
 import { MarketplaceBrowser } from "@/components/marketplace/MarketplaceBrowser";
 
-export const metadata = { title: "Marketplace — Paintoor", description: "Buy paint & supplies from verified neighbourhood stores. Compare prices, check stock near you and pay only after delivery." };
+export const metadata = { title: "Marketplace", description: "Buy paint & supplies from verified neighbourhood stores. Compare prices, check stock near you and pay only after delivery." };
 
 export default function MarketplacePage() {
   return (

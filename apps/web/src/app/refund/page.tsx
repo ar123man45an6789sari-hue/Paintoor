@@ -40,7 +40,7 @@ const COPY: Record<Lang, LegalCopy> = {
   },
 };
 
-export const metadata = { title: "Refund policy — Paintoor" };
+export const metadata = { title: "Refund policy" };
 
 export default function RefundPage() {
   return <LegalPage copy={COPY} />;
