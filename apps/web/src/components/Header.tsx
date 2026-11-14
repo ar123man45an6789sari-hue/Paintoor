@@ -129,7 +129,7 @@ export function Header() {
             <SideRailsMobile />
           </div>
 
-          <nav className="mx-auto hidden items-center gap-6 lg:flex" aria-label="Primary">
+            <nav className={`mx-auto hidden shrink-0 items-center gap-5 xl:gap-6 ${session ? "xl:flex" : "lg:flex"}`} aria-label="Primary">
               {NAV.map((item) =>
               item.href === "" ? (
                 <span key={item.key} className="cursor-default text-sm font-semibold text-muted">
@@ -251,7 +251,7 @@ export function Header() {
             }}
               aria-label={t("nav.menu")}
               aria-expanded={menuOpen}
-              className={`${iconBtn} text-navy lg:hidden`}
+            className={`${iconBtn} text-navy ${session ? "xl:hidden" : "lg:hidden"}`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" className="h-5 w-5" aria-hidden="true">
                 {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}

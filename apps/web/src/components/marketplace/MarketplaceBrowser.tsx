@@ -60,8 +60,14 @@ export function MarketplaceBrowser() {
   const [storeId, setStoreId] = useState("");
   const [toggles, setToggles] = useState<Toggles>({ stock: false, open: false, offer: false });
   const [sort, setSort] = useState<Sort>("pop");
-  const [wish, setWish] = useState<number[]>(() => readList("pt_wish"));
-  const [recent, setRecent] = useState<number[]>(() => readList("pt_recent"));
+   const [wish, setWish] = useState<number[]>([]);
+  const [recent, setRecent] = useState<number[]>([]);
+/* Wishlist/recent come from localStorage only after mount so the first
+     client paint matches the server HTML (hydration safe). */
+  useEffect(() => {
+    setWish(readList("pt_wish"));
+    setRecent(readList("pt_recent"));
+  }, []);
   const [compare, setCompare] = useState<number[]>([]);
   const [compareOpen, setCompareOpen] = useState(false);
   const [modal, setModal] = useState<Product | null>(null);
@@ -208,7 +214,7 @@ export function MarketplaceBrowser() {
             <span className="flex items-center gap-1.5 whitespace-nowrap rounded-pill bg-chuna px-3 py-1.5 text-xs font-extrabold text-ink dark:bg-[#12161a] dark:text-snow">
               <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" /> {pin}
             </span>
-            <button type="button" className="whitespace-nowrap text-xs font-black text-saffron">{t("mk.change")}</button>
+                <button type="button" onClick={() => window.dispatchEvent(new Event("pt:open-location"))} className="whitespace-nowrap text-xs font-black text-saffron">{t("mk.change")}</button>
             <input
               value={query}
               onChange={(e) => { setQuery(e.target.value); setSuggest(true); }}
@@ -216,7 +222,7 @@ export function MarketplaceBrowser() {
               placeholder={t("mk.searchPh")}
               className="min-w-0 flex-1 bg-transparent px-2 text-sm font-semibold text-ink placeholder:font-semibold placeholder:text-muted focus:outline-none dark:text-snow"
             />
-            <button type="button" className="min-h-9 whitespace-nowrap rounded-pill bg-saffron px-5 py-2 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036]">{t("mk.search")}</button>
+            <button type="button" onClick={() => setSuggest(false)} className="min-h-9 whitespace-nowrap rounded-pill bg-saffron px-5 py-2 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036]">{t("mk.search")}</button>
             {suggest && suggestions.length > 0 && (
               <ul className="absolute left-0 right-0 top-[calc(100%+6px)] z-30 overflow-hidden rounded-card border border-line bg-white py-1 shadow-lift dark:bg-raatri">
                 {suggestions.map((p) => (

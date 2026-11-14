@@ -179,11 +179,17 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
   const { t } = useI18n();
   const [items, setItems] = useState<ServiceRequest[]>([]);
   const [confirmId, setConfirmId] = useState<string | null>(null);
-  const myName = typeof window !== "undefined" ? (getSession()?.name ?? "Guest") : "Guest";
+  const [myName, setMyName] = useState("Guest");
 
   useEffect(() => {
     setItems(getRequests());
     return onRequestsChange(() => setItems(getRequests()));
+  }, []);
+
+/* Session name is read only after mount — reading sessionStorage during
+     render made server HTML ("Guest") and client HTML disagree (React #418). */
+  useEffect(() => {
+    setMyName(getSession()?.name ?? "Guest");
   }, []);
 
   const newestFirst = items.slice().reverse();

@@ -10,12 +10,14 @@ import { Icon, PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getPlace, nameFromSlug, setPlace, type Place } from "@/lib/city";
 import { sensePlace } from "@/lib/geo";
+import { isIndianSlug } from "@/lib/india";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 
 const SKILL_KEYS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
 /* First path segments that are real routes, never city slugs. */
 const STATIC = new Set([
   "providers",
+  "marketplace",
   "partners",
   "studio",
   "blog",
@@ -65,7 +67,9 @@ export function NavSearch() {
     setPlace(p);
     const seg = firstSeg(pathRef.current);
     const onHomeOrCity = pathRef.current === "/" || (seg !== "" && !STATIC.has(seg));
-    if (onHomeOrCity && pathRef.current !== "/" + p.slug) {
+     /* Mirror into the URL ONLY for Indian city slugs — a foreign IP hit must
+       never navigate the visitor into a 404 (BUG-1 guard). */
+    if (onHomeOrCity && pathRef.current !== "/" + p.slug && isIndianSlug(p.slug)) {
       router.replace("/" + p.slug);
     }
   }
@@ -95,7 +99,9 @@ export function NavSearch() {
        it into the URL when the visitor landed on the bare home page. */
     if (stored) {
       setPlaceState(stored);
-      if (pathRef.current === "/") router.replace("/" + stored.slug);
+      if (pathRef.current === "/" && isIndianSlug(stored.slug)) {
+        router.replace("/" + stored.slug);
+      }
     }
 
     /* Re-validate in the background unless the cached reading is a real and
@@ -116,6 +122,14 @@ export function NavSearch() {
       adopt(p);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* Marketplace's "Change" button asks the header pill to open its
+     location popover through this tiny event bridge. */
+  useEffect(() => {
+    const h = () => setLocOpen(true);
+    window.addEventListener("pt:open-location", h);
+    return () => window.removeEventListener("pt:open-location", h);
   }, []);
 
   function reSense() {
