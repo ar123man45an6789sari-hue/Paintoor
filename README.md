@@ -1,11 +1,11 @@
 # Paintoor
 
 Location-based home services marketplace, starting with one craft: **painting**.
-Customers, verified painting partners, paint shops and an admin console —
+Customers, verified painting partners, and paint shops  —
 built around approval-first money (payment releases only after the customer
 approves the finished work).
 
-**Pilot city: Mumbai, Maharashtra.** Vadodara, Gujarat is live alongside it.
+**Pilot city: Mumbai, Maharashtra.** Mumbai,Maharashtra is live alongside it.
 Every other Indian city renders with an honest "not live yet" state and stays
 out of the index; URLs outside India return a real 404.
 UI languages: English, हिंदी, ગુજરાતી.
@@ -24,9 +24,11 @@ is built. Legal pages (terms / privacy / refund) are in place.
   Photos never leave the device.
 - **Landing** — hero, brand stage carousel (partner paint brands), scrollytelling
   "how it works", rate-card teaser with live adjustment sliders.
-- **Marketplace** (`/providers`) — partner browser with city/skill filters.
-- **Role dashboards** — customer, provider, shopkeeper and admin shells behind
-  a demo auth (localStorage session).
+**Partner Bazaar** (`/partners`, old `/providers` redirects) — verified painter
+  browser with city, area and skill filters.
+- **Marketplace** (`/marketplace`) — digital paint shop: compare neighbourhood
+  store prices, size a room's kit, one escrow-backed cart.
+- **Role dashboards** — customer, provider and shopkeeper shells behind
 - **i18n** — en / hi / gu dictionaries, browser-locale detection on first visit,
   saved choice afterwards.
 - **Legal** — `/terms`, `/privacy`, `/refund` in all three languages.
