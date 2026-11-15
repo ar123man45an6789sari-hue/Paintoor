@@ -26,7 +26,7 @@ const D: Record<Lang, Record<string, string>> = {
   en: {
     "nav.services": "Services", "nav.how": "How it works", "nav.partners": "Our partners", "nav.why": "Why us",
     "nav.login": "Log in", "nav.signup": "Register", "nav.entrance": "Sign in", "nf.p": "The page you are looking for does not exist or has moved.", "nf.home": "Back to home", "nf.soon": "Paintoor is growing city by city across India. If we have not reached yours yet — we will.", "nf.cities": "See the cities we serve", "nav.menu": "Menu", "menu.theme": "Theme",
-    "hero.badge": "Now serving {cities} cities · {partners} verified partners",
+    "hero.badge": "Now serving {cities} · {partners} verified partners",
     "hero.w1": "Every", "hero.w2": "home,", "hero.w3": "painted", "hero.w4": "with", "hero.w5": "pride.",
     "hero.sub": "Meet verified painters near you, compare honest rates and real reviews, and pay only when the finish makes you smile. Your money stays protected until you approve the work.",
     "hero.cta1": "Register", "hero.cta2": "See how it works",
@@ -56,7 +56,7 @@ const D: Record<Lang, Record<string, string>> = {
   hi: {
     "nav.services": "सेवाएं", "nav.how": "कैसे काम करता है", "nav.partners": "हमारे पार्टनर", "nav.why": "हम क्यों",
    "nav.login": "लॉग इन", "nav.signup": "रजिस्टर करें", "nav.entrance": "प्रवेश", "nf.p": "यह पेज मौजूद नहीं है या हटा दिया गया है।", "nf.home": "होम पेज पर जाएँ", "nf.soon": "Paintoor भारत में शहर दर शहर बढ़ रहा है। अभी तक आपके शहर तक नहीं पहुँचे — जल्द पहुँचेंगे।", "nf.cities": "जिन शहरों में हम हैं, उन्हें देखें", "nav.menu": "मेन्यू", "menu.theme": "थीम",
-    "hero.badge": "अब {cities} शहरों में · {partners} वेरिफाइड पार्टनर",
+   "hero.badge": "अब {cities} में · {partners} वेरिफाइड पार्टनर",
     "hero.w1": "हर", "hero.w2": "घर,", "hero.w3": "गर्व", "hero.w4": "से", "hero.w5": "रंगा।",
     "hero.sub": "अपने पास के वेरिफाइड पेंटर से मिलिए — साफ़ रेट, असली रिव्यू और ऐसा फिनिश जिस पर आप मुस्कुराएँ। जब तक आप काम को मंज़ूरी न दें, तब तक आपका पैसा पूरी तरह सुरक्षित।",
     "hero.cta1": "रजिस्टर करें", "hero.cta2": "देखिए कैसे काम करता है",
@@ -85,7 +85,7 @@ const D: Record<Lang, Record<string, string>> = {
   gu: {
     "nav.services": "સેવાઓ", "nav.how": "કેવી રીતે કામ કરે છે", "nav.partners": "અમારા પાર્ટનરો", "nav.why": "શા માટે અમે",
     "nav.login": "લોગ ઇન", "nav.signup": "રજિસ્ટર કરો", "nav.entrance": "સાઇન ઇન", "nf.p": "આ પેજ હાલ અસ્તિત્વમાં નથી અથવા ખસેડવામાં આવ્યું છે.", "nf.home": "હોમ પેજ પર જાઓ", "nf.soon": "Paintoor ભારતમાં શહેર દર શહેર વધી રહ્યું છે. હજી તમારા શહેર સુધી પહોંચ્યા નથી — જલ્દી પહોંચીશું.", "nf.cities": "અમે જે શહેરોમાં છીએ તે જુઓ", "nav.menu": "મેનૂ", "menu.theme": "થીમ",
-    "hero.badge": "હવે {cities} શહેરોમાં · {partners} વેરિફાઇડ પાર્ટનરો",
+    "hero.badge": "હવે {cities} માં · {partners} વેરિફાઇડ પાર્ટનરો",
     "hero.w1": "દરેક", "hero.w2": "ઘર,", "hero.w3": "ગર્વ", "hero.w4": "સાથે", "hero.w5": "રંગાયેલું.",
     "hero.sub": "તમારી નજીકના વેરિફાઇડ પેઇન્ટરને મળો — સાચા રેટ, સાચા રિવ્યુ અને એવું ફિનિશ કે જેના પર તમે મુસ્કુરાવો. જ્યાં સુધી તમે કામ મંજૂર ન કરો ત્યાં સુધી તમારા પૈસા સંપૂર્ણ સુરક્ષિત.",
     "hero.cta1": "રજિસ્ટર કરો", "hero.cta2": "જુઓ કેવી રીતે કામ કરે છે",

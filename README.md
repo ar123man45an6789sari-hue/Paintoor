@@ -41,15 +41,18 @@ is built. Legal pages (terms / privacy / refund) are in place.
 - **Legal** — `/terms`, `/privacy`, `/refund` in all three languages.
 
 ## Workspace layout
+
+```
 apps/
-web/ Next.js app (landing, studio, dashboards, legal)
-src/
-lib/ paint engine, session + provider state helpers
-i18n*.ts en / hi / gu dictionaries + provider
-components/ studio, header, footer, landing sections
+  web/                Next.js app (landing, studio, dashboards, legal)
+    src/
+      lib/            paint engine, session + provider state helpers
+      i18n*.ts        en / hi / gu dictionaries + provider
+      components/     studio, header, footer, landing sections
 packages/
-brand/ company identity (legal name, address, powered-by line)
-mock-api/ seed providers + shops used by the pilot frontend
+  brand/              company identity (legal name, address, powered-by line)
+  mock-api/           seed providers + shops used by the pilot frontend
+```
 
 
 ## Scripts
