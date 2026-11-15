@@ -18,6 +18,17 @@ if (typeof window !== "undefined") {
   } catch {
     lines = [];
   }
+    /* Cross-tab sync: another tab writing the basket is re-read here so the
+     last writer never silently wins (matches every other store). */
+  window.addEventListener("storage", (e) => {
+    if (e.key !== KEY) return;
+    try {
+      lines = e.newValue ? (JSON.parse(e.newValue) as CartLine[]) : [];
+    } catch {
+      lines = [];
+    }
+    subs.forEach((fn) => fn());
+  });
 }
 
 function emit() {
@@ -46,11 +57,11 @@ export function cartCount(list: CartLine[]): number {
 }
 export function addLine(line: CartLine) {
   const old = lines.find((l) => l.key === line.key);
-  lines = old ? lines.map((l) => (l.key === line.key ? { ...l, qty: l.qty + line.qty } : l)) : [...lines, line];
+  qty: Math.min(99, l.qty + line.qty)
   emit();
 }
 export function setQty(key: string, d: number) {
-  lines = lines.flatMap((l) => (l.key !== key ? [l] : l.qty + d <= 0 ? [] : [{ ...l, qty: l.qty + d }]));
+ [{ ...l, qty: Math.min(99, l.qty + d) }]
   emit();
 }
 export function removeLine(key: string) {

@@ -68,14 +68,26 @@ function defaultCatalog(): ShopProduct[] {
     { id: "p13", name: "Teflon Tape", brand: "Generic", category: "sanitary", unit: "roll", price: 35, stock: 40, lowStockAt: 10 },
   ];
 }
-
+import { localDayKey } from "./services";
+import { ProviderState } from "./providerstate";
 function defaultHistory(): { date: string; amount: number }[] {
   const out: { date: string; amount: number }[] = [];
   const base = [4200, 0, 6800, 3100, 0, 9400, 5200, 0, 7600, 4800, 0, 11200, 6300, 8400];
   for (let i = 13; i >= 0; i -= 1) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    out.push({ date: d.toISOString().slice(0, 10), amount: base[13 - i] ?? 0 });
+    out.push({ date: localDayKey(d), amount: base[13 - i] ?? 0 });
+  }
+  return out;
+}
+/** Re-base a stored 14-day series onto today so the chart never freezes. */
+function rollHistory(h: { date: string; amount: number }[]): { date: string; amount: number }[] {
+  const src = Array.isArray(h) ? h.slice(-14) : [];
+  const out: { date: string; amount: number }[] = [];
+  for (let i = 13; i >= 0; i -= 1) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    out.push({ date: localDayKey(d), amount: src[13 - i]?.amount ?? 0 });
   }
   return out;
 }
@@ -101,7 +113,8 @@ function emit() {
 export function getShopState(): ShopState {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ShopState>) } : defaultState();
+    const st = raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ProviderState>) } : defaultState();
+    return { ...st, history: rollHistory(st.history) };
   } catch {
     return defaultState();
   }
@@ -191,9 +204,9 @@ export function addDemoOrder(profile: ShopProfile): ShopOrder {
   const items: ShopOrderItem[] = available.slice(0, 3).map((p, i) => ({ productId: p.id, qty: (i % 2) + 1 }));
   const priceOf = (pid: string) => state.products.find((p) => p.id === pid)?.price ?? 0;
   const order: ShopOrder = {
-    id: `ord_${Date.now()}`,
+    id: `ord_${crypto.randomUUID()}`,
     providerName: seed.providers[Math.floor(Math.random() * seed.providers.length)].name,
-    jobRef: `JOB-${String(Date.now()).slice(-6)}`,
+    jobRef: `JOB-${crypto.randomUUID().slice(0, 6).toUpperCase()}`,
     zone: profile.zone,
     items,
     total: items.reduce((sum, it) => sum + priceOf(it.productId) * it.qty, 0),

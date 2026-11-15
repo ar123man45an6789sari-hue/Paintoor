@@ -196,8 +196,9 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
   const open = newestFirst.filter((r) => r.status === "open");
   const matched = newestFirst.filter((r) => r.status === "interested" || r.status === "accepted");
   const done = newestFirst.filter((r) => r.status === "completed");
+  const cancelled = newestFirst.filter((r) => r.status === "cancelled");
 
-  if (open.length === 0 && matched.length === 0 && done.length === 0) {
+if (open.length === 0 && matched.length === 0 && done.length === 0 && cancelled.length === 0) {
     return (
       <div className="rounded-card border border-dashed border-line bg-white p-6 text-center text-muted">
         {t("req.empty")}
@@ -216,7 +217,7 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
 
   return (
     <div className="space-y-6">
-      <p className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted hover:border-navy hover:text-navy">
+     <p className="rounded-control border-2 border-line px-3 py-1.5 text-xs font-extrabold text-muted">
         <Icon name="bulb" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.next")}
       </p>
 
@@ -248,6 +249,16 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
             {t("req.group.done")} ({done.length})
           </h3>
           {done.map((r) => (
+            <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
+          ))}
+        </section>
+      )}
+       {cancelled.length > 0 && (
+        <section className="space-y-4">
+          <h3 className="text-xs font-black uppercase tracking-[0.14em] text-muted">
+            {t("req.group.cancelled")} ({cancelled.length})
+          </h3>
+          {cancelled.map((r) => (
             <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
           ))}
         </section>

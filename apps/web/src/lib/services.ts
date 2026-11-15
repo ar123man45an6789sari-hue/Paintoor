@@ -29,6 +29,11 @@ export const CREWS = [
   { name: "Dinesh Prajapati", rating: 4.7, jobs: 143, langs: "GU · HI", since: 2020 },
 ];
 
+/* Local-calendar date key (IST-safe): toISOString() reports the UTC day,
+   which lags by one between midnight and 05:30 IST. */
+export const localDayKey = (d: Date): string =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
 /* Next n days as bookable slots (tomorrow onwards). */
 export type Slot = { key: string; label: string };
 export function nextSlots(n = 7): Slot[] {
@@ -37,7 +42,7 @@ export function nextSlots(n = 7): Slot[] {
     const d = new Date();
     d.setDate(d.getDate() + i);
     out.push({
-      key: d.toISOString().slice(0, 10),
+      key: localDayKey(d),
       label: d.toLocaleDateString("en-IN", { weekday: "short", day: "numeric", month: "short" }),
     });
   }

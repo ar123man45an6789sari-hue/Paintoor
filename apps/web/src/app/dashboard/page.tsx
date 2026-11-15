@@ -29,6 +29,11 @@ export default function DashboardPage() {
   const [session, setSession] = useState<Session | null>(null);
   const [tab, setTab] = useState<Tab>("over");
 
+  /* The partner shelf's "Hire" button drops a logged-in customer straight
+     into the post-job wizard (the partner name is pre-filled there). */
+  useEffect(() => {
+    if (window.sessionStorage.getItem("pt_post_provider")) setTab("post");
+  }, []);
   useEffect(() => {
     const current = getSession();
     if (!current) {

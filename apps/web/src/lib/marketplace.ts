@@ -113,6 +113,8 @@ export const storesFor = (p: Product): Store[] => STORES.filter((s) => s.br.incl
 export const priceAt = (p: Product, s: Store): number => Math.round((p.price * s.f) / 100) * 10;
 export const cheapest = (p: Product): { p: number; s: Store } => {
   const list = storesFor(p);
+  /* A brand with no store must never crash the grid — fall back to MRP. */
+  if (list.length === 0) return { p: p.mrp, s: STORES[0] };
   let best = { p: priceAt(p, list[0]), s: list[0] };
   for (const s of list) {
     const v = priceAt(p, s);

@@ -35,8 +35,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
       ...(kitItems.length ? [{ name: t("mk.calc.kit"), eta: t("mk.tomorrow") }] : []),
       ...(svcItems.length ? [{ name: t("svc.group"), eta: t("mk.tomorrow") }] : []),
     ];
-    const id = `PT-${Date.now().toString(36).slice(-5).toUpperCase()}${Math.floor(Math.random() * 90 + 10)}`;
-    setPlaced({ id, total, etas });
+   const id = `PT-${crypto.randomUUID().slice(2, 7).toUpperCase()}`;
     clearCart();
   }
   function close() {

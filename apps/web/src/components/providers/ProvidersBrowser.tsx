@@ -7,9 +7,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { isLiveSkill, seed } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
-import { useSearchParams } from "next/navigation";
+import {useRouter, useSearchParams } from "next/navigation";
 import { getCity } from "@/lib/city";
 import { requestAuth } from "@/lib/authEvents";
+import { getSession } from "@/lib/session";
 import { Icon, type IconName } from "@/components/Icons";
 
 const SKILL_ICON: Record<string, IconName> = {
@@ -53,6 +54,7 @@ const rupees = (paise: number) => "₹" + (paise / 100).toLocaleString("en-IN");
 export function ProvidersBrowser() {
   const { t } = useI18n();
   const params = useSearchParams();
+  const router = useRouter();
 
   // Only cities that actually have a bookable (live-skill) partner are listed,
   // so the dropdown can never select a city with zero results.
@@ -270,8 +272,15 @@ export function ProvidersBrowser() {
                       <span className="text-xs font-semibold text-muted">{RATE_UNIT[p.rate_range_paise.unit]}</span>
                     </span>
                     <button
-                      type="button"
-                      onClick={() => requestAuth("signup")}
+                       onClick={() => {
+                        const s = getSession();
+                        if (s?.role === "customer") {
+                          sessionStorage.setItem("pt_post_provider", p.name);
+                          router.push("/dashboard");
+                        } else {
+                          requestAuth("signup");
+                        }
+                      }}
                       className="rounded-control bg-saffron px-4 py-2 text-sm font-extrabold text-snow transition-transform hover:-translate-y-0.5 hover:shadow-lift"
                     >
                       {t("pt.hire")}

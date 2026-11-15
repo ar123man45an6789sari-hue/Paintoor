@@ -14,6 +14,7 @@ export type ProviderState = {
     /** Per-request job progress set from the Work tab (S10). */
 jobProgress: Record<string, "started" | "completed">;
 };
+import { localDayKey } from "./services";
 
 const KEY = "gs_provider_state";
 const CHANGE = "gs:provider-state-changed";
@@ -25,7 +26,18 @@ function seedHistory(): { date: string; amount: number }[] {
   for (let i = 13; i >= 0; i -= 1) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    out.push({ date: d.toISOString().slice(0, 10), amount: base[13 - i] ?? 0 });
+    out.push({ date: localDayKey(d), amount: base[13 - i] ?? 0 });
+  }
+  return out;
+}
+/** Re-base a stored 14-day series onto today so the chart never freezes. */
+function rollHistory(h: { date: string; amount: number }[]): { date: string; amount: number }[] {
+  const src = Array.isArray(h) ? h.slice(-14) : [];
+  const out: { date: string; amount: number }[] = [];
+  for (let i = 13; i >= 0; i -= 1) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    out.push({ date: localDayKey(d), amount: src[13 - i]?.amount ?? 0 });
   }
   return out;
 }
@@ -50,9 +62,8 @@ function emit() {
 export function getProviderState(): ProviderState {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ProviderState>) } : defaultState();
-  } catch {
-    return defaultState();
+    const st = raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ProviderState>) } : defaultState();
+    return { ...st, history: rollHistory(st.history) };
   }
 }
 

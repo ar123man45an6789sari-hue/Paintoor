@@ -158,7 +158,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
                   className="flex w-full items-center justify-center gap-2 rounded-control border-2 border-line bg-white px-4 py-2.5 text-sm font-extrabold text-ink transition-colors hover:border-navy"
                 >
                   <span aria-hidden="true" className="text-base font-black text-[#4285F4]">G</span>
-                  {t("auth.google")}
+                  {t("auth.google")} (demo)
                 </button>
                 <div className="flex items-center gap-3 text-xs font-bold text-muted">
                   <span className="h-px flex-1 bg-line" /> {t("auth.or")} <span className="h-px flex-1 bg-line" />
@@ -174,16 +174,9 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
                     className="w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron"
                   />
                 </label>
-                {role === "provider" && (
-                  <label className="flex items-center gap-2 text-sm text-muted">
+                <label className="flex items-center gap-2 text-sm text-muted">
                   <input type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)} className="accent-saffron" /> {t("login.remember")}
-                  </label>
-                )}
-                {role === "customer" && (
-                  <label className="flex items-center gap-2 text-sm text-muted">
-                    <input type="checkbox" defaultChecked className="accent-saffron" /> {t("login.remember")}
-                  </label>
-                )}
+                </label>
                 <div className="flex gap-3">
                   <button type="button" onClick={() => setStep("role")} className="rounded-control border-2 border-line px-4 py-2.5 text-sm font-extrabold text-muted hover:border-navy hover:text-navy">
                     {t("auth.back")}

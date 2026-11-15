@@ -2,7 +2,7 @@
    the request leaves the customer's open list and the customer is notified. */
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { acceptLead, addRequest, declineLead, getRequests, onRequestsChange } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
@@ -28,6 +28,13 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
   const [items, setItems] = useState<ServiceRequest[]>([]);
   const [online, setOnline] = useState(true);
   const [declineFor, setDeclineFor] = useState<ServiceRequest | null>(null);
+  const [tick, setTick] = useState(0);
+
+  /* Re-run the expiry filter every 30s so overdue leads drop off live. */
+  useEffect(() => {
+    const id = window.setInterval(() => setTick((v) => v + 1), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
   const [reason, setReason] = useState("busy");
   const [toast, setToast] = useState<string | null>(null);
   const [dragEnabled, setDragEnabled] = useState(true);
@@ -62,11 +69,11 @@ export function LeadsDeck({ profile }: { profile: ProviderProfile }) {
     return () => window.clearTimeout(id);
   }, [toast]);
 
-  const leads = useMemo(() => {
-    if (!online) return [];
-    const now = Date.now();
-    return openLeadsFor(profile, items).filter((r) => !r.windowEndsAt || r.windowEndsAt > now);
-  }, [items, online, profile]);
+   /* Deliberately NOT memoised: the 30s tick re-renders and this re-runs the
+     expiry filter so overdue leads drop off live. */
+  const leads = !online
+    ? []
+    : openLeadsFor(profile, items).filter((r) => !r.windowEndsAt || r.windowEndsAt > Date.now());
 
   const visible = leads.slice(0, STACK);
   const pending = visible.filter((r) => r.status === "open");

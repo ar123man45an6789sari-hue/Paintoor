@@ -31,9 +31,19 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
      The visitor's own city is adopted after mount, but only if we actually
      serve it, so the wizard can never promise a city with no partners.
      Same pattern ProvidersBrowser already uses. */
-  useEffect(() => {
+    useEffect(() => {
     const saved = getCity();
     if (CITIES.includes(saved)) setCity(saved);
+  }, []);
+
+  /* Consumed once: the partner chosen on the shelf becomes the first line
+     of the description so the request reaches the right worker. */
+  useEffect(() => {
+    const pre = window.sessionStorage.getItem("pt_post_provider");
+    if (pre) {
+      window.sessionStorage.removeItem("pt_post_provider");
+      setDescription((d) => (d.trim() ? d : `Preferred partner: ${pre}.`));
+    }
   }, []);
   const [zone, setZone] = useState("");
   const [landmark, setLandmark] = useState("");
@@ -44,6 +54,11 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
 
   const inputClass = "w-full rounded-control border border-line bg-white px-3 py-2.5 text-sm outline-none focus:border-saffron";
   const labelClass = "mb-1 block text-sm font-bold text-ink";
+  /** Today as a local-calendar key, so the date picker blocks past days. */
+  const todayLocal = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  };
 
   function submit() {
     const session = getSession();
@@ -51,6 +66,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
       customer: session?.name ?? "Guest",
       city,
       zone: zone || city,
+      landmark,
       category,
       description,
       photos,
@@ -161,7 +177,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <label className="block">
               <span className={labelClass}>{t("wiz.date")}</span>
-              <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={inputClass} />
+             <input type="date" min={todayLocal()} value={date} onChange={(e) => setDate(e.target.value)} className={inputClass} />
             </label>
             <label className="block">
               <span className={labelClass}>{t("wiz.slot")}</span>

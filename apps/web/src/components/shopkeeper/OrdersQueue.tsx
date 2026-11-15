@@ -14,6 +14,13 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
   const [orders, setOrders] = useState<ShopOrder[]>([]);
   const [products, setProducts] = useState<ShopProduct[]>([]);
   const [toast, setToast] = useState<string | null>(null);
+  const [, setTick] = useState(0);
+
+  /* Re-compute SLA countdowns every 30s so the badges never go stale. */
+  useEffect(() => {
+    const id = window.setInterval(() => setTick((v) => v + 1), 30_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   const reload = useCallback(() => {
     const s = getShopState();

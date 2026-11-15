@@ -21,6 +21,8 @@ export type ServiceRequest = {
   customer: string;
   city: string;
   zone: string;
+  /** Nearby landmark typed by the customer (optional). */
+  landmark?: string;
   category: string;
   description: string;
   photos: string[];
@@ -91,7 +93,7 @@ export function getRequest(id: string): ServiceRequest | undefined {
 export function addRequest(input: RequestDraft): ServiceRequest {
   const created: ServiceRequest = {
     ...input,
-    id: `req_${Date.now()}`,
+    id: `req_${crypto.randomUUID()}`,
     status: "open",
     at: Date.now(),
     leads: {},
@@ -113,8 +115,8 @@ export function acceptLead(id: string, providerId: string, providerName: string)
       ...r,
       status: r.status === "open" ? ("interested" as RequestStatus) : r.status,
       leads: { ...(r.leads ?? {}), [providerId]: { status: "interested" as LeadAction, at } },
-      acceptedBy: providerId,
-      acceptedName: providerName,
+       acceptedBy: r.acceptedBy ?? providerId,
+      acceptedName: r.acceptedName ?? providerName,
     };
     return updated;
   });
@@ -129,7 +131,13 @@ export function declineLead(id: string, providerId: string, reason: string): Ser
   let updated: ServiceRequest | undefined;
   const next = getRequests().map((r) => {
     if (r.id !== id) return r;
-    updated = { ...r, leads: { ...(r.leads ?? {}), [providerId]: { status: "declined" as LeadAction, at, reason } } };
+       updated = {
+      ...r,
+      leads: { ...(r.leads ?? {}), [providerId]: { status: "declined" as LeadAction, at, reason } },
+      /* A partner who declines must not stay displayed as the accepted one. */
+      acceptedBy: r.acceptedBy === providerId ? null : r.acceptedBy,
+      acceptedName: r.acceptedBy === providerId ? null : r.acceptedName,
+    };
     return updated;
   });
   if (updated) save(next);
@@ -170,7 +178,9 @@ export function onRequestsChange(cb: () => void) {
 }
 /** 4-digit job OTP the customer reads out at site start. */
 export function makeOtp(): string {
-  return String(Math.floor(1000 + Math.random() * 9000));
+   const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  return String(1000 + (buf[0] % 9000));
 }
 
 export type BookingDetails = { date: string; slot: string; advance: number; total: number };
