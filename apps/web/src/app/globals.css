@@ -389,5 +389,9 @@ html.dark .mk-stage::after { opacity: .06; mix-blend-mode: screen; }
   background-position: center, center;
 }
 .dark .begin-cta {
-  background-image: none;
+  background-image:
+    radial-gradient(120% 95% at 50% 50%, rgb(14 46 85 / 0.92) 0%, rgb(14 46 85 / 0.55) 46%, rgb(14 46 85 / 0) 78%),
+    url("/begin-cta-bg-dark.jpg");
+  background-size: cover, cover;
+  background-position: center, center;
 }
