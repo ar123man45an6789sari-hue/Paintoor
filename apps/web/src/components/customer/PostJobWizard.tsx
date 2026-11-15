@@ -139,6 +139,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
               <Icon name="camera" className="h-6 w-6 text-saffron" />
               <span className="text-sm font-extrabold text-navy">{t("wiz.drop")}</span>
               <span className="text-[11px] font-semibold text-muted">{t("wiz.dropSub")}</span>
+              <span className="mt-1 block text-[11px] font-semibold text-muted">{t("wiz.photosHint")}</span>
             </label>
           </div>
           {photos.length > 0 && (

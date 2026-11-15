@@ -41,6 +41,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={noto.variable}>
+        <head>
+        {/* Apply the saved theme before first paint so dark-mode visitors
+            never see a white flash on load. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              'try{var t=localStorage.getItem("gs_theme");if(t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches)){document.documentElement.classList.add("dark")}}catch(e){}',
+          }}
+        />
+      </head>
        <body className="font-sans">
         <I18nProvider>
           <Header />

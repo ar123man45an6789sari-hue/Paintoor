@@ -111,6 +111,7 @@ export function usePaintStudio(maxDim: number) {
   const ringRef = useRef<HTMLDivElement | null>(null);
 
   const [photos, setPhotos] = useState<StudioPhoto[]>([]);
+  const photosCountRef = useRef(0);
   const [activeId, setActiveId] = useState<string | null>(null);
   const [size, setSize] = useState({ w: 0, h: 0 });
   const [loading, setLoading] = useState(false);
@@ -348,12 +349,13 @@ export function usePaintStudio(maxDim: number) {
     },
     [flush],
   );
+useEffect(() => { photosCountRef.current = photos.length; }, [photos]);
 
-  const load = useCallback(
+   const load = useCallback(
     async (source: Blob | string, id?: string, name?: string) => {
       setLoading(true);
       setReady(false);
-      const photoId = id ?? `p_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
+      const photoId = id ?? `p_${crypto.randomUUID()}`;
       const url = typeof source === "string" ? source : URL.createObjectURL(source);
       if (typeof source !== "string") blobUrlsRef.current.push(url);
       setPhotos((prev) =>
@@ -362,6 +364,14 @@ export function usePaintStudio(maxDim: number) {
       try {
         const j = await loadJob(source, maxDim);
         adopt(photoId, j);
+      } catch {
+        /* Undecodable image: pull its thumbnail back out so no dead slot
+           stays in the rail, and hand the object URL back. */
+        setPhotos((prev) => prev.filter((ph) => ph.id !== photoId));
+        if (typeof source !== "string") {
+          blobUrlsRef.current = blobUrlsRef.current.filter((u) => u !== url);
+          URL.revokeObjectURL(url);
+        }
       } finally {
         setLoading(false);
       }

@@ -4,6 +4,7 @@
 "use client";
 
 import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useI18n } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
@@ -33,7 +34,10 @@ export default function DashboardPage() {
      into the post-job wizard (the partner name is pre-filled there). */
   useEffect(() => {
     if (window.sessionStorage.getItem("pt_post_provider")) setTab("post");
+    /* Back on the dashboard = the marketing pages gate themselves again. */
+    window.sessionStorage.removeItem("pt_browse");
   }, []);
+
   useEffect(() => {
     const current = getSession();
     if (!current) {
@@ -66,6 +70,13 @@ export default function DashboardPage() {
             <p className="mt-1 text-snow/85">
               {t("dash.hi")}, <b>{session.name || t("dash.friend")}</b>
             </p>
+            <Link
+              href="/"
+              onClick={() => window.sessionStorage.setItem("pt_browse", "1")}
+              className="mt-3 inline-block rounded-control border border-snow/40 px-3 py-1.5 text-xs font-extrabold text-snow transition-colors hover:bg-snow/10"
+            >
+              {t("dash.viewSite")}
+            </Link>
           </div>
         )}
 

@@ -249,7 +249,7 @@ const D4: Record<Lang, Record<string, string>> = {
   en: {
     "tab.signup": "Register", "tab.login": "Log in",
     "login.online": "Start online after login", "login.counter": "Open counter after login", "login.remember": "Remember this device",
-       "dash.hi": "Welcome", "dash.c": "Customer dashboard", "dash.p": "Partner dashboard", "dash.s": "Store dashboard",
+       "dash.hi": "Welcome", "dash.viewSite": "View website","dash.c": "Customer dashboard", "dash.p": "Partner dashboard", "dash.s": "Store dashboard",
     "dash.next": "Your full workspace arrives in the next sessions — the auth, roles and data loop behind it are already wired.",
     "dash.logout": "Log out", "dash.open": "Dashboard",
     "chip.c": "Customer", "chip.p": "Partner", "chip.s": "Store",
@@ -257,7 +257,7 @@ const D4: Record<Lang, Record<string, string>> = {
   hi: {
     "tab.signup": "रजिस्टर करें", "tab.login": "लॉग इन",
     "login.online": "लॉगिन के बाद ऑनलाइन शुरू करें", "login.counter": "लॉगिन के बाद काउंटर खोलें", "login.remember": "इस डिवाइस को याद रखें",
-    "dash.hi": "स्वागत है", "dash.c": "ग्राहक डैशबोर्ड", "dash.p": "पार्टनर डैशबोर्ड", "dash.s": "दुकान डैशबोर्ड",
+    "dash.hi": "स्वागत है", "dash.viewSite": "वेबसाइट देखें", "dash.c": "ग्राहक डैशबोर्ड", "dash.p": "पार्टनर डैशबोर्ड", "dash.s": "दुकान डैशबोर्ड",
     "dash.next": "आपकी पूरी वर्कस्पेस अगले sessions में आएगी — पीछे का auth, roles और data loop पहले से wired है।",
     "dash.logout": "लॉग आउट", "dash.open": "डैशबोर्ड",
     "chip.c": "ग्राहक", "chip.p": "पार्टनर", "chip.s": "दुकान",
@@ -265,7 +265,7 @@ const D4: Record<Lang, Record<string, string>> = {
   gu: {
     "tab.signup": "રજિસ્ટર કરો", "tab.login": "લોગ ઇન",
     "login.online": "લોગિન પછી ઓનલાઇન શરૂ કરો", "login.counter": "લોગિન પછી કાઉન્ટર ખોલો", "login.remember": "આ ઉપકરણ યાદ રાખો",
-    "dash.hi": "સ્વાગત છે", "dash.c": "ગ્રાહક ડેશબોર્ડ", "dash.p": "પાર્ટનર ડેશબોર્ડ", "dash.s": "દુકાન ડેશબોર્ડ",
+    "dash.hi": "સ્વાગત છે", "dash.viewSite": "વેબસાઇટ જુઓ", "dash.c": "ગ્રાહક ડેશબોર્ડ", "dash.p": "પાર્ટનર ડેશબોર્ડ", "dash.s": "દુકાન ડેશબોર્ડ",
     "dash.next": "તમારું પૂરું વર્કસ્પેસ આગળના sessions માં આવશે — પાછળનો auth, roles અને data loop પહેલેથી wired છે.",
     "dash.logout": "લોગ આઉટ", "dash.open": "ડેશબોર્ડ",
     "chip.c": "ગ્રાહક", "chip.p": "પાર્ટનર", "chip.s": "દુકાન",
@@ -311,6 +311,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
             : "en";
     setLangState(detected);
   }, []);
+
+/* Keep <html lang> in sync so screen readers and SEO follow the UI. */
+  useEffect(() => {
+    document.documentElement.lang = lang;
+  }, [lang]);
 
   function setLang(l: Lang) {
     setLangState(l);

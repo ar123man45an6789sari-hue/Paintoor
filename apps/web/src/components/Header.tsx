@@ -124,18 +124,14 @@ export function Header() {
             <Wordmark className="text-lg font-black tracking-tight text-navy md:text-xl dark:text-snow" />
           </Link>
 
-           <div className="order-last flex w-full min-w-0 items-center gap-2 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">
+            <div className="order-last flex w-full min-w-0 items-center gap-2 lg:order-none lg:flex-1 lg:min-w-[170px] lg:max-w-[260px] xl:max-w-[300px]">
             <NavSearch />
             <SideRailsMobile />
           </div>
 
-            <nav className={`mx-auto hidden shrink-0 items-center gap-5 xl:gap-6 ${session ? "xl:flex" : "lg:flex"}`} aria-label="Primary">
+          <nav className={`mx-auto hidden shrink-0 items-center gap-5 xl:gap-6 ${session ? "xl:flex" : "lg:flex"}`} aria-label="Primary">
               {NAV.map((item) =>
-              item.href === "" ? (
-                <span key={item.key} className="cursor-default text-sm font-semibold text-muted">
-                  {t(item.key)}
-                </span>
-              ) : item.href.startsWith("/") ? (
+              item.href.startsWith("/") ? (
                 <Link key={item.href} href={item.href} className="text-sm font-semibold text-muted transition-colors hover:text-navy">
                   {t(item.key)}
                 </Link>
@@ -162,7 +158,7 @@ export function Header() {
             <button type="button" onClick={() => {
               if (!langOpen) openPopover("lang");
               setLangOpen(!langOpen);
-            }} aria-label="Change language" className={`${iconBtn} hidden text-navy lg:flex`}>
+            }} aria-label="Change language" aria-expanded={langOpen} className={`${iconBtn} hidden text-navy lg:flex`}>
               <Icon name="globe" className="h-[18px] w-[18px]" />
             </button>
             {langOpen && (
@@ -212,6 +208,7 @@ export function Header() {
               <button
                 type="button"
                 aria-label={t("nav.entrance")}
+                aria-expanded={acctOpen}
                 onClick={() => {
                 if (!acctOpen) openPopover("acct");
                 setAcctOpen(!acctOpen);
@@ -251,7 +248,7 @@ export function Header() {
             }}
               aria-label={t("nav.menu")}
               aria-expanded={menuOpen}
-            className={`${iconBtn} text-navy ${session ? "xl:hidden" : "lg:hidden"}`}
+              className={`${iconBtn} text-navy ${session ? "xl:hidden" : "lg:hidden"}`}
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" className="h-5 w-5" aria-hidden="true">
                 {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}

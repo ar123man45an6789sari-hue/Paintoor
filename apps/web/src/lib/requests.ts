@@ -5,6 +5,7 @@
      interested  a worker accepted the lead (S10 — A→B→C loop)
      accepted    customer hired a worker
      cancelled   customer withdrew the request
+     completed work finished and rated (S11)
 
    `leads` is the per-worker response map; `acceptedBy` is the worker who took
    the job. Both are optional so S1-S9 records in LocalStorage stay readable. */
@@ -146,11 +147,6 @@ export function declineLead(id: string, providerId: string, reason: string): Ser
 
 export function cancelRequest(id: string) {
   save(getRequests().map((r) => (r.id === id ? { ...r, status: "cancelled" as RequestStatus } : r)));
-}
-
-/** Customer hired the worker who accepted — completes A → B → C. */
-export function hireRequest(id: string) {
-  save(getRequests().map((r) => (r.id === id ? { ...r, status: "accepted" as RequestStatus } : r)));
 }
 
 export function interestedCount(r: ServiceRequest): number {

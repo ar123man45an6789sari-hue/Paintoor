@@ -5,17 +5,20 @@
    id and shows a success panel with per-store delivery ETAs. */
 "use client";
 
-import { useState } from "react";
+import { useState , useRef} from "react";
 import { useRouter } from "next/navigation";
 import { STORES } from "@/lib/marketplace";
 import { cartCount, clearCart, removeLine, setQty, useCart } from "@/lib/cartStore";
 import type { CartLine } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
+import { useFocusTrap } from "@/components/useFocusTrap";
 
 type Placed = { id: string; total: number; etas: { name: string; eta: string }[] };
 
 export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, open);
   const { t } = useI18n();
   const router = useRouter();
   const lines = useCart();
@@ -35,7 +38,8 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
       ...(kitItems.length ? [{ name: t("mk.calc.kit"), eta: t("mk.tomorrow") }] : []),
       ...(svcItems.length ? [{ name: t("svc.group"), eta: t("mk.tomorrow") }] : []),
     ];
-   const id = `PT-${crypto.randomUUID().slice(2, 7).toUpperCase()}`;
+    const id = `PT-${crypto.randomUUID().slice(2, 7).toUpperCase()}`;
+    setPlaced({ id, total, etas });
     clearCart();
   }
   function close() {
@@ -46,7 +50,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
   return (
     <>
       <div className={`mk-scrim ${open ? "" : "hidden"}`} onClick={close} aria-hidden="true" />
-      <aside className={`mk-drawer ${open ? "open" : ""}`} aria-label={t("mk.cart.title")}>
+      <aside ref={boxRef} role="dialog" aria-modal="true" className={`mk-drawer ${open ? "open" : ""}`} aria-label={t("mk.cart.title")}>
         <div className="flex items-center justify-between border-b border-line p-4">
           <h2 className="flex items-center gap-2 text-lg font-black text-navy dark:text-snow">
             <Icon name="cart" className="h-5 w-5 text-saffron" /> {t("mk.cart.title")}

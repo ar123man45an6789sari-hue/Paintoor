@@ -5,12 +5,13 @@
    estimator that feeds the global cart. */
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import type { FormEvent } from "react";
 import { BRANDS, buildKit, packLabel } from "@/lib/marketplace";
 import { addLine, requestCartOpen } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
+import { useFocusTrap } from "@/components/useFocusTrap";
 
 const seg = (on: boolean) =>
   `min-h-10 flex-1 rounded-control px-3 text-sm font-extrabold transition-colors ${
@@ -78,9 +79,11 @@ export function SideRailsMobile() {
 }
 
 function Shell({ label, onClose, children }: { label: string; onClose: () => void; children: React.ReactNode }) {
+   const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, true);
   const { t } = useI18n();
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/60 p-4" role="dialog" aria-modal="true" aria-label={label} onClick={onClose}>
+    <div ref={boxRef} className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/60 p-4" role="dialog" aria-modal="true" aria-label={label} onClick={onClose}>
       <div className="max-h-[88vh] w-full max-w-md overflow-y-auto rounded-sheet border border-line bg-white p-6 shadow-lift md:max-w-lg dark:bg-raatri" onClick={(e) => e.stopPropagation()}>
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{label}</span>
