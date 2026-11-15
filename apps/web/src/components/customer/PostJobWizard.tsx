@@ -5,16 +5,14 @@ import { useEffect,useState } from "react";
 import { useI18n } from "@/i18n";
 import { addRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { LIVE_CITY_NAMES, seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
 import { Icon } from "@/components/Icons";
 import { getCity } from "@/lib/city";
 
-// Only cities where a bookable partner actually exists today, so the
+// Only launch cities where a bookable partner actually exists today, so the
 // wizard can never promise a city the marketplace cannot serve.
-const CITIES = Array.from(
-  new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => p.city)),
-).sort();
+const CITIES = LIVE_CITY_NAMES;
 const SLOTS = ["m", "a", "e", "f"];
 const BUDGETS = ["e", "s", "p"];
 

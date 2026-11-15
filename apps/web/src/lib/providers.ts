@@ -1,7 +1,7 @@
 /* Provider-side helpers for the demo: who is logged in, which open requests
    match them, and how far away the job is. Production replaces this with
    GET /v1/providers/me + GET /v1/leads (ranking rules live here). */
-import { seed } from "@paintoor/mock-api";
+import { liveProviders, seed } from "@paintoor/mock-api";
 import type { ServiceRequest } from "./requests";
 
 export type SeedProvider = (typeof seed.providers)[number];
@@ -28,14 +28,16 @@ export type ProviderProfile = {
 const SKILL_WORDS = ["paint", "electric", "plumb", "carpent", "clean", "waterproof"];
 const DEFAULT_SKILL = "painting";
 
-/** First seed provider whose id contains a word from the signed-in name, else a painter. */
+/** First bookable (launch-city) partner whose name shares a word with the
+ *  signed-in name, else the first launch-city painter — so a demo provider
+ *  never lands in a city where the wizard cannot post a lead. */
 function matchSeed(name: string): SeedProvider | undefined {
   const n = name.toLowerCase();
   return (
-    seed.providers.find((p) => {
+    liveProviders.find((p) => {
       const parts = p.name.toLowerCase().split(/\s+/);
       return parts.some((part) => part.length > 3 && n.includes(part));
-    }) ?? seed.providers.find((p) => p.skills.includes(DEFAULT_SKILL))
+    }) ?? liveProviders.find((p) => p.skills.includes(DEFAULT_SKILL))
   );
 }
 

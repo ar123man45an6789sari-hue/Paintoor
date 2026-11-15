@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { SITE_NAME, SITE_URL } from "@/lib/site";
+import { PILOT_CITY_LINE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { I18nProvider } from "@/i18n";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -22,15 +22,13 @@ export const metadata: Metadata = {
     default: "Paintoor — Home services, delivered with trust",
     template: "%s — Paintoor",
   },
-  description:
-      "Verified painters in Mumbai, our pilot city. Compare itemized quotes, pay safely into escrow, approve the work.",
+  description: `Verified painters in ${PILOT_CITY_LINE}. Compare itemized quotes, pay safely into escrow, approve the work.`,
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
     locale: "en_IN",
     title: "Paintoor — Home services, delivered with trust",
-    description:
-      "Verified painters in Mumbai, our pilot city. Compare itemized quotes, pay safely into escrow, and release the money only after you approve the work.",
+    description: `Verified painters in ${PILOT_CITY_LINE}. Compare itemized quotes, pay safely into escrow, and release the money only after you approve the work.`,
     images: [
       { url: "/paintoor-horizontal.png", width: 1000, height: 263, alt: "Paintoor" },
     ],

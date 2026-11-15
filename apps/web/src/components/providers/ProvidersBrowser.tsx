@@ -5,7 +5,7 @@
    offline seed; no network. */
 "use client";
 import { useEffect, useMemo, useState } from "react";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { LIVE_CITY_NAMES, liveProviders } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import {useRouter, useSearchParams } from "next/navigation";
 import { getCity } from "@/lib/city";
@@ -56,16 +56,9 @@ export function ProvidersBrowser() {
   const params = useSearchParams();
   const router = useRouter();
 
-  // Only cities that actually have a bookable (live-skill) partner are listed,
-  // so the dropdown can never select a city with zero results.
-  const cities = useMemo(
-    () =>
-      Array.from(
-        new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => p.city)),
-      ).sort(),
-    [],
-  );
-
+   // Only launch cities that actually have a bookable partner are listed, so the
+  // dropdown can never select a city with zero results.
+  const cities = useMemo(() => LIVE_CITY_NAMES, []);
   // First paint starts neutral ("all") on server AND client. A linked city
   // (?city=...) is safe to read here; the saved city lives in localStorage,
   // which only exists in the browser, so it is applied after mount — reading
@@ -89,7 +82,7 @@ export function ProvidersBrowser() {
     () =>
       Array.from(
         new Set(
-          seed.providers.filter((p) => city === "all" || p.city === city).map((p) => p.zone),
+           liveProviders.filter((p) => city === "all" || p.city === city).map((p) => p.zone),
         ),
       ).sort(),
     [city],
@@ -97,9 +90,8 @@ export function ProvidersBrowser() {
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    const list = seed.providers.filter(
+      const list = liveProviders.filter(
       (p) =>
-        p.skills.some(isLiveSkill) &&
         (city === "all" || p.city === city) &&
         (zone === "all" || p.zone === zone) &&
         (!q ||

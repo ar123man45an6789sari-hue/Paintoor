@@ -1,7 +1,14 @@
 /* Demo-phase shopkeeper store (localStorage): catalog, orders, sales.
    Production: GET /v1/shops/me + POST /v1/orders/:id/accept + delivery webhooks.
    Order SLA: shops get 2 hours to accept. */
-import { seed } from "@paintoor/mock-api";
+import { liveProviders, liveShops, seed } from "@paintoor/mock-api";
+
+/* The demo dashboards only ever speak for launch cities, so a shopkeeper never
+   lands in a city the customer side cannot book yet. If the launch list ever
+   holds no painting partner or no shop, fall back to the full seed rather than
+   rendering "undefined". */
+const SHOP_POOL = liveShops.length > 0 ? liveShops : seed.shops;
+const PARTNER_POOL = liveProviders.length > 0 ? liveProviders : seed.providers;
 
 export type ShopProduct = {
   id: string;
@@ -149,10 +156,10 @@ export function onShopStateChange(cb: () => void) {
 
   const n = name.toLowerCase();
   const match =
-    seed.shops.find((s) => {
+      SHOP_POOL.find((s) => {
       const parts = s.name.toLowerCase().split(/\s+/);
       return parts.some((part) => part.length > 3 && n.includes(part));
-    }) ?? seed.shops[0];
+    }) ?? SHOP_POOL[0];
   return {
     id: match.id,
     name: name.trim() || match.name,
@@ -207,7 +214,7 @@ export function addDemoOrder(profile: ShopProfile): ShopOrder {
   const priceOf = (pid: string) => state.products.find((p) => p.id === pid)?.price ?? 0;
   const order: ShopOrder = {
     id: `ord_${crypto.randomUUID()}`,
-    providerName: seed.providers[Math.floor(Math.random() * seed.providers.length)].name,
+    providerName: PARTNER_POOL[Math.floor(Math.random() * PARTNER_POOL.length)].name,
     jobRef: `JOB-${crypto.randomUUID().slice(0, 6).toUpperCase()}`,
     zone: profile.zone,
     items,

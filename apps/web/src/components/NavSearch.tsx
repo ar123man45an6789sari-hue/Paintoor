@@ -4,14 +4,14 @@
    never asked for permission twice. Desktop: inline pill. Mobile: panel. */
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Icon, PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getPlace, nameFromSlug, setPlace, type Place } from "@/lib/city";
 import { sensePlace } from "@/lib/geo";
 import { isIndianSlug } from "@/lib/india";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { LIVE_CITY_NAMES } from "@paintoor/mock-api";
 
 const SKILL_KEYS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
 /* First path segments that are real routes, never city slugs. */
@@ -53,13 +53,9 @@ export function NavSearch() {
   const [msg, setMsg] = useState<string | null>(null);
 
   const city = place?.name ?? "Mumbai";
-  const liveCities = useMemo(
-    () =>
-      Array.from(
-        new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => p.city)),
-      ),
-    [],
-  );
+    /* Launch cities only, so the "not live yet" hint appears for every other
+     Indian city the visitor types or detects. */
+  const liveCities = LIVE_CITY_NAMES;
 
   /** Store the place, show it in the pill and mirror it into the URL when the
       visitor is on the home page or on a city page. */
@@ -185,7 +181,7 @@ export function NavSearch() {
               {msg && <p className="mt-1 px-1 text-xs font-semibold text-muted">{msg}</p>}
               {place?.source === "ip" && <p className="mt-1 px-1 text-xs font-semibold text-muted">{t("geo.ip")}</p>}
               {!liveCities.includes(city) && (
-                <p className="mt-1 rounded-control bg-chuna px-2 py-1.5 text-xs font-semibold text-saffron">{t("geo.note", { city })}</p>
+                 <p className="mt-1 rounded-control bg-chuna px-2 py-1.5 text-xs font-semibold text-saffron">{t("geo.note", { city, cities: liveCities.join(", ") })}</p>
               )}
               <input
                 value={area}

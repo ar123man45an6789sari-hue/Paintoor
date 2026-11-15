@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ProvidersBrowser } from "@/components/providers/ProvidersBrowser";
+import { CITIES_TEXT } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Partner Bazaar — hire verified painters",
-  description:
-    "Browse KYC-verified painters and home-service partners across India. Filter by city, area and skill, compare honest rates and shortlist your favourites.",
+  description: `Browse KYC-verified painters and home-service partners in ${CITIES_TEXT}. Filter by area and skill, compare honest rates and shortlist your favourites.`,
   alternates: { canonical: "/partners" },
 };
 

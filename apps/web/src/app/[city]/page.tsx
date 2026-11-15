@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { liveProviders } from "@paintoor/mock-api";
 import { nameFromSlug, slugify } from "@/lib/city";
 import { isIndianSlug } from "@/lib/india";
 import { SITE_URL } from "@/lib/site";
@@ -10,12 +10,10 @@ import { SessionGate } from "@/components/home/SessionGate";
 
 type Params = { city: string };
 
-/* Cities Paintoor can actually book today, derived from the seed — the same
-   source the hero badge, the marketplace dropdown, the post-job wizard and
-   the sitemap read, so the four can never disagree. Pre-rendered at build. */
-const SERVED = Array.from(
-  new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => slugify(p.city))),
-).sort();
+/* Cities Paintoor can actually book today. One shared launch list feeds this,
+   the sitemap, the hero badge, the search hint, the post-job wizard and the
+   partner filters, so the six can never disagree. Pre-rendered at build. */
+const SERVED = Array.from(new Set(liveProviders.map((p) => slugify(p.city)))).sort();
 
 export function generateStaticParams(): Params[] {
   return SERVED.map((city) => ({ city }));

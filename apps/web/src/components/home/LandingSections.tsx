@@ -4,7 +4,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { seed } from "@paintoor/mock-api";
+import { liveProviders } from "@paintoor/mock-api";
 import { useI18n } from "@/i18n";
 import { requestAuth } from "@/lib/authEvents";
 import type { Role } from "@/components/auth/types";
@@ -120,7 +120,9 @@ function Categories() {
 
 function TestimonialsMarquee() {
   const { t } = useI18n();
-  const cards = seed.providers.filter((p) => p.rating_avg >= 4.5);
+   /* Launch-city partners only: the marquee must not quote a painter from a
+     city the visitor cannot actually book yet. */
+  const cards = liveProviders.filter((p) => p.rating_avg >= 4.5);
   const loop = [...cards, ...cards];
   return (
     <section id="workers" className="overflow-hidden bg-chuna py-24">

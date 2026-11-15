@@ -1,15 +1,13 @@
 import type { MetadataRoute } from "next";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { liveProviders } from "@paintoor/mock-api";
 import { slugify } from "@/lib/city";
 import { POSTS } from "@/lib/journal";
 import { SITE_URL } from "@/lib/site";
 
-/** City slugs come from the seed — the same source the hero badge and the
- *  marketplace dropdown read — so the sitemap can never advertise a city the
- *  app cannot actually serve. Adding a partner adds the city here too. */
-const CITY_SLUGS = Array.from(
-  new Set(seed.providers.filter((p) => p.skills.some(isLiveSkill)).map((p) => slugify(p.city))),
-).sort();
+/** City slugs come from the shared launch list — the same source the city pages,
+ *  the hero badge and the partner filters read — so the sitemap can never
+ *  advertise a city the app cannot actually serve. */
+const CITY_SLUGS = Array.from(new Set(liveProviders.map((p) => slugify(p.city)))).sort();
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const statics: MetadataRoute.Sitemap = [

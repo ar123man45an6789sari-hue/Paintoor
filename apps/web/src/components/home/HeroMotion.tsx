@@ -7,18 +7,17 @@ import { requestAuth } from "@/lib/authEvents";
 import { useI18n } from "@/i18n";
 import { Icon } from "@/components/Icons";
 import { PainterLottie } from "./PainterLottie";
-import { isLiveSkill, seed } from "@paintoor/mock-api";
+import { LIVE_CITY_NAMES, liveProviders } from "@paintoor/mock-api";
 const REDUCED =
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const ACCENT = [false, true, false, false, true];
-/* Honest hero badge: counts come straight from the seed data and only
-   include partners that are actually bookable today (live skill), so the
-   number can never drift from what the marketplace shows. */
-const LIVE_PROVIDERS = seed.providers.filter((p) => p.skills.some(isLiveSkill));
-const PARTNER_COUNT = LIVE_PROVIDERS.length;
-const CITY_COUNT = new Set(LIVE_PROVIDERS.map((p) => p.city)).size;
+/* Honest hero badge: counts come straight from the shared launch list and only
+   include partners that are actually bookable today, so the number can never
+   drift from what the partner bazaar shows. */
+const PARTNER_COUNT = liveProviders.length;
+const CITY_LIST = LIVE_CITY_NAMES.join(", ");
 
 const PULSE_KEYS = ["pulse.l1", "pulse.l2", "pulse.l3", "pulse.l4"];
 const PULSE_VALUES = [
@@ -118,7 +117,7 @@ export function CinematicHero() {
         <div className="relative z-10">
          <span className="inline-flex items-center gap-1.5 rounded-pill border border-line bg-chuna px-3 py-1.5 text-xs font-bold text-muted">
             <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" />
-            {t("hero.badge", { cities: CITY_COUNT, partners: PARTNER_COUNT })}
+               {t("hero.badge", { cities: CITY_LIST, partners: PARTNER_COUNT })}
           </span>
           <h1 className="mt-6 text-4xl font-black leading-tight md:text-6xl">
             {words.map((word, i) => (
