@@ -384,7 +384,7 @@ html.dark .mk-stage::after { opacity: .06; mix-blend-mode: screen; }
 .begin-cta {
   background-image:
     radial-gradient(120% 95% at 50% 50%, rgb(255 255 255 / 0.94) 0%, rgb(255 255 255 / 0.6) 46%, rgb(255 255 255 / 0) 78%),
-    url("/apps/web/public/begin-cta-bg.png");
+    url("/begin-cta-bg.jpg");
   background-size: cover, cover;
   background-position: center, center;
 }
