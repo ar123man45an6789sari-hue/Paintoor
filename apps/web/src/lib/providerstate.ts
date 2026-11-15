@@ -14,6 +14,7 @@ export type ProviderState = {
     /** Per-request job progress set from the Work tab (S10). */
 jobProgress: Record<string, "started" | "completed">;
 };
+
 import { localDayKey } from "./services";
 
 const KEY = "gs_provider_state";
@@ -30,6 +31,7 @@ function seedHistory(): { date: string; amount: number }[] {
   }
   return out;
 }
+
 /** Re-base a stored 14-day series onto today so the chart never freezes. */
 function rollHistory(h: { date: string; amount: number }[]): { date: string; amount: number }[] {
   const src = Array.isArray(h) ? h.slice(-14) : [];
@@ -64,6 +66,8 @@ export function getProviderState(): ProviderState {
     const raw = localStorage.getItem(KEY);
     const st = raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ProviderState>) } : defaultState();
     return { ...st, history: rollHistory(st.history) };
+  } catch {
+    return defaultState();
   }
 }
 

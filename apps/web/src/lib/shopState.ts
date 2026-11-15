@@ -68,8 +68,9 @@ function defaultCatalog(): ShopProduct[] {
     { id: "p13", name: "Teflon Tape", brand: "Generic", category: "sanitary", unit: "roll", price: 35, stock: 40, lowStockAt: 10 },
   ];
 }
+
 import { localDayKey } from "./services";
-import { ProviderState } from "./providerstate";
+
 function defaultHistory(): { date: string; amount: number }[] {
   const out: { date: string; amount: number }[] = [];
   const base = [4200, 0, 6800, 3100, 0, 9400, 5200, 0, 7600, 4800, 0, 11200, 6300, 8400];
@@ -80,6 +81,7 @@ function defaultHistory(): { date: string; amount: number }[] {
   }
   return out;
 }
+
 /** Re-base a stored 14-day series onto today so the chart never freezes. */
 function rollHistory(h: { date: string; amount: number }[]): { date: string; amount: number }[] {
   const src = Array.isArray(h) ? h.slice(-14) : [];
@@ -113,7 +115,7 @@ function emit() {
 export function getShopState(): ShopState {
   try {
     const raw = localStorage.getItem(KEY);
-    const st = raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ProviderState>) } : defaultState();
+    const st = raw ? { ...defaultState(), ...(JSON.parse(raw) as Partial<ShopState>) } : defaultState();
     return { ...st, history: rollHistory(st.history) };
   } catch {
     return defaultState();
@@ -192,7 +194,7 @@ export function changeStock(productId: string, delta: number) {
   const state = getShopState();
   setShopState({
     products: state.products.map((p) =>
-      p.id === productId ? { ...p, stock: Math.max(0, p.stock + delta) } : p,
+       p.id === productId ? { ...p, stock: Math.max(0, p.stock + delta) } : p,
     ),
   });
 }
