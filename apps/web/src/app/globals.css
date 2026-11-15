@@ -378,3 +378,16 @@ html.dark .mk-stage::after { opacity: .06; mix-blend-mode: screen; }
   .btn-pink, .btn-ghost { transition: none; }
   .btn-pink:hover, .btn-ghost:hover, .btn-pink:active { transform: none; box-shadow: none; }
 }
+/* "Begin." CTA card: the brand artwork sits under a soft white veil so the
+   headline and buttons stay crisp on every screen width; dark mode keeps the
+   plain deep-navy plate so white type never fights the wash. */
+.begin-cta {
+  background-image:
+    radial-gradient(120% 95% at 50% 50%, rgb(255 255 255 / 0.94) 0%, rgb(255 255 255 / 0.6) 46%, rgb(255 255 255 / 0) 78%),
+    url("/apps/web/public/begin-cta-bg.png");
+  background-size: cover, cover;
+  background-position: center, center;
+}
+.dark .begin-cta {
+  background-image: none;
+}
