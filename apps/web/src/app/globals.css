@@ -128,12 +128,6 @@ html.theme-anim *::after {
 @media (prefers-reduced-motion: reduce) {
   .sun-glow, .sun-rays, .sun-core { animation: none; opacity: 1; }
 }
-@keyframes sunspin {
-  to { transform: rotate(360deg); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sun-rays { animation: none; }
-}
 /* Painter walks in, then paints the house strokes. */
 .painter {
   opacity: 0;

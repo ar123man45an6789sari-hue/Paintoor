@@ -379,18 +379,20 @@ useEffect(() => { photosCountRef.current = photos.length; }, [photos]);
     [maxDim, adopt],
   );
 
-  const addPhotos = useCallback(
+    const addPhotos = useCallback(
     async (files: FileList | File[]) => {
       const list = Array.from(files).filter((f) => f.type.startsWith("image/"));
-      const room = MAX_PHOTOS - photos.length;
-      for (const file of list.slice(0, room)) {
+      for (const file of list) {
+        /* Re-check the live count each pass: two concurrent pickers must not
+           sneak a seventh photo past the six-slot rail. */
+        if (photosCountRef.current >= MAX_PHOTOS) break;
         /* Show first, decode second: the object URL goes to <img> straight
            away inside load(), so the visitor sees their photo immediately. */
         // eslint-disable-next-line no-await-in-loop
         await load(file);
       }
     },
-    [load, photos.length],
+    [load],
   );
 
   const activateSlot = useCallback(
@@ -685,6 +687,7 @@ useEffect(() => { photosCountRef.current = photos.length; }, [photos]);
     a.href = url;
     a.download = "paintoor-new-look.png";
     a.click();
+    dirtyRef.current = false;
     window.setTimeout(() => URL.revokeObjectURL(url), 4000);
   }, [slot]);
 

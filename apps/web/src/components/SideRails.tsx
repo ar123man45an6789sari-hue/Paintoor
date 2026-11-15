@@ -30,14 +30,14 @@ export function SideRails() {
         <button
           type="button"
           onClick={() => setWhich("enq")}
-          className="lens-pink rounded-r-card px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-snow shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180"
+          className="lens-pink rounded-r-card px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-snow shadow-lift transition-transform hover:translate-x-1 [writing-mode:vertical-rl] rotate-180"
         >
           {t("rail.enquire")}
         </button>
         <button
           type="button"
           onClick={() => setWhich("cost")}
-          className="rounded-r-card border border-l-0 border-line bg-white px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-saffron shadow-lift transition-transform hover:-translate-x-1 [writing-mode:vertical-rl] rotate-180 dark:bg-raatri"
+          className="rounded-r-card border border-l-0 border-line bg-white px-2.5 py-5 text-[11px] font-black uppercase tracking-[0.2em] text-saffron shadow-lift transition-transform hover:translate-x-1 [writing-mode:vertical-rl] rotate-180 dark:bg-raatri"
         >
           {t("rail.cost")}
         </button>

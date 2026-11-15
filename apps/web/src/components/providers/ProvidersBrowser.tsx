@@ -272,7 +272,8 @@ export function ProvidersBrowser() {
                       <span className="text-xs font-semibold text-muted">{RATE_UNIT[p.rate_range_paise.unit]}</span>
                     </span>
                     <button
-                       onClick={() => {
+                      type="button"
+                      onClick={() => {
                         const s = getSession();
                         if (s?.role === "customer") {
                           sessionStorage.setItem("pt_post_provider", p.name);

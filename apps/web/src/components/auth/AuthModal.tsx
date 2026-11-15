@@ -2,13 +2,14 @@
    role-branded login extras, session write, dashboard redirect. */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import type { FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { RoleSelect } from "./RoleSelect";
 import { SignupForm } from "./SignupForm";
 import type { AuthMode, AuthStep, Role } from "./types";
 import { useI18n } from "@/i18n";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import { setRemembered, setSession } from "@/lib/session";
  import { Icon } from "../Icons";
 
@@ -23,6 +24,8 @@ const STEP_KEY: Record<AuthStep, string> = {
 type Props = { open: boolean; initialMode: AuthMode; initialRole?: Role | null; onClose: () => void };
 
 export function AuthModal({ open, initialMode, initialRole=null, onClose }: Props) {
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, true);
   const { t } = useI18n();
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(initialMode);
@@ -100,6 +103,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-raatri/70 p-4 backdrop-blur-sm" onClick={onClose}>
       <div
+        ref={boxRef}
         role="dialog"
         aria-modal="true"
         aria-label={t("auth.hello")}

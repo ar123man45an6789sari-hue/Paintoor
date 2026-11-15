@@ -16,8 +16,9 @@ import { isLiveSkill, seed } from "@paintoor/mock-api";
 const SKILL_KEYS = ["painting", "electrical", "plumbing", "carpentry", "cleaning"];
 /* First path segments that are real routes, never city slugs. */
 const STATIC = new Set([
-  "providers",
+  "services",
   "marketplace",
+  "providers",
   "partners",
   "studio",
   "blog",
