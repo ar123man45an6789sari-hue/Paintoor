@@ -222,7 +222,7 @@ export function ServiceDetail({ id }: { id: string }) {
       {/* cta — framed, focused, same language as /services */}
       <section className="border-t border-line bg-chuna py-12 md:py-20 dark:bg-raatri">
         <div className="mx-auto max-w-6xl px-4 md:px-8">
-          <div className="relative overflow-hidden rounded-sheet border border-line bg-white px-6 py-10 text-center shadow-card md:px-14 md:py-14 dark:bg-navyDeep">
+          <div className="begin-cta relative overflow-hidden rounded-sheet border border-line bg-white px-6 py-10 text-center shadow-card md:px-14 md:py-14 dark:bg-navyDeep">
             <div className="pointer-events-none absolute inset-3 border border-line md:inset-5" aria-hidden="true" />
             <h2 className="font-black tracking-[-0.03em] text-navy dark:text-snow" style={{ fontSize: "clamp(28px,4.6vw,58px)" }}>{t("svc.d.cta")}</h2>
             <p className="mx-auto mt-3 max-w-[46ch] text-[15px] text-muted md:text-base">{t("svc.d.ctalede")}</p>
