@@ -1,11 +1,11 @@
-/* Customer workspace shell — sidebar navigation + view routing.
+/* Customer workspace shell — box-grid navigation + view routing.
 
-   The sidebar lists only the panels that exist so far and grows one item
-   per delivered step (full 5-group / 10-item navigation lands with the
-   settings step). On mobile the same items render as a horizontal chip
-   scroller. The home view carries the hero (global cover, avatar with
-   initials fallback, time-based greeting) and opens the profile drawer.
-   Existing panels (post-job wizard, partner browser, requests) are reused
+   The old sidebar and mobile chip scroller are gone. Home is the assembly
+   point: the hero card on top, then every panel as a described box in a
+   two-up grid (single column on mobile), each with a big icon, a one-line
+   "when to open this" description and a forward arrow. Sub-views carry a
+   back button in the corner; the header's "Customer - Dashboard" pill also
+   returns here because it reloads the route. Existing panels are reused
    untouched. */
 "use client";
 
@@ -28,17 +28,21 @@ import { ChatPanel } from "@/components/customer/ChatPanel";
 import { takeCheckoutIntent } from "@/lib/session";
 
 export type ViewId = "home" | "jobs" | "chat" | "post" | "find" | "escrow" | "store" | "docs" | "hist" | "settings";
-const NAV: { id: ViewId; icon: IconName; label: string; group: string }[] = [
-  { id: "home", icon: "home", label: "cd.nav.home", group: "cd.nav.main" },
-  { id: "jobs", icon: "briefcase", label: "cd.nav.jobs", group: "cd.nav.main" },
-{ id: "chat", icon: "chat", label: "cd.nav.chat", group: "cd.nav.main" },
-  { id: "post", icon: "plus", label: "dash.tab.post", group: "cd.nav.hire" },
-  { id: "find", icon: "search", label: "dash.tab.find", group: "cd.nav.hire" },
-  { id: "escrow", icon: "wallet", label: "cd.nav.escrow", group: "cd.nav.money" },
-  { id: "store", icon: "store", label: "cd.nav.store", group: "cd.nav.money" },
-  { id: "docs", icon: "doc", label: "cd.nav.docs", group: "cd.nav.records" },
-  { id: "hist", icon: "history", label: "cd.nav.hist", group: "cd.nav.records" },
-  { id: "settings", icon: "gear", label: "cd.nav.settings", group: "cd.nav.account" },
+
+/* The ten boxes: nine panels plus the profile drawer. Titles reuse the
+   existing nav keys; descriptions live under cd.box.* so every language
+   explains the panel the same way. */
+const BOXES: { v: ViewId | "profile"; icon: IconName; label: string; desc: string }[] = [
+  { v: "jobs", icon: "briefcase", label: "cd.nav.jobs", desc: "cd.box.jobs" },
+  { v: "chat", icon: "chat", label: "cd.nav.chat", desc: "cd.box.chat" },
+  { v: "post", icon: "plus", label: "dash.tab.post", desc: "cd.box.post" },
+  { v: "find", icon: "search", label: "dash.tab.find", desc: "cd.box.find" },
+  { v: "escrow", icon: "wallet", label: "cd.nav.escrow", desc: "cd.box.escrow" },
+  { v: "store", icon: "store", label: "cd.nav.store", desc: "cd.box.store" },
+  { v: "docs", icon: "doc", label: "cd.nav.docs", desc: "cd.box.docs" },
+  { v: "hist", icon: "history", label: "cd.nav.hist", desc: "cd.box.hist" },
+  { v: "settings", icon: "gear", label: "cd.nav.settings", desc: "cd.box.settings" },
+  { v: "profile", icon: "user", label: "cd.drawer.title", desc: "cd.box.profile" },
 ];
 
 const GRAD = "linear-gradient(135deg,#E00048,#A80036)";
@@ -75,11 +79,6 @@ function HomeView({
   }, []);
 
   const first = (session.name || "").split(" ")[0] || t("dash.friend");
-  const cards: { v: ViewId; icon: IconName; label: string }[] = [
-    { v: "post", icon: "note", label: t("dash.tab.post") },
-    { v: "find", icon: "search", label: t("dash.tab.find") },
-    { v: "jobs", icon: "briefcase", label: t("cd.nav.jobs") },
-  ];
 
   return (
     <div className="space-y-6">
@@ -126,16 +125,29 @@ function HomeView({
         </span>
       </section>
 
-      <div className="grid gap-5 md:grid-cols-3">
-        {cards.map((c) => (
+      {/* The assembly: every panel as a described box, two per row on
+          laptops, one per row on phones. */}
+      <div className="grid gap-4 sm:grid-cols-2">
+        {BOXES.map((b) => (
           <button
-            key={c.v}
+            key={b.v}
             type="button"
-            onClick={() => go(c.v)}
-            className="rounded-card border border-line bg-white p-6 text-left shadow-card transition-all hover:-translate-y-1 hover:shadow-lift"
+            onClick={() => (b.v === "profile" ? onProfile() : go(b.v))}
+            className="group flex items-start gap-4 rounded-card border border-line bg-white p-5 text-left shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lift"
           >
-            <Icon name={c.icon} className="h-6 w-6 text-saffron" />
-            <span className="mt-2 block font-extrabold text-navy">{c.label}</span>
+            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-control bg-saffron/10">
+              <Icon name={b.icon} className="h-7 w-7 text-saffron" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center justify-between gap-2">
+                <span className="truncate text-base font-black text-navy">{t(b.label)}</span>
+                <Icon
+                  name="arrowRight"
+                  className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-saffron"
+                />
+              </span>
+              <span className="mt-1 block text-xs font-bold leading-relaxed text-muted">{t(b.desc)}</span>
+            </span>
           </button>
         ))}
       </div>
@@ -155,62 +167,29 @@ export function CustomerWorkspace({ session }: { session: Session }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   /* The partner shelf's "Hire" button drops a logged-in customer straight
-     into the post-job wizard; arriving also re-arms the marketing gates. */
+     into the post-job wizard; a guest checkout from the marketplace lands
+     on the Paint Store; arriving also re-arms the marketing gates. */
   useEffect(() => {
     if (window.sessionStorage.getItem("pt_post_provider")) setView("post");
     else if (takeCheckoutIntent()) setView("store");
     window.sessionStorage.removeItem("pt_browse");
   }, []);
 
-  const groups = [...new Set(NAV.map((n) => n.group))];
-
   return (
     <div className="px-4 py-10 md:px-6">
-      <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-[210px_minmax(0,1fr)]">
-        <aside className="hidden md:block">
-          <nav className="space-y-5" aria-label={t("dash.c")}>
-            {groups.map((g) => (
-              <div key={g}>
-                <p className="px-3 text-[11px] font-extrabold uppercase tracking-[0.14em] text-saffron">{t(g)}</p>
-                <div className="mt-1 space-y-1">
-                  {NAV.filter((n) => n.group === g).map((n) => (
-                    <button
-                      key={n.id}
-                      type="button"
-                      onClick={() => setView(n.id)}
-                      aria-current={view === n.id ? "page" : undefined}
-                      className={`flex w-full items-center gap-2 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${
-                        view === n.id ? "text-snow" : "text-muted hover:bg-chuna hover:text-navy"
-                      }`}
-                      style={view === n.id ? { background: GRAD } : undefined}
-                    >
-                      <Icon name={n.icon} className="h-4 w-4 shrink-0" />
-                      <span className="truncate">{t(n.label)}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </nav>
-        </aside>
-
-        <div className="flex gap-2 overflow-x-auto pb-1 md:hidden">
-          {NAV.map((n) => (
-            <button
-              key={n.id}
-              type="button"
-              onClick={() => setView(n.id)}
-              aria-current={view === n.id ? "page" : undefined}
-              className={`shrink-0 rounded-control border px-3 py-1.5 text-xs font-extrabold transition-colors ${
-                view === n.id ? "border-saffron bg-saffron text-snow" : "border-line bg-white text-muted"
-              }`}
-            >
-              {t(n.label)}
-            </button>
-          ))}
-        </div>
-
+      <div className="mx-auto max-w-6xl">
         <main className="min-w-0">
+          {view !== "home" && (
+            <button
+              type="button"
+              onClick={() => setView("home")}
+              className="mb-4 flex items-center gap-1.5 rounded-control border border-line bg-white px-3 py-1.5 text-xs font-extrabold text-navy transition-colors hover:border-saffron hover:text-saffron"
+            >
+              <Icon name="arrowLeft" className="h-3.5 w-3.5" />
+              {t("cd.back")}
+            </button>
+          )}
+
           {view === "home" && (
             <HomeView session={session} go={setView} onProfile={() => setDrawerOpen(true)} />
           )}
@@ -223,16 +202,15 @@ export function CustomerWorkspace({ session }: { session: Session }) {
               callMode={chatTarget && chatTarget.mode !== "chat" ? chatTarget.mode : null}
             />
           )}
-           {view === "post" && <PostBox />}
-           {view === "find" && <FindPartnerGrid onHire={() => setView("post")} />}
-            {view === "escrow" && <EscrowPanel />}
-            {view === "store" && <PaintStore session={session} />}
-            {view === "docs" && <DocumentsVault />}
-            {view === "hist" && <JobHistory />}
+          {view === "post" && <PostBox />}
+          {view === "find" && <FindPartnerGrid onHire={() => setView("post")} />}
+          {view === "escrow" && <EscrowPanel />}
+          {view === "store" && <PaintStore session={session} />}
+          {view === "docs" && <DocumentsVault />}
+          {view === "hist" && <JobHistory />}
           {view === "settings" && (
             <CustomerSettings onProfile={() => setDrawerOpen(true)} onEscrow={() => setView("escrow")} />
           )}
-
         </main>
       </div>
 
