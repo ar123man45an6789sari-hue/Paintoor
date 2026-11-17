@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyEvent } from "react";
 import { useI18n } from "@/i18n";
 import { Icon } from "@/components/Icons";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import type { OtpMode } from "@/lib/escrow";
 
 const MODE_ICON: Record<OtpMode, "shieldCheck" | "undo" | "alert"> = {
@@ -33,6 +34,8 @@ export function OtpModal({
   const [done, setDone] = useState(false);
   const refs = useRef<(HTMLInputElement | null)[]>([]);
   const timer = useRef<number | null>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, true);
 
   useEffect(() => {
     refs.current[0]?.focus();
@@ -82,7 +85,8 @@ export function OtpModal({
   }
 
   return (
-    <div
+        <div
+      ref={boxRef}
       className="fixed inset-0 z-50 flex items-center justify-center bg-[#0B0E11]/50 px-4"
       role="dialog"
       aria-modal="true"

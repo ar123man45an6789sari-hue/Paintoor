@@ -12,6 +12,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
 import { Icon } from "@/components/Icons";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import { SitePhoto } from "@/components/customer/SitePhoto";
 import { SEED_JOB } from "@/lib/jobs";
 import { initialsOf, readPhotoFile } from "@/lib/profile";
@@ -75,7 +76,9 @@ function CallOverlay({
 }) {
   const { t } = useI18n();
   const crew = SEED_JOB.crews.find((c) => c.id === crewId);
-  const [secs, setSecs] = useState(-2); // first 2 s: ringing
+    const [secs, setSecs] = useState(-2); // first 2 s: ringing
+  const boxRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(boxRef, true);
 
   useEffect(() => {
     const id = window.setInterval(() => setSecs((s) => s + 1), 1000);
@@ -95,6 +98,7 @@ function CallOverlay({
 
   return (
     <div
+      ref={boxRef}
       className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-[#10151A] px-6 text-center"
       role="dialog"
       aria-modal="true"

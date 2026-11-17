@@ -4,6 +4,8 @@
    competitor shows it). */
 "use client";
 
+import { useRef } from "react";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import { PRODUCTS, brandOf, cheapest, offPct, type Product } from "@/lib/marketplace";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
@@ -41,6 +43,8 @@ export function CompareTray({
 export function CompareModal({ ids, onClose, onAdd }: { ids: number[]; onClose: () => void; onAdd: (p: Product) => void }) {
   const { t } = useI18n();
   const items = ids.map((id) => PRODUCTS.find((p) => p.id === id)).filter((p): p is Product => !!p);
+  const cardRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(cardRef, items.length > 0);
   if (items.length === 0) return null;
   const best = items.map((p) => cheapest(p).p);
   const minBest = Math.min(...best);
@@ -53,7 +57,7 @@ export function CompareModal({ ids, onClose, onAdd }: { ids: number[]; onClose: 
     [t("mk.off"), (p) => `${offPct(p)}%`],
   ];
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/60 p-4" role="dialog" aria-modal="true" aria-label={t("cmp.title")} onClick={onClose}>
+    <div ref={cardRef} className="fixed inset-0 z-[70] flex items-center justify-center bg-navy/60 p-4" role="dialog" aria-modal="true" aria-label={t("cmp.title")} onClick={onClose}>
       <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-sheet border border-line bg-white shadow-lift dark:bg-raatri" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-white/95 px-5 py-4 backdrop-blur dark:bg-raatri/95">
           <h2 className="text-base font-black text-navy dark:text-snow">{t("cmp.title")}</h2>

@@ -9,6 +9,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n, type Lang } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import {
   initialsOf,
   readPhotoFile,
@@ -113,6 +114,8 @@ export function ProfileDrawer({ onClose }: { onClose: () => void }) {
    /* The "saved" flash clears itself; the timer lives in a ref so closing the
      drawer early cancels it instead of letting it fire after unmount. */
   const savedTimer = useRef<number | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(panelRef, true);
   const saveProfile = () => {
     setProfile((p) => ({ ...p, ...form }));
     setSaved(true);
@@ -172,7 +175,8 @@ export function ProfileDrawer({ onClose }: { onClose: () => void }) {
         onClick={onClose}
         className="absolute inset-0 h-full w-full bg-raatri/60"
       />
-      <div
+            <div
+        ref={panelRef}
         role="dialog"
         aria-modal="true"
         aria-label={t("cd.drawer.title")}

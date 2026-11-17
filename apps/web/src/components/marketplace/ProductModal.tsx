@@ -2,11 +2,14 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { brandOf, cheapest, offPct, priceAt, storesFor, type Product } from "@/lib/marketplace";
 import { Icon } from "@/components/Icons";
+import { useFocusTrap } from "@/components/useFocusTrap";
 import { useI18n } from "@/i18n";
 
 export function ProductModal({ p, onClose, onAddAt }: { p: Product | null; onClose: () => void; onAddAt: (p: Product, storeId: string) => void }) {
   const { t } = useI18n();
   const closeRef = useRef<HTMLButtonElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(cardRef, !!p);
   useEffect(() => {
     if (p) closeRef.current?.focus();
   }, [p]);
@@ -16,7 +19,7 @@ export function ProductModal({ p, onClose, onAddAt }: { p: Product | null; onClo
   const rows = list.map((s) => ({ s, v: priceAt(p, s) })).sort((a, x) => a.v - x.v);
   const ch = cheapest(p);
   return (
-    <div className="mk-modal" role="dialog" aria-modal="true" aria-label={p.n} onClick={onClose}>
+    <div ref={cardRef} className="mk-modal" role="dialog" aria-modal="true" aria-label={p.n} onClick={onClose}>
       <div className="mk-modal-card rounded-sheet border border-line bg-white shadow-card dark:bg-[#12161a]" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-start gap-4 border-b border-line p-5">
           <span className="h-20 w-20 flex-none rounded-card border border-line" style={{ backgroundImage: `linear-gradient(135deg, ${p.sh[0]}, ${p.sh[2]})` }} aria-hidden="true" />
