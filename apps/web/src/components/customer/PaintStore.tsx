@@ -128,7 +128,7 @@ export function PaintStore({ session }: { session: Session }) {
                 type="button"
                 onClick={() => setAisle("all")}
                 className={`rounded-pill px-3 py-1 text-xs font-extrabold transition-colors ${
-                  aisle === "all" ? "bg-navy text-snow dark:bg-chuna dark:text-navy" : "bg-chuna text-muted hover:text-navy"
+                  aisle === "all" ? "bg-saffron text-snow" : "bg-chuna text-muted hover:text-navy"
                 }`}
               >
                 {t("cd.store.allaisles")}
@@ -139,7 +139,7 @@ export function PaintStore({ session }: { session: Session }) {
                   type="button"
                   onClick={() => setAisle(aisle === a.key ? "all" : a.key)}
                   className={`rounded-pill px-3 py-1 text-xs font-extrabold transition-colors ${
-                    aisle === a.key ? "bg-navy text-snow dark:bg-chuna dark:text-navy" : "bg-chuna text-muted hover:text-navy"
+                    aisle === a.key ? "bg-saffron text-snow" : "bg-chuna text-muted hover:text-navy"
                   }`}
                 >
                   {a.label}

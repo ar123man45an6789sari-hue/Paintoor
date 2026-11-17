@@ -118,7 +118,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
       >
         <div className="mb-4 flex items-center justify-between">
           <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-saffron">{t(STEP_KEY[step])}</span>
-          <button type="button" onClick={onClose} aria-label="Close" className="rounded-control px-2 py-1 text-muted hover:bg-chuna hover:text-navy">
+          <button type="button" onClick={onClose} aria-label={t("mk.close")} className="rounded-control px-2 py-1 text-muted hover:bg-chuna hover:text-navy">
             <Icon name="close" className="h-4 w-4" />
 
           </button>

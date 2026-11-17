@@ -110,11 +110,16 @@ export function ProfileDrawer({ onClose }: { onClose: () => void }) {
     }
   };
 
+   /* The "saved" flash clears itself; the timer lives in a ref so closing the
+     drawer early cancels it instead of letting it fire after unmount. */
+  const savedTimer = useRef<number | null>(null);
   const saveProfile = () => {
     setProfile((p) => ({ ...p, ...form }));
     setSaved(true);
-    window.setTimeout(() => setSaved(false), 2000);
+    if (savedTimer.current) window.clearTimeout(savedTimer.current);
+    savedTimer.current = window.setTimeout(() => setSaved(false), 2000);
   };
+  useEffect(() => () => { if (savedTimer.current) window.clearTimeout(savedTimer.current); }, []);
 
   /* ---- addresses tab ---- */
   const [newLabel, setNewLabel] = useState("");
@@ -163,7 +168,7 @@ export function ProfileDrawer({ onClose }: { onClose: () => void }) {
     <div className="fixed inset-0 z-50">
       <button
         type="button"
-        aria-label="Close"
+        aria-label={t("mk.close")}
         onClick={onClose}
         className="absolute inset-0 h-full w-full bg-raatri/60"
       />
@@ -177,7 +182,7 @@ export function ProfileDrawer({ onClose }: { onClose: () => void }) {
           <h2 className="text-lg font-black tracking-[-0.02em] text-navy">
             {t("cd.drawer.title")}
           </h2>
-          <button type="button" onClick={onClose} className={btnGhost} aria-label="Close">
+          <button type="button" onClick={onClose} className={btnGhost} aria-label={t("mk.close")}>
             <Icon name="close" className="h-4 w-4" />
           </button>
         </div>

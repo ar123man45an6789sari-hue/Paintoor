@@ -33,6 +33,7 @@ function fmt(sec: number): string {
 export function VoiceNote({ dur, seed }: { dur: string; seed: number }) {
   const total = Math.max(1, durToSec(dur));
   const [playing, setPlaying] = useState(false);
+  const { t } = useI18n();
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
@@ -55,7 +56,7 @@ export function VoiceNote({ dur, seed }: { dur: string; seed: number }) {
       <button
         type="button"
         onClick={() => setPlaying((p) => !p)}
-        aria-label={playing ? "Pause voice note" : "Play voice note"}
+        aria-label={playing ? t("cd.vn.pause") : t("cd.vn.play")}
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-saffron text-snow"
       >
         <Icon name={playing ? "pause" : "play"} className="h-3 w-3" />
