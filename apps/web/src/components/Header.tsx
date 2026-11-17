@@ -129,7 +129,7 @@ export function Header() {
             <SideRailsMobile />
           </div>
 
-          <nav className={`mx-auto hidden shrink-0 items-center gap-5 xl:gap-6 ${session ? "xl:flex" : "lg:flex"}`} aria-label="Primary">
+          <nav className={`mx-auto hidden shrink-0 items-center gap-5 xl:gap-6 ${session ? "xl:flex" : "lg:flex"}`} aria-label={t("a11y.nav")}>
               {NAV.map((item) =>
               item.href.startsWith("/") ? (
                 <Link key={item.href} href={item.href} className="text-sm font-semibold text-muted transition-colors hover:text-navy">
@@ -150,7 +150,7 @@ export function Header() {
               <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-pill bg-saffron px-1 text-[10px] font-black text-snow">{cartCount(cart)}</span>
             )}
           </button>
-          <button type="button" onClick={() => applyTheme(!dark, true)} aria-label="Toggle dark mode" className={`${iconBtn} hidden lg:flex`}>
+          <button type="button" onClick={() => applyTheme(!dark, true)} aria-label={t("a11y.theme")}className={`${iconBtn} hidden lg:flex`}>
             {dark ? <Icon name="sun" className="h-[18px] w-[18px]" /> : <Icon name="moon" className="h-[18px] w-[18px]" />}
           </button>
 
@@ -158,7 +158,7 @@ export function Header() {
             <button type="button" onClick={() => {
               if (!langOpen) openPopover("lang");
               setLangOpen(!langOpen);
-            }} aria-label="Change language" aria-expanded={langOpen} className={`${iconBtn} hidden text-navy lg:flex`}>
+            }} aria-label={t("a11y.lang")} aria-expanded={langOpen} className={`${iconBtn} hidden text-navy lg:flex`}>
               <Icon name="globe" className="h-[18px] w-[18px]" />
             </button>
             {langOpen && (

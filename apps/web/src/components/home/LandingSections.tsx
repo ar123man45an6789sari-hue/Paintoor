@@ -206,7 +206,7 @@ function EscrowFlow() {
             ))}
           </div>
         </div>
-        <svg viewBox="0 0 460 300" className="reveal w-full" aria-label="Escrow flow">
+        <svg viewBox="0 0 460 300" className="reveal w-full" aria-label={t("a11y.escrow")}>
           <path ref={pathRef} d="M60 220 C60 120 160 90 230 90 C300 90 400 120 400 220" stroke="#e2e4e7" strokeWidth="4" fill="none" strokeDasharray="6 8" />
           <g ref={coinRef}><circle r="16" fill="#e00048" /><text y="6" textAnchor="middle" fontSize="16" fontWeight="900" fill="#7c0028">₹</text></g>
           <rect x="200" y="60" width="60" height="60" rx="14" fill="#182028" />

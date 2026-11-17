@@ -206,9 +206,9 @@ function Line({ l }: { l: CartLine }) {
       </div>
       <div className="mt-2 flex items-center justify-between">
         <span className="flex items-center gap-2 rounded-control border border-line px-1.5 py-1">
-          <button type="button" onClick={() => setQty(l.key, -1)} aria-label="−" className="h-6 w-6 rounded-[6px] text-sm font-black text-ink hover:bg-chuna dark:text-snow">−</button>
+          <button type="button" onClick={() => setQty(l.key, -1)} aria-label={t("mk.qty.dec")} className="h-6 w-6 rounded-[6px] text-sm font-black text-ink hover:bg-chuna dark:text-snow">−</button>
           <b className="w-5 text-center text-sm text-ink dark:text-snow">{l.qty}</b>
-          <button type="button" onClick={() => setQty(l.key, 1)} aria-label="+" className="h-6 w-6 rounded-[6px] text-sm font-black text-ink hover:bg-chuna dark:text-snow">+</button>
+          <button type="button" onClick={() => setQty(l.key, 1)} aria-label={t("mk.qty.inc")} className="h-6 w-6 rounded-[6px] text-sm font-black text-ink hover:bg-chuna dark:text-snow">+</button>
         </span>
         <b className="text-sm font-black text-ink dark:text-snow">₹{(l.price * l.qty).toLocaleString("en-IN")}</b>
       </div>
