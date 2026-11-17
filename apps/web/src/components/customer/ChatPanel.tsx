@@ -12,6 +12,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
 import { Icon } from "@/components/Icons";
+import { SitePhoto } from "@/components/customer/SitePhoto";
 import { SEED_JOB } from "@/lib/jobs";
 import { initialsOf, readPhotoFile } from "@/lib/profile";
 import { VoiceNote } from "@/components/customer/WorkerDayLog";
@@ -296,8 +297,12 @@ export function ChatPanel({
                       }`}
                     >
                       {m.kind === "photo" && m.photo && (
-                        /* eslint-disable-next-line @next/next/no-img-element -- chat photos, no optimisation pass yet */
-                        <img src={m.photo} alt="" className="mb-1 max-h-48 w-full rounded-control object-cover" />
+                        <SitePhoto
+                          src={m.photo}
+                          alt=""
+                          className="mb-1 max-h-48 w-full rounded-control object-cover"
+                          tileClassName="h-32"
+                        />
                       )}
                       {m.kind === "voice" && m.dur && <VoiceNote dur={m.dur} seed={i + 3} />}
                       {m.text && <p className={m.kind === "photo" ? "mt-1" : ""}>{m.text}</p>}

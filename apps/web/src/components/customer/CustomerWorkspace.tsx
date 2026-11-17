@@ -25,6 +25,7 @@ import { CustomerSettings } from "@/components/customer/CustomerSettings";
 import { ProfileDrawer } from "@/components/customer/ProfileDrawer";
 import { MyJobsBoard } from "@/components/customer/MyJobsBoard";
 import { ChatPanel } from "@/components/customer/ChatPanel";
+import { takeCheckoutIntent } from "@/lib/session";
 
 export type ViewId = "home" | "jobs" | "chat" | "post" | "find" | "escrow" | "store" | "docs" | "hist" | "settings";
 const NAV: { id: ViewId; icon: IconName; label: string; group: string }[] = [
@@ -157,6 +158,7 @@ export function CustomerWorkspace({ session }: { session: Session }) {
      into the post-job wizard; arriving also re-arms the marketing gates. */
   useEffect(() => {
     if (window.sessionStorage.getItem("pt_post_provider")) setView("post");
+    else if (takeCheckoutIntent()) setView("store");
     window.sessionStorage.removeItem("pt_browse");
   }, []);
 
@@ -224,7 +226,7 @@ export function CustomerWorkspace({ session }: { session: Session }) {
            {view === "post" && <PostBox />}
            {view === "find" && <FindPartnerGrid onHire={() => setView("post")} />}
             {view === "escrow" && <EscrowPanel />}
-            {view === "store" && <PaintStore />}
+            {view === "store" && <PaintStore session={session} />}
             {view === "docs" && <DocumentsVault />}
             {view === "hist" && <JobHistory />}
           {view === "settings" && (

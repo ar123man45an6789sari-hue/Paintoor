@@ -10,7 +10,7 @@ import { SignupForm } from "./SignupForm";
 import type { AuthMode, AuthStep, Role } from "./types";
 import { useI18n } from "@/i18n";
 import { useFocusTrap } from "@/components/useFocusTrap";
-import { setRemembered, setSession } from "@/lib/session";
+import { setCheckoutIntent, setRemembered, setSession } from "@/lib/session";
  import { Icon } from "../Icons";
 
 const STEP_KEY: Record<AuthStep, string> = {
@@ -49,6 +49,12 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
       setSignup({});
     }
   }, [open, initialMode,initialRole]);
+
+    /* Cancelling abandons the checkout intent; finishing keeps it so the
+     dashboard can land on the Paint Store with the saved basket. */
+  useEffect(() => {
+    if (!open && step !== "done") setCheckoutIntent(false);
+  }, [open, step]);
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {

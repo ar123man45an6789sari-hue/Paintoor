@@ -13,6 +13,7 @@ import { useI18n } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
 import { VAULT_SEED, type VaultDoc, type VaultFolder } from "@/lib/docs";
 import { SEED_JOB } from "@/lib/jobs";
+import { SitePhoto } from "@/components/customer/SitePhoto";
 
 const KIND_ICON: Record<VaultDoc["kind"], IconName> = {
   agreement: "fileCheck",
@@ -163,8 +164,7 @@ export function DocumentsVault() {
                           aria-label={`${t("cd.doc.dl")} — ${p}`}
                           className="group relative block h-16 w-20 overflow-hidden rounded-control border border-line"
                         >
-                          {/* eslint-disable-next-line @next/next/no-img-element -- day photos, no optimisation pass yet */}
-                          <img src={p} alt="" className="h-full w-full object-cover" />
+                          <SitePhoto src={p} alt="" className="h-full w-full object-cover" />
                           <span className="absolute inset-0 hidden items-center justify-center bg-[#0B0E11]/50 text-snow group-hover:flex">
                             <Icon name="download" className="h-4 w-4" />
                           </span>

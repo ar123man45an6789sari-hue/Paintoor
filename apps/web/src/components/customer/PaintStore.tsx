@@ -23,13 +23,14 @@ import {
 } from "@/lib/marketplace";
 import { addLine, cartCount, clearCart, removeLine, setQty, useCart } from "@/lib/cartStore";
 import { useProfile } from "@/lib/profile";
+import type { Session } from "@/lib/session";
 import { inr } from "@/lib/jobs";
 
 function sizeLabel(p: Product): string {
   return p.size === 40 ? "40 kg" : `${p.size} L`;
 }
 
-export function PaintStore() {
+export function PaintStore({ session }: { session: Session }) {
   const { t } = useI18n();
   const [profile] = useProfile();
   const [brand, setBrand] = useState("all");
@@ -277,6 +278,13 @@ export function PaintStore() {
                 <p className="flex justify-between"><span>{t("cd.store.items", { n: count })}</span><span>{inr(total)}</span></p>
                 <p className="flex justify-between"><span>{t("cd.store.delivery")}</span><span className="text-neem">{t("cd.store.free")}</span></p>
               </div>
+              <p className="mt-3 flex items-start gap-1.5 rounded-control bg-ink/10 px-2.5 py-2 text-[11px] font-bold text-ink">
+                <Icon name="shield" className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                <span className="min-w-0">
+                  <b className="font-extrabold">{t("cd.store.idas")}:</b> {session.name}, {profile.phone}
+                  <span className="mt-0.5 block font-bold text-muted">{t("cd.store.idnote")}</span>
+                </span>
+              </p>
               <p className="mt-2 flex items-start gap-1.5 rounded-control bg-chuna px-2.5 py-2 text-[11px] font-bold text-navy">
                 <Icon name="mapPin" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-saffron" />
                 <span className="min-w-0"><b className="font-extrabold">{t("cd.store.ship")}:</b> {shipTo}</span>

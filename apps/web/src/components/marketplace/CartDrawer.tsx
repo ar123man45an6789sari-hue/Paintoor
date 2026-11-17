@@ -9,6 +9,8 @@ import { useState , useRef} from "react";
 import { useRouter } from "next/navigation";
 import { STORES } from "@/lib/marketplace";
 import { cartCount, clearCart, removeLine, setQty, useCart } from "@/lib/cartStore";
+import { getSession, setCheckoutIntent } from "@/lib/session";
+import { requestAuth } from "@/lib/authEvents";
 import type { CartLine } from "@/lib/cartStore";
 import { Icon } from "@/components/Icons";
 import { useI18n } from "@/i18n";
@@ -23,7 +25,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
   const router = useRouter();
   const lines = useCart();
   const [placed, setPlaced] = useState<Placed | null>(null);
-
+  const [gate, setGate] = useState(false);
   const subtotal = lines.reduce((a, l) => a + l.price * l.qty, 0);
   const delivery = subtotal === 0 || subtotal >= 2000 ? 0 : 79;
   const gst = Math.round((subtotal * 18) / 118);
@@ -32,7 +34,16 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
   const kitItems = lines.filter((l) => l.storeId === "kit");
   const svcItems = lines.filter((l) => l.storeId === "svc");
 
-  function place() {
+    function place() {
+    /* Guests keep the basket but cannot mint an order: the gate remembers
+       the intent so the post-login landing opens the Paint Store with the
+       same lines, now tied to a named account. */
+    const sitting = getSession();
+    if (!sitting || sitting.role !== "customer") {
+      setCheckoutIntent(true);
+      setGate(true);
+      return;
+    }
     const etas = [
       ...groups.map(({ s }) => ({ name: s.n, eta: s.km <= 3 ? t("mk.today") : t("mk.tomorrow") })),
       ...(kitItems.length ? [{ name: t("mk.calc.kit"), eta: t("mk.tomorrow") }] : []),
@@ -44,6 +55,7 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
   }
   function close() {
     setPlaced(null);
+    setGate(false);
     onClose();
   }
 
@@ -140,14 +152,37 @@ export function CartDrawer({ open, onClose }: { open: boolean; onClose: () => vo
             <p className={`mt-2 text-xs font-bold ${subtotal >= 2000 ? "text-[#0e9f8a]" : "text-saffron"}`}>
               {subtotal >= 2000 ? `🎉 ${t("mk.cart.unlocked")}` : subtotal > 0 ? t("mk.cart.hint", { x: (2000 - subtotal).toLocaleString("en-IN") }) : ""}
             </p>
-            <button
-              type="button"
-              disabled={lines.length === 0}
-              onClick={place}
-              className="mt-3 min-h-12 w-full rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036] disabled:opacity-40"
-            >
-              {t("mk.cart.place")}
-            </button>
+            {gate ? (
+              <div className="mt-3 rounded-control border border-saffron/50 bg-saffron/10 p-3">
+                <p className="text-sm font-black text-navy dark:text-snow">{t("mk.gate.title")}</p>
+                <p className="mt-1 text-xs font-bold text-muted">{t("mk.gate.sub")}</p>
+                <div className="mt-3 flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => { requestAuth("signup"); close(); }}
+                    className="flex-1 rounded-control bg-saffron py-2.5 text-xs font-extrabold text-snow transition-colors hover:bg-[#a80036]"
+                  >
+                    {t("mk.gate.signup")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { requestAuth("login"); close(); }}
+                    className="flex-1 rounded-control border-2 border-saffron py-2.5 text-xs font-extrabold text-saffron transition-colors hover:bg-saffron hover:text-snow"
+                  >
+                    {t("mk.gate.login")}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                disabled={lines.length === 0}
+                onClick={place}
+                className="mt-3 min-h-12 w-full rounded-control bg-saffron px-6 py-3 text-sm font-extrabold text-snow transition-colors hover:bg-[#a80036] disabled:opacity-40"
+              >
+                {t("mk.cart.place")}
+              </button>
+            )}
             <p className="mt-2 flex items-start gap-1.5 text-xs text-muted"><Icon name="lock" className="mt-0.5 h-3.5 w-3.5 text-saffron" />{t("mk.cart.escrow")}</p>
           </div>
         )}

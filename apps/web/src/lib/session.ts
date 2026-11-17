@@ -59,3 +59,29 @@ export function onSessionChange(cb: () => void) {
   window.addEventListener(CHANGE, cb);
   return () => window.removeEventListener(CHANGE, cb);
 }
+
+/* Checkout intent: a guest who taps "Place order" in the public cart keeps
+   the basket (pt_cart is shared with the dashboard) and lands in the Paint
+   Store right after logging in, so the same lines continue under a named
+   account instead of a guest checkout minting an untraceable order. */
+const CHECKOUT = "pt_checkout_intent";
+
+export function setCheckoutIntent(on: boolean) {
+  try {
+    if (on) sessionStorage.setItem(CHECKOUT, "1");
+    else sessionStorage.removeItem(CHECKOUT);
+  } catch {
+    /* private mode */
+  }
+}
+
+/** Read-once: the workspace consumes it as its landing view. */
+export function takeCheckoutIntent(): boolean {
+  try {
+    const on = sessionStorage.getItem(CHECKOUT) === "1";
+    sessionStorage.removeItem(CHECKOUT);
+    return on;
+  } catch {
+    return false;
+  }
+}

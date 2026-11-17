@@ -9,6 +9,7 @@
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { Icon } from "@/components/Icons";
+import { SitePhoto } from "@/components/customer/SitePhoto";
 import type { CrewAssignment } from "@/lib/jobs";
 
 const BARS = 26;
@@ -83,18 +84,11 @@ export function WorkerDayLog({ crew }: { crew: CrewAssignment }) {
         const pending = !d.done && !d.cur;
         return (
           <div key={d.n} className={`flex items-start gap-3 ${pending ? "opacity-45" : ""}`}>
-            {d.shots[0] ? (
-              /* eslint-disable-next-line @next/next/no-img-element -- day photos, no optimisation pass yet */
-              <img
-                src={d.shots[0]}
-                alt={`${crew.name} — ${d.n}`}
-                className="h-12 w-16 shrink-0 rounded-control object-cover"
-              />
-            ) : (
-              <span className="flex h-12 w-16 shrink-0 items-center justify-center rounded-control bg-chuna">
-                <Icon name="camera" className="h-4 w-4 text-muted" />
-              </span>
-            )}
+            <SitePhoto
+              src={d.shots[0]}
+              alt={`${crew.name} — ${d.n}`}
+              className="h-12 w-16 shrink-0 rounded-control object-cover"
+            />
             <div className="min-w-0 flex-1">
               <p className="text-[11px] font-extrabold uppercase tracking-[0.14em] text-saffron">
                 {d.n} · {d.d}
