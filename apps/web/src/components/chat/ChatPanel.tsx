@@ -159,7 +159,7 @@ export function ChatPanel({ requestId, role, myName }: { requestId: string; role
           <Icon name="key" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("chat.booked", { otp: request.jobOtp })}
         </p>
       )}
-      {paid && <p className="mt-2 rounded-control bg-neem/10 px-3 py-2 text-xs font-semibold text-neem"><Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("hire.done")}</p>}
+      {paid && <p className="mt-2 rounded-control bg-ink/10 px-3 py-2 text-xs font-semibold text-ink"><Icon name="lock" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("hire.done")}</p>}
 
       {hireOpen && lastQuote?.quote && (
         <div className="mt-3 rounded-control border border-line bg-chuna p-3">

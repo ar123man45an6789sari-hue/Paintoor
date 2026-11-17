@@ -36,7 +36,7 @@ export function EarningsTab() {
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="rounded-card border border-line bg-white p-5 shadow-card">
           <p className="text-xs font-bold uppercase tracking-wider text-muted">{t("pd.inEscrow")}</p>
-          <p className="mt-1 text-3xl font-black tabular-nums text-neem">₹{state.inEscrow.toLocaleString("en-IN")}</p>
+          <p className="mt-1 text-3xl font-black tabular-nums text-ink">₹{state.inEscrow.toLocaleString("en-IN")}</p>
         </div>
         <div className="rounded-card border border-line bg-white p-5 shadow-card">
           <p className="text-xs font-bold uppercase tracking-wider text-muted">{t("pd.pendingPayout")}</p>

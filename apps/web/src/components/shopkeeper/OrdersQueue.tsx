@@ -79,7 +79,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
         <button
           type="button"
           onClick={demo}
-          className="mt-4 min-h-12 rounded-control border-2 border-neem px-5 py-3 text-sm font-extrabold text-neem hover:bg-neem hover:text-snow"
+          className="mt-4 min-h-12 rounded-control border-2 border-ink px-5 py-3 text-sm font-extrabold text-ink hover:bg-neem hover:text-snow"
         >
           <Icon name="sparkle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.demoOrder")}
         </button>
@@ -101,7 +101,7 @@ export function OrdersQueue({ profile }: { profile: ShopProfile }) {
                     ? minsLeft < 0
                       ? "bg-danger/15 text-danger"
                       : "bg-haldi/20 text-navy"
-                    : "bg-neem/15 text-neem"
+                    : "bg-ink/15 text-ink"
                 }`}
               >
                 {o.status === "new"

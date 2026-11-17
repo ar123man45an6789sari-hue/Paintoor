@@ -78,7 +78,7 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
             aria-selected={tab === x.id}
             onClick={() => setTab(x.id)}
             className={`min-h-12 flex-1 rounded-control px-3 py-2 text-sm font-extrabold transition-colors ${
-              tab === x.id ? "border-neem bg-neem text-snow" : "border-line bg-white text-muted hover:text-navy"
+              tab === x.id ? "border-ink bg-neem text-snow" : "border-line bg-white text-muted hover:text-navy"
             }`}
           >
             <Icon name={x.icon} className="mr-1.5 inline h-4 w-4 align-[-0.2em]" />{t(x.key)}
@@ -104,7 +104,7 @@ export function ShopShell({ name, signup }: { name: string; signup?: Record<stri
                 {t(`shcat.${c}`)}
               </span>
             ))}
-            <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-neem">
+            <span className="rounded-pill border border-line bg-ink/10 px-3 py-1 text-xs font-bold text-ink">
               <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("sh.kycOk")}
             </span>
           </div>

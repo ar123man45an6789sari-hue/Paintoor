@@ -222,7 +222,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
 
         {step === "done" && (
           <div className="space-y-4 text-center">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-pill bg-neem/15 text-neem"><Icon name="checkCircle" className="h-8 w-8" /></div>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-pill bg-ink/15 text-ink"><Icon name="checkCircle" className="h-8 w-8" /></div>
             <h3 className="text-xl font-black text-navy">{mode === "login" ? t("auth.doneLogin") : t("auth.doneTitle")}</h3>
             <p className="text-sm text-muted">{t("auth.doneDash")}</p>
             <button type="button" onClick={goDashboard} className="w-full rounded-control bg-navy px-4 py-3 font-extrabold text-snow">

@@ -58,7 +58,7 @@ function RequestCard({
         </h3>
         <span
           className={`rounded-pill px-3 py-1 text-xs font-black ${
-            done ? "bg-neem/15 text-ink" : matched ? "bg-saffron/15 text-saffron" : "bg-neem/15 text-neem"
+            done ? "bg-ink/15 text-ink" : matched ? "bg-saffron/15 text-saffron" : "bg-ink/15 text-ink"
           }`}
         >
           {done ? t("req.group.done") : matched ? t("req.group.matched") : t("req.open")}
@@ -95,7 +95,7 @@ function RequestCard({
       {done && (
         <div className="mt-3 rounded-control bg-chuna px-3 py-2">
           {r.rating ? (
-            <p className="text-xs font-extrabold text-neem"><Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.reviewed", { n: r.rating })}</p>
+            <p className="text-xs font-extrabold text-ink"><Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("req.reviewed", { n: r.rating })}</p>
           ) : (
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-xs font-extrabold text-navy">{t("rev.h")}</span>
@@ -245,7 +245,7 @@ if (open.length === 0 && matched.length === 0 && done.length === 0 && cancelled.
 
       {done.length > 0 && (
         <section className="space-y-4">
-          <h3 className="text-xs font-black uppercase tracking-[0.14em] text-neem">
+          <h3 className="text-xs font-black uppercase tracking-[0.14em] text-ink">
             {t("req.group.done")} ({done.length})
           </h3>
           {done.map((r) => (

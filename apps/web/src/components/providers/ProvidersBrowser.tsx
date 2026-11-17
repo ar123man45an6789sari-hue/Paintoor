@@ -185,7 +185,7 @@ export function ProvidersBrowser() {
         <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-line pt-3 text-sm">
           <span className="font-bold text-navy dark:text-snow">{t("pt.count", { n: filtered.length })}</span>
           <span className="flex items-center gap-1 text-muted">
-            <Icon name="shield" className="h-4 w-4 text-neem" />{kycCount} {t("pt.trust1")}
+            <Icon name="shield" className="h-4 w-4 text-ink" />{kycCount} {t("pt.trust1")}
           </span>
           <button
             type="button"
@@ -290,7 +290,7 @@ export function ProvidersBrowser() {
       <div className="mt-10 grid gap-4 rounded-card border border-line bg-chuna p-5 sm:grid-cols-3 dark:bg-raatri">
         {(["pt.trust1", "pt.trust2", "pt.trust3"] as const).map((k) => (
           <p key={k} className="flex items-center gap-2 text-sm font-bold text-navy dark:text-snow">
-            <Icon name="checkCircle" className="h-4 w-4 text-neem" />{t(k)}
+            <Icon name="checkCircle" className="h-4 w-4 text-ink" />{t(k)}
           </p>
         ))}
       </div>

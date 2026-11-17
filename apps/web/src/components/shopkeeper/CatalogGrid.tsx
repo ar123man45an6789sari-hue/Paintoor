@@ -37,7 +37,7 @@ export function CatalogGrid() {
               <div className="mt-3 flex items-center justify-between">
                 <span
                   className={`rounded-pill px-2.5 py-1 text-xs font-black ${
-                    out ? "bg-danger/15 text-danger" : low ? "bg-haldi/20 text-navy" : "bg-neem/15 text-neem"
+                    out ? "bg-danger/15 text-danger" : low ? "bg-haldi/20 text-navy" : "bg-ink/15 text-ink"
                   }`}
                 >
                   {out ? t("sh.outOfStock") : low ? `${t("sh.lowStock")} · ${p.stock}` : `${t("sh.stock")}: ${p.stock}`}
@@ -55,7 +55,7 @@ export function CatalogGrid() {
                     type="button"
                     aria-label={`+ ${p.name}`}
                     onClick={() => changeStock(p.id, 1)}
-                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-muted hover:border-neem hover:text-neem"
+                    className="flex h-11 w-11 items-center justify-center rounded-control border-2 border-line text-muted hover:border-ink hover:text-ink"
                   >
                     <Icon name="plus" className="h-4 w-4" />
                   </button>

@@ -43,7 +43,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
               {BADGE_LABELS[b] ?? b}
             </span>
           ))}
-          <span className="rounded-pill border border-line bg-neem/10 px-3 py-1 text-xs font-bold text-ink">
+          <span className="rounded-pill border border-line bg-ink/10 px-3 py-1 text-xs font-bold text-ink">
             <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.kycOk")}
           </span>
         </div>
@@ -90,7 +90,7 @@ export function ProfileTab({ profile }: { profile: ProviderProfile }) {
                 <span
                   key={d}
                   className={`rounded-pill px-3 py-1.5 text-xs font-black ${
-                    free ? "bg-neem/15 text-neem" : "bg-chuna text-muted"
+                    free ? "bg-ink/15 text-ink" : "bg-chuna text-muted"
                   }`}
                 >
                   {t(`pd.d${d}`)} · {free ? t("pd.free") : t("pd.busy")}

@@ -82,7 +82,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
               <span
                 className={`rounded-pill px-3 py-1 text-xs font-black ${
                   state === "completed"
-                    ? "bg-neem/15 text-ink"
+                    ? "bg-ink/15 text-ink"
                     : state === "started"
                       ? "bg-saffron/15 text-saffron"
                       : "bg-haldi/20 text-navy"
@@ -128,7 +128,7 @@ export function WorkTab({ profile }: { profile: ProviderProfile }) {
                 </button>
               )}
               {state === "completed" && (
-                <p className="min-h-12 flex-1 rounded-control bg-neem/10 px-4 py-3 text-center text-sm font-extrabold text-neem">
+                <p className="min-h-12 flex-1 rounded-control bg-ink/10 px-4 py-3 text-center text-sm font-extrabold text-ink">
                   <Icon name="checkCircle" className="mr-1.5 inline h-[1.05em] w-[1.05em] align-[-0.18em]" />{t("pd.jobDone")}
                 </p>
               )}
