@@ -114,7 +114,7 @@ html.theme-anim *::before,
 html.theme-anim *::after {
   transition: background-color 0.45s ease, color 0.45s ease, border-color 0.45s ease !important;
 }
-/* Dark-mode sweep v6 — jo backgrounds hardcoded the, ab token-flip hote hain. */
+/* Dark-mode sweep v6 — backgrounds that were hardcoded now flip through tokens. */
 .ls-workers { background: var(--pin-a); }
 .esc-bg { background: linear-gradient(180deg, var(--pin-a), var(--pin-b)); }
 /* Paintoor sun — soft light-pink halo rays spin slowly behind the brand
