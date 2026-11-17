@@ -18,7 +18,7 @@ export type VaultDoc = {
 export type VaultFolder = {
   jobId: string; // "PT-2481"
   title: string;
-  when: string; // "Oct 2025"
+  when: string; // "Nov 2026"
   state: "live" | "done";
   docs: VaultDoc[];
 };
@@ -27,7 +27,7 @@ export const VAULT_SEED: VaultFolder[] = [
   {
     jobId: "PT-2481",
     title: "2 BHK full home painting",
-    when: "Oct 2025",
+    when: "Nov 2026",
     state: "live",
     docs: [
       { id: "AGR-2481-QT7M", kind: "agreement", meta: "Signed 11 Oct · ₹25,287 total" },
@@ -37,7 +37,7 @@ export const VAULT_SEED: VaultFolder[] = [
   {
     jobId: "PT-2290",
     title: "Terrace waterproofing",
-    when: "Jul 2025",
+    when: "Aug 2026",
     state: "done",
     docs: [
       { id: "AGR-2290-ML2P", kind: "agreement", meta: "Signed 02 Jul · ₹18,400 total" },
@@ -48,7 +48,7 @@ export const VAULT_SEED: VaultFolder[] = [
   {
     jobId: "PT-2104",
     title: "Exterior texture repaint",
-    when: "Mar 2025",
+    when: "Apr 2026",
     state: "done",
     docs: [
       { id: "AGR-2104-RV6N", kind: "agreement", meta: "Signed 08 Mar · ₹12,900 total" },
