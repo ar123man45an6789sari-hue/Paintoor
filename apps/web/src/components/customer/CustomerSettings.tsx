@@ -133,7 +133,7 @@ export function CustomerSettings({
             {t("cd.set.twostep")}
             <span
               className={`rounded-pill px-2 py-0.5 text-[10px] font-extrabold ${
-                profile.twoStep ? "bg-neem/15 text-neem" : "bg-[rgba(199,119,0,0.12)] text-[#C77700]"
+                profile.twoStep ? "bg-ink/15 text-ink" : "bg-[rgba(199,119,0,0.12)] text-[#C77700]"
               }`}
             >
               {profile.twoStep ? t("cd.set.on") : t("cd.set.off")}

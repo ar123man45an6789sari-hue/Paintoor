@@ -160,7 +160,7 @@ export function PaintStore({ session }: { session: Session }) {
                     {/* eslint-disable-next-line @next/next/no-img-element -- brand logos ship as static PNGs */}
                     <img src={`/brands/${p.b}.png`} alt={brandOf(p.b).name} className="h-6 w-6 rounded-pill bg-chuna object-contain" />
                     <span className="min-w-0 flex-1 truncate text-[11px] font-extrabold uppercase tracking-[0.1em] text-muted">{brandOf(p.b).name}</span>
-                    <span className="shrink-0 rounded-pill bg-neem/15 px-2 py-0.5 text-[10px] font-extrabold text-neem">{offPct(p)}% {t("cd.store.off")}</span>
+                    <span className="shrink-0 rounded-pill bg-ink/15 px-2 py-0.5 text-[10px] font-extrabold text-ink">{offPct(p)}% {t("cd.store.off")}</span>
                   </div>
                   <h3 className="mt-2 text-sm font-extrabold text-navy">{p.n}</h3>
                   <p className="mt-0.5 text-xs font-bold text-muted">
@@ -193,7 +193,7 @@ export function PaintStore({ session }: { session: Session }) {
           <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.14em]">
             <span className={step === "cart" ? "text-saffron" : "text-muted"}>1 · {t("cd.store.step1")}</span>
             <span className="h-px flex-1 bg-line" aria-hidden="true" />
-            <span className={step === "pay" ? "text-saffron" : step === "done" ? "text-neem" : "text-muted"}>2 · {t("cd.store.step2")}</span>
+            <span className={step === "pay" ? "text-saffron" : step === "done" ? "text-ink" : "text-muted"}>2 · {t("cd.store.step2")}</span>
           </div>
 
           <h2 className="mt-2 flex items-center justify-between text-sm font-extrabold text-navy">
@@ -205,7 +205,7 @@ export function PaintStore({ session }: { session: Session }) {
 
           {step === "done" ? (
             <div className="mt-3 text-center">
-              <Icon name="checkCircle" className="mx-auto h-10 w-10 text-neem" />
+              <Icon name="checkCircle" className="mx-auto h-10 w-10 text-ink" />
               <p className="mt-2 text-sm font-extrabold text-navy">{orderId}</p>
               <p className="mt-1 text-xs font-bold text-muted">{t("cd.store.done")}</p>
               <button
@@ -276,7 +276,7 @@ export function PaintStore({ session }: { session: Session }) {
             <>
               <div className="mt-3 space-y-1.5 text-xs font-bold text-muted">
                 <p className="flex justify-between"><span>{t("cd.store.items", { n: count })}</span><span>{inr(total)}</span></p>
-                <p className="flex justify-between"><span>{t("cd.store.delivery")}</span><span className="text-neem">{t("cd.store.free")}</span></p>
+                <p className="flex justify-between"><span>{t("cd.store.delivery")}</span><span className="text-ink">{t("cd.store.free")}</span></p>
               </div>
               <p className="mt-3 flex items-start gap-1.5 rounded-control bg-ink/10 px-2.5 py-2 text-[11px] font-bold text-ink">
                 <Icon name="shield" className="mt-0.5 h-3.5 w-3.5 shrink-0" />

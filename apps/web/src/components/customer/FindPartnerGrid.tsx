@@ -171,7 +171,7 @@ export function FindPartnerGrid({ onHire }: { onHire?: () => void }) {
         <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-line pt-3 text-xs">
           <span className="font-extrabold text-navy">{t("pt.count", { n: filtered.length })}</span>
           <span className="flex items-center gap-1 font-bold text-muted">
-            <Icon name="shield" className="h-3.5 w-3.5 text-neem" />{kycCount} {t("pt.trust1")}
+            <Icon name="shield" className="h-3.5 w-3.5 text-ink" />{kycCount} {t("pt.trust1")}
           </span>
           <button
             type="button"

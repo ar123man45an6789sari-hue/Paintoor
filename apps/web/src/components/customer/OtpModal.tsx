@@ -137,7 +137,7 @@ export function OtpModal({
         </div>
 
         {done ? (
-          <p className="mt-4 flex items-center justify-center gap-2 text-sm font-extrabold text-neem">
+          <p className="mt-4 flex items-center justify-center gap-2 text-sm font-extrabold text-ink">
             <Icon name="checkCircle" className="h-4 w-4" />
             {t("cd.otp.verified")}
           </p>

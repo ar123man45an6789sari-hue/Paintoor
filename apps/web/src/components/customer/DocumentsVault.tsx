@@ -103,7 +103,7 @@ export function DocumentsVault() {
               </span>
               <span
                 className={`shrink-0 rounded-pill px-2.5 py-0.5 text-[10px] font-extrabold ${
-                  f.state === "live" ? "bg-saffron/10 text-saffron" : "bg-neem/15 text-neem"
+                  f.state === "live" ? "bg-saffron/10 text-saffron" : "bg-ink/15 text-ink"
                 }`}
               >
                 {f.state === "live" ? t("cd.doc.live") : t("cd.doc.done")}
@@ -122,7 +122,7 @@ export function DocumentsVault() {
                     <div key={doc.id} className="flex flex-wrap items-center gap-3 rounded-control border border-line p-3">
                       <span
                         className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-control ${
-                          doc.kind === "warranty" ? "bg-neem/15 text-neem" : "bg-chuna text-navy"
+                          doc.kind === "warranty" ? "bg-ink/15 text-ink" : "bg-chuna text-navy"
                         }`}
                       >
                         <Icon name={KIND_ICON[doc.kind]} className="h-4 w-4" />
@@ -134,7 +134,7 @@ export function DocumentsVault() {
                         <span className="block truncate text-[11px] font-bold text-muted">{doc.meta}</span>
                       </span>
                       {doc.years && (
-                        <span className="shrink-0 rounded-pill bg-neem/15 px-2.5 py-0.5 text-[10px] font-extrabold text-neem">
+                        <span className="shrink-0 rounded-pill bg-ink/15 px-2.5 py-0.5 text-[10px] font-extrabold text-ink">
                           <Icon name="shieldCheck" className="mr-0.5 inline h-3 w-3 align-[-0.12em]" />
                           {t("cd.doc.valid", { n: doc.years })}
                         </span>

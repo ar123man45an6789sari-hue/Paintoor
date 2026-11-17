@@ -83,7 +83,7 @@ export function PostBox() {
             </button>
           </div>
           {posted && (
-            <p className="mt-3 flex items-center gap-2 rounded-control bg-neem/15 px-3 py-2 text-xs font-extrabold text-neem">
+            <p className="mt-3 flex items-center gap-2 rounded-control bg-ink/15 px-3 py-2 text-xs font-extrabold text-ink">
               <Icon name="checkCircle" className="h-4 w-4" />
               {t("cd.post.done")}
             </p>

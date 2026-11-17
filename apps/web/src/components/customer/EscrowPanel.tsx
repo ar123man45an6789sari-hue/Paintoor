@@ -29,7 +29,7 @@ function StatePill({ state }: { state: MilestoneState }) {
   const { t } = useI18n();
   if (state === "released") {
     return (
-      <span className="rounded-pill bg-neem/15 px-2.5 py-0.5 text-[10px] font-extrabold text-neem">
+      <span className="rounded-pill bg-ink/15 px-2.5 py-0.5 text-[10px] font-extrabold text-ink">
         {t("cd.esc.released")}
       </span>
     );
@@ -111,7 +111,7 @@ export function EscrowPanel() {
         <p className="flex items-center gap-2 rounded-control border border-line bg-white px-3 py-2 text-xs font-extrabold text-navy shadow-card">
           <Icon
             name={note.mode === "dispute" ? "alert" : "checkCircle"}
-            className={`h-4 w-4 ${note.mode === "dispute" ? "text-[#C77700]" : "text-neem"}`}
+            className={`h-4 w-4 ${note.mode === "dispute" ? "text-[#C77700]" : "text-ink"}`}
           />
           {t(`cd.esc.note.${note.mode === "release" ? "released" : note.mode}`)}
         </p>
@@ -125,7 +125,7 @@ export function EscrowPanel() {
             <div key={m.id} className="flex flex-wrap items-center gap-3 border-b border-line pb-3 last:border-0 last:pb-0">
               <span
                 className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-pill ${
-                  m.state === "released" ? "bg-neem/15 text-neem" : "bg-chuna text-muted"
+                  m.state === "released" ? "bg-ink/15 text-ink" : "bg-chuna text-muted"
                 }`}
               >
                 <Icon name={m.state === "released" ? "check" : "lock"} className="h-3.5 w-3.5" />
