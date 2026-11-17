@@ -47,7 +47,7 @@ const MMR_PIN: Record<string, string> = {
 
 const pinLabel = (name: string) => (MMR_PIN[name] ? `${name} ${MMR_PIN[name]}` : name);
 
-export function MarketplaceBrowser() {
+export function MarketplaceBrowser({ embedded = false }: { embedded?: boolean }) {
   const { t } = useI18n();
   const [query, setQuery] = useState("");
   const [suggest, setSuggest] = useState(false);
@@ -207,9 +207,13 @@ export function MarketplaceBrowser() {
           </g>
         </svg>
         <div className="relative mx-auto max-w-6xl px-4 pt-10 md:px-8 md:pt-14">
-          <span className="inline-block rounded-pill bg-saffron/10 px-4 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-saffron">{t("mk.eyebrow")}</span>
-          <h1 className="mt-2 text-4xl font-black text-navy dark:text-snow">{t("mk.h1")}</h1>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted md:text-base">{t("mk.sub")}</p>
+         {!embedded && (
+            <>
+              <span className="inline-block rounded-pill bg-saffron/10 px-4 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-saffron">{t("mk.eyebrow")}</span>
+              <h1 className="mt-2 text-4xl font-black text-navy dark:text-snow">{t("mk.h1")}</h1>
+              <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted md:text-base">{t("mk.sub")}</p>
+            </>
+          )}
           <div className="relative mt-6 flex min-h-11 items-center gap-2 rounded-pill border border-line bg-white p-1.5 pl-3 shadow-card dark:bg-raatri">
             <span className="flex items-center gap-1.5 whitespace-nowrap rounded-pill bg-chuna px-3 py-1.5 text-xs font-extrabold text-ink dark:bg-[#12161a] dark:text-snow">
               <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" /> {pin}
@@ -242,19 +246,23 @@ export function MarketplaceBrowser() {
               </ul>
             )}
           </div>
-          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-extrabold text-ink dark:text-snow">
-            {([["✅", t("mk.trust.verified")], ["🧾", t("mk.trust.gst")], ["📦", t("mk.trust.return")], ["🎨", t("mk.trust.shade")], ["⚡", t("mk.trust.pickup")], ["🔒", t("mk.trust.escrow")]] as const).map(([e, label]) => (
-              <li key={label} className="flex items-center gap-1.5"><span aria-hidden="true">{e}</span>{label}</li>
-            ))}
-          </ul>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {([[String(STORES.length), t("mk.stats.stores")], [String(BRANDS.length), t("mk.stats.brands")], [String(PRODUCTS.length), t("mk.stats.products")], [`${avg}★`, t("mk.stats.rating")], ["18%", t("mk.stats.gst")]] as const).map(([v, label]) => (
-              <div key={label} className="mk-glass min-w-[150px] flex-1 rounded-card border border-line px-4 py-3">
-                <b className="text-2xl font-black text-ink dark:text-snow">{v}</b>
-                <p className="text-xs font-bold text-muted">{label}</p>
-              </div>
-            ))}
-          </div>
+          {!embedded && (
+            <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs font-extrabold text-ink dark:text-snow">
+              {([["✅", t("mk.trust.verified")], ["🧾", t("mk.trust.gst")], ["📦", t("mk.trust.return")], ["🎨", t("mk.trust.shade")], ["⚡", t("mk.trust.pickup")], ["🔒", t("mk.trust.escrow")]] as const).map(([e, label]) => (
+                <li key={label} className="flex items-center gap-1.5"><span aria-hidden="true">{e}</span>{label}</li>
+              ))}
+            </ul>
+          )}
+          {!embedded && (
+            <div className="mt-6 flex flex-wrap gap-3">
+              {([[String(STORES.length), t("mk.stats.stores")], [String(BRANDS.length), t("mk.stats.brands")], [String(PRODUCTS.length), t("mk.stats.products")], [`${avg}★`, t("mk.stats.rating")], ["18%", t("mk.stats.gst")]] as const).map(([v, label]) => (
+                <div key={label} className="mk-glass min-w-[150px] flex-1 rounded-card border border-line px-4 py-3">
+                  <b className="text-2xl font-black text-ink dark:text-snow">{v}</b>
+                  <p className="text-xs font-bold text-muted">{label}</p>
+                </div>
+              ))}
+            </div>
+          )}
           <FilterBar
             aisle={aisle} counts={counts} onAisle={setAisle}
             budget={budget} onBudget={setBudget}

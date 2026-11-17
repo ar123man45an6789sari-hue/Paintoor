@@ -196,9 +196,9 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
   const open = newestFirst.filter((r) => r.status === "open");
   const matched = newestFirst.filter((r) => r.status === "interested" || r.status === "accepted");
   const done = newestFirst.filter((r) => r.status === "completed");
-  const cancelled = newestFirst.filter((r) => r.status === "cancelled");
-
-if (open.length === 0 && matched.length === 0 && done.length === 0 && cancelled.length === 0) {
+  /* Cancelled requests are withdrawn for good: the store keeps the record
+     for honesty, the screen forgets it so the board stays actionable. */
+if (open.length === 0 && matched.length === 0 && done.length === 0) {
     return (
       <div className="rounded-card border border-dashed border-line bg-white p-6 text-center text-muted">
         {t("req.empty")}
@@ -249,16 +249,6 @@ if (open.length === 0 && matched.length === 0 && done.length === 0 && cancelled.
             {t("req.group.done")} ({done.length})
           </h3>
           {done.map((r) => (
-            <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
-          ))}
-        </section>
-      )}
-       {cancelled.length > 0 && (
-        <section className="space-y-4">
-          <h3 className="text-xs font-black uppercase tracking-[0.14em] text-muted">
-            {t("req.group.cancelled")} ({cancelled.length})
-          </h3>
-          {cancelled.map((r) => (
             <RequestCard key={r.id} r={r} myName={myName} confirmId={confirmId} setConfirmId={setConfirmId} />
           ))}
         </section>

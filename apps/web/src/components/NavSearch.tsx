@@ -9,6 +9,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Icon, PinIcon, SearchIcon } from "./Icons";
 import { useI18n } from "@/i18n";
 import { getPlace, nameFromSlug, setPlace, type Place } from "@/lib/city";
+import { useClickOutside } from "@/components/useClickOutside";
 import { sensePlace } from "@/lib/geo";
 import { isIndianSlug } from "@/lib/india";
 import { LIVE_CITY_NAMES } from "@paintoor/mock-api";
@@ -46,6 +47,10 @@ export function NavSearch() {
   const [open, setOpen] = useState(false);
   const [locOpen, setLocOpen] = useState(false);
   const [sugOpen, setSugOpen] = useState(false);
+  const locRef = useRef<HTMLDivElement>(null);
+  const sugRef = useRef<HTMLDivElement>(null);
+  useClickOutside(locRef, locOpen, () => setLocOpen(false));
+  useClickOutside(sugRef, sugOpen, () => setSugOpen(false));
   const [place, setPlaceState] = useState<Place | null>(null);
   const [area, setArea] = useState("");
   const [q, setQ] = useState("");
@@ -157,7 +162,7 @@ export function NavSearch() {
 
   const pill = (
     <div className="flex min-h-11 items-stretch overflow-visible rounded-pill border border-line bg-white shadow-card">
-      <div className="relative flex items-center border-r border-line">
+        <div ref={locRef} className="relative flex items-center border-r border-line">
         <button
           type="button"
           onClick={() => setLocOpen((v) => !v)}
@@ -168,7 +173,7 @@ export function NavSearch() {
         </button>
         {locOpen && (
           <>
-            <button type="button" aria-label={t("notif.close")} onClick={() => setLocOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+
             <div className="absolute left-0 top-12 z-50 w-72 rounded-card border border-line bg-white p-2 shadow-card">
               <button
                 type="button"
@@ -193,7 +198,8 @@ export function NavSearch() {
           </>
         )}
       </div>
-      <div className="relative flex flex-1 items-center">
+
+      <div ref={sugRef} className="relative flex flex-1 items-center">
         <input
           value={q}
           onChange={(e) => {
@@ -208,7 +214,7 @@ export function NavSearch() {
         />
         {sugOpen && suggestions.length > 0 && (
           <>
-            <button type="button" aria-label={t("notif.close")} onClick={() => setSugOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+      
             <div className="absolute left-0 top-12 z-50 w-56 rounded-card border border-line bg-white p-1.5 shadow-card">
               {suggestions.map((s) => (
                 <button

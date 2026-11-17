@@ -3,7 +3,7 @@
    theme + globe. Every dropdown closes on outside click. */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
@@ -17,6 +17,7 @@ import { SideRails, SideRailsMobile } from "./SideRails";
 import { useI18n } from "@/i18n";
 import type { Lang } from "@/i18n";
 import { clearSession, getSession, onSessionChange } from "@/lib/session";
+import { useClickOutside } from "@/components/useClickOutside";
 import type { Session } from "@/lib/session";
 import { NotificationBell } from "./NotificationBell";
 import { NavSearch } from "./NavSearch";
@@ -56,7 +57,15 @@ export function Header() {
   const cart = useCart();
   const [langOpen, setLangOpen] = useState(false);
   const [acctOpen, setAcctOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+  const acctRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  /* Outside clicks close popovers; the trigger buttons stay inside their
+     watched roots so toggling still works. */
+  useClickOutside(langRef, langOpen, () => setLangOpen(false));
+  useClickOutside(acctRef, acctOpen, () => setAcctOpen(false));
   const [menuOpen, setMenuOpen] = useState(false);
+  useClickOutside(headerRef, menuOpen, () => setMenuOpen(false));
   const [dark, setDark] = useState(false);
   const [session, setSessionState] = useState<Session | null>(null);
 
@@ -117,7 +126,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
+       <header ref={headerRef} className="sticky top-0 z-40 border-b border-line/60 bg-white/90 backdrop-blur">
         <div className="flex min-h-16 w-full flex-wrap items-center gap-3 px-3 py-2 md:gap-4 md:px-4 lg:h-16 lg:flex-nowrap lg:py-0">
           <Link href={session ? "/dashboard" : "/"} className="flex shrink-0 items-center gap-2 text-navy">
             <Logo className="h-8 w-8" />
@@ -154,7 +163,7 @@ export function Header() {
             {dark ? <Icon name="sun" className="h-[18px] w-[18px]" /> : <Icon name="moon" className="h-[18px] w-[18px]" />}
           </button>
 
-          <div className="relative">
+           <div ref={langRef} className="relative">
             <button type="button" onClick={() => {
               if (!langOpen) openPopover("lang");
               setLangOpen(!langOpen);
@@ -163,7 +172,7 @@ export function Header() {
             </button>
             {langOpen && (
               <>
-                <button type="button" aria-label={t("notif.close")} onClick={() => setLangOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+
                 <div className="absolute right-0 top-11 z-50 min-w-[180px] rounded-card border border-line bg-white p-1.5 shadow-card">
                   {LANGS.map((l) => (
                     <button
@@ -204,7 +213,7 @@ export function Header() {
               </button>
             </>
           ) : (
-            <div className="relative">
+             <div ref={acctRef} className="relative">
               <button
                 type="button"
                 aria-label={t("nav.entrance")}
@@ -219,7 +228,7 @@ export function Header() {
               </button>
               {acctOpen && (
                 <>
-                  <button type="button" aria-label={t("notif.close")} onClick={() => setAcctOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+
                   <div className="absolute right-0 top-11 z-50 min-w-[170px] rounded-card border border-line bg-white p-1.5 shadow-card">
                     <button
                       type="button"
@@ -259,7 +268,7 @@ export function Header() {
 
         {menuOpen && (
           <>
-            <button type="button" aria-label={t("notif.close")} onClick={() => setMenuOpen(false)} className="fixed inset-0 z-40 cursor-default" />
+          
             <nav aria-label={t("nav.menu")} className="relative z-50 border-t border-line bg-white px-3 pb-4 pt-2 shadow-card lg:hidden">
              {NAV.map((item) =>
                 item.href === "" ? (

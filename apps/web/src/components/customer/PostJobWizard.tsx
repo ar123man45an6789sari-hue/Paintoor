@@ -104,11 +104,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           <label className="block">
             <span className={labelClass}>{t("wiz.cat")}</span>
             <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputClass}>
-                   {["painting", "electrical", "plumbing", "carpentry", "cleaning"].map((s) => (
-                  <option key={s} value={s} disabled={s !== "painting"}>
-                    {t(`sk.${s}`)}{s !== "painting" ? ` — ${t("soon.tag")}` : ""}
-                  </option>
-                ))}
+<option value="painting">{t("sk.painting")}</option>
             </select>
           </label>
           <label className="block">

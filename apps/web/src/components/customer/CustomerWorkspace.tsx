@@ -9,7 +9,7 @@
    untouched. */
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type ChangeEvent } from "react";
 import { useI18n } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
 import type { Session } from "@/lib/session";
@@ -67,7 +67,18 @@ function HomeView({
   onProfile: () => void;
 }) {
   const { t } = useI18n();
-  const [profile] = useProfile();
+const [profile, setProfile] = useProfile();
+  const fileRef = useRef<HTMLInputElement>(null);
+  /* Same data-URL route as the profile drawer: the photo lives in the shared
+     profile store, so a change here appears everywhere at once. */
+  const onPick = (e: ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => setProfile((p) => ({ ...p, photo: String(reader.result) }));
+    reader.readAsDataURL(f);
+    e.target.value = "";
+  };
   /* Null until the client mounts so server and client first renders match;
      refreshed every minute afterwards. */
   const [now, setNow] = useState<Date | null>(null);
@@ -95,22 +106,33 @@ function HomeView({
           }}
         />
         <div className="relative flex flex-wrap items-center gap-5 p-6 text-snow md:p-8">
-          <button
-            type="button"
-            onClick={onProfile}
-            aria-label={t("cd.drawer.open")}
-            className="h-[92px] w-[92px] shrink-0 overflow-hidden rounded-pill border-4 border-snow/70 shadow-card transition-transform hover:scale-[1.03]"
-            style={{ background: GRAD }}
-          >
-            {profile.photo ? (
-              /* eslint-disable-next-line @next/next/no-img-element -- user upload, data URL */
-              <img src={profile.photo} alt={profile.name} className="h-full w-full object-cover" />
-            ) : (
-              <span className="flex h-full w-full items-center justify-center text-3xl font-black text-snow">
-                {initialsOf(profile.name)}
-              </span>
-            )}
-          </button>
+                    <span className="relative inline-block shrink-0">
+            <button
+              type="button"
+              onClick={onProfile}
+              aria-label={t("cd.drawer.open")}
+              className="h-[92px] w-[92px] overflow-hidden rounded-pill border-4 border-snow/70 shadow-card transition-transform hover:scale-[1.03]"
+              style={{ background: GRAD }}
+            >
+              {profile.photo ? (
+                /* eslint-disable-next-line @next/next/no-img-element -- user upload, data URL */
+                <img src={profile.photo} alt={profile.name} className="h-full w-full object-cover" />
+              ) : (
+                <span className="flex h-full w-full items-center justify-center text-3xl font-black text-snow">
+                  {initialsOf(profile.name)}
+                </span>
+              )}
+            </button>
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              aria-label={t("cd.photo.change")}
+              className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-pill bg-saffron shadow-card transition-transform hover:scale-110"
+            >
+              <Icon name="plus" className="h-4 w-4 text-snow" />
+            </button>
+            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
+          </span>
           <div className="min-w-0">
             <p className="text-sm font-bold text-snow/85">
               {now ? `${t(greetingKey(now))}, ${first}` : "\u00A0"}

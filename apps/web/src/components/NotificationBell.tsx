@@ -2,9 +2,10 @@
    Reads the demo notification store; production swaps in a socket feed. */
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useI18n } from "@/i18n";
 import { openPopover, onPopoverClose } from "@/lib/popover";
+import { useClickOutside } from "@/components/useClickOutside";
 import { getProviderProfile } from "@/lib/providers";
 import { Icon } from "./Icons";
 import { getSession, onSessionChange } from "@/lib/session";
@@ -24,7 +25,9 @@ export function NotificationBell() {
   const [open, setOpen] = useState(false);
   useEffect(() => onPopoverClose("bell", () => setOpen(false)), []);
   const [items, setItems] = useState<AppNotification[]>([]);
-  const [unread, setUnread] = useState(0);
+const [unread, setUnread] = useState(0);
+  const rootRef = useRef<HTMLDivElement>(null);
+  useClickOutside(rootRef, open, () => setOpen(false));
 
     const reload = useCallback(() => {
     const current = getSession();
@@ -50,7 +53,7 @@ export function NotificationBell() {
   const locale = lang === "hi" ? "hi-IN" : lang === "gu" ? "gu-IN" : "en-IN";
 
   return (
-    <div className="relative">
+    <div ref={rootRef} className="relative">
       <button
         type="button"
         aria-label={t("notif.title")}
@@ -70,12 +73,6 @@ export function NotificationBell() {
 
       {open && (
         <>
-          <button
-            type="button"
-            aria-label={t("notif.close")}
-            onClick={() => setOpen(false)}
-            className="fixed inset-0 z-40 cursor-default"
-          />
           <div className="absolute right-0 top-11 z-50 w-[min(88vw,340px)] rounded-card border border-line bg-white p-2 shadow-card">
             <p className="px-2 py-1 text-xs font-black uppercase tracking-wider text-muted">{t("notif.title")}</p>
             {items.length === 0 ? (
