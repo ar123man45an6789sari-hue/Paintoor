@@ -73,7 +73,12 @@ export type IconName =
   | "truck" | "user" | "users" | "sparkle" | "toolbox" | "eye" | "download" | "save" | "brush"
   | "eraser" | "undo" | "redo" | "refresh" | "minus" | "plus" | "play" | "chart" | "doc"
   | "briefcase" | "bulb" | "receipt" | "brick" | "layers"
-  | "bolt" | "droplet" | "hammer" | "spray" | "arrows";
+  | "bolt" | "droplet" | "hammer" | "spray" | "arrows"
+  | "plusCircle" | "unlock" | "file" | "fileCheck" | "history" | "gear" | "video" | "send"
+  | "clip" | "mic" | "pause" | "shieldCheck" | "monitor" | "phoneDev" | "laptop"
+  | "chevDown" | "chevRight" | "alert" | "filter" | "package" | "scale" | "zap"
+  | "info" | "sign" | "award" | "trend" | "headset" | "card" | "trash" | "logout"
+  | "pencil" | "image";
 
 const SHAPES: Record<IconName, ReactNode> = {
   home: <><path d="M3 10.6 12 3l9 7.6" /><path d="M5.6 9.6V21h12.8V9.6" /><path d="M9.8 21v-5.8h4.4V21" /></>,
@@ -138,6 +143,38 @@ const SHAPES: Record<IconName, ReactNode> = {
   hammer: <><path d="m14.6 6.4 3 3" /><path d="M14.2 2.6 21.4 9.8l-2.6 2.6-7.2-7.2z" /><path d="m12.4 7.6-8.8 8.8a2.1 2.1 0 0 0 3 3l8.8-8.8" /></>,
   spray: <><rect x="8.5" y="8.5" width="7" height="13" rx="2" /><path d="M10.5 8.5V5h3v3.5M18 4h.01M20.5 6.5h.01M18 9h.01" /></>,
   arrows: <path d="M4 9h16m-4-4 4 4-4 4M20 15H4m4-4-4 4 4 4" />,
+  plusCircle: <><circle cx="12" cy="12" r="9" /><path d="M12 8v8" /><path d="M8 12h8" /></>,
+  unlock: <><rect x="4.5" y="11" width="15" height="9.5" rx="2" /><path d="M8 11V7.5a4 4 0 0 1 7.6-1.7" /></>,
+  file: <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" /><path d="M14 3v5h5" /></>,
+  fileCheck: <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z" /><path d="M14 3v5h5" /><path d="m9.3 14.3 2 2 3.9-4" /></>,
+  history: <><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3 8.6" /><path d="M3 4v4.6h4.6" /><path d="M12 7.5V12l3 2" /></>,
+  gear: <><circle cx="12" cy="12" r="3.2" /><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1-1.55 1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.7 1.7 0 0 0 .34-1.87 1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1 1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.7 1.7 0 0 0 1.87.34h.09a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.7 1.7 0 0 0-.34 1.87v.09a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1Z" /></>,
+  video: <><rect x="2.5" y="6" width="13" height="12" rx="2" /><path d="m15.5 10.5 6-3v9l-6-3" /></>,
+  send: <><path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4Z" /></>,
+  clip: <path d="M21.4 11.05 12.2 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />,
+  mic: <><rect x="9" y="2.5" width="6" height="11" rx="3" /><path d="M5.5 11a6.5 6.5 0 0 0 13 0" /><path d="M12 17.5V21" /><path d="M8.5 21h7" /></>,
+  pause: <><path d="M8 5h2.6v14H8Z" fill="currentColor" stroke="none" /><path d="M13.4 5H16v14h-2.6Z" fill="currentColor" stroke="none" /></>,
+  shieldCheck: <><path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8 7.5 10 4.3-2 7.5-5.4 7.5-10v-6Z" /><path d="m9 11.5 2.2 2.2 4.3-4.4" /></>,
+  monitor: <><rect x="2.5" y="4" width="19" height="12.5" rx="2" /><path d="M8.5 20.5h7" /><path d="M12 16.5v4" /></>,
+  phoneDev: <><rect x="7.5" y="2.5" width="9" height="19" rx="2" /><path d="M11 18.5h2" /></>,
+  laptop: <><rect x="3.5" y="4.5" width="17" height="11" rx="2" /><path d="M2.5 19.5h19" /></>,
+  chevDown: <path d="m6 9.5 6 6 6-6" />,
+  chevRight: <path d="m9.5 6 6 6-6 6" />,
+  alert: <><path d="M12 3.5 2.8 19.5h18.4Z" /><path d="M12 9.5V14" /><path d="M12 17h.01" /></>,
+  filter: <path d="M3.5 5.5h17L14 13v6l-4 2v-8Z" />,
+  package: <><path d="M21 8.5v7a2 2 0 0 1-1 1.73l-7 4a2 2 0 0 1-2 0l-7-4A2 2 0 0 1 3 15.5v-7a2 2 0 0 1 1-1.73l7-4a2 2 0 0 1 2 0l7 4a2 2 0 0 1 1 1.73Z" /><path d="M3.3 7.3 12 12l8.7-4.7" /><path d="M12 22V12" /></>,
+  scale: <><path d="M12 3v18" /><path d="M7 21h10" /><path d="m3 7 3-4 3 4" /><path d="M3 7a3 3 0 0 0 6 0" /><path d="m15 7 3-4 3 4" /><path d="M15 7a3 3 0 0 0 6 0" /></>,
+  zap: <path d="M13 2.5 4.5 13.5H11l-1 8 8.5-11H12Z" />,
+  info: <><circle cx="12" cy="12" r="9" /><path d="M12 11v5" /><path d="M12 8h.01" /></>,
+  sign: <><path d="M12.5 20.5h9" /><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z" /></>,
+  award: <><circle cx="12" cy="8.5" r="5.5" /><path d="M8.8 13 7 21.5l5-3 5 3-1.8-8.5" /></>,
+  trend: <><path d="m3 17 6-6 4 4 8-8" /><path d="M15 7h6v6" /></>,
+  headset: <><path d="M4 13a8 8 0 0 1 16 0" /><rect x="2.5" y="13" width="4" height="6" rx="1.5" /><rect x="17.5" y="13" width="4" height="6" rx="1.5" /><path d="M20 19v1a2 2 0 0 1-2 2h-4" /></>,
+  card: <><rect x="2.5" y="5" width="19" height="14" rx="2" /><path d="M2.5 10h19" /><path d="M6.5 15h4" /></>,
+  trash: <><path d="M3.5 6.5h17" /><path d="M8 6.5V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5" /><path d="M6 6.5 7 21h10l1-14.5" /><path d="M10 10.5v6" /><path d="M14 10.5v6" /></>,
+  logout: <><path d="M9 21H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /></>,
+  pencil: <path d="M17 3a2.8 2.8 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />,
+  image: <><rect x="3" y="4.5" width="18" height="15" rx="2" /><circle cx="8.8" cy="10" r="1.8" /><path d="m21 15.5-5-5L5 21" /></>,
 };
 
 export function Icon({
