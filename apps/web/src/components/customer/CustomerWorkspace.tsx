@@ -1,181 +1,62 @@
-/* Customer workspace shell — box-grid navigation + view routing.
-
-   The old sidebar and mobile chip scroller are gone. Home is the assembly
-   point: the hero card on top, then every panel as a described box in a
-   two-up grid (single column on mobile), each with a big icon, a one-line
-   "when to open this" description and a forward arrow. Sub-views carry a
-   back button in the corner; the header's "Customer - Dashboard" pill also
-   returns here because it reloads the route. Existing panels are reused
-   untouched. */
+/* Customer workspace shell — premium sidebar on desktop, bottom nav on
+   mobile, one router for every panel. The home view (CustomerHome) is the
+   rich front door; existing panels reuse their components untouched. */
 "use client";
 
-import { useEffect, useRef, useState, type ChangeEvent } from "react";
+import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
 import { Icon, type IconName } from "@/components/Icons";
 import type { Session } from "@/lib/session";
-import { SEED_JOB } from "@/lib/jobs";
-import { initialsOf, useProfile } from "@/lib/profile";
-import { PostBox } from "@/components/customer/PostBox";
-import { FindPartnerGrid } from "@/components/customer/FindPartnerGrid";
-import { EscrowPanel } from "@/components/customer/EscrowPanel";
-import { PaintStore } from "@/components/customer/PaintStore";
-import { DocumentsVault } from "@/components/customer/DocumentsVault";
-import { JobHistory } from "@/components/customer/JobHistory";
-import { CustomerSettings } from "@/components/customer/CustomerSettings";
-import { ProfileDrawer } from "@/components/customer/ProfileDrawer";
-import { MyJobsBoard } from "@/components/customer/MyJobsBoard";
-import { ChatPanel } from "@/components/customer/ChatPanel";
 import { takeCheckoutIntent } from "@/lib/session";
+import { PostBox } from "./PostBox";
+import { FindPartnerGrid } from "./FindPartnerGrid";
+import { EscrowPanel } from "./EscrowPanel";
+import { PaintStore } from "./PaintStore";
+import { DocumentsVault } from "./DocumentsVault";
+import { JobHistory } from "./JobHistory";
+import { CustomerSettings } from "./CustomerSettings";
+import { ProfileDrawer } from "./ProfileDrawer";
+import { MyJobsBoard } from "./MyJobsBoard";
+import { ChatPanel } from "./ChatPanel";
+import { CustomerHome } from "./CustomerHome";
 
 export type ViewId = "home" | "jobs" | "chat" | "post" | "find" | "escrow" | "store" | "docs" | "hist" | "settings";
 
-/* The ten boxes: nine panels plus the profile drawer. Titles reuse the
-   existing nav keys; descriptions live under cd.box.* so every language
-   explains the panel the same way. */
-const BOXES: { v: ViewId | "profile"; icon: IconName; label: string; desc: string }[] = [
-  { v: "jobs", icon: "briefcase", label: "cd.nav.jobs", desc: "cd.box.jobs" },
-  { v: "chat", icon: "chat", label: "cd.nav.chat", desc: "cd.box.chat" },
-  { v: "post", icon: "plus", label: "dash.tab.post", desc: "cd.box.post" },
-  { v: "find", icon: "search", label: "dash.tab.find", desc: "cd.box.find" },
-  { v: "escrow", icon: "wallet", label: "cd.nav.escrow", desc: "cd.box.escrow" },
-  { v: "store", icon: "store", label: "cd.nav.store", desc: "cd.box.store" },
-  { v: "docs", icon: "doc", label: "cd.nav.docs", desc: "cd.box.docs" },
-  { v: "hist", icon: "history", label: "cd.nav.hist", desc: "cd.box.hist" },
-  { v: "settings", icon: "gear", label: "cd.nav.settings", desc: "cd.box.settings" },
-  { v: "profile", icon: "user", label: "cd.drawer.title", desc: "cd.box.profile" },
+const NAV: { group: string; items: { id: ViewId | "profile"; icon: IconName; label: string }[] }[] = [
+  { group: "cd.nav.main", items: [
+    { id: "home", icon: "home", label: "cd.nav.home" },
+    { id: "jobs", icon: "briefcase", label: "cd.nav.jobs" },
+    { id: "chat", icon: "chat", label: "cd.nav.chat" },
+  ] },
+  { group: "cd.nav.hire", items: [
+    { id: "post", icon: "plus", label: "dash.tab.post" },
+    { id: "find", icon: "search", label: "dash.tab.find" },
+  ] },
+  { group: "cd.nav.money", items: [
+    { id: "escrow", icon: "wallet", label: "cd.nav.escrow" },
+    { id: "store", icon: "store", label: "cd.nav.store" },
+  ] },
+  { group: "cd.nav.records", items: [
+    { id: "docs", icon: "doc", label: "cd.nav.docs" },
+    { id: "hist", icon: "history", label: "cd.nav.hist" },
+  ] },
+  { group: "cd.nav.account", items: [
+    { id: "settings", icon: "gear", label: "cd.nav.settings" },
+    { id: "profile", icon: "user", label: "cd.drawer.title" },
+  ] },
 ];
 
-const GRAD = "linear-gradient(135deg,#E00048,#A80036)";
-
-/** Spec greeting windows: night / morning / afternoon / evening / night. */
-function greetingKey(d: Date): string {
-  const h = d.getHours();
-  if (h < 5) return "cd.greet.night";
-  if (h < 12) return "cd.greet.morning";
-  if (h < 17) return "cd.greet.afternoon";
-  if (h < 21) return "cd.greet.evening";
-  return "cd.greet.night";
-}
-
-function HomeView({
-  session,
-  go,
-  onProfile,
-}: {
-  session: Session;
-  go: (v: ViewId) => void;
-  onProfile: () => void;
-}) {
-  const { t } = useI18n();
-const [profile, setProfile] = useProfile();
-  const fileRef = useRef<HTMLInputElement>(null);
-  /* Same data-URL route as the profile drawer: the photo lives in the shared
-     profile store, so a change here appears everywhere at once. */
-  const onPick = (e: ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-    if (!f) return;
-    const reader = new FileReader();
-    reader.onload = () => setProfile((p) => ({ ...p, photo: String(reader.result) }));
-    reader.readAsDataURL(f);
-    e.target.value = "";
-  };
-  /* Null until the client mounts so server and client first renders match;
-     refreshed every minute afterwards. */
-  const [now, setNow] = useState<Date | null>(null);
-  useEffect(() => {
-    const tick = () => setNow(new Date());
-    tick();
-    const id = setInterval(tick, 60_000);
-    return () => clearInterval(id);
-  }, []);
-
-  const first = (session.name || "").split(" ")[0] || t("dash.friend");
-
-  return (
-    <div className="space-y-6">
-      {/* Hero: global cover (set by Paintoor) + customer-controlled avatar */}
-      <section className="relative overflow-hidden rounded-sheet border border-line shadow-card">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              "linear-gradient(135deg, rgba(224,0,72,0.94), rgba(168,0,54,0.90)), url('/jobs/cover-default.jpg')",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <div className="relative flex flex-wrap items-center gap-5 p-6 text-snow md:p-8">
-                    <span className="relative inline-block shrink-0">
-            <button
-              type="button"
-              onClick={onProfile}
-              aria-label={t("cd.drawer.open")}
-              className="h-[92px] w-[92px] overflow-hidden rounded-pill border-4 border-snow/70 shadow-card transition-transform hover:scale-[1.03]"
-              style={{ background: GRAD }}
-            >
-              {profile.photo ? (
-                /* eslint-disable-next-line @next/next/no-img-element -- user upload, data URL */
-                <img src={profile.photo} alt={profile.name} className="h-full w-full object-cover" />
-              ) : (
-                <span className="flex h-full w-full items-center justify-center text-3xl font-black text-snow">
-                  {initialsOf(profile.name)}
-                </span>
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              aria-label={t("cd.photo.change")}
-              className="absolute -bottom-1 -right-1 flex h-8 w-8 items-center justify-center rounded-pill bg-saffron shadow-card transition-transform hover:scale-110"
-            >
-              <Icon name="plus" className="h-4 w-4 text-snow" />
-            </button>
-            <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={onPick} />
-          </span>
-          <div className="min-w-0">
-            <p className="text-sm font-bold text-snow/85">
-              {now ? `${t(greetingKey(now))}, ${first}` : "\u00A0"}
-            </p>
-            <h1 className="mt-1 text-2xl font-black tracking-[-0.02em] md:text-3xl">
-              {t("cd.home.h1", { name: first, n: SEED_JOB.crews.length })}
-            </h1>
-          </div>
-        </div>
-        <span className="absolute bottom-2 right-3 text-[10px] font-extrabold uppercase tracking-[0.14em] text-snow/70">
-          {t("cd.hero.cover")}
-        </span>
-      </section>
-
-      {/* The assembly: every panel as a described box, two per row on
-          laptops, one per row on phones. */}
-      <div className="grid gap-4 sm:grid-cols-2">
-        {BOXES.map((b) => (
-          <button
-            key={b.v}
-            type="button"
-            onClick={() => (b.v === "profile" ? onProfile() : go(b.v))}
-            className="group flex items-start gap-4 rounded-card border border-line bg-white p-5 text-left shadow-card transition-all hover:-translate-y-0.5 hover:shadow-lift"
-          >
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-control bg-saffron/10">
-              <Icon name={b.icon} className="h-7 w-7 text-saffron" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="flex items-center justify-between gap-2">
-                <span className="truncate text-base font-black text-navy">{t(b.label)}</span>
-                <Icon
-                  name="arrowRight"
-                  className="h-4 w-4 shrink-0 text-muted transition-transform group-hover:translate-x-0.5 group-hover:text-saffron"
-                />
-              </span>
-              <span className="mt-1 block text-xs font-bold leading-relaxed text-muted">{t(b.desc)}</span>
-            </span>
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-}
+/* Mobile keeps the hottest panels one tap away; documents, history and the
+   profile drawer stay reachable from the home view and the account group. */
+const MOBILE: { id: ViewId; icon: IconName; label: string }[] = [
+  { id: "home", icon: "home", label: "cd.m.home" },
+  { id: "jobs", icon: "briefcase", label: "cd.m.jobs" },
+  { id: "chat", icon: "chat", label: "cd.m.chat" },
+  { id: "post", icon: "plus", label: "cd.m.post" },
+  { id: "escrow", icon: "wallet", label: "cd.m.escrow" },
+  { id: "store", icon: "store", label: "cd.m.store" },
+  { id: "settings", icon: "gear", label: "cd.m.settings" },
+];
 
 export function CustomerWorkspace({ session }: { session: Session }) {
   const { t } = useI18n();
@@ -198,24 +79,36 @@ export function CustomerWorkspace({ session }: { session: Session }) {
   }, []);
 
   return (
-    <div className="px-4 py-10 md:px-6">
-      <div className="mx-auto max-w-6xl">
+    <div className="mx-auto w-full max-w-7xl px-3 pb-28 pt-5 md:px-6 lg:pb-8">
+      <div className="grid items-start gap-6 lg:grid-cols-[240px_1fr]">
+        {/* Sidebar — desktop only */}
+        <aside className="sticky top-20 hidden lg:block" aria-label={t("dash.c")}>
+          <nav className="rounded-card border border-line bg-white p-3 shadow-card">
+            {NAV.map((g) => (
+              <div key={g.group}>
+                <p className="mt-3 px-3 pb-1 text-[10px] font-black uppercase tracking-[0.16em] text-muted first:mt-0">{t(g.group)}</p>
+                {g.items.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => (item.id === "profile" ? setDrawerOpen(true) : setView(item.id))}
+                    aria-current={view === item.id ? "page" : undefined}
+                    className={`flex min-h-11 w-full items-center gap-2.5 rounded-control px-3 py-2.5 text-sm font-extrabold transition-colors ${
+                      view === item.id ? "bg-saffron text-snow" : "text-muted hover:bg-chuna hover:text-navy"
+                    }`}
+                  >
+                    <Icon name={item.icon} className="h-[18px] w-[18px] shrink-0" />
+                    <span className="flex-1 text-left">{t(item.label)}</span>
+                  </button>
+                ))}
+              </div>
+            ))}
+          </nav>
+        </aside>
+
+        {/* Views */}
         <main className="min-w-0">
-          {view !== "home" && (
-            <button
-              type="button"
-              onClick={() => setView("home")}
-              className="mb-4 flex items-center gap-1.5 rounded-control border border-line bg-white px-3 py-1.5 text-xs font-extrabold text-navy transition-colors hover:border-saffron hover:text-saffron"
-            >
-              <Icon name="arrowLeft" className="h-3.5 w-3.5" />
-              {t("cd.back")}
-            </button>
-          )}
-
-          {view === "home" && (
-            <HomeView session={session} go={setView} onProfile={() => setDrawerOpen(true)} />
-          )}
-
+          {view === "home" && <CustomerHome session={session} go={setView} onProfile={() => setDrawerOpen(true)} />}
           {view === "jobs" && <MyJobsBoard onOpenChat={openChat} />}
           {view === "chat" && (
             <ChatPanel
@@ -235,6 +128,27 @@ export function CustomerWorkspace({ session }: { session: Session }) {
           )}
         </main>
       </div>
+
+      {/* Bottom nav — mobile / tablet */}
+      <nav
+        aria-label={t("dash.c")}
+        className="fixed inset-x-0 bottom-0 z-40 flex gap-1 overflow-x-auto border-t border-line bg-white px-2 py-1.5 lg:hidden"
+      >
+        {MOBILE.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setView(item.id)}
+            aria-current={view === item.id ? "page" : undefined}
+            className={`relative flex min-h-14 min-w-[64px] flex-1 flex-col items-center justify-center gap-0.5 rounded-control px-2 py-1 text-[10px] font-extrabold transition-colors ${
+              view === item.id ? "bg-saffron/10 text-saffron" : "text-muted"
+            }`}
+          >
+            <Icon name={item.icon} className="h-5 w-5" />
+            {t(item.label)}
+          </button>
+        ))}
+      </nav>
 
       {drawerOpen && <ProfileDrawer onClose={() => setDrawerOpen(false)} />}
     </div>
