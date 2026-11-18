@@ -16,10 +16,13 @@ import { PostboxView } from "./PostboxView";
 import { QuotesView } from "./QuotesView";
 import { ChatHub } from "./ChatHub";
 import { PartnerStore } from "./PartnerStore";
+import { DocsView } from "./DocsView";
+import { HistoryView } from "./HistoryView";
+import { SettingsView } from "./SettingsView";
 import { EarningsTab } from "./EarningsTab";
 import { ProfileTab } from "./ProfileTab";
 
-type View = "dash" | "jobs" | "postbox" | "quotes" | "chat" | "earn" | "store" | "profile";
+type View = "dash" | "jobs" | "postbox" | "quotes" | "chat" | "earn" | "store" | "docs" | "history" | "profile" | "settings";
 
 const NAV: { group: string; items: { id: View; icon: IconName; label: string }[] }[] = [
   { group: "pw.nav.main", items: [
@@ -35,8 +38,13 @@ const NAV: { group: string; items: { id: View; icon: IconName; label: string }[]
     { id: "earn", icon: "wallet", label: "pw.v.earn" },
     { id: "store", icon: "store", label: "pw.v.store" },
   ] },
+  { group: "pw.nav.records", items: [
+    { id: "docs", icon: "doc", label: "pw.v.docs" },
+    { id: "history", icon: "history", label: "pw.v.history" },
+  ] },
   { group: "pw.nav.account", items: [
     { id: "profile", icon: "user", label: "pw.v.profile" },
+    { id: "settings", icon: "gear", label: "pw.v.settings" },
   ] },
 ];
 
@@ -150,7 +158,33 @@ export function PartnerWorkspace({ name, signup }: { name: string; signup?: Reco
           {view === "chat" && <ChatHub profile={profile} initialId={chatId} />}
           {view === "earn" && <EarningsTab />}
           {view === "store" && <PartnerStore profile={profile} />}
-          {view === "profile" && <ProfileTab profile={profile} />}
+          {view === "docs" && <DocsView profile={profile} onToast={setToast} />}
+          {view === "history" && <HistoryView profile={profile} onToast={setToast} />}
+          {view === "profile" && (
+            <div className="space-y-5">
+              {/* Records & settings stay one tap away on phones, where the
+                  bottom nav keeps only the hottest seven views. */}
+              <div className="grid grid-cols-3 gap-2 lg:hidden">
+                {([
+                  { id: "docs", icon: "doc", label: "pw.v.docs" },
+                  { id: "history", icon: "history", label: "pw.v.history" },
+                  { id: "settings", icon: "gear", label: "pw.v.settings" },
+                ] as { id: View; icon: IconName; label: string }[]).map((x) => (
+                  <button
+                    key={x.id}
+                    type="button"
+                    onClick={() => setView(x.id)}
+                    className="flex min-h-16 flex-col items-center justify-center gap-1 rounded-control border border-line bg-white text-[10px] font-extrabold text-muted shadow-card transition-colors hover:text-saffron"
+                  >
+                    <Icon name={x.icon} className="h-5 w-5" />
+                    {t(x.label)}
+                  </button>
+                ))}
+              </div>
+              <ProfileTab profile={profile} />
+            </div>
+          )}
+          {view === "settings" && <SettingsView profile={profile} onToast={setToast} />}
         </main>
       </div>
 
