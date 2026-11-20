@@ -78,8 +78,16 @@ export function MarketplaceBrowser({ embedded = false }: { embedded?: boolean })
      city, so it is also the first-paint default — server and client agree. */
   const [pin, setPin] = useState("Mumbai 400001");
 
+    /* Non-null when the picked place sits outside the pilot region: the
+     stores below are still the Mumbai pilot set, so the page says so. */
+  const [outside, setOutside] = useState<string | null>(null);
+
   useEffect(() => {
-    const read = () => setPin(pinLabel(getPlace()?.name || "Mumbai"));
+    const read = () => {
+      const nm = getPlace()?.name || "Mumbai";
+      setPin(pinLabel(nm));
+      setOutside(MMR_PIN[nm] ? null : nm);
+    };
     read();
     return onCityChange(read);
   }, []);
@@ -214,6 +222,13 @@ export function MarketplaceBrowser({ embedded = false }: { embedded?: boolean })
               <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted md:text-base">{t("mk.sub")}</p>
             </>
           )}
+        {outside && (
+            <p className="mt-3 flex items-start gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-bold text-muted dark:bg-[#12161a]">
+              <Icon name="info" className="mt-0.5 h-3.5 w-3.5 shrink-0 text-saffron" />
+              {t("mk.pilot", { city: outside })}
+            </p>
+          )}
+
           <div className="relative mt-6 flex min-h-11 items-center gap-2 rounded-pill border border-line bg-white p-1.5 pl-3 shadow-card dark:bg-raatri">
             <span className="flex items-center gap-1.5 whitespace-nowrap rounded-pill bg-chuna px-3 py-1.5 text-xs font-extrabold text-ink dark:bg-[#12161a] dark:text-snow">
               <Icon name="mapPin" className="h-3.5 w-3.5 text-saffron" /> {pin}

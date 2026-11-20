@@ -63,12 +63,19 @@ export function ServiceBuilder({ svcId, onSvc }: { svcId: string; onSvc: (id: st
   const tools = at(kit.tools);
   const total = matTotal + labour + tools;
 
-  function addJob() {
+    function addJob() {
+    /* Keys carry the full configuration so two quotes for the same service
+       never merge into one stale cart line, and the tools row rides along
+       so the cart total always equals the quoted total. */
+    const cfg = `${sv.id}-${area}-${coats}-${crew}-${brand}`;
     matLines.forEach((l, i) =>
-      addLine({ key: `svjm-${sv.id}-${i}@${store.id}`, title: l.label, meta: `${l.meta} · ${store.n}`, price: at(l.base), storeId: store.id, qty: 1 }),
+      addLine({ key: `svjm-${cfg}-${i}@${store.id}`, title: l.label, meta: `${l.meta} · ${store.n}`, price: at(l.base), storeId: store.id, qty: 1 }),
     );
+    if (tools > 0) {
+      addLine({ key: `svjt-${cfg}@${store.id}`, title: t("svc.boq.tools"), meta: store.n, price: tools, storeId: store.id, qty: 1 });
+    }
     addLine({
-      key: `svjl@${sv.id}`, title: t(`svc.${sv.id}.name`),
+      key: `svjl-${cfg}`, title: t(`svc.${sv.id}.name`),
       meta: `${area} sq ft · ${t("svc.crewOf")} ${crew} · ${t("svc.days", { d: String(days) })}`,
       price: labour, storeId: "svc", qty: 1,
     });

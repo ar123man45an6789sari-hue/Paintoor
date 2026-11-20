@@ -57,6 +57,9 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   };
+  /* Honest gating: a request needs a start date and a few words of
+     description before it can reach partners. */
+  const ready = Boolean(date) && description.trim().length > 0;
 
   function submit() {
     const session = getSession();
@@ -197,6 +200,12 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
           </label>
         </div>
       )}
+           {step === 4 && !ready && (
+        <p className="mt-4 flex items-center gap-2 rounded-control border border-line bg-chuna px-3 py-2 text-xs font-bold text-muted">
+          <Icon name="alert" className="h-3.5 w-3.5 shrink-0 text-saffron" />
+          {t("wiz.need")}
+        </p>
+      )}
 
       <div className="mt-6 flex gap-3">
         {step > 1 && (
@@ -209,7 +218,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
             {t("wiz.next")}
           </button>
         ) : (
-          <button type="button" onClick={submit} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift">
+           <button type="button" onClick={submit} disabled={!ready} className="flex-1 rounded-control bg-saffron px-4 py-2.5 text-sm font-extrabold text-snow hover:shadow-lift disabled:cursor-not-allowed disabled:opacity-40">
             {t("wiz.submit")}
           </button>
         )}

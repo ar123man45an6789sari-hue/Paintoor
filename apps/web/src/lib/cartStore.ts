@@ -58,7 +58,9 @@ export function cartCount(list: CartLine[]): number {
 }
 export function addLine(line: CartLine) {
   const old = lines.find((l) => l.key === line.key);
-  lines = old ? lines.map((l) => (l.key === line.key ? { ...l, qty: Math.min(99, l.qty + line.qty) } : l)) : [...lines, line];
+  /* Merging refreshes title/meta/price from the newest add: the latest
+     quote for a key always wins, so a stale price can never survive. */
+  lines = old ? lines.map((l) => (l.key === line.key ? { ...line, qty: Math.min(99, l.qty + line.qty) } : l)) : [...lines, line];
   emit();
 }
 export function setQty(key: string, d: number) {

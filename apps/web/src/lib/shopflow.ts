@@ -1,4 +1,3 @@
-
 /* Shopkeeper flow store (localStorage): everything the counter needs beyond
    lib/shopState — store open/paused, ready-time promises, packed flags,
    declines, order-linked trade chat, listing toggles and alert prefs.
@@ -142,4 +141,3 @@ export function setPref(key: keyof ShopPrefs, on: boolean) {
   const flow = getFlow();
   setFlow({ prefs: { ...flow.prefs, [key]: on } });
 }
-

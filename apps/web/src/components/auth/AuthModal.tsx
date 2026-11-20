@@ -92,7 +92,7 @@ export function AuthModal({ open, initialMode, initialRole=null, onClose }: Prop
         /* private mode */
       }
     }
-   setRemembered(remember ? { role, name, mode, at: Date.now(), data } : null);
+      setRemembered(remember ? { role, name: mode === "signup" ? name : identifier, mode, at: Date.now(), data } : null);
     setStep("done");
   }
 
