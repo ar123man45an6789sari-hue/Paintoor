@@ -20,6 +20,7 @@ import { JRNL } from "./i18n-journal";
 import { GEO } from "./i18n-geo";
 import { PARTNERS } from "./i18n-partners";
 import { SVCP } from "./i18n-services";
+import { ADMIN } from "./i18n-admin";
 export type Lang = "en" | "hi" | "gu";
 
 const D: Record<Lang, Record<string, string>> = {
@@ -285,7 +286,7 @@ const MERGED: Record<Lang, Record<string, string>> = { en: {}, hi: {}, gu: {} };
 const EN_FALLBACK: Record<string, string> = {};
 
 for (const lang of ["en", "hi", "gu"] as Lang[]) {
-  for (const pack of [D, D2, D3, D4, CUST, REQS, PROV, MATCH, SHOPK, CHATQ, SITE, TEASER, COMPANY, SHADES, STUDIO, ABOUT, JRNL, GEO, PARTNERS,SVCP]) {
+  for (const pack of [D, D2, D3, D4, CUST, REQS, PROV, MATCH, SHOPK, CHATQ, SITE, TEASER, COMPANY, SHADES, STUDIO, ABOUT, JRNL, GEO, PARTNERS,SVCP,ADMIN]) {
     Object.assign(MERGED[lang], pack[lang]);
   }
 }

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { PILOT_CITY_LINE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { I18nProvider } from "@/i18n";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { SiteChrome } from "@/components/SiteChrome";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={noto.variable}>
+        <html lang="en" className={noto.variable} suppressHydrationWarning>
         <head>
         {/* Apply the saved theme before first paint so dark-mode visitors
             never see a white flash on load. */}
@@ -50,10 +49,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
        <body className="font-sans">
-        <I18nProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
+          <I18nProvider>
+          <SiteChrome>{children}</SiteChrome>
         </I18nProvider>
       </body>
     </html>

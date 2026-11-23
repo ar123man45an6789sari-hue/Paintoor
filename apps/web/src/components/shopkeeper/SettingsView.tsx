@@ -227,4 +227,4 @@ export function SettingsView({ onToast }: { onToast: (msg: string) => void }) {
       </section>
     </div>
   );
-}
+}                                                   

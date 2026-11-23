@@ -30,6 +30,7 @@ const STATIC = new Set([
   "refund",
   "dashboard",
   "login",
+  "admin",
 ]);
 
 const firstSeg = (path: string) => path.split("/").filter(Boolean)[0] ?? "";
@@ -214,7 +215,7 @@ export function NavSearch() {
         />
         {sugOpen && suggestions.length > 0 && (
           <>
-      
+
             <div className="absolute left-0 top-12 z-50 w-56 rounded-card border border-line bg-white p-1.5 shadow-card">
               {suggestions.map((s) => (
                 <button
