@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  /* Security best-practice: don't advertise the framework version. */
+  poweredByHeader: false,
   transpilePackages: ["@paintoor/brand", "@paintoor/mock-api"],
   async headers() {
     return [

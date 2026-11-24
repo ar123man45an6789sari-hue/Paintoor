@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { PILOT_CITY_LINE, SITE_NAME, SITE_URL } from "@/lib/site";
 import { I18nProvider } from "@/i18n";
 import { SiteChrome } from "@/components/SiteChrome";
@@ -35,12 +35,25 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image" },
 };
 
+/* Theme-colours match the light/dark chuna backgrounds so the browser
+   chrome (Android status bar, tab strip) follows the visitor's mode. */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAFAFB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0D1013" },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
         <html lang="en" className={noto.variable} suppressHydrationWarning>
         <head>
         {/* Apply the saved theme before first paint so dark-mode visitors
             never see a white flash on load. */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Paintoor" />
+        <link rel="apple-touch-icon" href="/paintoor-mark.png" />
         <script
           dangerouslySetInnerHTML={{
             __html:
