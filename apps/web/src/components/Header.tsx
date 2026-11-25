@@ -8,8 +8,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Logo } from "./Logo";
 import { Wordmark } from "./Wordmark";
-import { AuthModal } from "./auth/AuthModal";
-import type { AuthMode, Role } from "./auth/types";
 import { onAuthRequest } from "@/lib/authEvents";
 import { cartCount, onCartOpen, useCart } from "@/lib/cartStore";
 import { CartDrawer } from "./marketplace/CartDrawer";
@@ -50,9 +48,6 @@ const ROLE_CHIP: Record<Session["role"], { key: string; icon: IconName }> = {
 export function Header() {
   const { lang, setLang, t } = useI18n();
   const router = useRouter();
-  const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<AuthMode>("signup");
-  const [authRole, setAuthRole] = useState<Role | null>(null);
   const [cartOpen, setCartOpen] = useState(false);
   const cart = useCart();
   const [langOpen, setLangOpen] = useState(false);
@@ -69,7 +64,7 @@ export function Header() {
   const [dark, setDark] = useState(false);
   const [session, setSessionState] = useState<Session | null>(null);
 
-  useEffect(() => onAuthRequest((req) => { setAuthMode(req.mode); setAuthRole(req.role); setAuthOpen(true); }), []);
+  useEffect(() => onAuthRequest(() => router.push("/login")), []);
   useEffect(() => onCartOpen(() => setCartOpen(true)), []);
 
   /* One popover at a time: opening one closes the others. */
@@ -109,14 +104,8 @@ export function Header() {
     }
   }
 
-  function openAuth(mode: AuthMode) {
-    setAuthMode(mode);
-    setAuthRole(null);
-    setAcctOpen(false);
-    setAuthOpen(true);
-  }
-
   function logout() {
+    void fetch("/api/auth/logout", { method: "POST" }).catch(() => {});
     clearSession();
     router.push("/");
   }
@@ -232,14 +221,14 @@ export function Header() {
                   <div className="absolute right-0 top-11 z-50 min-w-[170px] rounded-card border border-line bg-white p-1.5 shadow-card">
                     <button
                       type="button"
-                      onClick={() => openAuth("login")}
+                       onClick={() => { setAcctOpen(false); router.push("/login"); }}
                       className="flex w-full rounded-control px-3 py-2.5 text-left text-sm font-extrabold text-ink hover:bg-chuna"
                     >
                       <Icon name="key" className="mr-2 h-4 w-4" />{t("nav.login")}
                     </button>
                     <button
                       type="button"
-                      onClick={() => openAuth("signup")}
+                      onClick={() => { setAcctOpen(false); router.push("/login"); }}
                       className="flex w-full rounded-control bg-saffron px-3 py-2.5 text-left text-sm font-extrabold text-snow hover:shadow-lift"
                     >
                     <PlusIcon className="h-4 w-4 text-ink dark:text-snow" /> {t("nav.signup")}
@@ -268,7 +257,7 @@ export function Header() {
 
         {menuOpen && (
           <>
-          
+
             <nav aria-label={t("nav.menu")} className="relative z-50 border-t border-line bg-white px-3 pb-4 pt-2 shadow-card lg:hidden">
              {NAV.map((item) =>
                 item.href === "" ? (
@@ -331,8 +320,6 @@ export function Header() {
           </>
         )}
       </header>
-
-      <AuthModal open={authOpen} initialMode={authMode} initialRole={authRole} onClose={() => setAuthOpen(false)} />
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <SideRails />
     </>
