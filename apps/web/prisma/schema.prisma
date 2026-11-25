@@ -1,0 +1,337 @@
+/* Paintoor — Phase 2 schema (module 2.1).
+   Money is integer paise everywhere. Enums mirror the demo store's state
+   machines so the cutover (2.4–2.7) is a swap, not a rewrite.
+   CHECK constraints + SECURITY DEFINER functions land with module 2.3. */
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  customer
+  partner
+  shopkeeper
+  admin
+}
+
+enum KycStatus {
+  unverified
+  pending
+  approved
+  rejected
+}
+
+enum RequestStatus {
+  open
+  interested
+  accepted
+  cancelled
+  completed
+}
+
+enum LeadStatus {
+  interested
+  accepted
+  declined
+}
+
+enum MilestoneState {
+  released
+  held
+  pending
+  admin_hold
+}
+
+enum OrderStatus {
+  new
+  accepted
+  delivered
+}
+
+enum JobStatus {
+  live
+  done
+}
+
+enum IncidentKind {
+  fraud
+  pricing
+  quality
+  review
+}
+
+enum IncidentStatus {
+  open
+  resolved
+  dismissed
+}
+
+model Profile {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone         String    @unique
+  role          Role      @default(customer)
+  fullName      String
+  city          String    @default("vadodara")
+  kycStatus     KycStatus @default(unverified)
+  blocked       Boolean   @default(false)
+  blockedReason String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  partner       Partner?
+  shops         Shop[]
+  requests      ServiceRequest[]        @relation("RequestCustomer")
+  acceptedRequests ServiceRequest[]     @relation("RequestAcceptedBy")
+  leads         RequestLead[]
+  jobsAsCustomer Job[]                  @relation("JobCustomer")
+  jobsAsPartner  Job[]                  @relation("JobPartner")
+  ordersAsBuyer  ShopOrder[]            @relation("ordersAsBuyer")
+  incidentsReported Incident[]          @relation("IncidentReporter")
+  incidentsResolved Incident[]          @relation("IncidentResolver")
+  sessions      Session[]
+  auditLogs     AdminAuditLog[]
+  bannerUpdates Banner[]
+
+  @@index([role])
+  @@index([city])
+}
+
+model Partner {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profileId       String   @unique @db.Uuid
+  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  ratingAvg       Decimal  @default(0) @db.Decimal(3, 2)
+  jobsDone        Int      @default(0)
+  experienceYears Int      @default(0)
+  bio             String?
+  skills          String[] @default([])
+  createdAt       DateTime @default(now())
+}
+
+model Shop {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerId      String   @db.Uuid
+  owner        Profile  @relation(fields: [ownerId], references: [id])
+  name         String
+  address      String
+  city         String
+  zone         String
+  gstin        String?  @unique
+  ratingAvg    Decimal  @default(0) @db.Decimal(3, 2)
+  reviewCount  Int      @default(0)
+  blocked      Boolean  @default(false)
+  createdAt    DateTime @default(now())
+
+  products     Product[]
+  orders       ShopOrder[]
+  settlements  Settlement[]
+
+  @@index([city, blocked])
+}
+
+model Product {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shopId         String   @db.Uuid
+  shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  brand          String
+  name           String
+  category       String
+  finish         String
+  sizeL          Decimal  @db.Decimal(6, 2)
+  pricePaise     Int
+  mrpPaise       Int
+  stock          Int      @default(0)
+  listed         Boolean  @default(true)
+  removedByAdmin Boolean  @default(false)
+  createdAt      DateTime @default(now())
+
+  orderItems     ShopOrderItem[]
+
+  @@index([shopId, listed])
+  @@index([category])
+}
+
+model ServiceRequest {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  customerId        String        @db.Uuid
+  customer          Profile       @relation("RequestCustomer", fields: [customerId], references: [id])
+  acceptedPartnerId String?       @db.Uuid
+  acceptedPartner   Profile?      @relation("RequestAcceptedBy", fields: [acceptedPartnerId], references: [id])
+  city              String
+  zone              String
+  category          String
+  description       String
+  budgetPaise       Int           @default(0)
+  materialNeeded    Boolean       @default(false)
+  preferredDate     DateTime?     @db.Date
+  slot              String?
+  status            RequestStatus @default(open)
+  createdAt         DateTime      @default(now())
+
+  leads             RequestLead[]
+  job               Job?
+
+  @@index([city, status])
+  @@index([customerId])
+}
+
+model RequestLead {
+  requestId   String     @db.Uuid
+  request     ServiceRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  partnerId   String     @db.Uuid
+  partner     Profile    @relation(fields: [partnerId], references: [id], onDelete: Cascade)
+  status      LeadStatus @default(interested)
+  at          DateTime   @default(now())
+
+  @@id([requestId, partnerId])
+  @@index([partnerId])
+}
+
+model Job {
+  id           String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code         String    @unique
+  requestId    String    @unique @db.Uuid
+  request      ServiceRequest @relation(fields: [requestId], references: [id])
+  customerId   String    @db.Uuid
+  customer     Profile   @relation("JobCustomer", fields: [customerId], references: [id])
+  partnerId    String    @db.Uuid
+  partner      Profile   @relation("JobPartner", fields: [partnerId], references: [id])
+  addressLabel String
+  city         String
+  totalPaise   Int
+  day          Int       @default(1)
+  totalDays    Int
+  pct          Int       @default(0)
+  startedAt    DateTime  @db.Date
+  endsAt       DateTime  @db.Date
+  status       JobStatus @default(live)
+
+  milestones   JobMilestone[]
+  orders       ShopOrder[]
+
+  @@index([partnerId, status])
+  @@index([customerId])
+}
+
+model JobMilestone {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  jobId       String         @db.Uuid
+  job         Job            @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  seq         Int
+  labelKey    String
+  pct         Int
+  amountPaise Int
+  state       MilestoneState @default(pending)
+  releasedAt  DateTime?
+
+  @@unique([jobId, seq])
+}
+
+model ShopOrder {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shopId       String      @db.Uuid
+  shop         Shop        @relation(fields: [shopId], references: [id])
+  buyerId      String      @db.Uuid
+  buyer        Profile     @relation("ordersAsBuyer", fields: [buyerId], references: [id])
+  jobId        String?     @db.Uuid
+  job          Job?        @relation(fields: [jobId], references: [id])
+  zone         String
+  totalPaise   Int
+  status       OrderStatus @default(new)
+  windowEndsAt DateTime?
+  createdAt    DateTime    @default(now())
+
+  items        ShopOrderItem[]
+
+  @@index([shopId, status])
+  @@index([buyerId])
+}
+
+model ShopOrderItem {
+  orderId   String   @db.Uuid
+  order     ShopOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String   @db.Uuid
+  product   Product  @relation(fields: [productId], references: [id])
+  qty       Int
+
+  @@id([orderId, productId])
+}
+
+model Settlement {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  shopId      String   @db.Uuid
+  shop        Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  label       String
+  amountPaise Int
+  at          DateTime @default(now())
+
+  @@index([shopId, at])
+}
+
+model Incident {
+  id          String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  kind        IncidentKind
+  subject     String
+  detail      String
+  status      IncidentStatus @default(open)
+  reportedById String?       @db.Uuid
+  reportedBy  Profile?       @relation("IncidentReporter", fields: [reportedById], references: [id])
+  resolvedById String?       @db.Uuid
+  resolvedBy  Profile?       @relation("IncidentResolver", fields: [resolvedById], references: [id])
+  createdAt   DateTime       @default(now())
+  resolvedAt  DateTime?
+
+  @@index([status])
+}
+
+model AdminAuditLog {
+  id       BigInt   @id @default(autoincrement())
+  actorId  String   @db.Uuid
+  actor    Profile  @relation(fields: [actorId], references: [id])
+  action   String
+  target   String
+  at       DateTime @default(now())
+
+  @@index([actorId, at])
+}
+
+model Banner {
+  id        String   @id
+  live      Boolean  @default(false)
+  updatedById String? @db.Uuid
+  updatedBy Profile? @relation(fields: [updatedById], references: [id])
+  updatedAt DateTime @updatedAt
+}
+
+/* ---- v1.1 own-OTP auth ---- */
+
+model AuthOtp {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone      String
+  codeHash   String
+  expiresAt  DateTime
+  attempts   Int       @default(0)
+  consumedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  @@index([phone, createdAt])
+}
+
+model Session {
+  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  profileId String    @db.Uuid
+  profile   Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  jwtId     String    @unique
+  userAgent String?
+  ip        String?
+  expiresAt DateTime
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([profileId])
+}
