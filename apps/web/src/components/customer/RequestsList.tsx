@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
-import { cancelRequest, getRequests, onRequestsChange, reviewRequest } from "@/lib/requests";
+import { cancelRequest, getRequests, onRequestsChange, reviewRequest, syncRequests } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { getSession } from "@/lib/session";
@@ -181,8 +181,9 @@ export function RequestsList({ onPost }: { onPost?: () => void }) {
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const [myName, setMyName] = useState("Guest");
 
-  useEffect(() => {
+ useEffect(() => {
     setItems(getRequests());
+    void syncRequests();
     return onRequestsChange(() => setItems(getRequests()));
   }, []);
 

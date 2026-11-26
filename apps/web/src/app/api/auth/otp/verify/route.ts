@@ -39,7 +39,7 @@ export async function POST(req: Request) {
     setSessionCookie(res, token);
     return res;
   }
-  // Pehli baar Paintoor par: OTP prove ho chuka, 10-min signup token do.
+  // First time on Paintoor: OTP is proven, so hand out a 10-minute signup token.
   const signupToken = await signSignupToken(phone);
   return NextResponse.json({ ok: true, status: "new", signupToken });
 }

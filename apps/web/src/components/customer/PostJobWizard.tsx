@@ -3,7 +3,7 @@
 
 import { useEffect,useState } from "react";
 import { useI18n } from "@/i18n";
-import { addRequest } from "@/lib/requests";
+import { addRequest, addRequestLive, liveRequests } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { LIVE_CITY_NAMES, seed } from "@paintoor/mock-api";
 import { getSession } from "@/lib/session";
@@ -61,9 +61,26 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
      description before it can reach partners. */
   const ready = Boolean(date) && description.trim().length > 0;
 
-  function submit() {
+    function submit() {
     const session = getSession();
-     const created = addRequest({
+    if (liveRequests()) {
+      /* Signed-in: the request becomes a real DB row (RLS + DEFINER fn). */
+      void addRequestLive({
+        city,
+        zone: zone || city,
+        category,
+        description,
+        budget,
+        material,
+        date,
+        slot,
+      }).then((ok) => {
+        if (!ok) window.alert("Could not post the request right now. Please try again.");
+        onDone();
+      });
+      return;
+    }
+    const created = addRequest({
       customer: session?.name ?? "Guest",
       city,
       zone: zone || city,
@@ -76,7 +93,7 @@ export function PostJobWizard({ onDone }: { onDone: () => void }) {
       date,
       slot,
     });
-        seed.providers
+    seed.providers
       .filter((p) => p.city === created.city && p.skills.includes(created.category))
       .forEach((p) => {
         pushNotification({

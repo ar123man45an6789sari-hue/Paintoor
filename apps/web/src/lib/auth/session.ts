@@ -75,3 +75,4 @@ export async function getCurrentSession(): Promise<CurrentSession | null> {
 export async function revokeSession(jwtId: string): Promise<void> {
   await db.session.updateMany({ where: { jwtId, revokedAt: null }, data: { revokedAt: new Date() } });
 }
+export { withActor } from "./actor";

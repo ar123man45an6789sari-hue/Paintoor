@@ -10,6 +10,7 @@
    `leads` is the per-worker response map; `acceptedBy` is the worker who took
    the job. Both are optional so S1-S9 records in LocalStorage stay readable. */
 import type { Session } from "./session";
+import { getSession } from "./session";
 
 export type RequestStatus = "open" | "interested" | "accepted" | "cancelled" | "completed";
 
@@ -146,6 +147,14 @@ export function declineLead(id: string, providerId: string, reason: string): Ser
 }
 
 export function cancelRequest(id: string) {
+  if (liveRequests()) {
+    /* DB is the source of truth; a 409 (already cancelled) is fine —
+       the re-sync simply shows the real state. */
+    void fetch(`/api/requests/${id}/cancel`, { method: "POST" }).finally(() => {
+      void syncRequests();
+    });
+    return;
+  }
   save(getRequests().map((r) => (r.id === id ? { ...r, status: "cancelled" as RequestStatus } : r)));
 }
 
@@ -211,3 +220,117 @@ export function reviewRequest(id: string, stars: number) {
 }
 
 export type { Session };
+
+/* ---------- live mode (Module 2.4) ----------
+   Signed-in = this store mirrors the cloud DB through /api/requests
+   (RLS-scoped reads, DEFINER-fn writes). No session = pure demo seeds
+   until the launch cleanup deletes them. */
+
+export function liveRequests(): boolean {
+  return getSession() !== null;
+}
+
+function bucketFor(paise: number): string {
+  if (paise <= 5_000_000) return "e";
+  if (paise <= 20_000_000) return "s";
+  return "p";
+}
+
+type LiveLead = { partnerId: string; partnerName?: string; status: string; at: string };
+type LiveRequest = {
+  id: string;
+  city: string;
+  zone: string;
+  category: string;
+  description: string;
+  budgetPaise: number;
+  materialNeeded: boolean;
+  preferredDate: string | null;
+  slot: string | null;
+  status: RequestStatus;
+  createdAt: string;
+  acceptedPartnerId: string | null;
+  leads: LiveLead[];
+  job: unknown;
+};
+
+/** Pull the signed-in customer's real requests into the store. */
+export async function syncRequests(): Promise<boolean> {
+  if (!liveRequests()) return false;
+  try {
+    const r = await fetch("/api/requests");
+    if (!r.ok) return false;
+    const j = (await r.json()) as { ok: boolean; requests: LiveRequest[] };
+    if (!j.ok) return false;
+    const me = getSession();
+    const mapped: ServiceRequest[] = j.requests.map((x) => {
+      const accepted = x.leads.find((l) => l.partnerId === x.acceptedPartnerId);
+      return normalize({
+        id: x.id,
+        customer: me?.name ?? "You",
+        city: x.city,
+        zone: x.zone,
+        category: x.category,
+        description: x.description,
+        photos: [],
+        budget: bucketFor(x.budgetPaise),
+        material: x.materialNeeded,
+        date: x.preferredDate ? String(x.preferredDate).slice(0, 10) : "",
+        slot: x.slot ?? "f",
+        status: x.status,
+        at: new Date(x.createdAt).getTime(),
+        leads: Object.fromEntries(
+          x.leads.map((l) => [
+            l.partnerId,
+            {
+              status: (l.status === "declined" ? "declined" : "interested") as LeadAction,
+              at: new Date(l.at).getTime(),
+            },
+          ]),
+        ),
+        acceptedBy: x.acceptedPartnerId,
+        acceptedName: accepted?.partnerName ?? null,
+      });
+    });
+    save(mapped);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Signed-in posting writes a real DB row; the store re-syncs after. */
+export async function addRequestLive(input: {
+  city: string;
+  zone: string;
+  category: string;
+  description: string;
+  budget: string;
+  material: boolean;
+  date: string;
+  slot: string;
+}): Promise<boolean> {
+  if (!liveRequests()) return false;
+  const budgetPaise = input.budget === "e" ? 5_000_000 : input.budget === "s" ? 15_000_000 : 30_000_000;
+  try {
+    const r = await fetch("/api/requests", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        city: input.city,
+        zone: input.zone,
+        category: input.category,
+        description: input.description,
+        budgetPaise,
+        materialNeeded: input.material,
+        preferredDate: input.date || undefined,
+        slot: input.slot,
+      }),
+    });
+    if (!r.ok) return false;
+    await syncRequests();
+    return true;
+  } catch {
+    return false;
+  }
+}

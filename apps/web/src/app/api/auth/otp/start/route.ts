@@ -15,8 +15,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
   }
   const { code } = await createOtp(phone);
-  // Delivery: asli SMS (MSG91) Phase 5 mein. Tab tak code sirf SERVER LOG mein,
-  // plus response mein sirf non-production (ya jaan-boojh kar OTP_ECHO=1 demo deploy).
+  // Delivery: real SMS (MSG91) arrives in Phase 5. Until then the code lives
+  // only in server logs, plus the response body in non-production builds
+  // (or when OTP_ECHO=1 is deliberately set for a pre-launch demo).
   console.info(`[otp] ${phone.slice(0, 2)}xxxxxx${phone.slice(-2)} code=${code}`);
   const echo = process.env.NODE_ENV !== "production" || process.env.OTP_ECHO === "1";
   return NextResponse.json({ ok: true, expiresIn: 300, resendIn: 30, ...(echo ? { devCode: code } : {}) });

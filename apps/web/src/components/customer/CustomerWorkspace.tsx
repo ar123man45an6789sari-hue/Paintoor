@@ -17,6 +17,8 @@ import { JobHistory } from "./JobHistory";
 import { CustomerSettings } from "./CustomerSettings";
 import { ProfileDrawer } from "./ProfileDrawer";
 import { MyJobsBoard } from "./MyJobsBoard";
+import { LiveJobsBoard } from "./LiveJobsBoard";
+import { liveRequests } from "@/lib/requests";
 import { ChatPanel } from "./ChatPanel";
 import { CustomerHome } from "./CustomerHome";
 
@@ -109,7 +111,7 @@ export function CustomerWorkspace({ session }: { session: Session }) {
         {/* Views */}
         <main className="min-w-0">
           {view === "home" && <CustomerHome session={session} go={setView} onProfile={() => setDrawerOpen(true)} />}
-          {view === "jobs" && <MyJobsBoard onOpenChat={openChat} />}
+          {view === "jobs" && (liveRequests() ? <LiveJobsBoard /> : <MyJobsBoard onOpenChat={openChat} />)}
           {view === "chat" && (
             <ChatPanel
               key={chatTarget ? `${chatTarget.crewId}:${chatTarget.mode}` : "list"}
