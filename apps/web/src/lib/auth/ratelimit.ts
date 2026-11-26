@@ -27,9 +27,12 @@ export function clientIp(req: Request): string {
 }
 
 export function otpStartLimits(phone: string, ip: string): boolean {
+  // Development machines run every role test from one IP, so the hourly IP cap
+  // is relaxed there only. Production keeps the tight cap.
+  const ipCap = process.env.NODE_ENV === "production" ? 10 : 60;
   return (
     allow(`otp30s:${phone}`, 1, 30_000) &&
     allow(`otpHr:${phone}`, 5, 3_600_000) &&
-    allow(`otpIpHr:${ip}`, 10, 3_600_000)
+    allow(`otpIpHr:${ip}`, ipCap, 3_600_000)
   );
 }

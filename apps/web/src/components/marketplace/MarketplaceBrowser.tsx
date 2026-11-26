@@ -13,6 +13,7 @@ import { StoreCard } from "./StoreCard";
 import { getPlace, onCityChange } from "@/lib/city";
 import { ProductModal } from "./ProductModal";
 import { CompareModal, CompareTray } from "./Compare";
+import { LiveShelf } from "./LiveShelf";
 
 const SORTS = ["pop", "lo", "hi", "rat", "dis"] as const;
 type Sort = (typeof SORTS)[number];
@@ -329,9 +330,10 @@ export function MarketplaceBrowser({ embedded = false }: { embedded?: boolean })
                 onAdd={(x) => addProduct(x)}
                 onOpen={openModal}
                 comparing={compare.includes(p.id)}
-                onCompare={toggleCompare}
+                               onCompare={toggleCompare}
               />
             ))}
+            <LiveShelf />
           </div>
         )}
       </section>

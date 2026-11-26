@@ -19,6 +19,9 @@ import { StockView } from "./StockView";
 import { SalesView } from "./SalesView";
 import { ProfileView } from "./ProfileView";
 import { SettingsView } from "./SettingsView";
+import { LiveCatalog } from "./LiveCatalog";
+import { LiveShopOrders } from "./LiveShopOrders";
+import { liveShop } from "@/lib/liveShop";
 
 export function ShopWorkspace({ name, signup }: { name: string; signup?: Record<string, string> }) {
   const { t } = useI18n();
@@ -116,10 +119,10 @@ export function ShopWorkspace({ name, signup }: { name: string; signup?: Record<
         {/* Views */}
         <main className="min-w-0">
           {view === "overview" && <OverviewView profile={profile} go={setView} />}
-          {view === "orders" && <OrdersView profile={profile} onMessage={onMessage} onToast={setToast} />}
+          {view === "orders" && (liveShop() ? <LiveShopOrders /> : <OrdersView profile={profile} onMessage={onMessage} onToast={setToast} />)}
           {view === "chat" && <ChatView focusOrderId={chatId ?? undefined} />}
-          {view === "catalog" && <CatalogView go={setView} />}
-          {view === "stock" && <StockView />}
+         {view === "catalog" && (liveShop() ? <LiveCatalog /> : <CatalogView go={setView} />)}
+         {view === "stock" && (liveShop() ? <LiveCatalog section="stock" /> : <StockView />)}
           {view === "sales" && <SalesView />}
           {view === "profile" && (
             <div className="space-y-5">

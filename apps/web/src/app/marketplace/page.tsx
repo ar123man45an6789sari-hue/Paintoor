@@ -1,6 +1,5 @@
 /* Paintoor Marketplace — digital paint shop: search, filter, compare store
-   prices, size a room's kit and add everything to one escrow-backed cart.
-   Showcase-only: all data lives in @/lib/marketplace. */
+   prices, size a room's kit and add everything to one escrow-backed cart. */
 import { Suspense } from "react";
 import { MarketplaceBrowser } from "@/components/marketplace/MarketplaceBrowser";
 
