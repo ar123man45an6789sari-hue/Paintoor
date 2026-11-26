@@ -54,7 +54,7 @@ export async function POST(req: Request) {
   }
 
   const { token } = await issueSession({ id: profile.id, role: profile.role }, req);
-  const res = NextResponse.json({ ok: true, role: profile.role, fullName: profile.fullName });
+  const res = NextResponse.json({ ok: true, id: profile.id, role: profile.role, fullName: profile.fullName });
   setSessionCookie(res, token);
   res.cookies.set("pt_google_link", "", { path: "/", maxAge: 0 });
   return res;

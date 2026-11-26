@@ -37,10 +37,10 @@ async function main() {
     kyc?: "unverified" | "pending" | "approved" | "rejected";
   };
   const people: SeedPerson[] = [
-    { id: UID.customer, phone: "+919000000001", fullName: "Demo Customer", role: "customer" },
-    { id: UID.partner, phone: "+919000000002", fullName: "Ramesh Yadav", role: "partner", kyc: "approved" },
-    { id: UID.shopkeeper, phone: "+919000000003", fullName: "Dilip Bhai", role: "shopkeeper", kyc: "approved" },
-    { id: UID.admin, phone: "+919000000004", fullName: "Paintoor Admin", role: "admin", kyc: "approved" },
+        { id: UID.customer, phone: "9000000001", fullName: "Demo Customer", role: "customer" },
+    { id: UID.partner, phone: "9000000002", fullName: "Ramesh Yadav", role: "partner", kyc: "approved" },
+    { id: UID.shopkeeper, phone: "9000000003", fullName: "Dilip Bhai", role: "shopkeeper", kyc: "approved" },
+    { id: UID.admin, phone: "9000000004", fullName: "Paintoor Admin", role: "admin", kyc: "approved" },
   ];
   for (const p of people) {
     await db.profile.upsert({

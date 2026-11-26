@@ -35,7 +35,7 @@ export async function POST(req: Request) {
   if (profile) {
     if (profile.blocked) return NextResponse.json({ ok: false, error: "blocked" }, { status: 403 });
     const { token } = await issueSession({ id: profile.id, role: profile.role }, req);
-    const res = NextResponse.json({ ok: true, status: "ok", role: profile.role, fullName: profile.fullName });
+    const res = NextResponse.json({ ok: true, status: "ok", id: profile.id, role: profile.role, fullName: profile.fullName });
     setSessionCookie(res, token);
     return res;
   }

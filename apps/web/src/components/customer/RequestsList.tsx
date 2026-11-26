@@ -4,7 +4,7 @@
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/i18n";
-import { cancelRequest, getRequests, onRequestsChange, reviewRequest, syncRequests } from "@/lib/requests";
+import { cancelRequest, getRequests, liveRequests, onRequestsChange, reviewRequest, syncRequests } from "@/lib/requests";
 import type { ServiceRequest } from "@/lib/requests";
 import { pushNotification } from "@/lib/notifications";
 import { getSession } from "@/lib/session";
@@ -124,6 +124,27 @@ function RequestCard({
       )}
 
       <div className="mt-4 flex flex-wrap gap-2">
+                {liveRequests() &&
+          r.status === "interested" &&
+          (() => {
+            const pid = Object.keys(r.leads ?? {}).find((k) => r.leads?.[k]?.status === "interested");
+            if (!pid) return null;
+            return (
+              <button
+                type="button"
+                onClick={() => {
+                  void fetch(`/api/requests/${r.id}/hire`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ partnerId: pid }),
+                  }).finally(() => void syncRequests());
+                }}
+                className="rounded-control bg-neem px-3 py-1.5 text-xs font-extrabold text-snow hover:opacity-90"
+              >
+                Hire partner
+              </button>
+            );
+          })()}
         {(matched || done) && (
           <button
             type="button"

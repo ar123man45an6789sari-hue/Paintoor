@@ -21,6 +21,9 @@ import { HistoryView } from "./HistoryView";
 import { SettingsView } from "./SettingsView";
 import { EarningsTab } from "./EarningsTab";
 import { ProfileTab } from "./ProfileTab";
+import { LivePartnerMarket } from "./LivePartnerMarket";
+import { LivePartnerJobs } from "./LivePartnerJobs";
+import { liveRequests } from "@/lib/requests";
 
 type View = "dash" | "jobs" | "postbox" | "quotes" | "chat" | "earn" | "store" | "docs" | "history" | "profile" | "settings";
 
@@ -152,8 +155,8 @@ export function PartnerWorkspace({ name, signup }: { name: string; signup?: Reco
         {/* Views */}
         <main className="min-w-0">
           {view === "dash" && <PartnerDash profile={profile} onGo={setView} onMessage={onMessage} onToast={setToast} />}
-          {view === "jobs" && <JobsView profile={profile} onMessage={onMessage} onToast={setToast} />}
-          {view === "postbox" && <PostboxView profile={profile} onMessage={onMessage} onToast={setToast} />}
+          {view === "jobs" && (liveRequests() ? <LivePartnerJobs /> : <JobsView profile={profile} onMessage={onMessage} onToast={setToast} />)}
+          {view === "postbox" && (liveRequests() ? <LivePartnerMarket /> : <PostboxView profile={profile} onMessage={onMessage} onToast={setToast} />)}
           {view === "quotes" && <QuotesView profile={profile} onOpenJobs={() => setView("jobs")} />}
           {view === "chat" && <ChatHub profile={profile} initialId={chatId} />}
           {view === "earn" && <EarningsTab />}
