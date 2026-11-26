@@ -1,7 +1,7 @@
-/* JWT (HS256 via jose — Node + edge dono par chalta hai).
-   session token: 7 din, sid = Session.jwtId (server turant revoke kar sakta hai)
-   signup token : 10 min, sabit karta hai "is device ne abhi OTP pass kiya"
-   INTEGRITY: secret sirf server env mein hai, client bundle mein kabhi nahi. */
+/* JWT helpers (HS256 via jose — runs in Node route handlers and edge).
+   session token: 7 days, sid = Session.jwtId (server can revoke instantly).
+   signup token : 10 minutes, proves "this device just passed the OTP".
+   INTEGRITY: the secret lives only in server env, never in the client bundle. */
 import { SignJWT, jwtVerify } from "jose";
 
 const ALG = "HS256";

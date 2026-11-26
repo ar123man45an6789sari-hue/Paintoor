@@ -1,6 +1,6 @@
-/* OTP engine — code kabhi plain-text store/log response mein nahi (prod mein).
-   CONFIDENTIALITY: DB mein sirf sha256(code+":"+phone) jaata hai.
-   INTEGRITY: 5-min expiry, 5 guesses max, phir burn-on-use. */
+/* OTP engine — the code is never stored or returned in plain text in prod.
+   CONFIDENTIALITY: only sha256(code+":"+phone) reaches the database.
+   INTEGRITY: 5-minute expiry, max 5 guesses, then burn-on-use. */
 import { createHash, randomInt, timingSafeEqual } from "crypto";
 import { db } from "@/lib/db";
 

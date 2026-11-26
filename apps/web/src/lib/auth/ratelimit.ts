@@ -1,9 +1,9 @@
 /* Sliding-window rate limiter (in-memory, per server instance).
-   AVAILABILITY: OTP bombing / brute-force DB tak pahunchta hi nahi.
-   Limits: 1 start/30s + 5 start/hr per phone, 10 start/hr per IP,
-           10 verify/hr per phone, 30 verify/hr per IP.
-   NOTE: Vercel serverless mein window per-instance hoti hai — pre-launch
-   ke liye kaafi; Phase 5 mein zaroorat padi to shared store laga denge. */
+   AVAILABILITY: OTP bombing and brute force never reach the database.
+   Limits: 1 start/30s + 5 starts/hr per phone, 10 starts/hr per IP,
+           10 verifies/hr per phone, 30 verifies/hr per IP.
+   NOTE: on Vercel serverless each instance keeps its own window — fine
+   pre-launch; Phase 5 can move this to a shared store if needed. */
 const hits = new Map<string, number[]>();
 
 export function allow(key: string, limit: number, windowMs: number): boolean {

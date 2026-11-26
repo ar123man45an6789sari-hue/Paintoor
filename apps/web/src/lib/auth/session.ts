@@ -1,8 +1,8 @@
 /* Server session: httpOnly cookie -> signed JWT -> Session row (revocable).
-   CONFIDENTIALITY: cookie httpOnly + SameSite=Lax (+Secure prod par) —
-   client JS padh nahi sakti, doosri site CSRF post nahi kar sakti.
-   INTEGRITY: har request par Session row re-check (turant revocation,
-   blocked profile bounce) — JWT akela kabhi trusted nahi. */
+   CONFIDENTIALITY: cookie is httpOnly + SameSite=Lax (+Secure in prod) —
+   client JS cannot read it, other sites cannot CSRF-post it.
+   INTEGRITY: every request re-checks the Session row (instant revocation,
+   blocked profiles bounce) — the JWT alone is never trusted. */
 import { cookies } from "next/headers";
 import type { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
